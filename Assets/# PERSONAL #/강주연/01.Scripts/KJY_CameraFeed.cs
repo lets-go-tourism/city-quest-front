@@ -43,7 +43,6 @@ public class CameraFeed : MonoBehaviour
             permissionCallbacks.PermissionGranted += CreateWebCamTexture;
             Permission.RequestUserPermission(Permission.Camera, permissionCallbacks);
             tutorial = false;
-            print(tutorial);
         }
     }
 
@@ -271,7 +270,7 @@ public class CameraFeed : MonoBehaviour
         float shakeAmount = 1.0f;
         float decreaseFactor = 1.0f;
         float currentShakeDuration = 0f;
-
+        webCamRawImage.texture = Resources.Load<Texture>("testpicture");
 
         while (tutorial)
         {

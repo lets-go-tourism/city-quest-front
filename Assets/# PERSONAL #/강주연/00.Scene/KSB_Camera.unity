@@ -2529,7 +2529,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 17c350171f7a3ca479f830547c66d187, type: 3}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -3295,7 +3295,7 @@ PrefabInstance:
     - target: {fileID: 5117965305735218030, guid: fe553e5d077267b41b4913e1295f278b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1753214
+      value: 1838942
       objectReference: {fileID: 0}
     - target: {fileID: 5388840798238599765, guid: fe553e5d077267b41b4913e1295f278b,
         type: 3}
