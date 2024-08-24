@@ -19,6 +19,7 @@ public class CameraFeed : MonoBehaviour
 
     private bool useFrontCamera = false;
     private bool tutorial = true;
+    private bool notTutorial = false;
 
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
@@ -42,6 +43,7 @@ public class CameraFeed : MonoBehaviour
             PermissionCallbacks permissionCallbacks = new();
             permissionCallbacks.PermissionGranted += CreateWebCamTexture;
             Permission.RequestUserPermission(Permission.Camera, permissionCallbacks);
+            notTutorial = true;
             tutorial = false;
         }
     }
@@ -147,10 +149,16 @@ public class CameraFeed : MonoBehaviour
 
     public void CapturePhoto()
     {
-        StopCoroutine(Tutorial());
-        tutorial = false;
-        rawImageTransform.localPosition = originalPos;
-        StartCoroutine(CapturePhotoCoroutine());
+        if (tutorial == true)
+        {
+            StopCoroutine(Tutorial());
+            tutorial = false;
+            rawImageTransform.localPosition = originalPos;
+        }
+        else
+        {
+            StartCoroutine(CapturePhotoCoroutine());
+        }
     }
 
     private IEnumerator CapturePhotoCoroutine()
@@ -261,7 +269,10 @@ public class CameraFeed : MonoBehaviour
 
         RenderTexture.active = currentRenderTexture;
 
-        KJY_ConnectionTMP.instance.OnClickTest(texture2D, 1);
+        if (notTutorial == true)
+        {
+            KJY_ConnectionTMP.instance.OnClickTest(texture2D, 1);
+        }
     }
 
     private IEnumerator Tutorial()
