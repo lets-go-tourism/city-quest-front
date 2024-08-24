@@ -16,7 +16,7 @@ public class Button_X : MonoBehaviour
         if (no == 0)
         {
             Props_UI.instance.PropsUISetting(false);
-            Props_UI.instance.prop.rotation = Quaternion.Euler(-5, -10, 0);
+            Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
         }
     }
 }

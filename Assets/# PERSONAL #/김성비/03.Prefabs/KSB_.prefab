@@ -65,7 +65,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasS: {fileID: 0}
   canvasM: {fileID: 0}
-  prop: {fileID: 0}
+  propModeling: {fileID: 0}
+  props:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &3749728219344505851
 MonoBehaviour:
   m_ObjectHideFlags: 0

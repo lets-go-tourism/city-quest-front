@@ -8,9 +8,10 @@ public class Props_UI : MonoBehaviour
     // º¯¼ö
     public Canvas canvasS;
     public Canvas canvasM;
-    public Transform prop;
+    public Transform propModeling;
     public ScrollView scrollView;
-    
+    public Transform[] props;
+
     public static Props_UI instance;
     void Awake()
     {
@@ -24,7 +25,7 @@ public class Props_UI : MonoBehaviour
         canvasM.enabled = isOpen;
         canvasS.enabled = isOpen;
         // 3D ¸ðµ¨¸µ
-        prop.gameObject.SetActive(isOpen);
+        propModeling.gameObject.SetActive(isOpen);
         
     }
 }
