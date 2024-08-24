@@ -9,7 +9,7 @@ public class Props_UI : MonoBehaviour
     public Canvas canvasS;
     public Canvas canvasM;
     public Transform propModeling;
-    public ScrollView scrollView;
+    public RectTransform content;
     public Transform[] props;
 
     public Canvas CanvasCamera;
@@ -28,6 +28,7 @@ public class Props_UI : MonoBehaviour
         canvasS.enabled = isOpen;
         // 3D ¸ðµ¨¸µ
         propModeling.gameObject.SetActive(isOpen);
-        
+
+        content.anchoredPosition = Vector3.zero;
     }
 }
