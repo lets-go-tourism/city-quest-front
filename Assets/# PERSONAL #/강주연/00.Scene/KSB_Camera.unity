@@ -1811,18 +1811,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 713314503}
-        m_TargetAssemblyTypeName: CameraFeed, Assembly-CSharp
-        m_MethodName: CapturePhoto
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 632057407}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -3295,7 +3283,7 @@ PrefabInstance:
     - target: {fileID: 5117965305735218030, guid: fe553e5d077267b41b4913e1295f278b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1838942
+      value: 1936526
       objectReference: {fileID: 0}
     - target: {fileID: 5388840798238599765, guid: fe553e5d077267b41b4913e1295f278b,
         type: 3}
@@ -3543,6 +3531,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2882889652066839183, guid: 458b30fc127b8974592100e05aef1743,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882889652066839183, guid: 458b30fc127b8974592100e05aef1743,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882889652066839183, guid: 458b30fc127b8974592100e05aef1743,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882889652066839183, guid: 458b30fc127b8974592100e05aef1743,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3905113326966832311, guid: 458b30fc127b8974592100e05aef1743,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3599,6 +3607,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6220599409215088598, guid: 458b30fc127b8974592100e05aef1743,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603311229491940239, guid: 458b30fc127b8974592100e05aef1743,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603311229491940239, guid: 458b30fc127b8974592100e05aef1743,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603311229491940239, guid: 458b30fc127b8974592100e05aef1743,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603311229491940239, guid: 458b30fc127b8974592100e05aef1743,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
