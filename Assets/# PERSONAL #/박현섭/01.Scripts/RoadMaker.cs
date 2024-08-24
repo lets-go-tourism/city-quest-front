@@ -2,98 +2,126 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+    Copyright (c) 2017 Sloan Kelly
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+*/
+
+/// <summary>
+/// Road infrastructure maker.
+/// </summary>
 class RoadMaker : InfrastructureBehaviour
 {
-    public Material highway;
+    public Material roadMaterial;
 
+    /// <summary>
+    /// Create the roads.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Start()
     {
-        while (!map.isReady)
+        // Wait for the map to become ready
+        while (!map.IsReady)
         {
             yield return null;
         }
 
-        foreach (var way in map.ways.FindAll((w) => { return w.isHighway; }))
+        // Iterate through the roads and build each one
+        foreach (var way in map.ways.FindAll((w) => { return w.IsRoad; }))
         {
-            GameObject go = new GameObject();
-            Vector3 localOrigin = GetCentre(way);
-            go.transform.position = localOrigin - map.bounds.Centre;
-
-            MeshFilter mf = go.AddComponent<MeshFilter>();
-            MeshRenderer mr = go.AddComponent<MeshRenderer>();
-
-            mr.material = highway;
-
-            List<Vector3> vectors = new List<Vector3>();
-            List<Vector3> normals = new List<Vector3>();
-            List<Vector2> uvs = new List<Vector2>();
-            List<int> indicies = new List<int>();
-
-            for (int i = 1; i < way.NodeIDs.Count; i++)
-            {
-                OsmNode p1 = map.nodes[way.NodeIDs[i - 1]];
-                OsmNode p2 = map.nodes[way.NodeIDs[i]];
-
-                Vector3 s1 = p1 - localOrigin;
-                Vector3 s2 = p2 - localOrigin;
-
-                Vector3 diff = (s2 - s1).normalized;
-
-                var corss = Vector3.Cross(diff, Vector3.up) * 2.0f;
-
-                Vector3 v1 = s1 + corss;
-                Vector3 v2 = s1 - corss;
-                Vector3 v3 = s2 - corss;
-                Vector3 v4 = s2 + corss;
-
-                vectors.Add(v1);
-                vectors.Add(v2);
-                vectors.Add(v3);
-                normals.Add(v4);
-
-                uvs.Add(new Vector2(0,0));
-                uvs.Add(new Vector2(1,0));
-                uvs.Add(new Vector3(0,1));
-                uvs.Add(new Vector3(1,1));
-
-                normals.Add(Vector3.up);
-                normals.Add(Vector3.up);
-                normals.Add(Vector3.up);
-                normals.Add(Vector3.up);
-
-                int idx1, idx2, idx3, idx4;
-                idx4 = vectors.Count - 1;
-                idx3 = vectors.Count - 2;
-                idx2 = vectors.Count - 3;
-                idx1 = vectors.Count - 4;
-
-                // first
-                indicies.Add(idx1);
-                indicies.Add(idx3);
-                indicies.Add(idx2);
-
-                // second
-                indicies.Add(idx3);
-                indicies.Add(idx4);
-                indicies.Add(idx2);
-
-                // third
-                indicies.Add(idx2);
-                indicies.Add(idx3);
-                indicies.Add(idx1);
-
-                // fourth
-                indicies.Add(idx2);
-                indicies.Add(idx4);
-                indicies.Add(idx3);
-            }
-
-            mf.mesh.vertices = vectors.ToArray();
-            mf.mesh.normals = normals.ToArray();
-            mf.mesh.triangles = indicies.ToArray();
-            mf.mesh.uv = uvs.ToArray();
-
+            CreateObject(way, roadMaterial, way.Name);
             yield return null;
         }
     }
+
+    protected override void OnObjectCreated(OsmWay way, Vector3 origin, List<Vector3> vectors, List<Vector3> normals, List<Vector2> uvs, List<int> indices)
+    {
+        for (int i = 1; i < way.NodeIDs.Count; i++)
+        {
+            OsmNode p1 = map.nodes[way.NodeIDs[i - 1]];
+            OsmNode p2 = map.nodes[way.NodeIDs[i]];
+            Vector3 s1 = p1 - origin;
+            Vector3 s2 = p2 - origin;
+
+            Vector3 diff = (s2 - s1).normalized;
+
+            // https://en.wikipedia.org/wiki/Lane
+            // According to the article, it's 3.7m in Canada
+            var cross = Vector3.Cross(diff, Vector3.up) * 3.7f * way.Lanes;
+
+            // Create points that represent the width of the road
+            Vector3 v1 = s1 + cross;
+            Vector3 v2 = s1 - cross;
+            Vector3 v3 = s2 + cross;
+            Vector3 v4 = s2 - cross;
+
+            vectors.Add(v1);
+            vectors.Add(v2);
+            vectors.Add(v3);
+            vectors.Add(v4);
+
+            uvs.Add(new Vector2(0, 0));
+            uvs.Add(new Vector2(1, 0));
+            uvs.Add(new Vector2(0, 1));
+            uvs.Add(new Vector2(1, 1));
+
+            normals.Add(Vector3.up);
+            normals.Add(Vector3.up);
+            normals.Add(Vector3.up);
+            normals.Add(Vector3.up);
+
+            int idx1, idx2, idx3, idx4;
+            idx4 = vectors.Count - 1;
+            idx3 = vectors.Count - 2;
+            idx2 = vectors.Count - 3;
+            idx1 = vectors.Count - 4;
+
+            // first triangle v1, v3, v2
+            indices.Add(idx1);
+            indices.Add(idx3);
+            indices.Add(idx2);
+
+            // second         v3, v4, v2
+            indices.Add(idx3);
+            indices.Add(idx4);
+            indices.Add(idx2);
+        }
+    }
+
+    private Vector3 CrossCheck2DVector(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
+    {
+        // (x, 0, z)
+        float x1, x2, x3, x4, z1, z2, z3, z4, X, Z;
+
+        x1 = a.x; z1 = a.z;
+        x2 = b.x; z2 = b.z;
+        x3 = c.x; z3 = c.z;
+        x4 = d.x; z4 = d.z;
+
+        float cross = ((x1 - x2) * (z3 - z4) - (z1 - z2) * (x3 - x4));
+        if (cross == 0 /* parallel */) return new Vector3(10000, 10000, 10000);
+
+        X = ((x1 * z2 - z1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * z4 - z3 * x4)) / cross;
+        Z = ((x1 * z2 - z1 * x2) * (z3 - z4) - (z1 - z2) * (x3 * z4 - z3 * x4)) / cross;
+
+        return new Vector3(X, 0, Z);
+    }
 }
+

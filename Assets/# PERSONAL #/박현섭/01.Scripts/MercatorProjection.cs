@@ -1,5 +1,10 @@
 ﻿using System;
 
+/// <summary>
+/// C# Implementation by Florian Müller, based on the C code published at
+/// http://wiki.openstreetmap.org/wiki/Mercator#C_implementation 14:50, 20.6.2008; 
+/// updated to static functions by David Schmitt, 23.4.2010
+/// </summary>
 public static class MercatorProjection
 {
     private static readonly double R_MAJOR = 6378137.0;
