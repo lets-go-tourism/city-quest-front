@@ -12,6 +12,8 @@ public class Props_UI : MonoBehaviour
     public ScrollView scrollView;
     public Transform[] props;
 
+    public Canvas CanvasCamera;
+
     public static Props_UI instance;
     void Awake()
     {
