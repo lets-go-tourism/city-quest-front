@@ -16,13 +16,19 @@ public class CameraFeed : MonoBehaviour
 
     [Header("Data")]
     public WebCamTexture webCamTexture;
-    private bool isVertical = true;
 
-    private bool useFrontCamera = true; 
+    private bool useFrontCamera = false;
+    private bool tutorial = true;
+
+    private RectTransform rawImageTransform;
+    private Vector3 originalPos;
 
     private void Start()
     {
+        rawImageTransform = webCamRawImage.rectTransform;
+        originalPos = rawImageTransform.localPosition;
         SetWebCam();
+        StartCoroutine(Tutorial());
     }
 
     public void SetWebCam()
@@ -36,6 +42,7 @@ public class CameraFeed : MonoBehaviour
             PermissionCallbacks permissionCallbacks = new();
             permissionCallbacks.PermissionGranted += CreateWebCamTexture;
             Permission.RequestUserPermission(Permission.Camera, permissionCallbacks);
+            tutorial = false;
         }
     }
 
@@ -140,6 +147,9 @@ public class CameraFeed : MonoBehaviour
 
     public void CapturePhoto()
     {
+        StopCoroutine(Tutorial());
+        tutorial = false;
+        rawImageTransform.localPosition = originalPos;
         StartCoroutine(CapturePhotoCoroutine());
     }
 
@@ -199,31 +209,6 @@ public class CameraFeed : MonoBehaviour
         }
     }
 
-    //public Texture2D ConvertRenderTextureToTexture2D(Texture texture)
-    //{
-    //    if (texture is Texture2D texture2D)
-    //    {
-    //        return texture2D;
-    //    }
-
-    //    // Texture가 Texture2D가 아닌 경우
-    //    RenderTexture renderTexture = texture as RenderTexture;
-    //    if (renderTexture != null)
-    //    {
-    //        // RenderTexture를 Texture2D로 변환
-    //        Texture2D texture2DFromRenderTexture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.ARGB32, false);
-    //        RenderTexture.active = renderTexture;
-    //        texture2DFromRenderTexture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-    //        texture2DFromRenderTexture.Apply();
-    //        RenderTexture.active = null;
-    //        return texture2DFromRenderTexture;
-    //    }
-
-    //    // Texture가 RenderTexture도 아니면 예외 처리
-    //    Debug.LogError("Texture is neither Texture2D nor RenderTexture");
-    //    return null;
-    //}
-
     private Texture2D ConvertTextureToTexture2D(Texture texture)
     {
         if (texture is Texture2D texture2D)
@@ -258,22 +243,6 @@ public class CameraFeed : MonoBehaviour
 
     public void UploadImage()
     {
-        //// RawImage의 texture가 Texture2D인지 확인
-        //Texture2D texture2D = webCamRawImage.texture as Texture2D;
-
-        //if (texture2D == null)
-        //{
-        //    // 만약 Texture가 RenderTexture일 경우
-        //    RenderTexture renderTexture = webCamRawImage.texture as RenderTexture;
-        //    if (renderTexture != null)
-        //    {
-        //        texture2D = ConvertRenderTextureToTexture2D(renderTexture);
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("The texture is neither a Texture2D nor a RenderTexture.");
-        //    }
-        //}
         int width = webCamRawImage.texture.width;
         int height = webCamRawImage.texture.height;
 
@@ -293,11 +262,33 @@ public class CameraFeed : MonoBehaviour
         RenderTexture.active = currentRenderTexture;
 
         KJY_ConnectionTMP.instance.OnClickTest(texture2D, 1);
-        //KJY_ConnectionTMP.instance.OnClickTest(webCamRawImage.texture, 0);
     }
 
-    public void Test()
+    private IEnumerator Tutorial()
     {
-        //KJY_ConnectionTMP.instance.Test(webCamRawImage.texture, 0);
+        float shakeDuration = 1.0f;
+        float shakeAmount = 1.0f;
+        float decreaseFactor = 1.0f;
+        float currentShakeDuration = 0f;
+        webCamRawImage.texture = Resources.Load<Texture>("testpicture");
+
+        while (tutorial)
+        {
+            if (currentShakeDuration > 0)
+            {
+                rawImageTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
+
+                currentShakeDuration -= Time.deltaTime * decreaseFactor;
+            }
+            else
+            {
+                currentShakeDuration = 0f;
+                rawImageTransform.localPosition = originalPos;
+            }
+
+            yield return new WaitForSeconds(shakeDuration);
+
+            currentShakeDuration = shakeDuration;
+        }
     }
 }
