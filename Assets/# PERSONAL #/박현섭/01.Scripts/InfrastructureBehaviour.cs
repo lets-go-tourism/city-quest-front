@@ -28,20 +28,12 @@ using UnityEngine.UIElements;
 /// Base infrastructure creator.
 /// </summary>
 [RequireComponent(typeof(MapReader))]
-abstract class InfrastructureBehaviour : MonoBehaviour
+public abstract class InfrastructureBehaviour : MonoBehaviour
 {
     /// <summary>
     /// The map reader object; contains all the data to build procedural geometry.
     /// </summary>
     protected MapReader map;
-
-    /// <summary>
-    /// Awaken this instance!!!
-    /// </summary>
-    void Awake()
-    {
-        map = GetComponent<MapReader>();
-    }
 
     /// <summary>
     /// Get the centre of an object or road.

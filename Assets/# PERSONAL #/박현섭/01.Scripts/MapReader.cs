@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Xml;
 using UnityEngine;
 
-class MapReader : MonoBehaviour
+public class MapReader : MonoBehaviour
 {
     [HideInInspector]
     public Dictionary<ulong, OsmNode> nodes;
@@ -21,8 +21,7 @@ class MapReader : MonoBehaviour
 
     public bool IsReady { get; private set; }
 
-    // Use this for initialization
-    void Start()
+    public void ReadMap()
     {
         nodes = new Dictionary<ulong, OsmNode>();
         ways = new List<OsmWay>();
@@ -44,29 +43,6 @@ class MapReader : MonoBehaviour
         groundPlane.transform.localScale = new Vector3((maxx - minx) / 2, 1, (maxy - miny) / 2);
 
         IsReady = true;
-    }
-
-    void Update()
-    {
-        //foreach (OsmWay w in ways)
-        //{
-        //    if (w.Visible)
-        //    {
-        //        Color c = Color.cyan;               // cyan for buildings
-        //        if (!w.IsBoundary) c = Color.red; // red for roads
-
-        //        for (int i = 1; i < w.NodeIDs.Count; i++)
-        //        {
-        //            OsmNode p1 = nodes[w.NodeIDs[i - 1]];
-        //            OsmNode p2 = nodes[w.NodeIDs[i]];
-
-        //            Vector3 v1 = p1 - bounds.Center;
-        //            Vector3 v2 = p2 - bounds.Center;
-
-        //            Debug.DrawLine(v1, v2, c);
-        //        }
-        //    }
-        //}
     }
 
     void GetWays(XmlNodeList xmlNodeList)

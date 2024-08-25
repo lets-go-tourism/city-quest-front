@@ -27,7 +27,7 @@ using UnityEngine;
 /// <summary>
 /// Road infrastructure maker.
 /// </summary>
-class RoadMaker : InfrastructureBehaviour
+public class RoadMaker : InfrastructureBehaviour
 {
     public Material roadMaterial;
 
@@ -35,19 +35,26 @@ class RoadMaker : InfrastructureBehaviour
     /// Create the roads.
     /// </summary>
     /// <returns></returns>
-    IEnumerator Start()
+    private void Start()
     {
-        // Wait for the map to become ready
-        while (!map.IsReady)
-        {
-            yield return null;
-        }
+        //// Wait for the map to become ready
+        //while (!map.IsReady)
+        //{
+        //    yield return null;
+        //}
 
         // Iterate through the roads and build each one
+        MakeRoad();
+    }
+
+    public void MakeRoad()
+    {
+        if (map == null)
+            map = GetComponent<MapReader>();
+
         foreach (var way in map.ways.FindAll((w) => { return w.IsRoad; }))
         {
             CreateObject(way, roadMaterial, way.Name);
-            yield return null;
         }
     }
 
