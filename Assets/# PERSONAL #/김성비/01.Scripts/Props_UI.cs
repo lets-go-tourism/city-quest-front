@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Props_UI : MonoBehaviour
 {
     // º¯¼ö
-    public Canvas canvasS;
-    public Canvas canvasM;
-    public Transform propModeling;
-    public ScrollView scrollView;
-    public Transform[] props;
+    public Canvas canvasS;          // µÞ¹è°æ
+    public Canvas canvasM;          // ¸ÞÀÎ Äµ¹ö½º
+    public Canvas CanvasCamera;     // Äµ¹ö½º Ä«¸Þ¶ó
 
-    public Canvas CanvasCamera;
+    public Transform[] props;       // Áöµµ À§ ÇÁ¶øµé
+
+    public Transform propModeling;  // ÆË¾÷Ã¢ ÇÁ¶ø ¸ðµ¨¸µ
+    public RectTransform content;   // ÆË¾÷Ã¢ ÄÁÅÙÆ®
+    public Transform[] contents;    // ÆË¾÷Ã¢ ÄÁÅÙÆ® ³»ºÎ »çÇ×
+
+    public Transform tour;          // ¹ÙÅÒ½ÃÆ® °ü±¤Á¤º¸ ÅÇ
+
 
     public static Props_UI instance;
     void Awake()
@@ -28,6 +30,7 @@ public class Props_UI : MonoBehaviour
         canvasS.enabled = isOpen;
         // 3D ¸ðµ¨¸µ
         propModeling.gameObject.SetActive(isOpen);
-        
+
+        content.anchoredPosition = Vector3.zero;
     }
 }

@@ -1,6 +1,5 @@
-using UnityEngine;
 using TMPro;
-using Unity.Burst.CompilerServices;
+using UnityEngine;
 
 public class tmpTouch : MonoBehaviour
 {
@@ -16,22 +15,26 @@ public class tmpTouch : MonoBehaviour
     /// 2. 1의 정보를 UI로 표시한다.
     /// </summary>
 
+
+
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            //Touch touch = Input.GetTouch(0);
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+
+            // 프랍을 터치했을 때
+            if (Physics.Raycast(ray, out hit, LayerMask.GetMask("Prop")))
             {
-                SettingDatas(hit.transform);
+                // 프랍 정보를 가져와서 팝업창 띄우기
+                SettingPropInfo.instance.PropInfoSetting(hit.transform);
+
+                // 더 이상 프랍을 터치할 수 없도록!!
+                for (int i = 0; i < Props_UI.instance.props.Length; i++)
+                    Props_UI.instance.props[i].GetComponent<BoxCollider>().enabled = false;
             }
         }
     }
-    void SettingDatas(Transform trs)
-    {
-        Props_UI.instance.PropsUISetting(true);
-    }
+
 }
