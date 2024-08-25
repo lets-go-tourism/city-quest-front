@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Props_UI : MonoBehaviour
 {
     // 변수
-    public Canvas canvasS;
-    public Canvas canvasM;
-    public Transform propModeling;
-    public RectTransform content;
-    public Transform[] props;
+    public Canvas canvasS;          // 뒷배경
+    public Canvas canvasM;          // 메인 캔버스
+    public Canvas CanvasCamera;     // 캔버스 카메라
 
-    public Canvas CanvasCamera;
+    public Transform[] props;       // 지도 위 프랍들
+
+    public Transform propModeling;  // 팝업창 프랍 모델링
+    public RectTransform content;   // 팝업창 컨텐트
+    public Transform[] contents;    // 팝업창 컨텐트 내부 사항
+
+    public Transform tour;          // 바텀시트 관광정보 탭
+
 
     public static Props_UI instance;
     void Awake()
