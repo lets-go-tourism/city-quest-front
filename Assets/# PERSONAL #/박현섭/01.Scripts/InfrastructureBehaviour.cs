@@ -67,9 +67,7 @@ public abstract class InfrastructureBehaviour : MonoBehaviour
         GameObject go = new GameObject(objectName);
         Vector3 localOrigin = GetCenter(way);
         go.transform.position = localOrigin - map.bounds.Center;
-        시발 s = go.AddComponent<시발>();
-        s.start = way.StartRelationNode;
-        s.end = way.EndRelationNode;
+        WayData s = go.AddComponent<WayData>();
 
         // Add the mesh filter and renderer components to the object
         MeshFilter mf = go.AddComponent<MeshFilter>();
@@ -87,21 +85,6 @@ public abstract class InfrastructureBehaviour : MonoBehaviour
         // Call the child class' object creation code
         //OnObjectCreated(way, localOrigin, vectors, normals, uvs, indices);
         float roadWidth = 0;
-        switch (way.WaySize)
-        {
-            case OsmWay.WaySizeEnum.Primary:
-                roadWidth = primaryWidth;
-                break;
-            case OsmWay.WaySizeEnum.Secondary:
-                roadWidth = secondaryWidth;
-                break;
-            case OsmWay.WaySizeEnum.Tertiary:
-                roadWidth = tertiaryWidth;
-                break;
-            case OsmWay.WaySizeEnum.Residential:
-                roadWidth = residentialWidth;
-                break;
-        }
         mf.mesh = CreateRoadMesh(way, roadWidth);
 
         // Apply the data to the mesh
@@ -110,10 +93,6 @@ public abstract class InfrastructureBehaviour : MonoBehaviour
         //mf.mesh.triangles = indices.ToArray();
         //mf.mesh.uv = uvs.ToArray();
     }
-    public float primaryWidth = 5;
-    public float secondaryWidth = 5;
-    public float tertiaryWidth = 5;
-    public float residentialWidth = 5;
 
     protected abstract void OnObjectCreated(OsmWay way, Vector3 origin, List<Vector3> vectors, List<Vector3> normals, List<Vector2> uvs, List<int> indices);
     private Mesh TestCreateRoadMesh(OsmWay way, float roadWidth)
