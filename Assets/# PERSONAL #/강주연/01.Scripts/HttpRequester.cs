@@ -12,7 +12,7 @@ public class HttpRequester : MonoBehaviour
     public string body = "{}";
     public Action<DownloadHandler> complete;
     public Action<DownloadHandler> failed;
-    public void Settting(RequestType requestType, string url)
+    public void Setting(RequestType requestType, string url)
     {
         this.requestType = requestType;
         this.url = url;
