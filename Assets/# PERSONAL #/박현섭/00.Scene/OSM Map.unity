@@ -125665,10 +125665,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraToMove: {fileID: 2017078494}
-  _limitXMin: -10000
-  _limitXMax: 10000
-  _limitZMin: 0
-  _limitZMax: 0
+  _limitXMin: -1042
+  _limitXMax: 1089
+  _limitZMin: -1121
+  _limitZMax: 1168
   _orthoMin: 2
   _orthoMax: 12
   _interpolationStep: 0

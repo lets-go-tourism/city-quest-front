@@ -178,7 +178,7 @@ namespace CameraActions
                         float b = 1 + (_orthoMin / ((initOrtho - _orthoMin)));
                         t = Mathf.Clamp(a * x + b, 0f, 1f);
 
-                        _cameraToMove.transform.position = Vector3.Lerp(initPos, new Vector3(zoomTarget.x, zoomTarget.y, _cameraToMove.transform.position.z), t);
+                        _cameraToMove.transform.position = Vector3.Lerp(initPos, new Vector3(zoomTarget.x, _cameraToMove.transform.position.z, zoomTarget.y), t);
 
                         LimitCameraMovement();
                     }
@@ -218,7 +218,7 @@ namespace CameraActions
             print("worldDeletaPosition : " + worldDeltaPosition);
             transform.Translate(-worldDeltaPosition, Space.World);
 
-            //LimitCameraMovement();
+            LimitCameraMovement();
         }
 
 
@@ -262,7 +262,7 @@ namespace CameraActions
         private void LimitCameraMovement()
         {
             float xCord = Mathf.Clamp(_cameraToMove.transform.position.x, _limitXMin + (_cameraToMove.orthographicSize * _cameraToMove.aspect), _limitXMax - (_cameraToMove.orthographicSize * _cameraToMove.aspect));
-            float zCord = Mathf.Clamp(_cameraToMove.transform.position.z, _limitZMin + _cameraToMove.orthographicSize, _limitZMax - _cameraToMove.orthographicSize);
+            float zCord = Mathf.Clamp(_cameraToMove.transform.position.z, _limitZMin + (_cameraToMove.orthographicSize * _cameraToMove.aspect), _limitZMax - (_cameraToMove.orthographicSize * _cameraToMove.aspect));
 
             transform.position = new Vector3(xCord, transform.position.y, zCord);
         }
