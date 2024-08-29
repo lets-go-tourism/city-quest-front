@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Props_UI : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Props_UI : MonoBehaviour
     public RectTransform content;   // ÆË¾÷Ã¢ ÄÁÅÙÆ®
     public Transform[] contents;    // ÆË¾÷Ã¢ ÄÁÅÙÆ® ³»ºÎ »çÇ×
 
-    public Transform tour;          // ¹ÙÅÒ½ÃÆ® °ü±¤Á¤º¸ ÅÇ
+    public Image[] tags;          // ¹ÙÅÒ½ÃÆ® °ü±¤Á¤º¸ ÅÇ
 
 
     public static Props_UI instance;

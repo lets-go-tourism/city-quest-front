@@ -6,12 +6,31 @@ using UnityEngine.UI;
 
 public class ChangeSprites : MonoBehaviour
 {
+    public enum Sort
+    {
+        N,
+        YES,
+        NO
+    }
+     public Sort sort;
 
     [HideInInspector] public Transform[] place;
     [HideInInspector] public Transform[] tour;
 
+    public void ChangeSort()
+    {
+        if(sort == Sort.N)
+        {
+
+        }
+    }
+
     public void ChangePlaceSprites(int no)
     {
+        if (sort == Sort.N)
+        {
+            sort = Sort.NO;
+        }
         for (int i = 0; i < place.Length; i++) 
         {
             place[i].GetComponent<Image>().sprite = place[i].GetComponent<SpritesHolder>().sprites[0];  // ¾È´­¸²

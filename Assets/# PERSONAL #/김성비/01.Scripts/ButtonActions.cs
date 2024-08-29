@@ -41,20 +41,16 @@ public class ButtonActions : MonoBehaviour
         }
     }
 
-    public void ChangeBottomSheet(bool open)
+    public void ChangeBottomSheet(int num)
     {
-        // true  : °ü±¤ÅÇ
-        // false : Àå¼ÒÅÇ
-        Props_UI.instance.tour.gameObject.SetActive(open);
-
         // °ü±¤ÅÇÀÏ ¶§ ÇÒ ÀÏ : °ü±¤Á¤º¸ ÆË¾÷ ¼¼ÆÃ
-        if (open)
+        if (num == 0)
         {
             // °ü±¤ÅÇÀÏ ¶§ ÇÒ ÀÏ : °ü±¤Á¤º¸ ÆË¾÷ ¼¼ÆÃ
         }
 
         // Àå¼ÒÅÇÀÏ ¶§ ÇÒ ÀÏ : Àå¼Ò ÆË¾÷ ¼¼ÆÃ
-        if (!open)
+        if (num == 1)
         {
             // Àå¼ÒÅÇÀÏ ¶§ ÇÒ ÀÏ : Àå¼Ò ÆË¾÷ ¼¼ÆÃ
         }
