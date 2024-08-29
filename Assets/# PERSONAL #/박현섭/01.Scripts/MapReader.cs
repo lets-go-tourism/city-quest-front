@@ -50,9 +50,6 @@ public class MapReader : MonoBehaviour
         foreach (XmlNode node in xmlNodeList)
         {
             OsmWay way = new OsmWay(node);
-            if (way.IsRoad == false)
-                continue;
-
             ways.Add(way);
         }
 
