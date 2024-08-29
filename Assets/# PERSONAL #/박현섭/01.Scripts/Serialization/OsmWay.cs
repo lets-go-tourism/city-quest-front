@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using System.Xml;
+using Unity.VisualScripting.FullSerializer;
+using UnityEngine.UIElements;
 
 /*
     Copyright (c) 2017 Sloan Kelly
@@ -53,6 +56,10 @@ public class OsmWay : BaseOsm
     /// True if the way is a road.
     /// </summary>
     public bool IsRoad { get; private set; }
+
+    public bool IsWater { get; private set; }
+
+    public bool IsForest { get; private set; }
 
     /// <summary>
     /// The name of the object.
@@ -131,6 +138,23 @@ public class OsmWay : BaseOsm
             else if (key=="name")
             {
                 Name = GetAttribute<string>("v", t.Attributes);
+            }
+            else if(key == "natural")
+            {
+                if (value == "water")
+                    IsWater = true;
+                else if (value == "wood")
+                    IsForest = true;
+            }
+            else if(key == "landuse")
+            {
+                if (value == "grass")
+                    IsForest = true;
+            }
+            else if(key == "leisure")
+            {
+                if (value == "park")
+                    IsForest = true;
             }
         }
     }
