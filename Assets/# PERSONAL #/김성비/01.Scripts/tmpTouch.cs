@@ -17,7 +17,7 @@ public class tmpTouch : MonoBehaviour
 
 
 
-    private void Update()
+    void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -53,5 +53,4 @@ public class tmpTouch : MonoBehaviour
             }
         }
     }
-
 }

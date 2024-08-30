@@ -4,17 +4,14 @@ using UnityEngine.UI;
 public class Props_UI : MonoBehaviour
 {
     // º¯¼ö
-    public Canvas canvasS;          // µÞ¹è°æ
-    public Canvas canvasM;          // ¸ÞÀÎ Äµ¹ö½º
+    public Canvas canvasPopUpNO;    // ÆË¾÷ ¹ÌÅ½Çè
+    public Canvas canvasPopUpYES;   // ÆË¾÷ Å½Çè
     public Canvas CanvasCamera;     // Äµ¹ö½º Ä«¸Þ¶ó
 
     public Transform[] props;       // Áöµµ À§ ÇÁ¶øµé
-
     public Transform propModeling;  // ÆË¾÷Ã¢ ÇÁ¶ø ¸ðµ¨¸µ
-    public RectTransform content;   // ÆË¾÷Ã¢ ÄÁÅÙÆ®
-    public Transform[] contents;    // ÆË¾÷Ã¢ ÄÁÅÙÆ® ³»ºÎ »çÇ×
 
-    public Image[] tags;          // ¹ÙÅÒ½ÃÆ® °ü±¤Á¤º¸ ÅÇ
+    public Image[] tags;            // ¹ÙÅÒ½ÃÆ® °ü±¤Á¤º¸ ÅÇ
 
 
     public static Props_UI instance;
@@ -23,15 +20,34 @@ public class Props_UI : MonoBehaviour
         instance = this;
     }
 
-    // UI On/Off ¼³Á¤
-    public void PropsUISetting(bool isOpen)
+    // UI On/Off 
+    // 0 : ÀüºÎ ²ô±â , 1 : Å½ÇèÀå¼Ò , 2 : ¹ÌÅ½ÇèÀå¼Ò
+    public void PropsUISetting(bool isOpen, int state)   
     {
-        // Äµ¹ö½º
-        canvasM.enabled = isOpen;
-        canvasS.enabled = isOpen;
-        // 3D ¸ðµ¨¸µ
-        propModeling.gameObject.SetActive(isOpen);
+        if (state == 1)
+        {
+            // Äµ¹ö½º È°¼ºÈ­
+            canvasPopUpYES.enabled = isOpen;  // Å½ÇèÀå¼Ò ÆË¾÷Ã¢
+            canvasPopUpNO.enabled = !isOpen;
 
-        content.anchoredPosition = Vector3.zero;
+            // ¼¼ÆÃ
+        }
+        else if (state == 2)
+        {
+            // Äµ¹ö½º È°¼ºÈ­
+            canvasPopUpNO.enabled = isOpen;   // ¹ÌÅ½ÇèÀå¼Ò ÆË¾÷Ã¢
+            canvasPopUpYES.enabled = !isOpen;
+
+            // ¼¼ÆÃ
+        }
+        else
+        {
+            canvasPopUpNO.enabled = isOpen;
+            canvasPopUpYES.enabled = isOpen;
+        }
+
+        // 3D ¸ðµ¨¸µ        
+        propModeling.rotation = Quaternion.Euler(-5, -10, 0);
+        propModeling.gameObject.SetActive(isOpen);
     }
 }

@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 9053583742105127386}
   - component: {fileID: 2592642897820091690}
   - component: {fileID: 8191270653382253044}
+  - component: {fileID: 7659277145612174918}
   m_Layer: 12
   m_Name: Prop_Sample_Green
-  m_TagString: Props
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,3 +106,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7659277145612174918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8173786743365940456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 318f27b4855e25645804fb8e0a73a04d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 2

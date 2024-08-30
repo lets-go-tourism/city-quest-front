@@ -1133,9 +1133,9 @@ RectTransform:
   - {fileID: 8113193715302357156}
   m_Father: {fileID: 6667292315534493912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1335, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &674241890707444584
@@ -1576,9 +1576,9 @@ RectTransform:
   - {fileID: 679017429884762369}
   m_Father: {fileID: 6667292315534493912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 228, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &443112860921234707
@@ -1722,9 +1722,9 @@ RectTransform:
   - {fileID: 6218719318099499670}
   m_Father: {fileID: 6667292315534493912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1704, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &941857035431528131
@@ -1773,9 +1773,9 @@ RectTransform:
   - {fileID: 2031833354555868076}
   m_Father: {fileID: 205180972043465672}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 2073, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &315005123254209291
@@ -2078,9 +2078,9 @@ RectTransform:
   - {fileID: 3361318046517622077}
   m_Father: {fileID: 6639402438744075684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 127.5, y: -105}
   m_SizeDelta: {x: 135, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3166369889386622539
@@ -2111,7 +2111,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2ac88877f11dcbd47a1161dbd9065c72, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4af5a30f924f52a46a0734969d1f19b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2164,19 +2164,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6812536835174986347}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSprites, Assembly-CSharp
-        m_MethodName: ChangeTourSprites
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2613184647997276997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2190,8 +2178,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 2ac88877f11dcbd47a1161dbd9065c72, type: 3}
-  - {fileID: 21300000, guid: f1c8dd0742eb1a94aa0ec5be8c977b2f, type: 3}
+  - {fileID: 21300000, guid: af9306058cccad7429a81723216dd9ac, type: 3}
+  - {fileID: 21300000, guid: 4af5a30f924f52a46a0734969d1f19b9, type: 3}
 --- !u!1 &1391215203262519526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2937,9 +2925,9 @@ RectTransform:
   - {fileID: 6708093242412981152}
   m_Father: {fileID: 205180972043465672}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 228, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4171442909154239044
@@ -4027,9 +4015,9 @@ RectTransform:
   - {fileID: 1140086089345195765}
   m_Father: {fileID: 205180972043465672}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 597, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3739406614243507603
@@ -4150,9 +4138,9 @@ RectTransform:
   - {fileID: 2989856923776672692}
   m_Father: {fileID: 6639402438744075684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 499.5, y: -105}
   m_SizeDelta: {x: 207, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2972368506772600744
@@ -4183,7 +4171,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd0110cb8a46d3842a82691fcb074ed5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 65d4267d73910264d8907163034151f0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4236,19 +4224,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2363883542361794047}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSprites, Assembly-CSharp
-        m_MethodName: ChangeTourSprites
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &739704019892729093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4262,8 +4238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: cd0110cb8a46d3842a82691fcb074ed5, type: 3}
-  - {fileID: 21300000, guid: 739cfe5532ef2194ca25216099848812, type: 3}
+  - {fileID: 21300000, guid: 65d4267d73910264d8907163034151f0, type: 3}
+  - {fileID: 21300000, guid: e5d15b4d44c200a438b40c3180fee5af, type: 3}
 --- !u!1 &2717981496025817004
 GameObject:
   m_ObjectHideFlags: 0
@@ -4437,9 +4413,9 @@ RectTransform:
   - {fileID: 7400005600630166891}
   m_Father: {fileID: 205180972043465672}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 966, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2544529013042267247
@@ -4881,9 +4857,9 @@ RectTransform:
   - {fileID: 3336235336225718840}
   m_Father: {fileID: 7089851262292128771}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 187.5, y: -105}
   m_SizeDelta: {x: 255, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4352683068603547203
@@ -5151,9 +5127,9 @@ RectTransform:
   - {fileID: 7892107716301316181}
   m_Father: {fileID: 7089851262292128771}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 457.5, y: -105}
   m_SizeDelta: {x: 255, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9057401917766154383
@@ -5753,9 +5729,9 @@ RectTransform:
   - {fileID: 7032324822680510750}
   m_Father: {fileID: 205180972043465672}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1335, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6876797588101426385
@@ -6679,9 +6655,9 @@ RectTransform:
   - {fileID: 2704850865634846022}
   m_Father: {fileID: 6639402438744075684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1418.5, y: -105}
   m_SizeDelta: {x: 135, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3474614587552168528
@@ -6712,7 +6688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0a745c7b146d1b343b1c37adf14616a5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: af9306058cccad7429a81723216dd9ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6765,19 +6741,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6353244007153192109}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSprites, Assembly-CSharp
-        m_MethodName: ChangeTourSprites
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 6
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2010990042548831274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6791,8 +6755,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 0a745c7b146d1b343b1c37adf14616a5, type: 3}
-  - {fileID: 21300000, guid: fa0731442de8ef449a74cc5ee4041ab4, type: 3}
+  - {fileID: 21300000, guid: af9306058cccad7429a81723216dd9ac, type: 3}
+  - {fileID: 21300000, guid: 4af5a30f924f52a46a0734969d1f19b9, type: 3}
 --- !u!1 &4131365780841037028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7187,9 +7151,9 @@ RectTransform:
   - {fileID: 121481186675252599}
   m_Father: {fileID: 6639402438744075684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1250.5, y: -105}
   m_SizeDelta: {x: 171, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &548612508125465314
@@ -7220,7 +7184,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ec3706ff02782534284ba2df9d1f88f5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bcd8e07885ca13d4fb907b4b37c0f23e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7273,19 +7237,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6528462608616489007}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSprites, Assembly-CSharp
-        m_MethodName: ChangeTourSprites
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &443769493084961575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7299,8 +7251,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: ec3706ff02782534284ba2df9d1f88f5, type: 3}
-  - {fileID: 21300000, guid: 92a06eb5b51556f4b84cdcaa52a87656, type: 3}
+  - {fileID: 21300000, guid: bcd8e07885ca13d4fb907b4b37c0f23e, type: 3}
+  - {fileID: 21300000, guid: 2c64928a03e289b4496506c499f0e51f, type: 3}
 --- !u!1 &4457482063291210513
 GameObject:
   m_ObjectHideFlags: 0
@@ -7339,9 +7291,9 @@ RectTransform:
   - {fileID: 453281323484474544}
   m_Father: {fileID: 6667292315534493912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 597, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6937808624404442724
@@ -7390,9 +7342,9 @@ RectTransform:
   - {fileID: 4408249122248811569}
   m_Father: {fileID: 205180972043465672}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1704, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4378346708628949757
@@ -9420,9 +9372,9 @@ RectTransform:
   - {fileID: 3345632193548979036}
   m_Father: {fileID: 6639402438744075684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 773, y: -105}
   m_SizeDelta: {x: 310, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2211714616575078182
@@ -9453,7 +9405,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 795912a5d8e202d48b977a0b2e91b001, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 44ab2fe17258acd4793fa15835903cab, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9506,19 +9458,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9195970433161601760}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSprites, Assembly-CSharp
-        m_MethodName: ChangeTourSprites
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &7193364157910742383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9532,8 +9472,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 795912a5d8e202d48b977a0b2e91b001, type: 3}
-  - {fileID: 21300000, guid: c8a090455bd5a6445855cd3736e42f7f, type: 3}
+  - {fileID: 21300000, guid: 44ab2fe17258acd4793fa15835903cab, type: 3}
+  - {fileID: 21300000, guid: 6f0cf06453be8a148aedf1eb82b2b549, type: 3}
 --- !u!1 &5919381558254178316
 GameObject:
   m_ObjectHideFlags: 0
@@ -9704,9 +9644,9 @@ RectTransform:
   - {fileID: 3327753337634206803}
   m_Father: {fileID: 6639402438744075684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1736.5, y: -105}
   m_SizeDelta: {x: 171, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3078808181662178895
@@ -9737,7 +9677,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c9194803466bf0e4dba9a3df8914179a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bcd8e07885ca13d4fb907b4b37c0f23e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9790,19 +9730,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3087263350213190764}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSprites, Assembly-CSharp
-        m_MethodName: ChangeTourSprites
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 8
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &908855657417800458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9816,8 +9744,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: c9194803466bf0e4dba9a3df8914179a, type: 3}
-  - {fileID: 21300000, guid: b2340161da8337948808fa49799eb355, type: 3}
+  - {fileID: 21300000, guid: bcd8e07885ca13d4fb907b4b37c0f23e, type: 3}
+  - {fileID: 21300000, guid: 2c64928a03e289b4496506c499f0e51f, type: 3}
 --- !u!1 &5983984257689926946
 GameObject:
   m_ObjectHideFlags: 0
@@ -11391,9 +11319,9 @@ RectTransform:
   - {fileID: 4669393840975516804}
   m_Father: {fileID: 6639402438744075684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1568.5, y: -105}
   m_SizeDelta: {x: 135, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5605590653359056069
@@ -11424,7 +11352,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 52f9e80cb35293a4eb6abe158f05a825, type: 3}
+  m_Sprite: {fileID: 21300000, guid: af9306058cccad7429a81723216dd9ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11477,19 +11405,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1470130394215706937}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSprites, Assembly-CSharp
-        m_MethodName: ChangeTourSprites
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 7
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &4477304960688251651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11503,8 +11419,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 52f9e80cb35293a4eb6abe158f05a825, type: 3}
-  - {fileID: 21300000, guid: 8ec412fc3a3d1ff45bd27e8a981879a6, type: 3}
+  - {fileID: 21300000, guid: af9306058cccad7429a81723216dd9ac, type: 3}
+  - {fileID: 21300000, guid: 4af5a30f924f52a46a0734969d1f19b9, type: 3}
 --- !u!1 &7472108371272637581
 GameObject:
   m_ObjectHideFlags: 0
@@ -12015,9 +11931,9 @@ RectTransform:
   - {fileID: 6594550894441548347}
   m_Father: {fileID: 6667292315534493912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 966, y: -348}
   m_SizeDelta: {x: 336, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7109163894779221297
@@ -12994,9 +12910,9 @@ RectTransform:
   - {fileID: 4590386285323619318}
   m_Father: {fileID: 6639402438744075684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 295.5, y: -105}
   m_SizeDelta: {x: 171, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8145101016736773711
@@ -13027,7 +12943,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0207df5d3c67c094ca45fde6ef46a2e4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bcd8e07885ca13d4fb907b4b37c0f23e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13080,19 +12996,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4699631061056282671}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSprites, Assembly-CSharp
-        m_MethodName: ChangeTourSprites
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &188627287209922571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13106,8 +13010,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 0207df5d3c67c094ca45fde6ef46a2e4, type: 3}
-  - {fileID: 21300000, guid: 3bc55ab4e5926a64c9015fa0873ce82b, type: 3}
+  - {fileID: 21300000, guid: bcd8e07885ca13d4fb907b4b37c0f23e, type: 3}
+  - {fileID: 21300000, guid: 2c64928a03e289b4496506c499f0e51f, type: 3}
 --- !u!1 &9169560204956821447
 GameObject:
   m_ObjectHideFlags: 0
@@ -13143,9 +13047,9 @@ RectTransform:
   - {fileID: 6580767092510266173}
   m_Father: {fileID: 6639402438744075684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1046.5, y: -105}
   m_SizeDelta: {x: 207, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &333061341897762445
@@ -13176,7 +13080,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7e3c5a08a5fc5b14cbe7aa0d92bdc51a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 65d4267d73910264d8907163034151f0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13229,19 +13133,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8168583970739592409}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChangeSprites, Assembly-CSharp
-        m_MethodName: ChangeTourSprites
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &8735541720620710038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13255,8 +13147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 7e3c5a08a5fc5b14cbe7aa0d92bdc51a, type: 3}
-  - {fileID: 21300000, guid: 05c4f89cd47505d42ae7c80a367c1401, type: 3}
+  - {fileID: 21300000, guid: 65d4267d73910264d8907163034151f0, type: 3}
+  - {fileID: 21300000, guid: e5d15b4d44c200a438b40c3180fee5af, type: 3}
 --- !u!1 &9217197381261783311
 GameObject:
   m_ObjectHideFlags: 0
