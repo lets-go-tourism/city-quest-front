@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: "Assets/# PERSONAL #/\uBC15\uD604\uC12D/00.Scene/OSM Map.unity"
-    guid: 09017a4cd9ff7954980286a94b844e8a
+    path: Assets/# PUBLIC #/00.Scene/KSB_Scene_d 1.unity
+    guid: 25495c842c281e541bac96679814a0b8
   m_configObjects: {}
