@@ -160,6 +160,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "dev.comradevanti.ear-clip": {
+      "version": "https://github.com/ComradeVanti/UnityEarClip.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "3c2dd7e1405ae5fdfabfd5385c9c8f551b5139bb"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,36 +8,36 @@ namespace CameraActions
     public class PanPinchCameraMovement : MonoBehaviour
     {
         #region "Input data" 
-        
-        [Header("Camera to move")]
+
+        [Header("움직이는 카메라")]
         [SerializeField] private Camera _cameraToMove;
 
         [Space(40f)]
 
-        [Header("X Inferior limit")]
+        [Header("가로 값(X) 최소")]
         [SerializeField] float _limitXMin;
-      
-        [Header("X Superior limit")]
+
+        [Header("가로 값(X) 최대")]
         [SerializeField] private float _limitXMax;
-       
-        [Header("Z Inferior limit")]
+
+        [Header("세로 값(Y) 최소")]
         [SerializeField] private float _limitZMin;
-      
-        [Header("Z Superior limit")]
+
+        [Header("Y세로 값(Y) 최대")]
         [SerializeField] private float _limitZMax;
 
         [Space(40f)]
 
-        [Header("Minimum orthographic size")]
+        [Header("최소 확대 사이즈")]
         [SerializeField] private float _orthoMin = 2f;
-       
-        [Header("Maximum orthographic size")]
+
+        [Header("최대 확대 사이즈")]
         [SerializeField] private float _orthoMax = 12f;
 
 
         [Space(40f)]
-        [Header("Interpolation step for camera drag")]     
-        [SerializeField]  private float _interpolationStep;
+        [Header("Interpolation step for camera drag")]
+        [SerializeField] private float _interpolationStep;
         #endregion
 
         #region "Private members"
@@ -78,7 +79,6 @@ namespace CameraActions
             if (Input.touchCount < 1)
             {
                 _initTouch = true;
-                totalMoveDistance = 0f;
             }
 
             if (_initTouch == false)
@@ -130,10 +130,10 @@ namespace CameraActions
                 Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
 
                 _panVelocity = touchDeltaPosition;
-               
+
                 PanningFunction(touchDeltaPosition);
             }
-            else if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
+            else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
             {
                 _panVelocity = Vector2.zero;
             }
@@ -204,22 +204,22 @@ namespace CameraActions
         /// </summary>
         /// <param name="touchDeltaPosition"> the delta position for movement </param>
         private void PanningFunction(Vector2 touchDeltaPosition)
-        {          
-            Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 1f);
+        {
+            Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, transform.position.y + 1);
             Vector3 screenTouch = screenCenter + new Vector3(touchDeltaPosition.x, touchDeltaPosition.y, 0f);
 
             Vector3 worldCenterPosition = _cameraToMove.ScreenToWorldPoint(screenCenter);
             Vector3 worldTouchPosition = _cameraToMove.ScreenToWorldPoint(screenTouch);
 
+            //print("worldCenterPosition : " + worldCenterPosition + "worldTouchPosition : " + worldTouchPosition);
+
             Vector3 worldDeltaPosition = worldTouchPosition - worldCenterPosition;
 
-            totalMoveDistance -= worldDeltaPosition.magnitude;
-            transform.Translate(-worldDeltaPosition);
+            print("worldDeletaPosition : " + worldDeltaPosition);
+            transform.Translate(-worldDeltaPosition, Space.World);
 
-            LimitCameraMovement();
+            //LimitCameraMovement();
         }
-
-        public static float totalMoveDistance = 0f;
 
 
         /// <summary>
@@ -227,17 +227,18 @@ namespace CameraActions
         /// </summary>
         private void PanningInertia()
         {
-            if (_panVelocity.magnitude < 0.02f)
-            {
-                _panVelocity = Vector2.zero;
-            }
+            _panVelocity = Vector2.zero;
+            //if (_panVelocity.magnitude < 0.02f)
+            //{
+            //    _panVelocity = Vector2.zero;
+            //}
 
-            if (_panVelocity != Vector2.zero)
-            {             
-                _panVelocity = Vector2.Lerp(_panVelocity, Vector2.zero, _interpolationStep);
-                _cameraToMove.transform.localPosition += new Vector3(-_panVelocity.x / (500 * (1 / _cameraToMove.orthographicSize)), -_panVelocity.y / (500 * (1 / _cameraToMove.orthographicSize)), 0);
-                LimitCameraMovement();
-            }
+            //if (_panVelocity != Vector2.zero)
+            //{
+            //    _panVelocity = Vector2.Lerp(_panVelocity, Vector2.zero, _interpolationStep);
+            //    _cameraToMove.transform.localPosition += new Vector3(-_panVelocity.x / (500 * (1 / _cameraToMove.orthographicSize)), 0, -_panVelocity.y / (500 * (1 / _cameraToMove.orthographicSize)));
+            //    //LimitCameraMovement();
+            //}
         }
 
 
@@ -245,7 +246,7 @@ namespace CameraActions
         /// Camera feedback when achieving minimum ortho
         /// </summary>
         private void MinOrthoAchievedAnimation()
-        {           
+        {
             if (_cameraToMove.orthographicSize < _orthoMin + 0.6f)
             {
                 _cameraToMove.orthographicSize = Mathf.Lerp(_cameraToMove.orthographicSize, _orthoMin + 0.6f, 0.06f);
@@ -263,7 +264,7 @@ namespace CameraActions
             float xCord = Mathf.Clamp(_cameraToMove.transform.position.x, _limitXMin + (_cameraToMove.orthographicSize * _cameraToMove.aspect), _limitXMax - (_cameraToMove.orthographicSize * _cameraToMove.aspect));
             float zCord = Mathf.Clamp(_cameraToMove.transform.position.z, _limitZMin + _cameraToMove.orthographicSize, _limitZMax - _cameraToMove.orthographicSize);
 
-            transform.position = new Vector3(xCord, 498, zCord);
+            transform.position = new Vector3(xCord, transform.position.y, zCord);
         }
     }
 }

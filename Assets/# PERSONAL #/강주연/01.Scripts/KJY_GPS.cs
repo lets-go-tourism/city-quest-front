@@ -82,6 +82,7 @@ public class KJY_GPS : MonoBehaviour
                 longtitude = info.longitude;
                 altitude = info.altitude;
                 UpdateLocationUI(info); // юс╫ц
+                DataManager.instance.SetGPSInfo(info);
                 return true;
         }
     }

@@ -41,19 +41,21 @@ public class HttpManager : MonoBehaviour
             case RequestType.GET:
 
                 request = UnityWebRequest.Get(requester.url);
-                request.SetRequestHeader("Content-Type", "multipart-form-data");
+                //request.SetRequestHeader("Content-Type", "multipart-form-data");
+                request.SetRequestHeader("Content-Type", "application/json");
 
                 break;
 
             case RequestType.POST:
-                request.SetRequestHeader("Content-Type", "multipart-form-data");
-                request = UnityWebRequest.Post(requester.url, requester.form);
+                //request.SetRequestHeader("Content-Type", "multipart-form-data");
+                request = UnityWebRequest.PostWwwForm(requester.url, requester.body);
 
                 // body데이터를 바이트로 변환
                 byte[] jsonToSend = new UTF8Encoding().GetBytes(requester.body);
 
                 request.uploadHandler.Dispose();
                 request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+                request.SetRequestHeader("Content-Type", "application/json");
 
                 break;
         }
