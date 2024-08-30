@@ -37,6 +37,8 @@ public class RoadMaker : MonoBehaviour
     public float tertiaryWidth = 5;
     public float residentialWidth = 5;
 
+    public float wayFloatingOffsetY = 1;
+
     private GameObject parentObject;
 
     public void MakeRoad()
@@ -60,7 +62,7 @@ public class RoadMaker : MonoBehaviour
         // Create an instance of the object and place it in the centre of its points
         GameObject go = new GameObject(objectName);
         go.transform.parent = parentObject.transform;
-        Vector3 localOrigin = GetCenter(way);
+        Vector3 localOrigin = GetCenter(way) + new Vector3(0, wayFloatingOffsetY, 0);
         go.transform.position = localOrigin - map.bounds.Center;
         WayData s = go.AddComponent<WayData>();
 
@@ -83,16 +85,16 @@ public class RoadMaker : MonoBehaviour
         switch (way.WaySize)
         {
             case OsmWay.WaySizeEnum.Primary:
-                roadWidth = primaryWidth;
+                roadWidth = primaryWidth * (float)map.mapSize;
                 break;
             case OsmWay.WaySizeEnum.Secondary:
-                roadWidth = secondaryWidth;
+                roadWidth = secondaryWidth * (float)map.mapSize;
                 break;
             case OsmWay.WaySizeEnum.Tertiary:
-                roadWidth = tertiaryWidth;
+                roadWidth = tertiaryWidth * (float)map.mapSize;
                 break;
             case OsmWay.WaySizeEnum.Residential:
-                roadWidth = residentialWidth;
+                roadWidth = residentialWidth * (float)map.mapSize;
                 break;
         }
         mf.mesh = CreateRoadMesh(way, roadWidth);
@@ -111,7 +113,7 @@ public class RoadMaker : MonoBehaviour
 
         for (int i = 0; i < way.NodeIDs.Count; i++)
         {
-            points[i] = map.nodes[way.NodeIDs[i]] - GetCenter(way);
+            points[i] = map.nodes[way.NodeIDs[i]] - GetCenter(way) + new Vector3(0, wayFloatingOffsetY, 0);
         }
 
         int[] tris = new int[2 * (points.Length - 1) * 3];

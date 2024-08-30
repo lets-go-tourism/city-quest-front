@@ -5,6 +5,16 @@ using UnityEngine;
 
 public class MapReader : MonoBehaviour
 {
+    public static MapReader Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
+
     [HideInInspector]
     public Dictionary<ulong, OsmNode> nodes;
 
@@ -21,8 +31,18 @@ public class MapReader : MonoBehaviour
 
     public bool IsReady { get; private set; }
 
+    [Header("맵 사이즈 설정")]
+    public double mapSize = 1;
+
+    private void Start()
+    {
+        ReadMap();
+    }
+
     public void ReadMap()
     {
+        MercatorProjection.Size = mapSize;
+
         nodes = new Dictionary<ulong, OsmNode>();
         ways = new List<OsmWay>();
 

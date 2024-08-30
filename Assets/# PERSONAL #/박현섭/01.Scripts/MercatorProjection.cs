@@ -17,6 +17,8 @@ public static class MercatorProjection
     private static readonly double RAD2Deg = 180.0 / Math.PI;
     private static readonly double PI_2 = Math.PI / 2.0;
 
+    public static double Size { get; set; } = 1;
+
     public static double[] toPixel(double lon, double lat)
     {
         return new double[] { lonToX(lon), latToY(lat) };
@@ -29,7 +31,7 @@ public static class MercatorProjection
 
     public static double lonToX(double lon)
     {
-        return R_MAJOR * DegToRad(lon);
+        return R_MAJOR * DegToRad(lon) * Size;
     }
 
     public static double latToY(double lat)
@@ -40,7 +42,7 @@ public static class MercatorProjection
         double con = ECCENT * sinphi;
         con = Math.Pow(((1.0 - con) / (1.0 + con)), COM);
         double ts = Math.Tan(0.5 * ((Math.PI * 0.5) - phi)) / con;
-        return 0 - R_MAJOR * Math.Log(ts);
+        return 0 - R_MAJOR * Math.Log(ts) * Size;
     }
 
     public static double xToLon(double x)
