@@ -42,7 +42,7 @@ public class KJY_GPS : MonoBehaviour
         }
         else
         {
-            PermissionCallbacks callbacks = new(); 
+            PermissionCallbacks callbacks = new();
             callbacks.PermissionGranted += StartGPS;
             Permission.RequestUserPermission(Permission.FineLocation, callbacks);
         }
