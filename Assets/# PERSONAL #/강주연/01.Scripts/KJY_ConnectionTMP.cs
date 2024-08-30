@@ -135,7 +135,7 @@ public class HometourPlace
     public string addr;
     public string title;
     public string contenttypeid;
-    public string longtitude;
+    public string longitude;
 }
 
 [System.Serializable]
@@ -196,6 +196,82 @@ public class TryHomeConnection : ConnectionStratage
 }
 #endregion
 
+#region
+public class QuestSetting
+{
+    public string url;
+}
+
+public class QuestRequest
+{
+    private string url;
+}
+
+public class QuestResponse
+{
+    public DateTime timeStamp;
+    public string status;
+    public QuestData data;
+}
+
+public class QuestData
+{
+    private string locationName;
+    private string addr;
+    private string kakaoMapUrl;
+    private string imageUrl;
+    private long propNo;
+    private bool status;
+    private string difficulty;
+    private string questDesc;
+    private double distance;
+    private DateTime date;
+    private string questImage;
+}
+
+public class TryQuestConnection:ConnectionStratage
+{
+    private string url;
+
+    public TryQuestConnection(QuestSetting setting)
+    {
+        this.url = setting.url;
+        CreateJson();
+    }
+
+    private void CreateJson()
+    {
+        QuestRequest request = new QuestRequest();
+
+        string jsonData = JsonUtility.ToJson(request);
+        OnGetRequest(jsonData);
+    }
+
+    private void OnGetRequest(string jsonData)
+    {
+        HttpRequester request = new HttpRequester();
+
+        Debug.Log(this.url);
+        request.Setting(RequestType.GET, this.url);
+        request.body = jsonData;
+        request.complete = Complete;
+
+        HttpManager.instance.SendRequest(request);
+    }
+
+    private void Complete(DownloadHandler result)
+    {
+        QuestResponse response = new QuestResponse();
+        response = JsonUtility.FromJson<QuestResponse>(result.text);
+
+        if (response.status == "OK")
+        {
+            DataManager.instance.SetQuestInfo(response.data);
+        }
+    }
+}
+#endregion
+
 public class KJY_ConnectionTMP : MonoBehaviour
 {
     public static KJY_ConnectionTMP instance;
@@ -207,7 +283,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
         instance = this;
     }
 
-    public void OnClickTest(Texture2D texture, int questNo)
+    public void OnClickTest(Texture2D texture, int questNo)//카메라 통신하는 정보
     {
         if (texture == null)
         {
@@ -233,14 +309,23 @@ public class KJY_ConnectionTMP : MonoBehaviour
         text.SetActive(false);
     }
 
-    public void OnClickHomeConnection()
+    public void OnClickHomeConnection() //홈정보 통신하는 함수
     {
         HomeSetting setting = new HomeSetting();
         LocationInfo info = DataManager.instance.GetGPSInfo();
-        setting.latitude = 37.566826;
-        setting.longitude = 126.9786567;
+        setting.latitude = info.latitude;
+        setting.longitude = info.longitude;
         setting.url = "http://43.203.101.31:8080/api/v1/home?" + "lon=" + setting.longitude + "&lat=" + setting.latitude;
 
         TryHomeConnection homeConnection = new TryHomeConnection(setting);
+    }
+
+    public void OnConnectionQuest(int questNo) //퀘스트 팝업 통신하는 함수
+    {
+        QuestSetting setting = new QuestSetting();
+        LocationInfo info = DataManager.instance.GetGPSInfo();
+        setting.url = "http://43.203.101.31:8080/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
+
+        TryQuestConnection questConnection = new TryQuestConnection(setting);
     }
 }
