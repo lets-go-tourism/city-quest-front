@@ -28,6 +28,9 @@ public class tmpTouch : MonoBehaviour
             if (Physics.Raycast(ray, out hit, LayerMask.GetMask("Prop")))
             {
                 // 프랍 정보를 가져와서 팝업창 띄우기
+                // 할 일 : 그 프랍 중에 프랍 정보 가지고 있는 스크립트 가져오기
+                // 그 스크립트 중에 Adventure No 를 서버에 쏘기
+                // 아래 코드 삭제하기
                 SettingPropInfo.instance.PropInfoSetting(hit.transform);
 
                 // 더 이상 프랍을 터치할 수 없도록!!

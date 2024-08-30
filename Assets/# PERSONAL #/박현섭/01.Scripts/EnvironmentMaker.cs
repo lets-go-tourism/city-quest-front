@@ -1,5 +1,5 @@
 using Assets.Helpers;
-using Dev.ComradeVanti.EarClip;
+//using Dev.ComradeVanti.EarClip;                               ************************************
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,7 +85,7 @@ public class EnvironmentMaker : MonoBehaviour
         //points2 = points2.Clockwise().ToArray();
 
         // Triangulate
-        int[] triangles = Triangulate.ConcaveNoHoles(points2).ToArray();
+        //int[] triangles = Triangulate.ConcaveNoHoles(points2).ToArray();                  ************************************
 
         //int[] triangles = new int[(points.Length - 2) * 3];
 
@@ -97,7 +97,7 @@ public class EnvironmentMaker : MonoBehaviour
         //}
         Mesh mesh = new Mesh();
         mesh.vertices = points;
-        mesh.triangles = triangles;
+        //mesh.triangles = triangles;                               ************************************
         //mesh.RecalculateNormals();
         return mesh;
     }

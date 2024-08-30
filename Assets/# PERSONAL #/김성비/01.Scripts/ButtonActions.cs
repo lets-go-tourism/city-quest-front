@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class ButtonActions : MonoBehaviour
 {
     Button btn;
+    public Transform bs_Tour;
 
     private void Start()
     {
@@ -40,18 +41,23 @@ public class ButtonActions : MonoBehaviour
         }
     }
 
+    // 태그 스프라이트 및 내용 바꾸기
     public void ChangeBottomSheet(int num)
     {
-        // 관광탭일 때 할 일 : 관광정보 팝업 세팅
+        // 장소 팝업 세팅
         if (num == 0)
         {
-            // 관광탭일 때 할 일 : 관광정보 팝업 세팅
+            Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
+            Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
+            bs_Tour.gameObject.SetActive(false);
         }
 
-        // 장소탭일 때 할 일 : 장소 팝업 세팅
+        // 관광정보 팝업 세팅
         if (num == 1)
         {
-            // 장소탭일 때 할 일 : 장소 팝업 세팅
+            Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
+            Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
+            bs_Tour.gameObject.SetActive(true);
         }
     }
 }

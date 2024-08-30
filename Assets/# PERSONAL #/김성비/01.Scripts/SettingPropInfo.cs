@@ -12,10 +12,12 @@ public class SettingPropInfo : MonoBehaviour
         instance = this;
     }
 
+    // 수정할 것
+    // Transform 을 List 로 바꿔서 데이터 세팅하기
     public void PropInfoSetting(Transform trs)
     {
         // UNREVEAL
-        if (trs.GetComponent<tmpPropReveal>().state == tmpPropReveal.State.UNREVEAL)
+        if (trs.GetComponent<tmpPropReveal>().state == tmpPropReveal.State.UNREVEAL)    // status true/false 여부로 구분할 것
         {
             SettingNO(trs);
         }
