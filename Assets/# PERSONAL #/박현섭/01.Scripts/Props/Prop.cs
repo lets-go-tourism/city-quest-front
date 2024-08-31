@@ -8,8 +8,56 @@ using UnityEngine.UI;
 public class Prop : MonoBehaviour
 {
     public PropData PropData { get; private set; }
+    [SerializeField] private GameObject propObj;
     private int id;
 
+    public float OffsetY { get; private set; }
+
+    public bool PropActive { get { return propActive; } 
+        private set 
+        {
+            if (propActive == value)
+                return;
+
+            propActive = value;
+
+            if(value)
+            {
+                propObj.SetActive(true);
+                MapUIController.Instance.NameTagContainer.AddTarget(this);
+            }
+            else
+            {
+                propObj.SetActive(false);
+                MapUIController.Instance.NameTagContainer.RemoveTarget(this);
+            }
+        } 
+    }
+    private bool propActive = false;
+
+    private void Start()
+    {
+        propObj.SetActive(false);
+        OffsetY = -35f;
+    }
+
+    private void Update()
+    {
+        CheckDistToCamera();
+
+        if (PropActive == false)
+            return;
+
+        transform.Rotate(new Vector3(0, 10f * Time.deltaTime, 0), Space.Self);
+    }
+
+    private void CheckDistToCamera()
+    {
+        if ((Camera.main.transform.position - new Vector3(0, 500, 0) - transform.position).sqrMagnitude > 100000)
+            PropActive = false;
+        else
+            PropActive = true;
+    }
 }
 
 public class PropData

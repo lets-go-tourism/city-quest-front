@@ -37,6 +37,7 @@ public class MapReader : MonoBehaviour
     private void Start()
     {
         ReadMap();
+        Application.targetFrameRate = 120;
     }
 
     public void ReadMap()
