@@ -37,23 +37,6 @@ public class tmpTouch : MonoBehaviour
                 for (int i = 0; i < Props_UI.instance.props.Length; i++)
                     Props_UI.instance.props[i].GetComponent<BoxCollider>().enabled = false;
             }
-            else if (Physics.Raycast(ray, out hit, LayerMask.GetMask("UI")))
-            {
-                print("dfjsldjkfhsdkj");
-                if (hit.transform.CompareTag("BSPlace"))
-                {
-                    Props_UI.instance.tags[0].sprite = hit.transform.GetComponent<SpritesHolder>().sprites[0];
-                    Props_UI.instance.tags[1].sprite = hit.transform.GetComponent<SpritesHolder>().sprites[1];
-                    print("0000000000000000000000");
-                }
-                else if (hit.transform.CompareTag("BSTour"))
-                {
-                    Props_UI.instance.tags[0].sprite = hit.transform.GetComponent<SpritesHolder>().sprites[1];
-                    Props_UI.instance.tags[1].sprite = hit.transform.GetComponent<SpritesHolder>().sprites[0];
-                    print("1111111111111111111111111");
-                }
-
-            }
         }
     }
 }

@@ -4,15 +4,37 @@ using UnityEngine;
 
 public class SortingBottomSheet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // 장소
+    public GameObject cardPlace;
+    public Transform contentPlace;
+
+    // 관광정보
+    public GameObject cardTour;
+    public Transform contentTour;
+
+    public static SortingBottomSheet instance;
+    private void Awake()
     {
-        
+        instance = this;
+        for (int i = 0; i < 5; i++)
+        {
+            Instantiate(cardPlace, contentPlace);
+            Instantiate(cardTour, contentTour);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SortingPlace()
     {
-        
+        for(int i = 0; i < 5; i++)
+        {
+            Instantiate(cardPlace, contentPlace);
+        }
+    }
+    public void SortingTour()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            Instantiate(cardTour, contentTour);
+        }
     }
 }

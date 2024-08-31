@@ -50,6 +50,7 @@ public class ButtonActions : MonoBehaviour
             Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
             Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
             bs_Tour.gameObject.SetActive(false);
+            //SortingBottomSheet.instance.SortingPlace();
         }
 
         // °ü±¤Á¤º¸ ÆË¾÷ ¼¼ÆÃ
@@ -58,6 +59,7 @@ public class ButtonActions : MonoBehaviour
             Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
             Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
             bs_Tour.gameObject.SetActive(true);
+            //SortingBottomSheet.instance.SortingTour();
         }
     }
 }
