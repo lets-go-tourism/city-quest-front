@@ -21,6 +21,9 @@ public class DataManager : MonoBehaviour
     [Header("QuestPopUp")]
     private QuestData questInfo;
 
+    [Header("LoginData")]
+    private LoginData loginData;
+
     #region notUse
     [Header("QuestList")]
     private List<QuestData> questDataList;
@@ -100,6 +103,16 @@ public class DataManager : MonoBehaviour
     public QuestData GetQuestInfo()
     {
         return questInfo;
+    }
+
+    public void SetLoginData(LoginData loginData)
+    {
+        this.loginData = loginData; 
+    }
+
+    public LoginData GetLoginData()
+    {
+        return loginData;
     }
 
     #region notUse

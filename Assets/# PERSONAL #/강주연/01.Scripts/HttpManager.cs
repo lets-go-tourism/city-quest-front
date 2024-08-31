@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,9 +13,18 @@ public enum RequestType
     DELETE
 }
 
+public enum RequestHeader
+{
+    login,
+    image,
+    other
+}
+
 public class HttpManager : MonoBehaviour
 {
     public static HttpManager instance;
+    private RequestHeader headerState = RequestHeader.login;
+    public LoginData loginData = null;
 
     private void Awake()
     {
@@ -28,6 +38,7 @@ public class HttpManager : MonoBehaviour
     // Request
     public void SendRequest(HttpRequester requester)
     {
+        //headerState = state;
         StartCoroutine(SendProcess(requester));
     }
 
@@ -41,13 +52,26 @@ public class HttpManager : MonoBehaviour
             case RequestType.GET:
 
                 request = UnityWebRequest.Get(requester.url);
-                //request.SetRequestHeader("Content-Type", "multipart-form-data");
-                request.SetRequestHeader("Content-Type", "application/json");
 
+                //if (headerState == RequestHeader.image)
+                //{
+                //    request.SetRequestHeader("Content-Type", "multipart-form-data");
+                //}
+
+                //if (headerState == RequestHeader.login)
+                //{
+                    request.SetRequestHeader("Content-Type", "application/json");
+                //}
+
+                //if (headerState == RequestHeader.other)
+                //{
+                //    request.SetRequestHeader("Content-Type", "application/json");
+                //   request.SetRequestHeader("Authorization", "Bearer " + loginData.accessToken);
+                //    request.SetRequestHeader("RefreshToken", "Bearer " + loginData.refreshToken);
+                //}
                 break;
 
             case RequestType.POST:
-                //request.SetRequestHeader("Content-Type", "multipart-form-data");
                 request = UnityWebRequest.PostWwwForm(requester.url, requester.body);
 
                 // body데이터를 바이트로 변환
@@ -55,8 +79,22 @@ public class HttpManager : MonoBehaviour
 
                 request.uploadHandler.Dispose();
                 request.uploadHandler = new UploadHandlerRaw(jsonToSend);
-                request.SetRequestHeader("Content-Type", "application/json");
 
+                //if (headerState == RequestHeader.image)
+                //{
+                //    request.SetRequestHeader("Content-Type", "multipart-form-data");
+                //}
+
+                //if (headerState == RequestHeader.login)
+                //{
+                    request.SetRequestHeader("Content-Type", "application/json");
+                //}
+
+                //if (headerState == RequestHeader.other)
+                //{
+                //    request.SetRequestHeader("Authorization", "Bearer " + loginData.accessToken);
+                //    request.SetRequestHeader("RefreshToken", "Bearer " + loginData.refreshToken);
+                //}
                 break;
         }
 
