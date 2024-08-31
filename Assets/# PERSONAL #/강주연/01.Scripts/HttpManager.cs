@@ -26,6 +26,9 @@ public class HttpManager : MonoBehaviour
     private RequestHeader headerState = RequestHeader.login;
     public LoginData loginData = null;
 
+    // ¹ÚÇö¼·
+    public bool RequestSuccess { get; private set; } = false;
+
     private void Awake()
     {
         if (instance == null)

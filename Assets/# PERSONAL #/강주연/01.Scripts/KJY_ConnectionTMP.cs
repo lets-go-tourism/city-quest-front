@@ -185,6 +185,7 @@ public class TryHomeConnection : ConnectionStratage
             DataManager.instance.SetHomePropsList(response.data.props);
             DataManager.instance.SetHomeAdventurePlaceList(response.data.adventurePlace);
             DataManager.instance.SetHometourPlaceList(response.data.tourPlace);
+            DataManager.instance.requestSuccess = true;
         }
         else
         {
@@ -382,9 +383,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
     public IEnumerator successText()
     {
-        text.SetActive(true);
         yield return new WaitForSeconds(1);
-        text.SetActive(false);
     }
 
     public void OnClickHomeConnection() //홈정보 통신하는 함수

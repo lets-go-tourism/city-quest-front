@@ -14,29 +14,38 @@ public class SettingPropInfo : MonoBehaviour
 
     // 수정할 것
     // Transform 을 List 로 바꿔서 데이터 세팅하기
-    public void PropInfoSetting(Transform trs)
+    public void PropInfoSetting(Prop prop)
     {
-        // UNREVEAL
-        if (trs.GetComponent<tmpPropReveal>().state == tmpPropReveal.State.UNREVEAL)    // status true/false 여부로 구분할 것
+        if(prop.HomeAdventurePlaceData.status)
         {
-            SettingNO(trs);
+            SettingYES(prop);
         }
-
-        // ADVENTURING , REVEAL
         else
         {
-            SettingYES(trs);
+            SettingNO(prop);
         }
+
+        //// UNREVEAL
+        //if (prop.GetComponent<tmpPropReveal>().state == tmpPropReveal.State.UNREVEAL)    // status true/false 여부로 구분할 것
+        //{
+            
+        //}
+
+        //// ADVENTURING , REVEAL
+        //else
+        //{
+        //    SettingYES(prop);
+        //}
     }
 
    public InfoHolder holderN;
    public InfoHolder holderY;
 
-    void SettingNO(Transform tr)
+    void SettingNO(Prop prop)
     {
         // 데이터 세팅
-        Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = tr.GetComponent<MeshRenderer>().material;
-        holderN.infos[1].GetComponent<TextMeshProUGUI>().text = tr.name;
+        //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
+        holderN.infos[1].GetComponent<TextMeshProUGUI>().text = prop.PropData.name.ToString();
         holderN.infos[2].GetComponent<TextMeshProUGUI>().text = "99.99" + "km";
         //holder.infos[3].GetComponent<Image>().sprite = ;
         holderN.infos[4].GetComponent<TextMeshProUGUI>().text = "경기 00시 00구 00로 00";
@@ -48,11 +57,11 @@ public class SettingPropInfo : MonoBehaviour
         Props_UI.instance.PropsUISetting(true, 2);
     }
 
-    void SettingYES(Transform tr)
+    void SettingYES(Prop prop)
     {
         // 데이터 세팅
-        Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = tr.GetComponent<MeshRenderer>().material;
-        holderY.infos[1].GetComponent<TextMeshProUGUI>().text = tr.name;
+        //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
+        holderY.infos[1].GetComponent<TextMeshProUGUI>().text = prop.PropData.name.ToString();
         holderY.infos[2].GetComponent<TextMeshProUGUI>().text = "0월 0일 방문";
         //holderY.infos[3].GetComponent<Image>().sprite = ;
         //holderY.infos[4].GetComponent<Image>().sprite = ;

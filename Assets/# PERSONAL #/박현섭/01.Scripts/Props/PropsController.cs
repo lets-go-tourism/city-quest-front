@@ -14,7 +14,11 @@ public class PropsController : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return new WaitForSeconds(1);
+        while (DataManager.instance.requestSuccess == false)
+        {
+            yield return null;
+        }
+
         PropList = DataManager.instance.GetHomePropsList();
         List<HomeAdventurePlace> placeList = DataManager.instance.GetHomeAdventurePlacesList();
 

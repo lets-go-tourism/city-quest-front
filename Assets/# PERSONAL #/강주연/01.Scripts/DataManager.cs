@@ -24,6 +24,9 @@ public class DataManager : MonoBehaviour
     [Header("LoginData")]
     private LoginData loginData;
 
+    // ¹ÚÇö¼·
+    public bool requestSuccess = false;
+
     #region notUse
     [Header("QuestList")]
     private List<QuestData> questDataList;
