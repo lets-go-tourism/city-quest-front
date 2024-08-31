@@ -7,11 +7,13 @@ using UnityEngine.UI;
 // 1. À§µµ °æµµ, ÁÖ¼Ò, ÀÌ¸§, 
 public class Prop : MonoBehaviour
 {
-    public PropData PropData { get; private set; }
-    [SerializeField] private GameObject propObj;
-    private int id;
+    public HomeProps PropData { get; private set; }
+    public HomeAdventurePlace HomeAdventurePlaceData { get; private set; }
 
-    public float OffsetY { get; private set; }
+    public GameObject PropObj { get { return propObj; } private set { propObj = value; } }
+    [SerializeField] private GameObject propObj;
+
+    public float OffsetY { get; private set; } = -35f;
 
     public bool PropActive { get { return propActive; } 
         private set 
@@ -35,10 +37,16 @@ public class Prop : MonoBehaviour
     }
     private bool propActive = false;
 
+    public void Init(HomeProps propData, HomeAdventurePlace homeAdventurePlace)
+    {
+        this.PropData = propData;
+        this.HomeAdventurePlaceData = homeAdventurePlace;
+    }
+
     private void Start()
     {
         propObj.SetActive(false);
-        OffsetY = -35f;
+        originPos = transform.position;
     }
 
     private void Update()
@@ -48,7 +56,26 @@ public class Prop : MonoBehaviour
         if (PropActive == false)
             return;
 
-        transform.Rotate(new Vector3(0, 10f * Time.deltaTime, 0), Space.Self);
+
+        µÕµÕ();
+        //transform.Rotate(new Vector3(0, 10f * Time.deltaTime, 0), Space.Self);
+    }
+
+    public AnimationCurve curve;
+
+    private Vector3 originPos;
+
+    private float time;
+
+    public float time2 = 1;
+    public float µÕµÕvalue = 30;
+    private void µÕµÕ()
+    {
+        time += Time.deltaTime;
+        if (time > time2)
+            time -= time2;
+
+        transform.position = originPos + Vector3.up * curve.Evaluate(time / time2) * µÕµÕvalue + new Vector3(0, 60, 0);
     }
 
     private void CheckDistToCamera()

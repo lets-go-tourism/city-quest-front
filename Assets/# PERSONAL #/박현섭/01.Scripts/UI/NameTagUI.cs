@@ -11,11 +11,11 @@ public class NameTagUI : MonoBehaviour
     private Image myImage;
     private Text myText;
 
-    private void Start()
+    private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
         myImage = GetComponent<Image>();
         myText = transform.GetChild(0).GetComponent<Text>();
+        rectTransform = GetComponent<RectTransform>();
         this.enabled = false;
     }
 
@@ -29,6 +29,7 @@ public class NameTagUI : MonoBehaviour
     {
         myImage.enabled = true;
         myText.enabled = true;
+        myText.text = TargetProp.HomeAdventurePlaceData.name.ToString();
     }
 
     private void Update()
@@ -40,6 +41,7 @@ public class NameTagUI : MonoBehaviour
     private void OnDisable()
     {
         TargetProp = null;
+
         myImage.enabled = false;
         myText.enabled = false;
     }
