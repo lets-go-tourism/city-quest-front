@@ -18,8 +18,11 @@ public class CameraFeed : MonoBehaviour
     public WebCamTexture webCamTexture;
 
     private bool useFrontCamera = false;
-    private bool tutorial = true;
-    private bool notTutorial = false;
+    //private bool tutorial = true;
+    //private bool notTutorial = false;
+
+    [SerializeField] private GameObject captureObject;
+    [SerializeField] private GameObject checkObject;
 
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
@@ -29,7 +32,7 @@ public class CameraFeed : MonoBehaviour
         rawImageTransform = webCamRawImage.rectTransform;
         originalPos = rawImageTransform.localPosition;
         SetWebCam();
-        StartCoroutine(Tutorial());
+        //StartCoroutine(Tutorial());
     }
 
     public void SetWebCam()
@@ -43,8 +46,6 @@ public class CameraFeed : MonoBehaviour
             PermissionCallbacks permissionCallbacks = new();
             permissionCallbacks.PermissionGranted += CreateWebCamTexture;
             Permission.RequestUserPermission(Permission.Camera, permissionCallbacks);
-            notTutorial = true;
-            tutorial = false;
         }
     }
 
@@ -58,17 +59,37 @@ public class CameraFeed : MonoBehaviour
     {
         if (webCamTexture)
         {
-            Destroy(webCamTexture);
-            webCamTexture = null;
+            StartCoroutine(DestroyWebCamTextureCoroutine());
         }
+        else
+        {
+            InitializeWebCamTexture();
+        }
+    }
 
+    private IEnumerator DestroyWebCamTextureCoroutine()
+    {
+        webCamTexture.Stop();
+        Destroy(webCamTexture);
+
+        // 현재 프레임이 끝날 때까지 기다림
+        yield return new WaitForEndOfFrame();
+
+        webCamTexture = null;
+
+        // Destroy가 완료된 후 새로운 웹캠 텍스처를 초기화
+        InitializeWebCamTexture();
+    }
+
+    private void InitializeWebCamTexture()
+    {
         WebCamDevice[] webCamDevices = WebCamTexture.devices;
         if (webCamDevices.Length == 0) return;
 
         int cameraIndex = -1;
         for (int i = 0, l = webCamDevices.Length; i < l; ++i)
         {
-            if (webCamDevices[i].isFrontFacing == useFrontCamera)  
+            if (webCamDevices[i].isFrontFacing == useFrontCamera)
             {
                 cameraIndex = i;
                 break;
@@ -79,22 +100,32 @@ public class CameraFeed : MonoBehaviour
         {
             int requestWidth = Screen.width;
             int requestHeight = Screen.height;
-            for (int i = 0, l = webCamDevices[cameraIndex].availableResolutions.Length; i < l; ++i)
-            {
-                Resolution resolution = webCamDevices[cameraIndex].availableResolutions[i];
-                if (GetAspectRatio((int)requestedRatio.x, (int)requestedRatio.y).Equals(GetAspectRatio(resolution.width, resolution.height)))
-                {
-                    requestWidth = resolution.width;
-                    requestHeight = resolution.height;
 
-                    break;
+            // 스크린의 해상도와 요청된 비율을 비교하여 적절한 해상도를 선택
+            float screenRatio = (float)Screen.width / Screen.height;
+            float targetRatio = requestedRatio.x / requestedRatio.y;
+
+            if (Mathf.Abs(screenRatio - targetRatio) > 0.01f)
+            {
+                if (screenRatio > targetRatio)
+                {
+                    requestWidth = Mathf.RoundToInt(Screen.height * targetRatio);
+                    requestHeight = Screen.height;
+                }
+                else
+                {
+                    requestWidth = Screen.width;
+                    requestHeight = Mathf.RoundToInt(Screen.width / targetRatio);
                 }
             }
+
             webCamTexture = new WebCamTexture(webCamDevices[cameraIndex].name, requestWidth, requestHeight, requestedFPS);
             webCamTexture.filterMode = FilterMode.Trilinear;
             webCamTexture.Play();
 
             webCamRawImage.texture = webCamTexture;
+            captureObject.SetActive(true);
+            checkObject.SetActive(false);
         }
     }
 
@@ -149,16 +180,16 @@ public class CameraFeed : MonoBehaviour
 
     public void CapturePhoto()
     {
-        if (tutorial == true)
-        {
-            StopCoroutine(Tutorial());
-            tutorial = false;
-            rawImageTransform.localPosition = originalPos;
-        }
-        else
-        {
+        //if (tutorial == true)
+        //{
+        //    StopCoroutine(Tutorial());
+        //    tutorial = false;
+        //    rawImageTransform.localPosition = originalPos;
+        //}
+        //else
+        //{
             StartCoroutine(CapturePhotoCoroutine());
-        }
+        //}
     }
 
     private IEnumerator CapturePhotoCoroutine()
@@ -173,6 +204,8 @@ public class CameraFeed : MonoBehaviour
         webCamRawImage.texture = rotatedPhoto;
 
         webCamTexture.Stop();
+        captureObject.SetActive(false);
+        checkObject.SetActive(true);
     }
 
     private Texture2D RotateTexture(Texture2D originalTexture, bool clockwise)
@@ -201,6 +234,9 @@ public class CameraFeed : MonoBehaviour
 
         rotatedTexture.SetPixels32(rotatedPixels);
         rotatedTexture.Apply();
+
+        Destroy(originalTexture);
+
         return rotatedTexture;
     }
 
@@ -215,38 +251,6 @@ public class CameraFeed : MonoBehaviour
             Texture2D rotatedPhoto = RotateTexture(currentPhoto, true); // 시계 방향 90도 회전
             webCamRawImage.texture = rotatedPhoto;
         }
-    }
-
-    private Texture2D ConvertTextureToTexture2D(Texture texture)
-    {
-        if (texture is Texture2D texture2D)
-        {
-            return texture2D;
-        }
-        else if (texture is RenderTexture renderTexture)
-        {
-            return ConvertRenderTextureToTexture2D(renderTexture);
-        }
-        else
-        {
-            Debug.LogError("Unsupported texture format. The texture must be either Texture2D or RenderTexture.");
-            return null;
-        }
-    }
-
-    private Texture2D ConvertRenderTextureToTexture2D(RenderTexture renderTexture)
-    {
-        Texture2D texture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.ARGB32, false);
-
-        RenderTexture currentRT = RenderTexture.active;
-        RenderTexture.active = renderTexture;
-
-        texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-        texture2D.Apply();
-
-        RenderTexture.active = currentRT;
-
-        return texture2D;
     }
 
     public void UploadImage()
@@ -269,37 +273,37 @@ public class CameraFeed : MonoBehaviour
 
         RenderTexture.active = currentRenderTexture;
 
-        if (notTutorial == true)
-        {
-            KJY_ConnectionTMP.instance.OnClickTest(texture2D, 1);
-        }
+        KJY_ConnectionTMP.instance.OnClickTest(texture2D, 1);
+        //if (notTutorial == true)
+        //{
+        //}
     }
 
-    private IEnumerator Tutorial()
-    {
-        float shakeDuration = 1.0f;
-        float shakeAmount = 1.0f;
-        float decreaseFactor = 1.0f;
-        float currentShakeDuration = 0f;
-        webCamRawImage.texture = Resources.Load<Texture>("testpicture");
+    //private IEnumerator Tutorial()
+    //{
+    //    float shakeDuration = 1.0f;
+    //    float shakeAmount = 1.0f;
+    //    float decreaseFactor = 1.0f;
+    //    float currentShakeDuration = 0f;
+    //    webCamRawImage.texture = Resources.Load<Texture>("testpicture");
 
-        while (tutorial)
-        {
-            if (currentShakeDuration > 0)
-            {
-                rawImageTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
+    //    while (tutorial)
+    //    {
+    //        if (currentShakeDuration > 0)
+    //        {
+    //            rawImageTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
 
-                currentShakeDuration -= Time.deltaTime * decreaseFactor;
-            }
-            else
-            {
-                currentShakeDuration = 0f;
-                rawImageTransform.localPosition = originalPos;
-            }
+    //            currentShakeDuration -= Time.deltaTime * decreaseFactor;
+    //        }
+    //        else
+    //        {
+    //            currentShakeDuration = 0f;
+    //            rawImageTransform.localPosition = originalPos;
+    //        }
 
-            yield return new WaitForSeconds(shakeDuration);
+    //        yield return new WaitForSeconds(shakeDuration);
 
-            currentShakeDuration = shakeDuration;
-        }
-    }
+    //        currentShakeDuration = shakeDuration;
+    //    }
+    //}
 }

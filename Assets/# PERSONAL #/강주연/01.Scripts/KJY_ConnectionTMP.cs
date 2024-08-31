@@ -50,7 +50,6 @@ public class TryImageConnection : MonoBehaviour
          
         using (UnityWebRequest www = UnityWebRequest.Post(url, form))
         {
-            //www.SetRequestHeader("Content-Type", "multipart/form-data");
 
             yield return www.SendWebRequest();
 
@@ -110,7 +109,7 @@ public class HomeProps
 {
     public long propNo;
     public string name;
-    public double longtitude;
+    public double longitude;
     public double latitude;
     public bool status;
 }
@@ -196,7 +195,8 @@ public class TryHomeConnection : ConnectionStratage
 }
 #endregion
 
-#region
+#region QuestConnection
+[System.Serializable]
 public class QuestSetting
 {
     public string url;
@@ -207,6 +207,7 @@ public class QuestRequest
     private string url;
 }
 
+[System.Serializable]
 public class QuestResponse
 {
     public DateTime timeStamp;
@@ -236,6 +237,7 @@ public class TryQuestConnection:ConnectionStratage
     public TryQuestConnection(QuestSetting setting)
     {
         this.url = setting.url;
+
         CreateJson();
     }
 
@@ -267,6 +269,82 @@ public class TryQuestConnection:ConnectionStratage
         if (response.status == "OK")
         {
             DataManager.instance.SetQuestInfo(response.data);
+        }
+    }
+}
+#endregion
+
+#region LoginConnection
+
+[System.Serializable]
+public class LoginSetting
+{
+    public string url;
+}
+
+[System.Serializable]
+public class LoginRequest
+{
+    public string url;
+}
+
+[System.Serializable]
+public class LoginResponse
+{
+    public DateTime timeStamp;
+    public string status;
+    public LoginData data;
+}
+
+[System.Serializable]
+public class LoginData
+{
+    public string accessToken;
+    public string refreshToken;
+    public string tokenType;
+}
+
+
+public class TryLoginConnection : ConnectionStratage
+{
+    private string url;
+
+    public TryLoginConnection(LoginSetting setting)
+    {
+        this.url = setting.url;
+
+        CreateJson();
+    }
+
+    private void CreateJson()
+    {
+        LoginRequest request = new LoginRequest();
+
+        string jsonData = JsonUtility.ToJson(request);
+        OnGetRequest(jsonData);
+    }
+
+    private void OnGetRequest(string jsonData)
+    {
+        HttpRequester request = new HttpRequester();
+
+        Debug.Log(this.url);
+        request.Setting(RequestType.GET, this.url);
+        request.body = jsonData;
+        request.complete = Complete;
+
+        HttpManager.instance.SendRequest(request);
+    }
+
+    private void Complete(DownloadHandler result)
+    {
+        LoginResponse response = new LoginResponse();
+        response = JsonUtility.FromJson<LoginResponse>(result.text);
+
+        if (response.status == "OK")
+        {
+            DataManager.instance.SetLoginData(response.data);
+            HttpManager.instance.loginData = response.data;
         }
     }
 }
@@ -328,4 +406,19 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
         TryQuestConnection questConnection = new TryQuestConnection(setting);
     }
+
+    public void OnConnectionLogin()
+    {
+        LoginSetting setting = new LoginSetting();
+        setting.url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=http://43.203.101.31:8080/oauth2/kakao";
+
+
+        TryLoginConnection tryLoginConnection = new TryLoginConnection(setting);
+    }
+
+    public void Test()
+    {
+        Application.OpenURL("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=http://43.203.101.31:8080/oauth2/kakao");
+    }
+
 }
