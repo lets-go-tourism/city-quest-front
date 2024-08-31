@@ -266,7 +266,6 @@ public class MapCameraController : MonoBehaviour
     {
         _panVelocity = Vector2.zero;
         transform.DOMove(GPS.Instance.GetCurrentGPSPos() + new Vector3(0, _cameraToMove.transform.position.y, 0), 2f);
-        print(GPS.Instance.GetCurrentGPSPos());
     }
 
     /// <summary> 

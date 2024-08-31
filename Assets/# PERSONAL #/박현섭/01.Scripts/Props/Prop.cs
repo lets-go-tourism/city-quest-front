@@ -84,12 +84,6 @@ public class PropData
     public Image propPicture;
 }
 
-//public class QuestData
-//{
-//    //프랍의 고유 번호
-//    public int id;
-//}
-
 public enum QuestType
 {
     picture,
