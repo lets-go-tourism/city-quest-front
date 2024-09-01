@@ -51,7 +51,7 @@ public class PropsController : MonoBehaviour
         float x = (float)MercatorProjection.lonToX(propData.longitude);
         float y = (float)MercatorProjection.latToY(propData.latitude);
 
-        Vector3 objPosition = new Vector3(x, 0, y) - MapReader.Instance.bounds.Center;
+        Vector3 objPosition = new Vector3(x, 0, y) - MapReader.Instance.boundsCenter;
 
         obj.transform.position = objPosition;
     }

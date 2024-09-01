@@ -21,8 +21,8 @@ public class MapReader : MonoBehaviour
     [HideInInspector]
     public List<OsmWay> ways;
 
-    [HideInInspector]
     public OsmBounds bounds;
+    public Vector3 boundsCenter = Vector3.zero;
 
     public GameObject groundPlane;
 
@@ -36,7 +36,6 @@ public class MapReader : MonoBehaviour
 
     private void Start()
     {
-        ReadMap();
         Application.targetFrameRate = 120;
     }
 
@@ -64,6 +63,8 @@ public class MapReader : MonoBehaviour
         groundPlane.transform.localScale = new Vector3((maxx - minx) / 2, 1, (maxy - miny) / 2);
 
         IsReady = true;
+
+        boundsCenter = bounds.Center;
     }
 
     void GetWays(XmlNodeList xmlNodeList)

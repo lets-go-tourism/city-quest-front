@@ -17,6 +17,8 @@ public class MyPosArrowUI : MonoBehaviour, IPointerDownHandler
     private Camera cam;
     private Image myImage;
 
+
+
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -63,6 +65,7 @@ public class MyPosArrowUI : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        MapCameraController.Instance.RallBackCameraToMyGPS();
+        print("¿Ã∞‘ ø÷ æ»¥Ô");
+        MapCameraController.Instance.rallBack = true;
     }
 }

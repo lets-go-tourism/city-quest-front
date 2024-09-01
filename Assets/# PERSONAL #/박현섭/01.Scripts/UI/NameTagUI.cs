@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,12 +10,12 @@ public class NameTagUI : MonoBehaviour
     private RectTransform rectTransform;
 
     private Image myImage;
-    private Text myText;
+    private TextMeshProUGUI myText;
 
     private void Awake()
     {
         myImage = GetComponent<Image>();
-        myText = transform.GetChild(0).GetComponent<Text>();
+        myText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         rectTransform = GetComponent<RectTransform>();
         this.enabled = false;
     }
@@ -29,7 +30,16 @@ public class NameTagUI : MonoBehaviour
     {
         myImage.enabled = true;
         myText.enabled = true;
-        myText.text = TargetProp.HomeAdventurePlaceData.name.ToString();
+        SettingTextWidth(rectTransform, myText, TargetProp.HomeAdventurePlaceData.name.ToString());
+    }
+
+    private void SettingTextWidth(RectTransform rectTrf, TextMeshProUGUI tmpText, string textValue)
+    {
+        tmpText.text = textValue;
+
+        Vector2 rectSize = rectTrf.sizeDelta;
+        rectSize.x = tmpText.preferredWidth;
+        rectTrf.sizeDelta = rectSize + new Vector2(48, 0);
     }
 
     private void Update()

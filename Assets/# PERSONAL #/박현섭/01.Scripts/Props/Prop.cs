@@ -13,7 +13,7 @@ public class Prop : MonoBehaviour
     public GameObject PropObj { get { return propObj; } private set { propObj = value; } }
     [SerializeField] private GameObject propObj;
 
-    public float OffsetY { get; private set; } = -35f;
+    public float OffsetY { get; private set; } = -25f;
 
     public bool PropActive { get { return propActive; } 
         private set 
@@ -27,15 +27,20 @@ public class Prop : MonoBehaviour
             {
                 propObj.SetActive(true);
                 MapUIController.Instance.NameTagContainer.AddTarget(this);
+                if(PropData.status)
+                    CloudContainer.Instance.AddTarget(this);
             }
             else
             {
                 propObj.SetActive(false);
                 MapUIController.Instance.NameTagContainer.RemoveTarget(this);
+                CloudContainer.Instance.RemoveTarget(this);
             }
         } 
     }
     private bool propActive = false;
+
+    public MeshFilter MeshFilter { get; private set; }
 
     public void Init(HomeProps propData, HomeAdventurePlace homeAdventurePlace)
     {
@@ -45,6 +50,7 @@ public class Prop : MonoBehaviour
 
     private void Start()
     {
+        MeshFilter = propObj.GetComponent<MeshFilter>();
         propObj.SetActive(false);
         originPos = transform.position;
     }
@@ -75,7 +81,7 @@ public class Prop : MonoBehaviour
         if (time > time2)
             time -= time2;
 
-        transform.position = originPos + Vector3.up * curve.Evaluate(time / time2) * µÕµÕvalue + new Vector3(0, 60, 0);
+        transform.position = originPos + Vector3.up * curve.Evaluate(time / time2) * µÕµÕvalue + new Vector3(0, 20, 0);
     }
 
     private void CheckDistToCamera()

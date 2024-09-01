@@ -64,6 +64,9 @@ public class MapCameraController : MonoBehaviour
     private Vector2 _panVelocity;  //delta position of the touch [camera position derivative]
     #endregion
 
+    public bool rallBack = false;
+    [SerializeField] private float rallbackSpeed = 1;
+
     private void Update()
     {
         if (CheckIfUiHasBeenTouched())
@@ -84,6 +87,7 @@ public class MapCameraController : MonoBehaviour
         {
             PanningInertia();
             //MinOrthoAchievedAnimation();
+            RallBackCameraToMyGPS();
         }
     }
 
@@ -106,6 +110,7 @@ public class MapCameraController : MonoBehaviour
                 }
             }
 
+            // UI 터치가 없으면 _initTouch를 false
             if (check == false)
             {
                 _initTouch = false;
@@ -123,8 +128,12 @@ public class MapCameraController : MonoBehaviour
     /// </summary>
     private void Panning()
     {
+        if (rallBack)
+            rallBack = false;
+
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
+            time = 0;
             Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
 
             _panVelocity = touchDeltaPosition;
@@ -133,9 +142,17 @@ public class MapCameraController : MonoBehaviour
         }
         else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
         {
-            _panVelocity = Vector2.zero;
+            time += Time.deltaTime;
+
+            if (time > 0.1f)
+            {
+                _panVelocity = Vector2.zero;
+                time = 0;
+            }
         }
     }
+
+    private float time;
 
 
     /// <summary>
@@ -232,9 +249,8 @@ public class MapCameraController : MonoBehaviour
 
         if (_panVelocity != Vector2.zero)
         {
-            _panVelocity = Vector2.Lerp(_panVelocity, Vector2.zero, _interpolationStep);
-            _cameraToMove.transform.localPosition += new Vector3(-_panVelocity.x, 0, -_panVelocity.y);
-            LimitCameraMovement();
+            _panVelocity = Vector2.Lerp(_panVelocity, Vector2.zero, _interpolationStep * Time.deltaTime);
+            PanningFunction(_panVelocity);
         }
     }
 
@@ -264,8 +280,11 @@ public class MapCameraController : MonoBehaviour
 
     public void RallBackCameraToMyGPS()
     {
+        if (rallBack == false)
+            return;
+
         _panVelocity = Vector2.zero;
-        transform.DOMove(GPS.Instance.GetCurrentGPSPos() + new Vector3(0, _cameraToMove.transform.position.y, 0), 2f);
+        transform.position = Vector3.Lerp(transform.position, GPS.Instance.GetCurrentGPSPos() + new Vector3(0, _cameraToMove.transform.position.y, 0), Time.deltaTime * rallbackSpeed);
     }
 
     /// <summary> 
