@@ -55,6 +55,4 @@ public class PropsController : MonoBehaviour
 
         obj.transform.position = objPosition;
     }
-
-
 }
