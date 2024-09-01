@@ -26,7 +26,7 @@ public class tmpTouch : MonoBehaviour
     private void Start()
     {
         layerProp = 1 << LayerMask.NameToLayer("Prop");
-        layerProp = 1 << LayerMask.NameToLayer("UI");
+        //layerProp = 1 << LayerMask.NameToLayer("UI");
 
         point = new PointerEventData(null);
     }
@@ -49,12 +49,25 @@ public class tmpTouch : MonoBehaviour
             }
         }
 
+        RayTouch();
+    }
+
+    private void RayTouch()
+    {
         if (Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
             {
+                for (int i = 0; i < Input.touchCount; i++)
+                {
+                    if (EventSystem.current.IsPointerOverGameObject(i))
+                    {
+                        return;
+                    }
+                }
+
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 

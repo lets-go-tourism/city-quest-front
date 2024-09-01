@@ -341,7 +341,7 @@ PrefabInstance:
     - target: {fileID: 965485426648693541, guid: f4cb8b6e7e73049468afc4f1613f0a56,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2031729410521755580, guid: f4cb8b6e7e73049468afc4f1613f0a56,
         type: 3}
@@ -9832,6 +9832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933a936bc24e54f42bf1283c2906289b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boundsCenter: {x: 14139384, y: 0, z: 4452637}
   groundPlane: {fileID: 1773391039}
   resourceFile: "Hwaseong - \uBCF5\uC0AC\uBCF8 - \uBCF5\uC0AC\uBCF8"
   mapSize: 1
@@ -72339,6 +72340,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1421275614868132916, guid: 784efb17008e6c54aa507daac1c82b07,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1440701768350866381, guid: 784efb17008e6c54aa507daac1c82b07,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -72358,6 +72364,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625537247557508937, guid: 784efb17008e6c54aa507daac1c82b07,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1808290439910777801, guid: 784efb17008e6c54aa507daac1c82b07,
         type: 3}
@@ -72418,6 +72429,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280206878576341733, guid: 784efb17008e6c54aa507daac1c82b07,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2395301108521748783, guid: 784efb17008e6c54aa507daac1c82b07,
         type: 3}
@@ -101581,6 +101597,8 @@ MonoBehaviour:
   _orthoMin: 500
   _orthoMax: 100
   _interpolationStep: 0.2
+  rallBack: 0
+  rallbackSpeed: 1
 --- !u!43 &2027097131
 Mesh:
   m_ObjectHideFlags: 0

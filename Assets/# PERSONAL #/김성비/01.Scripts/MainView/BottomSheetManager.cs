@@ -30,8 +30,16 @@ public class BottomSheetManager : MonoBehaviour
 
         placeGOList = new List<GameObject>();
         tourGOList = new List<GameObject>();
+    }
 
-        Invoke(nameof(SettingList), 2);
+    private IEnumerator Start()
+    {
+        while (DataManager.instance.requestSuccess == false)
+        {
+            yield return null;
+        }
+
+        SettingList();
     }
 
     // 초기 세팅
