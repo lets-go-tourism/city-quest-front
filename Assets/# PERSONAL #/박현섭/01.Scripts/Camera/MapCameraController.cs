@@ -286,7 +286,7 @@ public class MapCameraController : MonoBehaviour
             return;
 
         _panVelocity = Vector2.zero;
-        transform.position = Vector3.Lerp(transform.position, GPS.Instance.GetCurrentGPSPos() + new Vector3(0, _cameraToMove.transform.position.y, 0), Time.deltaTime * rallbackSpeed);
+        transform.position = Vector3.Lerp(transform.position, GPS.Instance.GetUserWorldPosition() + new Vector3(0, _cameraToMove.transform.position.y, 0), Time.deltaTime * rallbackSpeed);
     }
 
     /// <summary> 

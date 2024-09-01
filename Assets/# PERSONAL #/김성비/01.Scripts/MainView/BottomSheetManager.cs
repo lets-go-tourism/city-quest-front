@@ -15,8 +15,8 @@ public class BottomSheetManager : MonoBehaviour
     public Transform contentTour;
 
     // ¸®½ºÆ®
-    List<HomeAdventurePlace> placeList;
-    List<HometourPlace> tourList;
+    List<ServerAdventurePlace> placeList;
+    List<ServerTourInfo> tourList;
 
     public List<GameObject> placeGOList;
     public List<GameObject> tourGOList;

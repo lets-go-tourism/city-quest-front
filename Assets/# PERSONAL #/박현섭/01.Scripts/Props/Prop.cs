@@ -7,8 +7,8 @@ using UnityEngine.UI;
 // 1. 위도 경도, 주소, 이름, 
 public class Prop : MonoBehaviour
 {
-    public HomeProps PropData { get; private set; }
-    public HomeAdventurePlace HomeAdventurePlaceData { get; private set; }
+    public ServerProp PropData { get; private set; }
+    public ServerAdventurePlace HomeAdventurePlaceData { get; private set; }
 
     public GameObject PropObj { get { return propObj; } private set { propObj = value; } }
     [SerializeField] private GameObject propObj;
@@ -42,7 +42,7 @@ public class Prop : MonoBehaviour
 
     public MeshFilter MeshFilter { get; private set; }
 
-    public void Init(HomeProps propData, HomeAdventurePlace homeAdventurePlace)
+    public void Init(ServerProp propData, ServerAdventurePlace homeAdventurePlace)
     {
         this.PropData = propData;
         this.HomeAdventurePlaceData = homeAdventurePlace;

@@ -24,7 +24,7 @@ public class HttpManager : MonoBehaviour
 {
     public static HttpManager instance;
     private RequestHeader headerState = RequestHeader.login;
-    public LoginData loginData = null;
+    public LoginResponse loginData = null;
 
     // 박현섭
     public bool RequestSuccess { get; private set; } = false;
@@ -39,9 +39,9 @@ public class HttpManager : MonoBehaviour
     }
 
     // Request
-    public void SendRequest(HttpRequester requester)
+    public void SendRequest(HttpRequester requester, RequestHeader state)
     {
-        //headerState = state;
+        headerState = state;
         StartCoroutine(SendProcess(requester));
     }
 
@@ -56,22 +56,22 @@ public class HttpManager : MonoBehaviour
 
                 request = UnityWebRequest.Get(requester.url);
 
-                //if (headerState == RequestHeader.image)
-                //{
-                //    request.SetRequestHeader("Content-Type", "multipart-form-data");
-                //}
+                if (headerState == RequestHeader.image)
+                {
+                    request.SetRequestHeader("Content-Type", "multipart-form-data");
+                }
 
-                //if (headerState == RequestHeader.login)
-                //{
+                if (headerState == RequestHeader.login)
+                {
+                  request.SetRequestHeader("Content-Type", "application/json");
+                }
+
+                if (headerState == RequestHeader.other)
+                {
                     request.SetRequestHeader("Content-Type", "application/json");
-                //}
-
-                //if (headerState == RequestHeader.other)
-                //{
-                //    request.SetRequestHeader("Content-Type", "application/json");
-                //   request.SetRequestHeader("Authorization", "Bearer " + loginData.accessToken);
-                //    request.SetRequestHeader("RefreshToken", "Bearer " + loginData.refreshToken);
-                //}
+                    //request.SetRequestHeader("Authorization", "Bearer " + loginData.data.accessToken);
+                    //request.SetRequestHeader("RefreshToken", "Bearer " + loginData.data.refreshToken);
+                }
                 break;
 
             case RequestType.POST:
@@ -83,21 +83,22 @@ public class HttpManager : MonoBehaviour
                 request.uploadHandler.Dispose();
                 request.uploadHandler = new UploadHandlerRaw(jsonToSend);
 
-                //if (headerState == RequestHeader.image)
-                //{
-                //    request.SetRequestHeader("Content-Type", "multipart-form-data");
-                //}
+                if (headerState == RequestHeader.image)
+                {
+                    request.SetRequestHeader("Content-Type", "multipart-form-data");
+                }
 
-                //if (headerState == RequestHeader.login)
-                //{
+                if (headerState == RequestHeader.login)
+                {
+                  request.SetRequestHeader("Content-Type", "application/json");
+                }
+
+                if (headerState == RequestHeader.other)
+                {
                     request.SetRequestHeader("Content-Type", "application/json");
-                //}
-
-                //if (headerState == RequestHeader.other)
-                //{
-                //    request.SetRequestHeader("Authorization", "Bearer " + loginData.accessToken);
-                //    request.SetRequestHeader("RefreshToken", "Bearer " + loginData.refreshToken);
-                //}
+                    //request.SetRequestHeader("Authorization", "Bearer " + loginData.data.accessToken);
+                    //request.SetRequestHeader("RefreshToken", "Bearer " + loginData.data.refreshToken);
+                }
                 break;
         }
 
@@ -113,10 +114,11 @@ public class HttpManager : MonoBehaviour
         }
         else
         {
+            SendRequest(KJY_ConnectionTMP.instance.requestHttp, KJY_ConnectionTMP.instance.requestHeaderHttp);
             print("요청 실패");
             print(request.downloadHandler.text);
             print(request.error);
-            StartCoroutine(KJY_ConnectionTMP.instance.successText());
+            //StartCoroutine(KJY_ConnectionTMP.instance.successText());
         }
     }
 }

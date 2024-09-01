@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
@@ -7,13 +8,13 @@ public class DataManager : MonoBehaviour
     public static DataManager instance;
 
     [Header("PropDataList")]
-    private List<HomeProps> homePropsList;
+    private List<ServerProp> propsList;
 
     [Header("AdventurePlaceList")]
-    private List<HomeAdventurePlace> homeAdventurePlacesList;
+    private List<ServerAdventurePlace> adventurePlacesList;
 
     [Header("tourPlaceList")]
-    private List<HometourPlace> hometourPlacesList;
+    private List<ServerTourInfo> tourPlacesList;
 
     [Header("currentGPS")]
     private LocationInfo gpsInfo;
@@ -22,9 +23,12 @@ public class DataManager : MonoBehaviour
     private QuestData questInfo;
 
     [Header("LoginData")]
-    private LoginData loginData;
+    private LoginResponse loginData;
+
+    public List<string> testConnectin;
 
     // 박현섭
+    [HideInInspector] 
     public bool requestSuccess = false;
 
     #region notUse
@@ -49,39 +53,39 @@ public class DataManager : MonoBehaviour
     }
 
     //프랍리스트 설정하는 함수
-    public void SetHomePropsList(List<HomeProps> homeProps)
+    public void SetHomePropsList(List<ServerProp> homeProps)
     {
-        homePropsList = homeProps;
+        propsList = homeProps;
     }
 
     //프랍리스트 얻는 함수
-    public List<HomeProps> GetHomePropsList()
+    public List<ServerProp> GetHomePropsList()
     {
-        return homePropsList;
+        return propsList;
     }
 
     //탐험미탐험 장소 설정하는 함수
-    public void SetHomeAdventurePlaceList(List<HomeAdventurePlace> adventurePlaces)
+    public void SetHomeAdventurePlaceList(List<ServerAdventurePlace> adventurePlaces)
     {
-        homeAdventurePlacesList = adventurePlaces;
+        adventurePlacesList = adventurePlaces;
     }
 
     //탐험미탐험 장소 얻는 함수
-    public List<HomeAdventurePlace> GetHomeAdventurePlacesList()
+    public List<ServerAdventurePlace> GetHomeAdventurePlacesList()
     {
-        return homeAdventurePlacesList;
+        return adventurePlacesList;
     }
 
     //관광정보 설정하는 함수
-    public void SetHometourPlaceList(List<HometourPlace> hometourPlaces)
+    public void SetHometourPlaceList(List<ServerTourInfo> hometourPlaces)
     {
-        hometourPlacesList = hometourPlaces;
+        tourPlacesList = hometourPlaces;
     }
 
     //관광정보 얻는 함수
-    public List<HometourPlace> GetHometourPlacesList()
+    public List<ServerTourInfo> GetHometourPlacesList()
     {
-        return hometourPlacesList;
+        return tourPlacesList;
     }
 
     //GPS정보 설정하는 함수
@@ -108,12 +112,12 @@ public class DataManager : MonoBehaviour
         return questInfo;
     }
 
-    public void SetLoginData(LoginData loginData)
+    public void SetLoginData(LoginResponse loginData)
     {
         this.loginData = loginData; 
     }
 
-    public LoginData GetLoginData()
+    public LoginResponse GetLoginData()
     {
         return loginData;
     }

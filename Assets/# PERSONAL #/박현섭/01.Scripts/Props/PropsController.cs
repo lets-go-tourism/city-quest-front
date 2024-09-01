@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PropsController : MonoBehaviour
 {
-    public Dictionary<long, HomeProps> PropDic { get; private set; } = new Dictionary<long, HomeProps>();
-    public List<HomeProps> PropList { get; private set; } = new List<HomeProps>();
+    public Dictionary<long, ServerProp> PropDic { get; private set; } = new Dictionary<long, ServerProp>();
+    public List<ServerProp> PropList { get; private set; } = new List<ServerProp>();
 
-    public Dictionary<long, HomeAdventurePlace> AdventurePlaceDic { get; private set; } = new Dictionary<long, HomeAdventurePlace>();
+    public Dictionary<long, ServerAdventurePlace> AdventurePlaceDic { get; private set; } = new Dictionary<long, ServerAdventurePlace>();
 
     [SerializeField] private GameObject propPref;
 
@@ -20,7 +20,7 @@ public class PropsController : MonoBehaviour
         }
 
         PropList = DataManager.instance.GetHomePropsList();
-        List<HomeAdventurePlace> placeList = DataManager.instance.GetHomeAdventurePlacesList();
+        List<ServerAdventurePlace> placeList = DataManager.instance.GetHomeAdventurePlacesList();
 
         for (int i = 0; i < PropList.Count; i++)
         {
@@ -39,7 +39,7 @@ public class PropsController : MonoBehaviour
     }
 
     // 프랍을 생성
-    private void CreateProp(HomeProps propData, HomeAdventurePlace homeAdventurePlace)
+    private void CreateProp(ServerProp propData, ServerAdventurePlace homeAdventurePlace)
     {
         GameObject obj = Instantiate(propPref, this.transform);
         Prop objProp = obj.GetComponent<Prop>();
@@ -55,6 +55,4 @@ public class PropsController : MonoBehaviour
 
         obj.transform.position = objPosition;
     }
-
-
 }
