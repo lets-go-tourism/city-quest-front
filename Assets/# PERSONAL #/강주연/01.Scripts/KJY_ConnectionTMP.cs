@@ -172,7 +172,10 @@ public class TryHomeConnection : ConnectionStratage
         request.body = jsonData;
         request.complete = Complete;
 
-        HttpManager.instance.SendRequest(request);
+        KJY_ConnectionTMP.instance.requestHttp = request;
+        KJY_ConnectionTMP.instance.requestHeaderHttp = RequestHeader.other;
+
+        HttpManager.instance.SendRequest(request, RequestHeader.other);
     }
 
     private void Complete(DownloadHandler result)
@@ -217,17 +220,17 @@ public class QuestResponse
 
 public class QuestData
 {
-    private string locationName;
-    private string addr;
-    private string kakaoMapUrl;
-    private string imageUrl;
-    private long propNo;
-    private bool status;
-    private string difficulty;
-    private string questDesc;
-    private double distance;
-    private DateTime date;
-    private string questImage;
+    public string locationName;
+    public string addr;
+    public string kakaoMapUrl;
+    public string imageUrl;
+    public long propNo;
+    public bool status;
+    public string difficulty;
+    public string questDesc;
+    public double distance;
+    public DateTime date;
+    public string questImage;
 }
 
 public class TryQuestConnection:ConnectionStratage
@@ -258,7 +261,9 @@ public class TryQuestConnection:ConnectionStratage
         request.body = jsonData;
         request.complete = Complete;
 
-        HttpManager.instance.SendRequest(request);
+        KJY_ConnectionTMP.instance.requestHttp = request;
+        KJY_ConnectionTMP.instance.requestHeaderHttp = RequestHeader.other;
+        HttpManager.instance.SendRequest(request, RequestHeader.other);
     }
 
     private void Complete(DownloadHandler result)
@@ -274,87 +279,89 @@ public class TryQuestConnection:ConnectionStratage
 }
 #endregion
 
-#region LoginConnection
+#region LoginConnection_justUseClass
 
-[System.Serializable]
-public class LoginSetting
-{
-    public string url;
-}
+//[System.Serializable]
+//public class LoginSetting
+//{
+//    public string url;
+//}
 
-[System.Serializable]
-public class LoginRequest
-{
-    public string url;
-}
+//[System.Serializable]
+//public class LoginRequest
+//{
+//    public string url;
+//}
 
-[System.Serializable]
-public class LoginResponse
-{
-    public DateTime timeStamp;
-    public string status;
-    public LoginData data;
-}
+//[System.Serializable]
+//public class LoginResponse
+//{
+//    public DateTime timeStamp;
+//    public string status;
+//    public LoginData data;
+//}
 
-[System.Serializable]
-public class LoginData
-{
-    public string accessToken;
-    public string refreshToken;
-    public string tokenType;
-}
+//[System.Serializable]
+//public class LoginData
+//{
+//    public string accessToken;
+//    public string refreshToken;
+//    public string tokenType;
+//}
 
+//public class TryLoginConnection : ConnectionStratage
+//{
+//    private string url;
 
-public class TryLoginConnection : ConnectionStratage
-{
-    private string url;
+//    public TryLoginConnection(LoginSetting setting)
+//    {
+//        this.url = setting.url;
 
-    public TryLoginConnection(LoginSetting setting)
-    {
-        this.url = setting.url;
+//        CreateJson();
+//    }
 
-        CreateJson();
-    }
+//    private void CreateJson()
+//    {
+//        LoginRequest request = new LoginRequest();
 
-    private void CreateJson()
-    {
-        LoginRequest request = new LoginRequest();
+//        string jsonData = JsonUtility.ToJson(request);
+//        OnGetRequest(jsonData);
+//    }
 
-        string jsonData = JsonUtility.ToJson(request);
-        OnGetRequest(jsonData);
-    }
+//    private void OnGetRequest(string jsonData)
+//    {
+//        HttpRequester request = new HttpRequester();
 
-    private void OnGetRequest(string jsonData)
-    {
-        HttpRequester request = new HttpRequester();
+//        Debug.Log(this.url);
+//        request.Setting(RequestType.GET, this.url);
+//        request.body = jsonData;
+//        request.complete = Complete;
 
-        Debug.Log(this.url);
-        request.Setting(RequestType.GET, this.url);
-        request.body = jsonData;
-        request.complete = Complete;
+//        HttpManager.instance.SendRequest(request, );
+//    }
 
-        HttpManager.instance.SendRequest(request);
-    }
+//    private void Complete(DownloadHandler result)
+//    {
+//        LoginResponse response = new LoginResponse();
+//        response = JsonUtility.FromJson<LoginResponse>(result.text);
 
-    private void Complete(DownloadHandler result)
-    {
-        LoginResponse response = new LoginResponse();
-        response = JsonUtility.FromJson<LoginResponse>(result.text);
-
-        if (response.status == "OK")
-        {
-            DataManager.instance.SetLoginData(response.data);
-            HttpManager.instance.loginData = response.data;
-        }
-    }
-}
+//        if (response.status == "OK")
+//        {
+//            DataManager.instance.SetLoginData(response.data);
+//            HttpManager.instance.loginData = response.data;
+//        }
+//    }
+//}
 #endregion
 
 public class KJY_ConnectionTMP : MonoBehaviour
 {
     public static KJY_ConnectionTMP instance;
 
+    public List<string> test;
     [SerializeField] private GameObject text;
+    public HttpRequester requestHttp;
+    public RequestHeader requestHeaderHttp;
 
     private void Awake()
     {
@@ -390,9 +397,11 @@ public class KJY_ConnectionTMP : MonoBehaviour
     public void OnClickHomeConnection() //홈정보 통신하는 함수
     {
         HomeSetting setting = new HomeSetting();
-        LocationInfo info = DataManager.instance.GetGPSInfo();
-        setting.latitude = info.latitude;
-        setting.longitude = info.longitude;
+        //LocationInfo info = DataManager.instance.GetGPSInfo();
+        //setting.latitude = info.latitude;
+        //setting.longitude = info.longitude;
+        setting.latitude = 37.566826;
+        setting.longitude = 126.9786567;
         setting.url = "http://43.203.101.31:8080/api/v1/home?" + "lon=" + setting.longitude + "&lat=" + setting.latitude;
 
         TryHomeConnection homeConnection = new TryHomeConnection(setting);
@@ -407,18 +416,18 @@ public class KJY_ConnectionTMP : MonoBehaviour
         TryQuestConnection questConnection = new TryQuestConnection(setting);
     }
 
-    public void OnConnectionLogin()
-    {
-        LoginSetting setting = new LoginSetting();
-        setting.url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=http://43.203.101.31:8080/oauth2/kakao";
+    //public void OnConnectionLogin()
+    //{
+    //    LoginSetting setting = new LoginSetting();
+    //    setting.url = "https://letsgotour.store/oauth2/kakao?code=faFanf-f09RBQJs_TzU5Men7TExAKXiT3LL7MQ95k2idB7yTBa5Y9gAAAAQKPXNNAAABkam9CazgLMgnBn6ZSw";
 
 
-        TryLoginConnection tryLoginConnection = new TryLoginConnection(setting);
-    }
+    //    TryLoginConnection tryLoginConnection = new TryLoginConnection(setting);
+    //}
 
-    public void Test()
-    {
-        Application.OpenURL("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=http://43.203.101.31:8080/oauth2/kakao");
-    }
+    //public void Test()
+    //{
+    //    Application.OpenURL("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao");
+    //}
 
 }

@@ -82,7 +82,7 @@ public class KJY_GPS : MonoBehaviour
                 latitude = info.latitude;
                 longtitude = info.longitude;
                 altitude = info.altitude;
-                UpdateLocationUI(info); // 임시
+                //UpdateLocationUI(info); // 임시
                 DataManager.instance.SetGPSInfo(info);
                 return true;
         }
@@ -116,11 +116,6 @@ public class KJY_GPS : MonoBehaviour
             distance1.CompareTo(distance2);
             return distance1.CompareTo(distance2);
         });
-
-        //foreach (HometourPlace tour in tourPlacesList)
-        //{
-        //    Debug.Log("Distance: " + tour.distance);
-        //}
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2, char unit) //각 두 곳의 위도경도를 알면 unit의 거리단위로 거리를 측정하는 함수
