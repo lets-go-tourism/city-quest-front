@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class tmpTouch : MonoBehaviour
 {
@@ -42,10 +41,19 @@ public class tmpTouch : MonoBehaviour
 
             foreach(RaycastResult r in results) 
             {
-                if (r.gameObject.CompareTag("BottomSheet"))
+                if (r.gameObject.CompareTag("BottomSheet") && BottomSheetMovement.instance.state == BottomSheetMovement.State.DOWN)
                 {
                     BottomSheetMovement.instance.MoveUP();
                 }
+                //else if(r.gameObject.CompareTag("CardPlace") && BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
+                //{
+                //    print(r.gameObject.transform.parent);
+                //    // 할 일 : 카드 정보와 일치하는 장소/관광정보 프랍으로 화면이 이동
+                //}
+                //else if(r.gameObject.CompareTag("CardTour") && BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
+                //{
+                //    print(r.gameObject.transform.parent);
+                //}
             }
         }
 

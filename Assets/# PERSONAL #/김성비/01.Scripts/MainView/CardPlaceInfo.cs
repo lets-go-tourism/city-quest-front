@@ -38,6 +38,11 @@ public class CardPlaceInfo : MonoBehaviour
         else if (!reveal) { type = Type.UNREVEAL; }
     }
 
+    public void SendPlaceInfo()
+    {
+        print("SendPlaceInfo");
+    }
+
     ///public class HomeAdventurePlace
     ///{
     ///    public long adventureNo;

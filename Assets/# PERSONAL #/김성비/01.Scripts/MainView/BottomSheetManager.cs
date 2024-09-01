@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.UI;
 
 public class BottomSheetManager : MonoBehaviour
 {
@@ -81,15 +79,6 @@ public class BottomSheetManager : MonoBehaviour
         string TextBreak(string text)
         {
             string result = string.Empty;
-
-            //// string -> char
-            //char[] chars = text.ToCharArray();
-
-            //print(chars);
-
-            // char -> string
-
-
             string[] splitStr = { " " };
             string tmp = text;
             string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);

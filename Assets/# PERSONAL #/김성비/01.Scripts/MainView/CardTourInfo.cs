@@ -56,6 +56,11 @@ public class CardTourInfo : MonoBehaviour
         else if (no == 39)  { type = Type.Food; }
     }
 
+    public void SendTourInfo()
+    {
+        print("SendTourInfo");
+    }
+
     //string TypeConvert(string str)
     //{
     //    string result = string.Empty;
@@ -68,7 +73,7 @@ public class CardTourInfo : MonoBehaviour
     //    else if(str == 32.ToString()) { result = "Lodgment"; }
     //    else if(str == 38.ToString()) { result = "Shopping"; }
     //    else if(str == 39.ToString()) { result = "Food"; }
-        
+
     //    return result;
     //}
 

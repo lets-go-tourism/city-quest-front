@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,6 +7,8 @@ using UnityEngine.UI;
 public class SettingPropInfo : MonoBehaviour
 {
     public static SettingPropInfo instance;
+    QuestData questData;
+    public List<QuestData> quests;
 
     private void Awake()
     {
@@ -12,102 +16,64 @@ public class SettingPropInfo : MonoBehaviour
     }
 
     // 수정할 것
-    // Transform 을 List 로 바꿔서 데이터 세팅하기
     public void PropInfoSetting(Prop prop)
     {
-        if(prop.HomeAdventurePlaceData.status)
+        KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
+        questData = DataManager.instance.GetQuestInfo();
+        quests = new List<QuestData>();
+
+        print(questData);
+
+        if (prop.HomeAdventurePlaceData.status)
         {
-            SettingYES(prop);
+            StopCoroutine(nameof(SettingNO));
+            StartCoroutine(nameof(SettingYES), prop);
         }
         else
         {
-            SettingNO(prop);
+            StopCoroutine(nameof(SettingYES));
+            StartCoroutine(nameof(SettingNO), prop);
         }
-
-        //// UNREVEAL
-        //if (prop.GetComponent<tmpPropReveal>().state == tmpPropReveal.State.UNREVEAL)    // status true/false 여부로 구분할 것
-        //{
-            
-        //}
-
-        //// ADVENTURING , REVEAL
-        //else
-        //{
-        //    SettingYES(prop);
-        //}
     }
 
-   public InfoHolder holderN;
-   public InfoHolder holderY;
-
-    void SettingNO(Prop prop)
+    IEnumerator SettingNO(Prop prop)
     {
-        // 데이터 세팅
+        yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingNO));
+
+        // 데이터 세팅 : 모델링, 장소명, 거리, 주소명, 장소사진, (구분선,) 퀘스트 => 6가지
         //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
-        holderN.infos[1].GetComponent<TextMeshProUGUI>().text = prop.PropData.name.ToString();
-        holderN.infos[2].GetComponent<TextMeshProUGUI>().text = "99.99" + "km";
-        //holder.infos[3].GetComponent<Image>().sprite = ;
-        holderN.infos[4].GetComponent<TextMeshProUGUI>().text = "경기 00시 00구 00로 00";
-        holderN.GoURL("ADRESS");
-        //holder.infos[5].GetComponent<Image>().sprite = ;
-        holderN.infos[6].GetComponent<TextMeshProUGUI>().text = "어떤 퀘스트일까요";
+        SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = prop.PropData.name.ToString();
+        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = "99" + "km";
+        SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = "경기 00시 00구 00로 88";
+        SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = null;
+        SettingPropContent.instance.content[6].GetChild(0).GetComponent<TextMeshProUGUI>().text = "어떤 퀘스트일까요";
 
         // UI 활성화
-        Props_UI.instance.PropsUISetting(true, 2);
+        Props_UI.instance.canvasProp.enabled = true;
+        // 3D 모델링        
+        Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
+        Props_UI.instance.propModeling.gameObject.SetActive(true);
     }
 
-    void SettingYES(Prop prop)
+
+    IEnumerator SettingYES(Prop prop)
     {
-        // 데이터 세팅
+        // 컨텐트 생성
+        yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingYES));
+
+        // 데이터 세팅 : 모델링, 장소명, 방문날짜, 주소명, 퀘스트사진, 장소사진 => 6가지
         //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
-        holderY.infos[1].GetComponent<TextMeshProUGUI>().text = prop.PropData.name.ToString();
-        holderY.infos[2].GetComponent<TextMeshProUGUI>().text = "0월 0일 방문";
-        //holderY.infos[3].GetComponent<Image>().sprite = ;
-        //holderY.infos[4].GetComponent<Image>().sprite = ;
-        holderY.infos[5].GetComponent<TextMeshProUGUI>().text = "경기 00시 00구 00로 00";
+        SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = prop.PropData.name.ToString();
+        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = "0월 0일 방문";
+        SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = "경기 00시 00구 00로 00";
+        SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = null;
+        SettingPropContent.instance.content[5].GetChild(0).GetComponent<Image>().sprite = null;
+
         // UI 활성화
-        Props_UI.instance.PropsUISetting(true, 1);
+        Props_UI.instance.canvasProp.enabled = true;
+
+        // 3D 모델링        
+        Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
+        Props_UI.instance.propModeling.gameObject.SetActive(true);
     }
-
-
-    //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = trs.GetComponent<MeshRenderer>().material;   // 모델링
-    //Props_UI.instance.contents[0].GetChild(0).GetComponent<TextMeshProUGUI>().text = trs.name;                          // 이름
-    //Props_UI.instance.contents[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = "o o o";                           // 난이도
-    //// Props_UI.instance.contents[7].                                                                                   // 장소 사진
-    //Props_UI.instance.contents[8].GetChild(0).GetComponent<TextMeshProUGUI>().text = "Address";                         // 장소 정보
-    ////Props_UI.instance.contents[8].GetChild(1)                                                                         // 장소 링크
-
-    //Props_UI.instance.contents[2].gameObject.SetActive(false);  // 방문일자
-    //Props_UI.instance.contents[3].gameObject.SetActive(false);  // 업적
-    //Props_UI.instance.contents[4].gameObject.SetActive(true);   // 유저와의 거리
-    //Props_UI.instance.contents[5].gameObject.SetActive(false);  // 찍은 사진 1
-    //Props_UI.instance.contents[6].gameObject.SetActive(false);  // 찍은 사진 2
-    //Props_UI.instance.contents[9].GetChild(0).GetComponent<TextMeshProUGUI>().text = "Quest";               // 구분선
-    //Props_UI.instance.contents[10].GetChild(1).GetComponent<TextMeshProUGUI>().text = "Take a Picture !";    // 퀘스트
-
-    //Props_UI.instance.contents[2].gameObject.SetActive(true);  // 방문일자
-    //Props_UI.instance.contents[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = "2024.08.25";
-    //Props_UI.instance.contents[4].gameObject.SetActive(false);  // 유저와의 거리
-
-    //// ******************** 퀘스트 달성여부에 따라 사진 
-    //Props_UI.instance.contents[5].gameObject.SetActive(true);   // 찍은 사진 1
-    //Props_UI.instance.contents[6].gameObject.SetActive(false);  // 찍은 사진 2
-    //Props_UI.instance.contents[9].GetChild(0).GetComponent<TextMeshProUGUI>().text = "PlusQuest";
-    //Props_UI.instance.contents[10].GetChild(1).GetComponent<TextMeshProUGUI>().text = "Let's Look Arond !";
-
-    // REVEAL
-    //if (trs.GetComponent<tmpPropReveal>().state == tmpPropReveal.State.REVEAL)
-    //{
-    //    //Props_UI.instance.contents[3].gameObject.SetActive(true);
-    //    //// Props_UI.instance.contents[3].GetComponent<>().          // 어떤 업적인지
-
-    //    ////if ( 추가 퀘스트 모두 완료 했으면 )
-    //    ////{
-    //    ////    Props_UI.instance.contents[3].GetChild(0).GetComponent<Image>().color = Color.green;
-    //    ////}
-
-    //    //// 그게 아니라면
-    //    //Props_UI.instance.contents[3].GetChild(0).GetComponent<Image>().color = Color.red;
-
-    //}
 }

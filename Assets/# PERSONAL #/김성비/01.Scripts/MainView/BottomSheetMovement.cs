@@ -7,13 +7,17 @@ public class BottomSheetMovement : MonoBehaviour
 {
     RectTransform rt;
 
+    public enum State
+    {
+        UP, DOWN
+    }
+    public State state;
+
     public static BottomSheetMovement instance;
     private void Awake()
     {
         instance = this;
-        rt = GetComponent<RectTransform>();
-
-        rt.anchoredPosition = new Vector2(0, 360);   
+        rt = GetComponent<RectTransform>(); 
     }
     //private void Update()
     //{
@@ -30,20 +34,24 @@ public class BottomSheetMovement : MonoBehaviour
     public void MoveUP()
     {
         // 바텀시트 올라가기
-        //rt.anchoredPosition = new Vector2(0,948);
-        transform.DOMove(new Vector3(540, 948, 0), 1f);
-
-        // 버튼 터치 불가능
-
+        rt.DOAnchorPosY(-696, 1f);
+        Invoke(nameof(ChangeUP), 1);
     }
 
     public void MoveDOWN() 
     {
         // 바텀시트 내려가기
-        //rt.anchoredPosition = new Vector2(0, 360);
-        transform.DOMove(new Vector3(540, 360, 0), 1f);
+        rt.DOAnchorPosY(-1260, 1f);
+        Invoke(nameof(ChangeDOWN), 1);
+    }
 
-        // 버튼 터치 불가능
+    void ChangeUP()
+    {
+        state = State.UP;
+    }
 
+    void ChangeDOWN()
+    {
+        state = State.DOWN;
     }
 }
