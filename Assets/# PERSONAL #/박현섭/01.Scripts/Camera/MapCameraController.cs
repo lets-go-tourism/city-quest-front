@@ -134,6 +134,8 @@ public class MapCameraController : MonoBehaviour
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
             time = 0;
+            BottomSheetMovement.instance.MoveDOWN();
+
             Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
 
             _panVelocity = touchDeltaPosition;
