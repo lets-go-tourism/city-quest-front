@@ -87,10 +87,6 @@ public class KJY_UIManager : MonoBehaviour
         confrimObject.SetActive(false);
         AuthorizationObject.SetActive(true);
     }
-
-    public void 
-
-
     #endregion
 
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TourDataController : MonoBehaviour
 {
-    public Dictionary<long, HometourPlace> HomeTourPlaceDic { get; private set; } = new Dictionary<long, HometourPlace>();
+    public Dictionary<long, ServerTourInfo> HomeTourPlaceDic { get; private set; } = new Dictionary<long, ServerTourInfo>();
 
     private IEnumerator Start()
     {
@@ -13,7 +13,7 @@ public class TourDataController : MonoBehaviour
             yield return null;
         }
 
-        List<HometourPlace> tourList = DataManager.instance.GetHometourPlacesList();
+        List<ServerTourInfo> tourList = DataManager.instance.GetHometourPlacesList();
 
         for(int i = 0; i < tourList.Count; i++)
         {

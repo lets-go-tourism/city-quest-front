@@ -99,13 +99,13 @@ public class HomeResponse
 [System.Serializable]
 public class HomeData
 {
-    public List<HomeProps> props;
-    public List<HomeAdventurePlace> adventurePlace;
-    public List<HometourPlace> tourPlace;
+    public List<ServerProp> props;
+    public List<ServerAdventurePlace> adventurePlace;
+    public List<ServerTourInfo> tourPlace;
 }
 
 [System.Serializable]
-public class HomeProps
+public class ServerProp
 {
     public long propNo;
     public string name;
@@ -115,7 +115,7 @@ public class HomeProps
 }
 
 [System.Serializable]
-public class HomeAdventurePlace
+public class ServerAdventurePlace
 {
     public long adventureNo;
     public string name;
@@ -126,7 +126,7 @@ public class HomeAdventurePlace
 }
 
 [System.Serializable]
-public class HometourPlace
+public class ServerTourInfo
 {
     public string distance;
     public string latitude;
@@ -409,7 +409,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
     public void OnConnectionQuest(int questNo) //퀘스트 팝업 통신하는 함수
     {
         QuestSetting setting = new QuestSetting();
-        LocationInfo info = DataManager.instance.GetGPSInfo();
+        LocationInfo info = GPS.Instance.LocationInfo;
         setting.url = "http://43.203.101.31:8080/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
 
         TryQuestConnection questConnection = new TryQuestConnection(setting);

@@ -69,7 +69,7 @@ public class HttpManager : MonoBehaviour
                 if (headerState == RequestHeader.other)
                 {
                     request.SetRequestHeader("Content-Type", "application/json");
-                    request.SetRequestHeader("Authorization", "Bearer " + loginData.data.accessToken);
+                    //request.SetRequestHeader("Authorization", "Bearer " + loginData.data.accessToken);
                     //request.SetRequestHeader("RefreshToken", "Bearer " + loginData.data.refreshToken);
                 }
                 break;
@@ -96,7 +96,7 @@ public class HttpManager : MonoBehaviour
                 if (headerState == RequestHeader.other)
                 {
                     request.SetRequestHeader("Content-Type", "application/json");
-                    request.SetRequestHeader("Authorization", "Bearer " + loginData.data.accessToken);
+                    //request.SetRequestHeader("Authorization", "Bearer " + loginData.data.accessToken);
                     //request.SetRequestHeader("RefreshToken", "Bearer " + loginData.data.refreshToken);
                 }
                 break;

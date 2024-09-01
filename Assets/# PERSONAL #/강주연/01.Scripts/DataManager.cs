@@ -8,13 +8,13 @@ public class DataManager : MonoBehaviour
     public static DataManager instance;
 
     [Header("PropDataList")]
-    private List<HomeProps> propsList;
+    private List<ServerProp> propsList;
 
     [Header("AdventurePlaceList")]
-    private List<HomeAdventurePlace> adventurePlacesList;
+    private List<ServerAdventurePlace> adventurePlacesList;
 
     [Header("tourPlaceList")]
-    private List<HometourPlace> tourPlacesList;
+    private List<ServerTourInfo> tourPlacesList;
 
     [Header("currentGPS")]
     private LocationInfo gpsInfo;
@@ -28,6 +28,7 @@ public class DataManager : MonoBehaviour
     public List<string> testConnectin;
 
     // 박현섭
+    [HideInInspector] 
     public bool requestSuccess = false;
 
     #region notUse
@@ -52,37 +53,37 @@ public class DataManager : MonoBehaviour
     }
 
     //프랍리스트 설정하는 함수
-    public void SetHomePropsList(List<HomeProps> homeProps)
+    public void SetHomePropsList(List<ServerProp> homeProps)
     {
         propsList = homeProps;
     }
 
     //프랍리스트 얻는 함수
-    public List<HomeProps> GetHomePropsList()
+    public List<ServerProp> GetHomePropsList()
     {
         return propsList;
     }
 
     //탐험미탐험 장소 설정하는 함수
-    public void SetHomeAdventurePlaceList(List<HomeAdventurePlace> adventurePlaces)
+    public void SetHomeAdventurePlaceList(List<ServerAdventurePlace> adventurePlaces)
     {
         adventurePlacesList = adventurePlaces;
     }
 
     //탐험미탐험 장소 얻는 함수
-    public List<HomeAdventurePlace> GetHomeAdventurePlacesList()
+    public List<ServerAdventurePlace> GetHomeAdventurePlacesList()
     {
         return adventurePlacesList;
     }
 
     //관광정보 설정하는 함수
-    public void SetHometourPlaceList(List<HometourPlace> hometourPlaces)
+    public void SetHometourPlaceList(List<ServerTourInfo> hometourPlaces)
     {
         tourPlacesList = hometourPlaces;
     }
 
     //관광정보 얻는 함수
-    public List<HometourPlace> GetHometourPlacesList()
+    public List<ServerTourInfo> GetHometourPlacesList()
     {
         return tourPlacesList;
     }

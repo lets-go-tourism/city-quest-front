@@ -13,7 +13,7 @@ public class UserLocationUI : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector3 userPos = GPS.Instance.GetCurrentGPSPos();
+        Vector3 userPos = GPS.Instance.GetUserWorldPosition();
         m_RectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(userPos);
     }
 }

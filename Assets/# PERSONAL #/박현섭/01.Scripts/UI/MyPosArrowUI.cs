@@ -28,7 +28,7 @@ public class MyPosArrowUI : MonoBehaviour, IPointerDownHandler
 
     private void Update()
     {
-        Vector3 targetPos = GPS.Instance.GetCurrentGPSPos();
+        Vector3 targetPos = GPS.Instance.GetUserWorldPosition();
 
         if (VisibleInScreen(targetPos) == false) 
         {
