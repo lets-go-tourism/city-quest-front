@@ -39,6 +39,7 @@ public class SettingManager : MonoBehaviour
         {
             File.Delete(DataManager.instance.GetPathData());
         }
+        DataManager.instance.SetLoginData(null);
         logOutBtn.GetComponent<Image>().sprite = logOutButtonClick;
         logoutPopUp.SetActive(true);
     }
@@ -54,6 +55,7 @@ public class SettingManager : MonoBehaviour
 
     public void DeletePopUp()
     {
+        DataManager.instance.SetLoginData(null);
         deletePopUp.SetActive(true);
     }
 

@@ -94,29 +94,24 @@ public class KJY_UIManager : MonoBehaviour
         }
         else
         {
-            LoginResponse loginResponse = DataManager.instance.GetLoginData();
+            LoginCheck();
+        }
+    }
 
-            if (loginResponse.data.agreed != true)
-            {
-                isConfirmView = true;
-                kakaoBtn.SetActive(false);
-                authorizationObject.SetActive(true);
-            }
-            else if (Permission.HasUserAuthorizedPermission(Permission.FineLocation) == false || Permission.HasUserAuthorizedPermission(Permission.Camera) == false || Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS") == false) 
-            {
-                splash_onBoardObject.SetActive(false);
-                kakaoBtn.SetActive(false);
-                authorizationObject.SetActive(true);
-                isLogin = true;
-            }
-            else
-            {
-                //SceneMove();
-                kakaoBtn.SetActive(false); //TMP
-                splash_onBoardObject.SetActive(false); //TMP
-                kakaoBtn.SetActive(false); //TMP
-                KJY_ConnectionTMP.instance.OnClickHomeConnection();
-            }
+    public void LoginCheck()
+    {
+        if (Permission.HasUserAuthorizedPermission(Permission.FineLocation) == false || Permission.HasUserAuthorizedPermission(Permission.Camera) == false || Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS") == false)
+        {
+            splash_onBoardObject.SetActive(false);
+            kakaoBtn.SetActive(false);
+            authorizationObject.SetActive(true);
+            isLogin = true;
+        }
+        else
+        {
+            splash_onBoardObject.SetActive(false); //TMP
+            kakaoBtn.SetActive(false); //TMP
+            SceneMove();
         }
     }
 
