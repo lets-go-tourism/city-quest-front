@@ -47,6 +47,12 @@ public class CardPlaceInfo : MonoBehaviour
 
     public void SendPlaceInfo()
     {
+        for (int i = 0; i < BottomSheetManager.instance.contentTour.childCount; i++)
+        {
+            BottomSheetManager.instance.contentPlace.GetChild(i).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+        }
+        transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
+
         MapCameraController.Instance.StartCameraMoveToTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[this.ServerAdventurePlace].transform.position);
     }
 

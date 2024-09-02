@@ -66,6 +66,12 @@ public class CardTourInfo : MonoBehaviour
 
     public void SendTourInfo()
     {
+        for (int i = 0; i < BottomSheetManager.instance.contentTour.childCount; i++)
+        {
+            BottomSheetManager.instance.contentTour.GetChild(i).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+        }
+        transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
+
         MapCameraController.Instance.StartCameraMoveToTarget(TourDataController.Instance.TourInfoWordList[ServerTourInfo].transform.position);
     }
 
