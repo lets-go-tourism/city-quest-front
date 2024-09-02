@@ -78,7 +78,7 @@ public class tmpTouch : MonoBehaviour
         {
             touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Stationary)
             {
                 // UI 뚫고 GameObject 터치 제한
                 for (int i = 0; i < Input.touchCount; i++)
