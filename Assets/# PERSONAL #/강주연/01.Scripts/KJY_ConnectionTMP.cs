@@ -17,7 +17,15 @@ public class ImageSetting
 
 public class ImageResponse
 {
-    // Define your response fields here if needed
+    public DateTime timeStamp;
+    public string status;
+    public ImageData data;
+}
+
+public class ImageData
+{
+    public long completedQuestNo;
+    public string questImageUrl;
 }
 
 public class TryImageConnection : MonoBehaviour

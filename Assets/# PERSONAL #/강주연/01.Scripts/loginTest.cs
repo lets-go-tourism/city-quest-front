@@ -28,7 +28,6 @@ public class loginTest : MonoBehaviour
     public List<string> extractedValues;
     public LoginResponse loginData;
     public TextMeshProUGUI text;
-    public TextMeshProUGUI text2;
 
     public void ShowUrl()
     {
@@ -128,8 +127,9 @@ public class loginTest : MonoBehaviour
                     }
                     else
                     {
-                        KJY_UIManager.instance.ShownLoginSccuess();
+                        KJY_UIManager.instance.LoginCheck();
                     }
+                    GpmWebView.Close();
                 }
                 break;
             default:

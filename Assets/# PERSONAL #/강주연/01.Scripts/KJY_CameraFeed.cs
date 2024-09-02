@@ -31,7 +31,7 @@ public class CameraFeed : MonoBehaviour
     {
         rawImageTransform = webCamRawImage.rectTransform;
         originalPos = rawImageTransform.localPosition;
-        SetWebCam();
+        //SetWebCam();
         //StartCoroutine(Tutorial());
     }
 
