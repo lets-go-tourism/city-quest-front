@@ -94,18 +94,32 @@ public class loginTest : MonoBehaviour
                 break;
             case GpmWebViewCallback.CallbackType.ExecuteJavascript:
                 {
+                    if (data == null)
+                        return;
+
                     string cleanedString = data.Replace("\\\\\\", "");
                     extractedValues = ExtractStringsAndBooleans(cleanedString);
+
+                    print(extractedValues.Count + " °¹¼ö´Â");
+
+                    for (int i = 0; i < extractedValues.Count; i++)
+                    {
+                        print(i + "¹øÂ° " + extractedValues[i]);
+                    }
 
                     loginData = new LoginResponse();
                     loginData.data = new LoginData();
                     
                     loginData.timeStamp = DateTime.Now;
                     loginData.status = extractedValues[4];
+                    
                     loginData.data.accessToken = extractedValues[7];
                     loginData.data.refreshToken = extractedValues[9];
                     loginData.data.tokenType = extractedValues[11];
+                    print("////////////////");
                     loginData.data.agreed = bool.Parse(extractedValues[13]);
+
+                    print("///////////////////////////");
 
                     DataManager.instance.SetLoginData(loginData);
                     if (extractedValues[13] == "false")

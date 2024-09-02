@@ -277,7 +277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1307222331498457955}
   - component: {fileID: 5821982785078120967}
-  - component: {fileID: 4404102451427612751}
+  - component: {fileID: 4334858168792097568}
   m_Layer: 5
   m_Name: Picture
   m_TagString: Untagged
@@ -312,7 +312,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3380365880965159351}
   m_CullTransparentMesh: 1
---- !u!114 &4404102451427612751
+--- !u!114 &4334858168792097568
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

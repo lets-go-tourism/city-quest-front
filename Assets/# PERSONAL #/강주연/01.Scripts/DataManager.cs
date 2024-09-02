@@ -33,9 +33,6 @@ public class DataManager : MonoBehaviour
     [Header("SaveUserTokenData")]
     private string path;
 
-    [SerializeField] TextMeshProUGUI text1;
-    [SerializeField] TextMeshProUGUI text2;
-    [SerializeField] TextMeshProUGUI text3;
     #region notUse
     [Header("QuestList")]
     private List<QuestData> questDataList;
@@ -49,14 +46,16 @@ public class DataManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+            Destroy(this);
+
         path = Path.Combine(Application.persistentDataPath, "database.json");
         JsonLoad();
-    }
-
-    private void Start()
-    {
-        //KJY_ConnectionTMP.instance.OnClickHomeConnection();
     }
 
     public void JsonLoad()
@@ -86,7 +85,6 @@ public class DataManager : MonoBehaviour
     public void SetHomePropsList(List<ServerProp> homeProps)
     {
         propsList = homeProps;
-        text1.text = "propSuccess";
     }
 
     //프랍리스트 얻는 함수
@@ -99,7 +97,6 @@ public class DataManager : MonoBehaviour
     public void SetHomeAdventurePlaceList(List<ServerAdventurePlace> adventurePlaces)
     {
         adventurePlacesList = adventurePlaces;
-        text2.text = "adventrueSucess";
     }
 
     //탐험미탐험 장소 얻는 함수
@@ -112,7 +109,6 @@ public class DataManager : MonoBehaviour
     public void SetHometourPlaceList(List<ServerTourInfo> hometourPlaces)
     {
         tourPlacesList = hometourPlaces;
-        text2.text = "tourSucess";
     }
 
     //관광정보 얻는 함수
@@ -148,7 +144,7 @@ public class DataManager : MonoBehaviour
     public void SetLoginData(LoginResponse loginData)
     {
         this.loginData = loginData;
-        JsonSave();
+        HttpManager.instance.loginData = loginData;
     }
 
     public LoginResponse GetLoginData()

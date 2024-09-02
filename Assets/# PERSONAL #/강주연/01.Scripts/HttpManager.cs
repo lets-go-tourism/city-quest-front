@@ -97,6 +97,7 @@ public class HttpManager : MonoBehaviour
                 {
                     request.SetRequestHeader("Content-Type", "application/json");
                     request.SetRequestHeader("Authorization", loginData.data.accessToken);
+                    //request.SetRequestHeader("Authorization", test);
                 }
                 break;
         }

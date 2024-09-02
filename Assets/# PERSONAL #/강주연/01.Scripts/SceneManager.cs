@@ -25,7 +25,7 @@ public class SceneManager : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(num);
         if (num == 1)
         {
-            KJY_ConnectionTMP.instance.OnClickHomeConnection();
+            //KJY_ConnectionTMP.instance.OnClickHomeConnection();
         }
     }
 

@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class CardPlaceInfo : MonoBehaviour
@@ -28,9 +31,11 @@ public class CardPlaceInfo : MonoBehaviour
         }
         else
         {
-            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
-            info[2].GetComponent<RawImage>().texture = myTexture;
+            //texture.Compress(false);
+            //texture.Apply(false, true);
+            info[2].GetComponent<RawImage>().texture = texture;
         }
     }
 
