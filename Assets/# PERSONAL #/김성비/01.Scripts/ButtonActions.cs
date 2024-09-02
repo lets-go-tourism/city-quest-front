@@ -34,22 +34,20 @@ public class ButtonActions : MonoBehaviour
     // 태그 스프라이트 및 내용 바꾸기
     public void ChangeBottomSheet(int num)
     {
-        // 장소 팝업 세팅
+        // 장소 탭
         if (num == 0)
         {
             Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
             Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
             bs_Tour.gameObject.SetActive(false);
-            //SortingBottomSheet.instance.SortingPlace();
         }
 
-        // 관광정보 팝업 세팅
+        // 관광정보 탭
         if (num == 1)
         {
             Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
             Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
             bs_Tour.gameObject.SetActive(true);
-            //SortingBottomSheet.instance.SortingTour();
         }
     }
 }
