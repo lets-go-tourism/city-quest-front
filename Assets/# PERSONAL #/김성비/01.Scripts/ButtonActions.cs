@@ -13,18 +13,8 @@ public class ButtonActions : MonoBehaviour
 
     public void DoAction(int no)
     {
-        // 탐험/미탐험 지역 팝업창 끄기
-        if (no == 0)
-        {
-            Props_UI.instance.PropsUISetting(false, 0);
-
-            // 프랍을 터치할 수 있도록!!
-            for (int i = 0; i < Props_UI.instance.props.Length; i++)
-                Props_UI.instance.props[i].GetComponent<BoxCollider>().enabled = true;
-        }
-
         // 사진 찍으러 가기
-        else if (no == 1)
+        if (no == 1)
         {
             //Props_UI.instance.PropsUISetting(false, 0);
             Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);

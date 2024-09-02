@@ -4,8 +4,8 @@ using UnityEngine.UI;
 public class Props_UI : MonoBehaviour
 {
     // º¯¼ö
-    public Canvas canvasPopUpNO;    // ÆË¾÷ ¹ÌÅ½Çè
-    public Canvas canvasPopUpYES;   // ÆË¾÷ Å½Çè
+    public Canvas canvasProp;       // [¹Ì]Å½Çè ÆË¾÷Ã¢
+    public Canvas canvasTour;       // °ü±¤Á¤º¸ ÆË¾÷Ã¢
     public Canvas CanvasCamera;     // Äµ¹ö½º Ä«¸Þ¶ó
 
     public Transform[] props;       // Áöµµ À§ ÇÁ¶øµé
@@ -17,36 +17,5 @@ public class Props_UI : MonoBehaviour
     void Awake()
     {
         instance = this;
-    }
-
-    // UI On/Off 
-    // 0 : ÀüºÎ ²ô±â , 1 : Å½ÇèÀå¼Ò , 2 : ¹ÌÅ½ÇèÀå¼Ò
-    public void PropsUISetting(bool isOpen, int state)   
-    {
-        if (state == 1)
-        {
-            // Äµ¹ö½º È°¼ºÈ­
-            canvasPopUpYES.enabled = isOpen;  // Å½ÇèÀå¼Ò ÆË¾÷Ã¢
-            canvasPopUpNO.enabled = !isOpen;
-
-            // ¼¼ÆÃ
-        }
-        else if (state == 2)
-        {
-            // Äµ¹ö½º È°¼ºÈ­
-            canvasPopUpNO.enabled = isOpen;   // ¹ÌÅ½ÇèÀå¼Ò ÆË¾÷Ã¢
-            canvasPopUpYES.enabled = !isOpen;
-
-            // ¼¼ÆÃ
-        }
-        else
-        {
-            canvasPopUpNO.enabled = isOpen;
-            canvasPopUpYES.enabled = isOpen;
-        }
-
-        // 3D ¸ðµ¨¸µ        
-        propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-        propModeling.gameObject.SetActive(isOpen);
     }
 }
