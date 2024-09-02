@@ -103,10 +103,10 @@ public class MapCameraController : MonoBehaviour
             CameraMoveToTarget();
         }
 
-        if (m_Audio && m_AudioSource.isPlaying == false)
-            m_AudioSource.Play();
-        else
-            m_AudioSource.Stop();
+        //if (m_Audio && m_AudioSource.isPlaying == false)
+        //    m_AudioSource.Play();
+        //else
+        //    m_AudioSource.Stop();
     }
 
 

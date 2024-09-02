@@ -9883,7 +9883,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waterMaterial: {fileID: 2100000, guid: 473a78d72d94910438b36355fba9c1b2, type: 2}
   forestMaterial: {fileID: 2100000, guid: 2b14de9c8671179448342cdbf2b56f85, type: 2}
-  go: {fileID: 0}
 --- !u!1 &204931341
 GameObject:
   m_ObjectHideFlags: 0
@@ -101442,8 +101441,7 @@ MonoBehaviour:
   _orthoMin: 500
   _orthoMax: 100
   _interpolationStep: 0.2
-  rallBack: 0
-  rallbackSpeed: 1
+  m_MoveSpeed: 1
 --- !u!43 &2027097131
 Mesh:
   m_ObjectHideFlags: 0
@@ -106661,6 +106659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3cb79b5f800cd741a3a2839465e9eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  test: 
 --- !u!114 &2146376606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106700,7 +106699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939af8a19919a8c45a4530dd606dcbf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: []
   text: {fileID: 0}
   requestHttp: {fileID: 0}
   requestHeaderHttp: 0
