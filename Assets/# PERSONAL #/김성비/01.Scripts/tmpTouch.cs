@@ -33,18 +33,30 @@ public class tmpTouch : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.touchCount > 0)
         {
-            point.position = Input.mousePosition;
+            touch = Input.GetTouch(0);
+            point.position = touch.position;
             List<RaycastResult> results = new List<RaycastResult>();
             raycaster.Raycast(point, results);
 
-            foreach(RaycastResult r in results) 
+            foreach (RaycastResult r in results)
             {
                 if (r.gameObject.CompareTag("BottomSheet") && BottomSheetMovement.instance.state == BottomSheetMovement.State.DOWN)
                 {
-                    BottomSheetMovement.instance.MoveUP();
+                    if (GetComponent<PopUpMovement>().placeState == PopUpMovement.PlaceState.UP || GetComponent<PopUpMovement>().tourState == PopUpMovement.TourState.UP)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        BottomSheetMovement.instance.MoveUP();
+                    }
                 }
+                //else if (r.gameObject.CompareTag("Quest"))
+                //{
+                //    print("dfkjslkfjsdlkfsdl");
+                //}
                 //else if(r.gameObject.CompareTag("CardPlace") && BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
                 //{
                 //    print(r.gameObject.transform.parent);
@@ -96,7 +108,7 @@ public class tmpTouch : MonoBehaviour
                 }
 
                 // 관광정보 프랍을 터치했을 때
-                else if(Physics.Raycast(ray, out hit, layerTour))
+                else if (Physics.Raycast(ray, out hit, layerTour))
                 {
                     DataManager.instance.requestSuccess = false;
 

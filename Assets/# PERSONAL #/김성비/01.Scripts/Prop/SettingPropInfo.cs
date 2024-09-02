@@ -4,8 +4,8 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
 using System;
-using static System.Net.Mime.MediaTypeNames;
-using System.Collections.Generic;
+using Unity.VisualScripting;
+
 
 public class SettingPropInfo : MonoBehaviour
 {
@@ -65,6 +65,8 @@ public class SettingPropInfo : MonoBehaviour
         Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4);
         yield return StartCoroutine(nameof(GetTexture), parameters);
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
+        SettingPropContent.instance.content[6].GetChild(0).GetComponent<Image>().sprite = SettingPropContent.instance.content[6].GetComponent<SpritesHolder>().sprites[0];
+        SettingPropContent.instance.content[6].GetChild(0).GetComponent<Button>().enabled = true;
 
         // ÆË¾÷Ã¢ ¿­±â
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
