@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class TourDataController : MonoBehaviour
 {
-    public Dictionary<long, ServerTourInfo> HomeTourPlaceDic { get; private set; } = new Dictionary<long, ServerTourInfo>();
+    public Dictionary<long, ServerTourInfo> ServerTourInfoDic { get; private set; } = new Dictionary<long, ServerTourInfo>();
+
+
+    // 오른쪽에 ContentTypeId를 적어놓았다
+    [SerializeField] private GameObject m_tourSpotPref; // 관광지 12
+    [SerializeField] private GameObject m_culturalSpotPref; // 문화시설 14
+    [SerializeField] private GameObject m_eventSpotPref; // 축제/공연/행사 15
+    [SerializeField] private GameObject m_travelCorseSpotPref; // 여행코스 25
+    [SerializeField] private GameObject m_sportSpotPref; // 레저 / 스포츠 28
+    [SerializeField] private GameObject m_accommodationSpotPref; // 숙박 32
+    [SerializeField] private GameObject m_shoppingSpotPref; // 쇼핑 38
+    [SerializeField] private GameObject m_foodSpotPref; // 음식 39
 
     private IEnumerator Start()
     {
@@ -17,25 +28,29 @@ public class TourDataController : MonoBehaviour
 
         for(int i = 0; i < tourList.Count; i++)
         {
-            //
+            GameObject obj = null;
+            switch (tourList[i].contenttypeid)
+            {
+                case "12": obj = Instantiate(m_tourSpotPref, transform); break;
+                case "14": obj = Instantiate(m_culturalSpotPref, transform); break;
+                case "15": obj = Instantiate(m_eventSpotPref, transform); break;
+                case "25": obj = Instantiate(m_travelCorseSpotPref, transform); break;
+                case "28": obj = Instantiate(m_sportSpotPref, transform); break;
+                case "32": obj = Instantiate(m_accommodationSpotPref, transform); break;
+                case "38": obj = Instantiate(m_shoppingSpotPref, transform); break;
+                case "39": obj = Instantiate(m_foodSpotPref, transform); break;
+            }
+
+            if (obj == null)
+                Debug.Log("컨텐츠 타입이 잘못되었습니다");
+
+            float x = (float)MercatorProjection.lonToX(double.Parse(tourList[i].longitude));
+            float y = (float)MercatorProjection.latToY(double.Parse(tourList[i].latitude));
+
+            Vector3 objPosition = new Vector3(x, 0, y) - MapReader.Instance.boundsCenter;
+            obj.transform.position = objPosition;
+
+            obj.GetComponent<TourData>().StartSetting(tourList[i]);
         }
-
-        //PropList = DataManager.instance.GetHomePropsList();
-        //List<HomeAdventurePlace> placeList = DataManager.instance.GetHomeAdventurePlacesList();
-
-        //for (int i = 0; i < PropList.Count; i++)
-        //{
-        //    PropDic.Add(PropList[i].propNo, PropList[i]);
-        //}
-
-        //for (int i = 0; i < placeList.Count; i++)
-        //{
-        //    AdventurePlaceDic.Add(placeList[i].adventureNo, placeList[i]);
-        //}
-
-        //for (int i = 0; i < PropList.Count; i++)
-        //{
-        //    CreateProp(PropList[i], AdventurePlaceDic[PropList[i].propNo]);
-        //}
     }
 }

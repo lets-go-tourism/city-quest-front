@@ -399,8 +399,8 @@ public class KJY_ConnectionTMP : MonoBehaviour
         //LocationInfo info = DataManager.instance.GetGPSInfo();
         //setting.latitude = info.latitude;
         //setting.longitude = info.longitude;
-        setting.latitude = 37.566826;
-        setting.longitude = 126.9786567;
+        setting.latitude = 37.282649;
+        setting.longitude = 127.016415;
         setting.url = "http://43.203.101.31:8080/api/v1/home?" + "lon=" + setting.longitude + "&lat=" + setting.latitude;
 
         TryHomeConnection homeConnection = new TryHomeConnection(setting);

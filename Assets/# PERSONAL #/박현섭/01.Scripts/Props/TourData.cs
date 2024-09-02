@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class TourData : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public ServerTourInfo ServerTourInfo { get; private set; }
+
+    public void StartSetting(ServerTourInfo serverTourInfo)
     {
-        
+        this.ServerTourInfo = serverTourInfo;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

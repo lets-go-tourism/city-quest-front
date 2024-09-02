@@ -11,9 +11,19 @@ public class PropsController : MonoBehaviour
 
     [SerializeField] private GameObject propPref;
 
+    public Dictionary<long, GameObject> PropMeshDic { get; private set; } = new Dictionary<long, GameObject>();
+
 
     private IEnumerator Start()
     {
+        PropMeshDic.Add(1, (GameObject)Resources.Load("PropMeshData/SM_Crane"));
+        PropMeshDic.Add(3, (GameObject)Resources.Load("PropMeshData/SM_Pasta"));
+        PropMeshDic.Add(4, (GameObject)Resources.Load("PropMeshData/SM_Churros"));
+        PropMeshDic.Add(5, (GameObject)Resources.Load("PropMeshData/SM_coffee"));
+        PropMeshDic.Add(7, (GameObject)Resources.Load("PropMeshData/SM_PalDGate"));
+        PropMeshDic.Add(8, (GameObject)Resources.Load("PropMeshData/SM_HhongGate"));
+        PropMeshDic.Add(19, (GameObject)Resources.Load("PropMeshData/SM_Kbow"));
+
         while (DataManager.instance.requestSuccess == false)
         {
             yield return null;
@@ -44,8 +54,11 @@ public class PropsController : MonoBehaviour
         GameObject obj = Instantiate(propPref, this.transform);
         Prop objProp = obj.GetComponent<Prop>();
         
+        //GameObject propMesh = Resources.Load("PropMeshData/SM_" + )
         // 프랍에 프랍 데이터를 넣어줌
-        objProp.Init(propData, homeAdventurePlace);
+
+        GameObject meshProp = PropMeshDic.ContainsKey(propData.propNo) ? PropMeshDic[propData.propNo] : PropMeshDic[1];
+        objProp.Init(propData, homeAdventurePlace, meshProp);
         
         // 프랍의 월드 좌표를 구함
         float x = (float)MercatorProjection.lonToX(propData.longitude);

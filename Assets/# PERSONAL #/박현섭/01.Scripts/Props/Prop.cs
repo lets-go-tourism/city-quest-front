@@ -10,8 +10,8 @@ public class Prop : MonoBehaviour
     public ServerProp PropData { get; private set; }
     public ServerAdventurePlace HomeAdventurePlaceData { get; private set; }
 
-    public GameObject PropObj { get { return propObj; } private set { propObj = value; } }
-    [SerializeField] private GameObject propObj;
+    public GameObject PropObj { get { return propGO; } private set { propGO = value; } }
+    [SerializeField] private GameObject propGO;
 
     public float OffsetY { get; private set; } = -25f;
 
@@ -25,14 +25,14 @@ public class Prop : MonoBehaviour
 
             if(value)
             {
-                propObj.SetActive(true);
+                propGO.SetActive(true);
                 MapUIController.Instance.NameTagContainer.AddTarget(this);
                 if(PropData.status)
                     CloudContainer.Instance.AddTarget(this);
             }
             else
             {
-                propObj.SetActive(false);
+                propGO.SetActive(false);
                 MapUIController.Instance.NameTagContainer.RemoveTarget(this);
                 CloudContainer.Instance.RemoveTarget(this);
             }
@@ -42,16 +42,17 @@ public class Prop : MonoBehaviour
 
     public MeshFilter MeshFilter { get; private set; }
 
-    public void Init(ServerProp propData, ServerAdventurePlace homeAdventurePlace)
+    public void Init(ServerProp propData, ServerAdventurePlace homeAdventurePlace, GameObject propGO)
     {
         this.PropData = propData;
         this.HomeAdventurePlaceData = homeAdventurePlace;
+        this.propGO = Instantiate(propGO, transform);
     }
 
     private void Start()
     {
-        MeshFilter = propObj.GetComponent<MeshFilter>();
-        propObj.SetActive(false);
+        MeshFilter = propGO.GetComponent<MeshFilter>();
+        propGO.SetActive(false);
         originPos = transform.position;
     }
 

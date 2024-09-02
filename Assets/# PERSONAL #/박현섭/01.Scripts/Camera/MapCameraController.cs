@@ -134,7 +134,7 @@ public class MapCameraController : MonoBehaviour
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
             time = 0;
-            BottomSheetMovement.instance.MoveDOWN();
+            //BottomSheetMovement.instance.MoveDOWN();
 
             Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
 
@@ -287,6 +287,11 @@ public class MapCameraController : MonoBehaviour
 
         _panVelocity = Vector2.zero;
         transform.position = Vector3.Lerp(transform.position, GPS.Instance.GetUserWorldPosition() + new Vector3(0, _cameraToMove.transform.position.y, 0), Time.deltaTime * rallbackSpeed);
+    }
+
+    public void StartCameraMoveToTarget(Vector3 targetPos)
+    {
+
     }
 
     /// <summary> 
