@@ -15,6 +15,8 @@ public class CardPlaceInfo : MonoBehaviour
     }
     public Type type;
 
+    public ServerAdventurePlace ServerAdventurePlace { get; private set; }
+
     public IEnumerator GetTexture(string url)
     {
 
@@ -38,9 +40,14 @@ public class CardPlaceInfo : MonoBehaviour
         else if (!reveal) { type = Type.UNREVEAL; }
     }
 
+    public void SetServerProp(ServerAdventurePlace prop)
+    {
+        this.ServerAdventurePlace = prop;
+    }
+
     public void SendPlaceInfo()
     {
-        print("SendPlaceInfo");
+        MapCameraController.Instance.StartCameraMoveToTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[this.ServerAdventurePlace].transform.position);
     }
 
     ///public class HomeAdventurePlace

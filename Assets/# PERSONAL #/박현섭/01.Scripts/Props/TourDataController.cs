@@ -4,7 +4,19 @@ using UnityEngine;
 
 public class TourDataController : MonoBehaviour
 {
+    public static TourDataController Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
+
+
     public Dictionary<long, ServerTourInfo> ServerTourInfoDic { get; private set; } = new Dictionary<long, ServerTourInfo>();
+    public Dictionary<ServerTourInfo, TourData> TourInfoWordList { get; private set; } = new Dictionary<ServerTourInfo, TourData>();
 
 
     // 오른쪽에 ContentTypeId를 적어놓았다
@@ -50,6 +62,7 @@ public class TourDataController : MonoBehaviour
             Vector3 objPosition = new Vector3(x, 0, y) - MapReader.Instance.boundsCenter;
             obj.transform.position = objPosition;
 
+            TourInfoWordList.Add(tourList[i], obj.GetComponent<TourData>());
             obj.GetComponent<TourData>().StartSetting(tourList[i]);
         }
     }

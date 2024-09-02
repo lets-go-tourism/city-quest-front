@@ -219,6 +219,7 @@ public class QuestResponse
     public QuestData data;
 }
 
+[System.Serializable]
 public class QuestData
 {
     public string locationName;
@@ -275,6 +276,7 @@ public class TryQuestConnection:ConnectionStratage
         if (response.status == "OK")
         {
             DataManager.instance.SetQuestInfo(response.data);
+            DataManager.instance.requestSuccess = true;
         }
     }
 }

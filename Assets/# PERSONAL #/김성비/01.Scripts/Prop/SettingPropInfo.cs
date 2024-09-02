@@ -32,18 +32,23 @@ public class SettingPropInfo : MonoBehaviour
 
     // 수정할 것
     //public void PropInfoSetting(Prop prop)
-    public void PropInfoSetting()
+    public IEnumerator PropInfoSetting()
     {
-        //if (DataManager.instance.GetQuestInfo().status)
-        //{
+        while(DataManager.instance.requestSuccess == false)
+        {
+            yield return null;
+        }
+
+        if (DataManager.instance.GetQuestInfo().status)
+        {
             StopCoroutine(SettingNO());
             StartCoroutine(SettingYES());
-        //}
-        //else
-        //{
-            //StopCoroutine(SettingYES());
-            //StartCoroutine(SettingNO());
-        //}
+        }
+        else
+        {
+            StopCoroutine(SettingYES());
+            StartCoroutine(SettingNO());
+        }
     }
 
 
@@ -60,7 +65,7 @@ public class SettingPropInfo : MonoBehaviour
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().addr);
         Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4);
         yield return StartCoroutine(nameof(GetTexture), parameters);
-        SettingPropContent.instance.content[6].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
+        SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
 
         // UI 활성화
         Props_UI.instance.canvasProp.enabled = true;
@@ -75,17 +80,17 @@ public class SettingPropInfo : MonoBehaviour
         // 컨텐트 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingYES));
 
-        print(DataManager.instance.GetQuestInfo().locationName);
+        //print(DataManager.instance.GetQuestInfo().locationName);
 
-        //// 데이터 세팅 : 모델링, 장소명, 방문날짜, 주소명, 퀘스트사진, 장소사진 => 6가지
-        ////Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
-        //SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName;
-        //SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().date.ToString("MM월 dd일");
-        //SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().addr);
-        //Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4);
-        //yield return StartCoroutine(GetTexture(parameters));
-        //parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5);
-        //yield return StartCoroutine(GetTexture(parameters));
+        // 데이터 세팅 : 모델링, 장소명, 방문날짜, 주소명, 퀘스트사진, 장소사진 => 6가지
+        //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
+        SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName;
+        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().date.ToString("MM월 dd일");
+        SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().addr);
+        Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4);
+        yield return StartCoroutine(GetTexture(parameters));
+        parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5);
+        yield return StartCoroutine(GetTexture(parameters));
 
         // UI 활성화
         Props_UI.instance.canvasProp.enabled = true;

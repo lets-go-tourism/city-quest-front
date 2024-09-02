@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class PropsController : MonoBehaviour
 {
+    public static PropsController Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
+
     public Dictionary<long, ServerProp> PropDic { get; private set; } = new Dictionary<long, ServerProp>();
     public List<ServerProp> PropList { get; private set; } = new List<ServerProp>();
 
     public Dictionary<long, ServerAdventurePlace> AdventurePlaceDic { get; private set; } = new Dictionary<long, ServerAdventurePlace>();
+    public Dictionary<ServerAdventurePlace, Prop> ServerAdventurePlaceWorldDic { get; private set; } = new Dictionary<ServerAdventurePlace, Prop>();
 
     [SerializeField] private GameObject propPref;
 
@@ -53,7 +64,9 @@ public class PropsController : MonoBehaviour
     {
         GameObject obj = Instantiate(propPref, this.transform);
         Prop objProp = obj.GetComponent<Prop>();
-        
+
+        ServerAdventurePlaceWorldDic.Add(homeAdventurePlace, objProp);
+
         //GameObject propMesh = Resources.Load("PropMeshData/SM_" + )
         // 프랍에 프랍 데이터를 넣어줌
 

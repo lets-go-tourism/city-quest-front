@@ -22,6 +22,8 @@ public class CardTourInfo : MonoBehaviour
     }
     public Type type;
 
+    public ServerTourInfo ServerTourInfo { get; private set; }
+
     // 이미지 세팅
     public IEnumerator GetTexture(string url)
     {
@@ -56,9 +58,15 @@ public class CardTourInfo : MonoBehaviour
         else if (no == 39)  { type = Type.Food; }
     }
 
+
+    public void InputTourList(ServerTourInfo serverTourInfo)
+    {
+        this.ServerTourInfo = serverTourInfo;
+    }
+
     public void SendTourInfo()
     {
-        print("SendTourInfo");
+        MapCameraController.Instance.StartCameraMoveToTarget(TourDataController.Instance.TourInfoWordList[ServerTourInfo].transform.position);
     }
 
     //string TypeConvert(string str)

@@ -28,7 +28,6 @@ public class DataManager : MonoBehaviour
     public List<string> testConnectin;
 
     // ¹ÚÇö¼·
-    [HideInInspector] 
     public bool requestSuccess = false;
 
     #region notUse

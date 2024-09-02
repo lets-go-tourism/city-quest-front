@@ -88,15 +88,16 @@ public class tmpTouch : MonoBehaviour
                     Prop prop = hit.collider.GetComponent<Prop>();
 
                     // 그 스크립트 중에 Adventure No 를 서버에 쏘기
+                    DataManager.instance.requestSuccess = false;
                     KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
-                    SettingPropInfo.instance.PropInfoSetting();
+                    SettingPropInfo.instance.StartCoroutine(nameof(SettingPropInfo.instance.PropInfoSetting));
 
                     // 아래 코드 삭제하기
                     //SettingPropInfo.instance.PropInfoSetting(hit.transform.GetComponent<Prop>());
 
                     // 더 이상 프랍을 터치할 수 없도록!!
-                    for (int i = 0; i < Props_UI.instance.props.Length; i++)
-                        Props_UI.instance.props[i].GetComponent<BoxCollider>().enabled = false;
+                    //for (int i = 0; i < Props_UI.instance.props.Length; i++)
+                    //    Props_UI.instance.props[i].GetComponent<BoxCollider>().enabled = false;
                 }
             }
         }

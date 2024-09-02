@@ -59,6 +59,7 @@ public class BottomSheetManager : MonoBehaviour
             cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(placeList[i].distance);
             cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), placeList[i].imageUrl);
             cardinfo.SettingPlaceType(placeList[i].status);
+            cardinfo.SetServerProp(placeList[i]);
         }
 
         // 관광정보 카드 생성
@@ -73,6 +74,7 @@ public class BottomSheetManager : MonoBehaviour
             cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
             //cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
             cardinfo.SettingTourType(tourList[i].contenttypeid);
+            cardinfo.InputTourList(tourList[i]);
         }
 
         // 문자열 변환
