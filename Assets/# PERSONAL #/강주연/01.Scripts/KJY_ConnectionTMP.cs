@@ -425,7 +425,8 @@ public class TryConfirmConnection : ConnectionStratage
 }
 #endregion
 
-#region
+#region DeleteAccountConnection
+
 [System.Serializable]
 public class DeleteSetting
 {
@@ -487,7 +488,7 @@ public class TryDeleteConnection : ConnectionStratage
         if (response.status == "OK")
         {
             //첫씬으로돌아가고 토큰 파일도 없애버리고 DataManager도 완전 다시하게해야함
-            //DataManager.instance.SetQuestInfo(response.data);
+            SettingManager.instance.DeletePopUp();
         }
     }
 }

@@ -152,6 +152,10 @@ public class DataManager : MonoBehaviour
         return loginData;
     }
 
+    public string GetPathData()
+    {
+        return path;
+    }
 
     #region notUse
     //public void SetAllQuestList(List<QuestData> list)
