@@ -520,6 +520,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   extractedValues: []
+  text: {fileID: 1301999119}
+  text2: {fileID: 0}
 --- !u!1 &305565747
 GameObject:
   m_ObjectHideFlags: 0

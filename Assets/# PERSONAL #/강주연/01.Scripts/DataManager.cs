@@ -148,7 +148,7 @@ public class DataManager : MonoBehaviour
     public void SetLoginData(LoginResponse loginData)
     {
         this.loginData = loginData;
-        JsonSave();
+        HttpManager.instance.loginData = loginData;
     }
 
     public LoginResponse GetLoginData()
@@ -156,6 +156,10 @@ public class DataManager : MonoBehaviour
         return loginData;
     }
 
+    public string GetPathData()
+    {
+        return path;
+    }
 
     #region notUse
     //public void SetAllQuestList(List<QuestData> list)
