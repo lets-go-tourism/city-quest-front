@@ -72280,6 +72280,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1899770014357786433, guid: 784efb17008e6c54aa507daac1c82b07,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -60.00049
+      objectReference: {fileID: 0}
     - target: {fileID: 1931767705999083334, guid: 784efb17008e6c54aa507daac1c82b07,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -106461,10 +106466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3cb79b5f800cd741a3a2839465e9eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginData:
-    accessToken: 
-    refreshToken: 
-    tokenType: 
 --- !u!114 &2146376606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106504,7 +106505,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939af8a19919a8c45a4530dd606dcbf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  test: []
   text: {fileID: 0}
+  requestHttp: {fileID: 0}
+  requestHeaderHttp: 0
 --- !u!4 &2146376609
 Transform:
   m_ObjectHideFlags: 0
