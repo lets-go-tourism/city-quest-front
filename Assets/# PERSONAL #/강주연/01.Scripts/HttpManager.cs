@@ -25,6 +25,7 @@ public class HttpManager : MonoBehaviour
     public static HttpManager instance;
     private RequestHeader headerState = RequestHeader.login;
     public LoginResponse loginData = null;
+    public string test;
 
     // 박현섭
     public bool RequestSuccess { get; private set; } = false;
@@ -69,8 +70,7 @@ public class HttpManager : MonoBehaviour
                 if (headerState == RequestHeader.other)
                 {
                     request.SetRequestHeader("Content-Type", "application/json");
-                    //request.SetRequestHeader("Authorization", "Bearer " + loginData.data.accessToken);
-                    //request.SetRequestHeader("RefreshToken", "Bearer " + loginData.data.refreshToken);
+                    request.SetRequestHeader("Authorization", loginData.data.accessToken);
                 }
                 break;
 
@@ -96,8 +96,7 @@ public class HttpManager : MonoBehaviour
                 if (headerState == RequestHeader.other)
                 {
                     request.SetRequestHeader("Content-Type", "application/json");
-                    //request.SetRequestHeader("Authorization", "Bearer " + loginData.data.accessToken);
-                    //request.SetRequestHeader("RefreshToken", "Bearer " + loginData.data.refreshToken);
+                    request.SetRequestHeader("Authorization", loginData.data.accessToken);
                 }
                 break;
         }
@@ -114,7 +113,7 @@ public class HttpManager : MonoBehaviour
         }
         else
         {
-            SendRequest(KJY_ConnectionTMP.instance.requestHttp, KJY_ConnectionTMP.instance.requestHeaderHttp);
+            //SendRequest(KJY_ConnectionTMP.instance.requestHttp, KJY_ConnectionTMP.instance.requestHeaderHttp);
             print("요청 실패");
             print(request.downloadHandler.text);
             print(request.error);

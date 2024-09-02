@@ -200,6 +200,7 @@ public class TryHomeConnection : ConnectionStratage
 #endregion
 
 #region QuestConnection
+
 [System.Serializable]
 public class QuestSetting
 {
@@ -355,18 +356,161 @@ public class TryQuestConnection:ConnectionStratage
 //}
 #endregion
 
+#region ConfimrConnection
+[System.Serializable]
+public class ConfirmSetting
+{
+    public string url;
+}
+
+public class ConfirmRequest
+{
+    private string url;
+}
+
+[System.Serializable]
+public class ConfirmResponse
+{
+    public DateTime timeStamp;
+    public string status;
+    public string data;
+}
+
+public class TryConfirmConnection : ConnectionStratage
+{
+    private string url;
+
+    public TryConfirmConnection(ConfirmSetting setting)
+    {
+        this.url = setting.url;
+
+        CreateJson();
+    }
+
+    private void CreateJson()
+    {
+        ConfirmRequest request = new ConfirmRequest();
+
+        string jsonData = JsonUtility.ToJson(request);
+        OnGetRequest(jsonData);
+    }
+
+    private void OnGetRequest(string jsonData)
+    {
+        HttpRequester request = new HttpRequester();
+
+        Debug.Log(this.url);
+        request.Setting(RequestType.POST, this.url);
+        request.body = jsonData;
+        request.complete = Complete;
+
+        KJY_ConnectionTMP.instance.requestHttp = request;
+        KJY_ConnectionTMP.instance.requestHeaderHttp = RequestHeader.other;
+        HttpManager.instance.SendRequest(request, RequestHeader.other);
+    }
+
+    private void Complete(DownloadHandler result)
+    {
+        ConfirmResponse response = new ConfirmResponse();
+        response = JsonUtility.FromJson<ConfirmResponse>(result.text);
+
+        if (response.status == "OK")
+        {
+            //UI넘어가는거 호출해주기
+            KJY_UIManager.instance.OnClickConfirmButton();
+        }
+    }
+}
+#endregion
+
+#region
+[System.Serializable]
+public class DeleteSetting
+{
+    public string url;
+}
+
+public class DeleteRequest
+{
+    private string url;
+}
+
+[System.Serializable]
+public class DeleteResponse
+{
+    public DateTime timeStamp;
+    public string status;
+    public string data;
+}
+
+public class TryDeleteConnection : ConnectionStratage
+{
+    private string url;
+
+    public TryDeleteConnection(DeleteSetting setting)
+    {
+        this.url = setting.url;
+
+        CreateJson();
+    }
+
+    private void CreateJson()
+    {
+        DeleteRequest request = new DeleteRequest();
+
+        string jsonData = JsonUtility.ToJson(request);
+        OnGetRequest(jsonData);
+    }
+
+    private void OnGetRequest(string jsonData)
+    {
+        HttpRequester request = new HttpRequester();
+        
+
+        Debug.Log(this.url);
+        request.Setting(RequestType.POST, this.url);
+        request.body = jsonData;
+        request.complete = Complete;
+
+        KJY_ConnectionTMP.instance.requestHttp = request;
+        KJY_ConnectionTMP.instance.requestHeaderHttp = RequestHeader.other;
+        HttpManager.instance.SendRequest(request, RequestHeader.other);
+    }
+
+    private void Complete(DownloadHandler result)
+    {
+        DeleteResponse response = new DeleteResponse();
+        response = JsonUtility.FromJson<DeleteResponse>(result.text);
+
+        if (response.status == "OK")
+        {
+            //첫씬으로돌아가고 토큰 파일도 없애버리고 DataManager도 완전 다시하게해야함
+            //DataManager.instance.SetQuestInfo(response.data);
+        }
+    }
+}
+#endregion
+
 public class KJY_ConnectionTMP : MonoBehaviour
 {
     public static KJY_ConnectionTMP instance;
 
-    public List<string> test;
     [SerializeField] private GameObject text;
     public HttpRequester requestHttp;
     public RequestHeader requestHeaderHttp;
 
+
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(instance);
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     public void OnClickTest(Texture2D texture, int questNo)//카메라 통신하는 정보
@@ -415,6 +559,22 @@ public class KJY_ConnectionTMP : MonoBehaviour
         TryQuestConnection questConnection = new TryQuestConnection(setting);
     }
 
+    public void OnConnectionConfirm()
+    {
+        ConfirmSetting setting = new ConfirmSetting();
+        setting.url = "letsgotour.store/auth/terms";
+
+        TryConfirmConnection confirmConnection = new TryConfirmConnection(setting);
+    }
+
+    public void OnConnectionDelete()
+    {
+        DeleteSetting setting = new DeleteSetting();
+        setting.url = "letsgotour.store/auth/unlink";
+
+        TryDeleteConnection confirmConnection = new TryDeleteConnection(setting);
+    }
+
     //public void OnConnectionLogin()
     //{
     //    LoginSetting setting = new LoginSetting();
@@ -424,9 +584,9 @@ public class KJY_ConnectionTMP : MonoBehaviour
     //    TryLoginConnection tryLoginConnection = new TryLoginConnection(setting);
     //}
 
-    //public void Test()
-    //{
-    //    Application.OpenURL("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao");
-    //}
+    public void Test()
+    {
+        Application.OpenURL("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao");
+    }
 
 }
