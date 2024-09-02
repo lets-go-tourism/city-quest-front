@@ -18,14 +18,14 @@ public class tmpTouch : MonoBehaviour
     /// 2. 1의 정보를 UI로 표시한다.
     /// </summary>
 
-    int layerProp, layerBottomSheet;
+    int layerProp, layerTour;
     Touch touch;
     public GraphicRaycaster raycaster;
     PointerEventData point;
     private void Start()
     {
         layerProp = 1 << LayerMask.NameToLayer("Prop");
-        //layerProp = 1 << LayerMask.NameToLayer("UI");
+        layerTour = 1 << LayerMask.NameToLayer("Tour");
 
         point = new PointerEventData(null);
     }
@@ -68,6 +68,7 @@ public class tmpTouch : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             {
+                // UI 뚫고 GameObject 터치 제한
                 for (int i = 0; i < Input.touchCount; i++)
                 {
                     if (EventSystem.current.IsPointerOverGameObject(i))
@@ -79,50 +80,33 @@ public class tmpTouch : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                // 프랍을 터치했을 때
+                // 탐험장소 프랍을 터치했을 때
                 if (Physics.Raycast(ray, out hit, layerProp))
                 {
-                    print(hit.collider.name);
-                    // 프랍 정보를 가져와서 팝업창 띄우기
-                    // 할 일 : 그 프랍 중에 프랍 정보 가지고 있는 스크립트 가져오기
+                    DataManager.instance.requestSuccess = false;
+
+                    // 프랍정보를 받아옴
                     Prop prop = hit.collider.GetComponent<Prop>();
 
-                    // 그 스크립트 중에 Adventure No 를 서버에 쏘기
-                    DataManager.instance.requestSuccess = false;
+                    // 프랍정보 중 propNo 을 서버에 보냄
                     KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
+
+                    // propNo 에 해당되는 데이터를 받아와서 팝업창에 정보 세팅
                     SettingPropInfo.instance.StartCoroutine(nameof(SettingPropInfo.instance.PropInfoSetting));
+                }
 
-                    // 아래 코드 삭제하기
-                    //SettingPropInfo.instance.PropInfoSetting(hit.transform.GetComponent<Prop>());
+                // 관광정보 프랍을 터치했을 때
+                else if(Physics.Raycast(ray, out hit, layerTour))
+                {
+                    DataManager.instance.requestSuccess = false;
 
-                    // 더 이상 프랍을 터치할 수 없도록!!
-                    //for (int i = 0; i < Props_UI.instance.props.Length; i++)
-                    //    Props_UI.instance.props[i].GetComponent<BoxCollider>().enabled = false;
+                    // 관광 정보를 받아옴
+
+
+                    // 팝업창에 정보 세팅
+                    SettingTourInfo.instance.TourInfoSetting();
                 }
             }
         }
-    }
-    List<QuestData> questList = new List<QuestData>();
-    void SettingList()
-    {
-        foreach(var quest in questList)
-        {
-            List<string> list = new List<string>()
-            {
-                quest.locationName,
-                quest.addr,
-                quest.kakaoMapUrl,
-                quest.imageUrl,
-                quest.propNo.ToString(),
-                quest.status.ToString(),
-                quest.difficulty,
-                quest.questDesc,
-                quest.distance.ToString(),
-                quest.date.ToString("MM월 dd일"),
-                quest.questImage,
-            };
-        }
-
-        
     }
 }

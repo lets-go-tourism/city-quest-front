@@ -16,17 +16,13 @@ public class CloseButton : MonoBehaviour
 
     void ClosePopUp(string name)
     {
-        if (name == "prop")
+        if (name == "prop" && PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
         {
-            Props_UI.instance.canvasProp.enabled = false;
+            PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
         }
-        else if(name =="tour")
+        else if(name =="tour" && PopUpMovement.instance.tourState == PopUpMovement.TourState.UP)
         {
-            Props_UI.instance.canvasTour.enabled = false;
+            PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
         }
-
-        // 3D ¸ðµ¨¸µ        
-        Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-        Props_UI.instance.propModeling.gameObject.SetActive(false);
     }
 }

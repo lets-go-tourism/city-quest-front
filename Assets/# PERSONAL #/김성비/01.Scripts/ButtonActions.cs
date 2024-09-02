@@ -16,10 +16,7 @@ public class ButtonActions : MonoBehaviour
         // 사진 찍으러 가기
         if (no == 1)
         {
-            //Props_UI.instance.PropsUISetting(false, 0);
-            Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-            Props_UI.instance.props[0].gameObject.SetActive(false);
-            Props_UI.instance.CanvasCamera.enabled = true;
+
         }
 
         // 사진 찍고 돌아가기

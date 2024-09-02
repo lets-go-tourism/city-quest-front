@@ -61,15 +61,13 @@ public class SettingPropInfo : MonoBehaviour
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
         SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ConvertDistance(DataManager.instance.GetQuestInfo().distance); 
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
+        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
         Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4);
         yield return StartCoroutine(nameof(GetTexture), parameters);
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
 
-        // UI È°¼ºÈ­
-        Props_UI.instance.canvasProp.enabled = true;
-        // 3D ¸ðµ¨¸µ        
-        Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-        Props_UI.instance.propModeling.gameObject.SetActive(true);
+        // ÆË¾÷Ã¢ ¿­±â
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
     }
 
     // Å½ÇèÇÑ Àå¼Ò µ¥ÀÌÅÍ ¼¼ÆÃ
@@ -85,17 +83,14 @@ public class SettingPropInfo : MonoBehaviour
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
         SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().date.ToString("MM¿ù ddÀÏ");
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().addr);
+        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
         Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4);
         yield return StartCoroutine(GetTexture(parameters));
         parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5);
         yield return StartCoroutine(GetTexture(parameters));
 
-        // UI È°¼ºÈ­
-        Props_UI.instance.canvasProp.enabled = true;
-
-        // 3D ¸ðµ¨¸µ        
-        Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-        Props_UI.instance.propModeling.gameObject.SetActive(true);
+        // ÆË¾÷Ã¢ ¿­±â
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
     }
 
 

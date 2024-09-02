@@ -49,6 +49,9 @@ public class ChangeSprites : MonoBehaviour
         {
             BottomSheetManager.instance.SortingPlace("UNREVEAL");
         }
+
+        // 스크롤 초기화
+        MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
     }
 
     public void ChangeTourSprites(int no)
@@ -72,5 +75,7 @@ public class ChangeSprites : MonoBehaviour
         else if (no == 7) { BottomSheetManager.instance.SortingTour("Shopping"); }
         else if (no == 8) { BottomSheetManager.instance.SortingTour("Food"); }
 
+        // 스크롤 초기화
+        MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
     }
 }

@@ -1,38 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using DG.Tweening;
+using static SettingPropInfo;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class SettingTourInfo : MonoBehaviour
 {
-    public RectTransform rtPlace;
-    public RectTransform rtTour;
-
-    // Start is called before the first frame update
-    void Start()
+    public static SettingTourInfo instance;
+    private void Awake()
     {
-        rtTour.anchoredPosition = new Vector2(0, -1770);
-        rtPlace.anchoredPosition = new Vector2(0, -2060);
-
-        StartCoroutine(Test());
+        instance = this;
     }
 
-    IEnumerator Test()
-    {
-        yield return new WaitForSeconds(3f);
+    public Transform[] contents;
 
-        MoveUP(false);
+    public void TourInfoSetting()
+    {
+        // 이름 : contents[0].GetComponent<TextMeshProUGUI>().text = ;
+        // 거리 : contents[1].GetComponent<TextMeshProUGUI>().text = ;
+        // 주소 : contents[2].GetComponent<TextMeshProUGUI>().text = ;
+        // 링크 : contents[4].GetComponent<OpenKakaoMap>().url = ;
+        // 사진 : StartCoroutine(nameof(GetTexture), );
     }
 
-    void MoveUP(bool place)
+    public IEnumerator GetTexture(string str)
     {
-        if (place) { rtPlace.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack); }
-        else { rtTour.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack); }
-    }
 
-    void MoveDOWN(bool place)
-    {
-        if (place) { rtPlace.DOAnchorPosY(-2060, 0.5f).SetEase(Ease.OutBack); }
-        else { rtTour.DOAnchorPosY(-1770, 0.5f).SetEase(Ease.OutBack); }
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(str);
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+
+            contents[4].GetComponent<RawImage>().texture = myTexture;
+        }
     }
 }

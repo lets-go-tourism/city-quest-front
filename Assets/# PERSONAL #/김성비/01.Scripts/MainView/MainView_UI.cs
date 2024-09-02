@@ -12,8 +12,14 @@ public class MainView_UI : MonoBehaviour
     //[SerializeField]
     public Button[] buttons;
 
-    private void Start()
+    public ScrollRect placeScrollRect;
+    public ScrollRect tourScrollRect;
+
+    public static MainView_UI instance;
+    private void Awake()
     {
+        instance = this;
+
         buttons[0].onClick.AddListener(() => BTN_Settings());
         buttons[1].onClick.AddListener(() => BTN_Achieves());
         buttons[2].onClick.AddListener(() => BTN_Quests());
