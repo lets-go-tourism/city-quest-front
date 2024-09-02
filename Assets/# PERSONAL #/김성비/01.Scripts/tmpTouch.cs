@@ -66,7 +66,7 @@ public class tmpTouch : MonoBehaviour
         {
             touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Stationary)
             {
                 for (int i = 0; i < Input.touchCount; i++)
                 {
