@@ -14,23 +14,23 @@ public class TourDataController : MonoBehaviour
             Destroy(this);
     }
 
+    public GameObject tourDataPref;
 
     public Dictionary<long, ServerTourInfo> ServerTourInfoDic { get; private set; } = new Dictionary<long, ServerTourInfo>();
     public Dictionary<ServerTourInfo, TourData> TourInfoWordList { get; private set; } = new Dictionary<ServerTourInfo, TourData>();
-
-
-    // 오른쪽에 ContentTypeId를 적어놓았다
-    [SerializeField] private GameObject m_tourSpotPref; // 관광지 12
-    [SerializeField] private GameObject m_culturalSpotPref; // 문화시설 14
-    [SerializeField] private GameObject m_eventSpotPref; // 축제/공연/행사 15
-    [SerializeField] private GameObject m_travelCorseSpotPref; // 여행코스 25
-    [SerializeField] private GameObject m_sportSpotPref; // 레저 / 스포츠 28
-    [SerializeField] private GameObject m_accommodationSpotPref; // 숙박 32
-    [SerializeField] private GameObject m_shoppingSpotPref; // 쇼핑 38
-    [SerializeField] private GameObject m_foodSpotPref; // 음식 39
+    public Dictionary<long, GameObject> ContentTypeGODic { get; private set; } = new Dictionary<long, GameObject>();
 
     private IEnumerator Start()
     {
+        ContentTypeGODic.Add(12, (GameObject)Resources.Load("TourDataIconMesh/Icon_Mountain"));
+        ContentTypeGODic.Add(14, (GameObject)Resources.Load("TourDataIconMesh/Icon_Art"));
+        ContentTypeGODic.Add(15, (GameObject)Resources.Load("TourDataIconMesh/Icon_Community"));
+        ContentTypeGODic.Add(25, (GameObject)Resources.Load("TourDataIconMesh/Icon_Travel"));
+        ContentTypeGODic.Add(28, (GameObject)Resources.Load("TourDataIconMesh/Icon_Leisure"));
+        ContentTypeGODic.Add(32, (GameObject)Resources.Load("TourDataIconMesh/Icon_Car"));
+        ContentTypeGODic.Add(38, (GameObject)Resources.Load("TourDataIconMesh/Icon_Store"));
+        ContentTypeGODic.Add(39, (GameObject)Resources.Load("TourDataIconMesh/Icon_Food"));
+
         while (DataManager.instance.requestSuccess == false)
         {
             yield return null;
@@ -39,19 +39,8 @@ public class TourDataController : MonoBehaviour
         List<ServerTourInfo> tourList = DataManager.instance.GetHometourPlacesList();
 
         for(int i = 0; i < tourList.Count; i++)
-        {
-            GameObject obj = null;
-            switch (tourList[i].contenttypeid)
-            {
-                case "12": obj = Instantiate(m_tourSpotPref, transform); break;
-                case "14": obj = Instantiate(m_culturalSpotPref, transform); break;
-                case "15": obj = Instantiate(m_eventSpotPref, transform); break;
-                case "25": obj = Instantiate(m_travelCorseSpotPref, transform); break;
-                case "28": obj = Instantiate(m_sportSpotPref, transform); break;
-                case "32": obj = Instantiate(m_accommodationSpotPref, transform); break;
-                case "38": obj = Instantiate(m_shoppingSpotPref, transform); break;
-                case "39": obj = Instantiate(m_foodSpotPref, transform); break;
-            }
+        { 
+            GameObject obj = Instantiate(tourDataPref, transform);
 
             if (obj == null)
                 Debug.Log("컨텐츠 타입이 잘못되었습니다");
@@ -63,7 +52,7 @@ public class TourDataController : MonoBehaviour
             obj.transform.position = objPosition;
 
             TourInfoWordList.Add(tourList[i], obj.GetComponent<TourData>());
-            obj.GetComponent<TourData>().StartSetting(tourList[i]);
+            obj.GetComponent<TourData>().Setting(tourList[i], ContentTypeGODic[int.Parse(tourList[i].contenttypeid)]);
         }
     }
 }

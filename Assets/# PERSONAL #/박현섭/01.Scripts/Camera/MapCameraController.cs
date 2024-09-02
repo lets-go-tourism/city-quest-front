@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -64,11 +65,23 @@ public class MapCameraController : MonoBehaviour
     private Vector2 _panVelocity;  //delta position of the touch [camera position derivative]
     #endregion
 
-    public bool rallBack = false;
-    [SerializeField] private float rallbackSpeed = 1;
+    // 터치 이동이 아닌 이동 변수들
+    private Vector3 m_TargetPosition;
+    private bool m_Moving = false;
+    [SerializeField] private float m_MoveSpeed = 1;
+
+    // 사운드 관련
+    private AudioSource m_AudioSource;
+    private bool m_Audio = false;
+
+    private void Start()
+    {
+        m_AudioSource = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
+        m_Audio = false;
         if (CheckIfUiHasBeenTouched())
             return;
 
@@ -87,8 +100,13 @@ public class MapCameraController : MonoBehaviour
         {
             PanningInertia();
             //MinOrthoAchievedAnimation();
-            RallBackCameraToMyGPS();
+            CameraMoveToTarget();
         }
+
+        if (m_Audio && m_AudioSource.isPlaying == false)
+            m_AudioSource.Play();
+        else
+            m_AudioSource.Stop();
     }
 
 
@@ -128,11 +146,13 @@ public class MapCameraController : MonoBehaviour
     /// </summary>
     private void Panning()
     {
-        if (rallBack)
-            rallBack = false;
+        // 카메라가 이동중일 경우 취소
+        if (m_Moving)
+            m_Moving = false;
 
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
+            m_Audio = true;
             time = 0;
             BottomSheetMovement.instance.MoveDOWN();
 
@@ -280,19 +300,27 @@ public class MapCameraController : MonoBehaviour
         transform.position = new Vector3(xCord, transform.position.y, zCord);
     }
 
-    public void RallBackCameraToMyGPS()
+    public void CameraMoveToTarget()
     {
-        if (rallBack == false)
+        if (m_Moving == false)
             return;
 
         _panVelocity = Vector2.zero;
-        transform.position = Vector3.Lerp(transform.position, GPS.Instance.GetUserWorldPosition() + new Vector3(0, _cameraToMove.transform.position.y, 0), Time.deltaTime * rallbackSpeed);
+        transform.position = Vector3.Lerp(transform.position, m_TargetPosition, Time.deltaTime * m_MoveSpeed);
     }
 
     public void StartCameraMoveToTarget(Vector3 targetPos)
     {
-        transform.position = new Vector3(targetPos.x, 500, targetPos.z);
+        m_Moving = true;
+        m_TargetPosition = new Vector3(targetPos.x, _cameraToMove.transform.position.y, targetPos.z);
     }
+
+    public void StopCameraMove()
+    {
+        m_Moving = false;
+    }
+
+
 
     /// <summary> 
     /// Draw camera boundaries on editor

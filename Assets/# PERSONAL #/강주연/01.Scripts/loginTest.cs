@@ -20,14 +20,14 @@ public class LoginData
     public string accessToken;
     public string refreshToken;
     public string tokenType;
+    public bool agreed;
 }
 
 public class loginTest : MonoBehaviour
 {
     public List<string> extractedValues;
     public LoginResponse loginData;
-
-    public TextMeshProUGUI text1;
+    public TextMeshProUGUI text;
     public TextMeshProUGUI text2;
 
     public void ShowUrl()
@@ -94,19 +94,42 @@ public class loginTest : MonoBehaviour
                 break;
             case GpmWebViewCallback.CallbackType.ExecuteJavascript:
                 {
+                    if (data == null)
+                        return;
+
                     string cleanedString = data.Replace("\\\\\\", "");
-                    extractedValues = ExtractStrings(cleanedString);
+                    extractedValues = ExtractStringsAndBooleans(cleanedString);
+
+                    print(extractedValues.Count + " °¹¼ö´Â");
+
+                    for (int i = 0; i < extractedValues.Count; i++)
+                    {
+                        print(i + "¹øÂ° " + extractedValues[i]);
+                    }
 
                     loginData = new LoginResponse();
                     loginData.data = new LoginData();
-
+                    
                     loginData.timeStamp = DateTime.Now;
                     loginData.status = extractedValues[4];
+                    
                     loginData.data.accessToken = extractedValues[7];
                     loginData.data.refreshToken = extractedValues[9];
                     loginData.data.tokenType = extractedValues[11];
+                    print("////////////////");
+                    loginData.data.agreed = bool.Parse(extractedValues[13]);
+
+                    print("///////////////////////////");
 
                     DataManager.instance.SetLoginData(loginData);
+                    if (extractedValues[13] == "false")
+                    {
+                        KJY_UIManager.instance.ShowConfirmScrollView();
+                    }
+                    else
+                    {
+                        KJY_UIManager.instance.ShownLoginSccuess();
+                    }
                 }
                 break;
             default:
@@ -115,9 +138,9 @@ public class loginTest : MonoBehaviour
         }
     }
 
-    public static List<string> ExtractStrings(string input)
+    public static List<string> ExtractStringsAndBooleans(string input)
     {
-        List<string> extractedStrings = new List<string>();
+        List<string> extractedValues = new List<string>();
         bool insideQuotes = false;
         string currentString = "";
 
@@ -127,43 +150,45 @@ public class loginTest : MonoBehaviour
             {
                 if (insideQuotes)
                 {
-                    extractedStrings.Add(currentString);
-                    currentString = ""; // Reset the current string
+                    extractedValues.Add(currentString);
+                    currentString = ""; 
                 }
-
                 insideQuotes = !insideQuotes;
             }
             else if (insideQuotes)
             {
                 currentString += input[i];
             }
+            else if (!insideQuotes)
+            {
+                if (input.Substring(i).StartsWith("true"))
+                {
+                    extractedValues.Add("true");
+                    i += 3;
+                }
+                else if (input.Substring(i).StartsWith("false"))
+                {
+                    extractedValues.Add("false");
+                    i += 4;
+                }
+            }
         }
 
-        return extractedStrings;
+        return extractedValues;
     }
-
 
     public void TestLoginData()
     {
-        //DataManager.instance.testConnectin = extractedValues;
+        loginData = new LoginResponse();
+        loginData.data = new LoginData();
 
-        //KJY_ConnectionTMP.instance.test = extractedValues;
+        loginData.timeStamp = DateTime.Now;
+        loginData.status = extractedValues[4];
+        loginData.data.accessToken = extractedValues[7];
+        loginData.data.refreshToken = extractedValues[9];
+        loginData.data.tokenType = extractedValues[11];
+        loginData.data.agreed = bool.Parse(extractedValues[13]);
 
-        //loginData = new LoginResponse();
-        //loginData.data = new LoginData();
-
-        //loginData.timeStamp = DateTime.Now;
-        //loginData.status = extractedValues[4];
-        //loginData.data.accessToken = extractedValues[7];
-        //loginData.data.refreshToken = extractedValues[9];
-        //loginData.data.tokenType = extractedValues[11];
-
-        LoginResponse test = DataManager.instance.GetLoginData();
-
-        text1.text = test.data.accessToken;
-        text2.text = test.status;
-
-        Canvas.ForceUpdateCanvases();
-
+        DataManager.instance.SetLoginData(loginData);
     }
 }

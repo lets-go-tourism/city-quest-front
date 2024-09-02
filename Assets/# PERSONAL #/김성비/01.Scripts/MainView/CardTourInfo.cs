@@ -36,8 +36,12 @@ public class CardTourInfo : MonoBehaviour
         }
         else
         {
-            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Texture2D myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
+            //Texture2D my = new Texture2D(myTexture.width, myTexture.height, TextureFormat.RGB24, false);
+            //my.SetPixels(myTexture.GetPixels());
+            //my.Compress(false);
+            //my.Apply(false, true);
             info[2].GetComponent<RawImage>().texture = myTexture;
         }
     }

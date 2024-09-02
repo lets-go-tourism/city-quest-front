@@ -73,7 +73,7 @@ public class BottomSheetManager : MonoBehaviour
     IEnumerator GenTour()
     {
         // 관광정보 카드 생성
-        for (int i = 0; i < tourList.Count; i++)
+        for (int i = 0; i < 100; i++)
         {
             GameObject go = Instantiate(cardTour, contentTour);
 

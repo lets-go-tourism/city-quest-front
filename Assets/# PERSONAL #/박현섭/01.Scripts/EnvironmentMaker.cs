@@ -1,5 +1,5 @@
 using Assets.Helpers;
-//using Dev.ComradeVanti.EarClip;                               
+using Dev.ComradeVanti.EarClip;                           
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +12,6 @@ public class EnvironmentMaker : MonoBehaviour
 
     private MapReader map;
     private GameObject parentObject;
-
-    public GameObject go;
-
-    private void Start()
-    {
-        MakeEnvironment();
-    }
 
     public void MakeEnvironment()
     {
@@ -47,18 +40,32 @@ public class EnvironmentMaker : MonoBehaviour
         go.transform.parent = parentObject.transform;
         Vector3 localOrigin = GetCenter(way);
         go.transform.position = localOrigin - map.bounds.Center;
-        go.transform.position -= new Vector3(0, 0.5f, 0);
-        WayData s = go.AddComponent<WayData>();
+        go.transform.position += new Vector3(0, 1f, 0);
 
         // Add the mesh filter and renderer components to the object
-        MeshFilter mf = go.AddComponent<MeshFilter>();
-        MeshRenderer mr = go.AddComponent<MeshRenderer>();
+       // MeshFilter mf = go.AddComponent<MeshFilter>();
+        //MeshRenderer mr = go.AddComponent<MeshRenderer>();
+        PolyExtruder polyExtruder = go.AddComponent<PolyExtruder>();
+
+        Vector3[] points = new Vector3[way.NodeIDs.Count - 1];
+        for (int i = 0; i < points.Length; i++)
+        {
+            points[i] = map.nodes[way.NodeIDs[i]] - GetCenter(way);
+        }
+
+        Vector2[] points2 = new Vector2[way.NodeIDs.Count - 1];
+        for (int i = 0; i < points2.Length; i++)
+        {
+            points2[i] = new Vector2(points[i].x, points[i].z);
+        }
+
+        polyExtruder.createPrism(objectName, points2, mat);
 
         // Apply the material
-        mr.material = mat;
+       // mr.material = mat;
 
         // Create the collections for the object's vertices, indices, UVs etc.
-        mf.mesh = CreateMesh(way);
+        //mf.mesh = CreateMesh(way);
 
         // Apply the data to the mesh
         //mf.mesh.vertices = vectors.ToArray();
@@ -68,30 +75,12 @@ public class EnvironmentMaker : MonoBehaviour
     }
     private Mesh CreateMesh(OsmWay way)
     {
-        Vector3[] points = new Vector3[way.NodeIDs.Count - 1];
-        for(int i = 0; i < points.Length; i++)
-        {
-            points[i] = map.nodes[way.NodeIDs[i]] - GetCenter(way);
-        }
-
-        Vector2[] points2 = new Vector2[way.NodeIDs.Count - 1];
-        for(int i = 0; i < points2.Length; i++)
-        {
-            points2[i] = new Vector2(points[i].x, points[i].z);
-        }
-
         // points need to be in clockwise order
         // sort if needed
         //points2 = points2.Clockwise().ToArray();
 
-        
-
-        //for(int i = 0; i < points2.Length; i++)
-        //{
-        //    GameObject obj = Instantiate(go);
-        //    obj.transform.position = points2[i].ToVector3xz();
-        //    obj.GetComponent<Renderer>().material.color = new Color(0, i, 0);
-        //}
+        //obj.transform.position = points2[0].ToVector3xz();
+        //obj2.transform.position = points2[points2.Length - 1].ToVector3xz();
 
         // Triangulate
         //int[] triangles = Triangulate.ConcaveNoHoles(points2).ToArray();                  
@@ -105,7 +94,7 @@ public class EnvironmentMaker : MonoBehaviour
         //    triangles[i * 3 + 2] = i + 2;
         //}
         Mesh mesh = new Mesh();
-        mesh.vertices = points;
+        //mesh.vertices = points;
         //mesh.triangles = triangles;                               
         //mesh.RecalculateNormals();
         return mesh;

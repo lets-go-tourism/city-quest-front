@@ -3248,6 +3248,37 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &64289996
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 64289997}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &64289997
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64289996}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 135.81645, y: 12.306395, z: -23.476635}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &66402608
 GameObject:
   m_ObjectHideFlags: 0
@@ -9816,6 +9847,7 @@ MonoBehaviour:
   waterMaterial: {fileID: 2100000, guid: 473a78d72d94910438b36355fba9c1b2, type: 2}
   forestMaterial: {fileID: 2100000, guid: 2b14de9c8671179448342cdbf2b56f85, type: 2}
   go: {fileID: 0}
+  go2: {fileID: 0}
 --- !u!1 &204931341
 GameObject:
   m_ObjectHideFlags: 0
@@ -29497,22 +29529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba8935c7bc847044916ad017c938b4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_tourSpotPref: {fileID: 1721418776926644548, guid: aff332a846b970843850b38d5e3e6d38,
-    type: 3}
-  m_culturalSpotPref: {fileID: 1624544164272996279, guid: e1e10964b8dfeca45b063453b6efb76d,
-    type: 3}
-  m_eventSpotPref: {fileID: 8755094660915809294, guid: 9a77c1358334acc4f9f0497f0152e84b,
-    type: 3}
-  m_travelCorseSpotPref: {fileID: 4702116337752372339, guid: b6e6304078a69e545ae659d3eff53d53,
-    type: 3}
-  m_sportSpotPref: {fileID: 463178586890632916, guid: a2680c2e0b601464689b3ad125decb87,
-    type: 3}
-  m_accommodationSpotPref: {fileID: 7853068833866896835, guid: 2700ba6048b8ab749b29a66cb0fc0f1b,
-    type: 3}
-  m_shoppingSpotPref: {fileID: 7134733456806955353, guid: f6890ac9492ce5a4b9168580b1558dd0,
-    type: 3}
-  m_foodSpotPref: {fileID: 1953502410351354362, guid: 4849dcb8226b1254a9bf3a51e1710b09,
-    type: 3}
+  tourDataPref: {fileID: 0}
 --- !u!1 &586185217
 GameObject:
   m_ObjectHideFlags: 0
@@ -102227,8 +102244,7 @@ MonoBehaviour:
   _orthoMin: 500
   _orthoMax: 100
   _interpolationStep: 4
-  rallBack: 0
-  rallbackSpeed: 1
+  m_MoveSpeed: 1
 --- !u!43 &2027097131
 Mesh:
   m_ObjectHideFlags: 0
@@ -107721,3 +107737,4 @@ SceneRoots:
   - {fileID: 2146376609}
   - {fileID: 1325294813}
   - {fileID: 1373028132}
+  - {fileID: 64289997}

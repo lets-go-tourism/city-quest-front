@@ -65,7 +65,6 @@ public class MyPosArrowUI : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        print("¿Ã∞‘ ø÷ æ»¥Ô");
-        MapCameraController.Instance.rallBack = true;
+        MapCameraController.Instance.StartCameraMoveToTarget(GPS.Instance.GetUserWorldPosition());
     }
 }

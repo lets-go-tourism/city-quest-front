@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 
@@ -25,10 +26,12 @@ public class DataManager : MonoBehaviour
     [Header("LoginData")]
     private LoginResponse loginData;
 
-    public List<string> testConnectin;
 
-    // 박현섭
+    [HideInInspector]
     public bool requestSuccess = false;
+
+    [Header("SaveUserTokenData")]
+    private string path;
 
     #region notUse
     [Header("QuestList")]
@@ -43,12 +46,39 @@ public class DataManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+            Destroy(this);
+
+        path = Path.Combine(Application.persistentDataPath, "database.json");
+        JsonLoad();
     }
 
-    private void Start()
+    public void JsonLoad()
     {
-        KJY_ConnectionTMP.instance.OnClickHomeConnection();
+        LoginResponse saveData = new LoginResponse();
+        if (File.Exists(path))
+        {
+            string loadJson = File.ReadAllText(path);
+            saveData = JsonUtility.FromJson<LoginResponse>(loadJson);
+            if (saveData != null)
+            {
+                SetLoginData(saveData);
+            }
+        }
+    }
+
+    public void JsonSave()
+    {
+        LoginResponse saveData = new LoginResponse();
+
+        saveData = GetLoginData();
+        string json = JsonUtility.ToJson(saveData, true);
+        File.WriteAllText(path, json);
     }
 
     //프랍리스트 설정하는 함수
@@ -113,13 +143,15 @@ public class DataManager : MonoBehaviour
 
     public void SetLoginData(LoginResponse loginData)
     {
-        this.loginData = loginData; 
+        this.loginData = loginData;
+        HttpManager.instance.loginData = loginData;
     }
 
     public LoginResponse GetLoginData()
     {
         return loginData;
     }
+
 
     #region notUse
     //public void SetAllQuestList(List<QuestData> list)
