@@ -52,9 +52,9 @@ public class CardPlaceInfo : MonoBehaviour
 
     public void SendPlaceInfo()
     {
-        for (int i = 0; i < BottomSheetManager.instance.contentTour.childCount; i++)
+        for (int i = 0; i < BottomSheetManager.instance.contentPlace.childCount; i++)
         {
-            BottomSheetManager.instance.contentPlace.GetChild(i).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+            BottomSheetManager.instance.contentPlace.GetChild(i).GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
         }
         transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
 
