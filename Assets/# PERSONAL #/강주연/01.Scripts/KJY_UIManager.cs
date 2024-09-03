@@ -214,6 +214,7 @@ public class KJY_UIManager : MonoBehaviour
                 authorizationObject.SetActive(false);
                 loginText.text = "로그인 성공!\n환영해요.";
                 CustomerLoginUI.SetActive(true);
+                DataManager.instance.JsonSave();
             }
         }
         else
@@ -253,12 +254,14 @@ public class KJY_UIManager : MonoBehaviour
                 authorizationObject.SetActive(false);
                 loginText.text = "회원가입 성공!\n환영해요.";
                 CustomerLoginUI.SetActive(true);
+                DataManager.instance.JsonSave();
             }
             else
             {
                 authorizationObject.SetActive(false);
                 loginText.text = "로그인 성공!\n환영해요.";
                 CustomerLoginUI.SetActive(true);
+                DataManager.instance.JsonSave();
             }
         }
     }

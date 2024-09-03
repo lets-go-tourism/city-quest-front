@@ -53,8 +53,8 @@ public class DataManager : MonoBehaviour
         }
         else
             Destroy(this);
-
         path = Path.Combine(Application.persistentDataPath, "database.json");
+
         JsonLoad();
     }
 
@@ -65,10 +65,15 @@ public class DataManager : MonoBehaviour
         {
             string loadJson = File.ReadAllText(path);
             saveData = JsonUtility.FromJson<LoginResponse>(loadJson);
+
             if (saveData != null)
             {
                 SetLoginData(saveData);
             }
+        }
+        else
+        {
+            Debug.Log("none_here");
         }
     }
 
@@ -143,8 +148,24 @@ public class DataManager : MonoBehaviour
 
     public void SetLoginData(LoginResponse loginData)
     {
-        this.loginData = loginData;
-        HttpManager.instance.loginData = loginData;
+        if (loginData != null)
+        {
+            this.loginData = loginData;
+        }
+        else
+        {
+            Debug.Log("not_login_data");
+        }
+
+        if (HttpManager.instance != null)
+        {
+            HttpManager.instance.loginData = loginData;
+            Debug.Log("accessToken" + this.loginData.data.accessToken);
+        }
+        else
+        {
+            Debug.LogError("HttpManager.instance is null. Cannot set loginData.");
+        }
     }
 
     public LoginResponse GetLoginData()

@@ -76,6 +76,7 @@ public class TryImageConnection : MonoBehaviour
     private void Complete(DownloadHandler result)
     {
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
+
     }
 }
 #endregion
