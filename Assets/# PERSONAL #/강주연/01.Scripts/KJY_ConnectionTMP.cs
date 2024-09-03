@@ -513,6 +513,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
     [SerializeField] private GameObject text;
     public HttpRequester requestHttp;
     public RequestHeader requestHeaderHttp;
+    public int questNoPicture;
 
 
     private void Awake()
@@ -528,7 +529,12 @@ public class KJY_ConnectionTMP : MonoBehaviour
         }
     }
 
-    public void OnClickTest(Texture2D texture, int questNo)//카메라 통신하는 정보
+    public void QuestNo(int questNo)
+    {
+        this.questNoPicture = questNo;
+    }
+
+    public void OnClickTest(Texture2D texture)//카메라 통신하는 정보
     {
         if (texture == null)
         {
@@ -538,9 +544,9 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
         ImageSetting setting = new ImageSetting
         {
-            questNo = questNo,
+            questNo = questNoPicture,
             data = texture.EncodeToJPG(),
-            url = "https://letsgotour.store/api/v1/quest/image/" + questNo.ToString()
+            url = "https://letsgotour.store/api/v1/quest/image/" + questNoPicture.ToString()
           
         };
 

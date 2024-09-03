@@ -27,7 +27,7 @@ public class loginTest : MonoBehaviour
 {
     public List<string> extractedValues = new List<string>();
     public LoginResponse loginData;
-    public TextMeshProUGUI text;
+    private bool test = false;
     private int count;
 
     public void ShowUrl()
@@ -74,8 +74,8 @@ public class loginTest : MonoBehaviour
                     count++;
 
 
-                   // if (count == 1 || count == 2 || count == 3)
-                    //{
+                    if (count == 1 || count == 2 || count == 3)
+                    {
                             string script = @"
                         (function() {
                             function getTextContent(element) {
@@ -97,7 +97,7 @@ public class loginTest : MonoBehaviour
                             return JSON.stringify(getAllTextContent());
                         })();";
                             GpmWebView.ExecuteJavaScript(script);
-                    //}
+                    }
                 }
                 break;
             case GpmWebViewCallback.CallbackType.ExecuteJavascript:
@@ -115,28 +115,35 @@ public class loginTest : MonoBehaviour
                         print(i + "¹øÂ° " + extractedValues[i]);
                     }
 
-                    if (extractedValues[4] == "OK" && extractedValues.Count > 13)
+                    if (extractedValues.Count > 13)
                     {
-                        loginData = new LoginResponse();
-                        loginData.data = new LoginData();
-
-                        loginData.timeStamp = DateTime.Now;
-                        loginData.status = extractedValues[4];
-                        loginData.data.accessToken = extractedValues[7];
-                        loginData.data.refreshToken = extractedValues[9];
-                        loginData.data.tokenType = extractedValues[11];
-                        loginData.data.agreed = bool.Parse(extractedValues[13]);
-
-                        DataManager.instance.SetLoginData(loginData);
-                        if (extractedValues[13] == "false")
+                        if (extractedValues[4] == "OK")
                         {
-                            KJY_UIManager.instance.ShowConfirmScrollView();
+                            loginData = new LoginResponse();
+                            loginData.data = new LoginData();
+
+                            loginData.timeStamp = DateTime.Now;
+                            loginData.status = extractedValues[4];
+                            loginData.data.accessToken = extractedValues[7];
+                            loginData.data.refreshToken = extractedValues[9];
+                            loginData.data.tokenType = extractedValues[11];
+                            loginData.data.agreed = bool.Parse(extractedValues[13]);
+
+                            DataManager.instance.SetLoginData(loginData);
+                            if (extractedValues[13] == "false")
+                            {
+                                KJY_UIManager.instance.ShowConfirmScrollView();
+                            }
+                            else
+                            {
+                                KJY_UIManager.instance.LoginCheck();
+                            }
+                            GpmWebView.Close();
                         }
-                        else
-                        {
-                            KJY_UIManager.instance.LoginCheck();
-                        }
-                        GpmWebView.Close();
+                    }
+                    else
+                    {
+
                     }
                 }
                 break;

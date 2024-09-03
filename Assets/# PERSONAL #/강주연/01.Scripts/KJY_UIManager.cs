@@ -65,7 +65,8 @@ public class KJY_UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        explain.DOFade(0f, 0f);
+        //explain.DOFade(0f, 0f);
+        
         kakaoBtn.SetActive(false);
         logo.transform.position = logoFirstPosition.position;
         confirmBtn.interactable = false;
@@ -79,13 +80,19 @@ public class KJY_UIManager : MonoBehaviour
             confirmBtn.interactable = true;
         }
     }
+
+    public void StartSplash()
+    {
+        StartCoroutine(Splash());
+    }
+
     #region splash1-1-2
     private IEnumerator Splash()
     {
         yield return new WaitForSeconds(0.5f);
         yield return logo.transform.DOMove(logoSecondPosition.position, 1f);
-        explain.DOFade(1f, 1f);
-        explain.gameObject.SetActive(true);
+        //explain.DOFade(1f, 1f);
+        //explain.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         //여기서 로그인되있는지 안되있는지에 토큰 정보에 따라서 바로 이동시켜줄지 아니면 온보딩으로 이동할지 결정
         if (DataManager.instance.GetLoginData() == null || DataManager.instance.isLogout == true) // 로그인안됐는경우
@@ -112,6 +119,7 @@ public class KJY_UIManager : MonoBehaviour
         {
             splash_onBoardObject.SetActive(false); //TMP
             kakaoBtn.SetActive(false); //TMP
+            DataManager.instance.JsonSave();
             SceneMove();
         }
     }
@@ -302,6 +310,7 @@ public class KJY_UIManager : MonoBehaviour
         kakaoBtn.SetActive(false);
         loginText.text = "로그인 성공!\n환영해요.";
         CustomerLoginUI.SetActive(true);
+        DataManager.instance.JsonSave();
     }
     #endregion
 

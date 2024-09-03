@@ -28,6 +28,7 @@ public class CameraFeed : MonoBehaviour
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
 
+    public long questNo;
     [SerializeField] private Canvas cameraCanvas;
 
     private void Start()
@@ -271,7 +272,7 @@ public class CameraFeed : MonoBehaviour
 
         RenderTexture.active = currentRenderTexture;
 
-        KJY_ConnectionTMP.instance.OnClickTest(texture2D, 1);
+        KJY_ConnectionTMP.instance.OnClickTest(texture2D);
 
         CameraOff();
     }
