@@ -30,7 +30,7 @@ public class BottomSheetMovement : MonoBehaviour
     public void MoveDOWN() 
     {
         // 바텀시트 내려가기
-        rt.DOAnchorPosY(-1260, 0.4f);
+        rt.DOAnchorPosY(-1260, 0.3f);
         ChangeDOWN();
     }
 
