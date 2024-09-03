@@ -47,10 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939af8a19919a8c45a4530dd606dcbf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: []
   text: {fileID: 0}
   requestHttp: {fileID: 0}
   requestHeaderHttp: 0
+  questNoPicture: 0
 --- !u!114 &8539136864597217395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,3 +90,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3cb79b5f800cd741a3a2839465e9eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  test: 

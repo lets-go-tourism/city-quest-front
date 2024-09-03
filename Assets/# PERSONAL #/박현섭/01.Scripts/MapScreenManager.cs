@@ -15,11 +15,11 @@ public class MapScreenManager : MonoBehaviour
 #endif
 
         DataManager.instance.requestSuccess = false;
-        KJY_ConnectionTMP.instance.OnClickHomeConnection();
     }
 
     private IEnumerator Start()
     {
+        KJY_ConnectionTMP.instance.OnClickHomeConnection();
         MainView_UI.instance.BackgroundDarkEnable();
         while(DataManager.instance.requestSuccess == false)
         {
