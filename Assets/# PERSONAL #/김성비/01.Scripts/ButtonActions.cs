@@ -15,21 +15,20 @@ public class ButtonActions : MonoBehaviour
 
     public void QuestDone()
     {
-        //// 모델링 활성화
-        //Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-        //Props_UI.instance.propModeling.gameObject.SetActive(true);
+        // 버튼 터치 불가능하게 만들기
+        content.GetChild(6).transform.GetChild(0).GetComponent<Button>().enabled = false;
 
-        //// 카메라 UI 비활성화
-        //Props_UI.instance.CanvasCamera.enabled = false;
-
-        //// 팝업창 UI 활성화
-        //Props_UI.instance.canvasProp.enabled = true;
-
+        // 한 2초정도 연출 있으면 좋을듯??
         // 퀘스트 스프라이트 바꾸기
         content.GetChild(6).transform.GetChild(0).GetComponent<Image>().sprite = content.GetChild(6).GetComponent<SpritesHolder>().sprites[2];
+
+        // 줄 긋기
         content.GetChild(6).transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontStyle = FontStyles.Strikethrough;
 
-        content.GetChild(6).transform.GetChild(0).GetComponent<Button>().enabled = false;
+        // 바텀시트 비활성화
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN),true);
+
+        // 구름 걷히는 연출함수 호출
     }
 
     // 태그 스프라이트 및 내용 바꾸기

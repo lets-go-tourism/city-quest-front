@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
 using System;
-using Unity.VisualScripting;
 
 
 public class SettingPropInfo : MonoBehaviour
@@ -34,7 +33,7 @@ public class SettingPropInfo : MonoBehaviour
     {
         MainView_UI.instance.BackgroundDarkEnable();
 
-        while(DataManager.instance.requestSuccess == false)
+        while (DataManager.instance.requestSuccess == false)
         {
             yield return null;
         }
@@ -86,7 +85,7 @@ public class SettingPropInfo : MonoBehaviour
         // 컨텐트 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingYES));
 
-       yield return StartCoroutine(nameof(YESInfoSetting));
+        yield return StartCoroutine(nameof(YESInfoSetting));
 
         // 팝업창 열기
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
@@ -115,27 +114,51 @@ public class SettingPropInfo : MonoBehaviour
         string tmp = str;
         string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
 
+        char[] chars0 = str.ToCharArray();
 
-        if (nameSplit.Length > 1)
+        // 다섯글자
+        if (chars0.Length < 5)
         {
-            result = nameSplit[0] + "\n" + nameSplit[1];
-
-            ChangeSizeDelta(240);
-        }
-        else
-        {
-            char[] chars = nameSplit[0].ToCharArray();
-            if(chars.Length > 10) 
+            // 1줄
+            if (nameSplit.Length < 2)
             {
-                result = chars[0].ToString() + chars[1].ToString() + chars[2].ToString() + chars[3].ToString() + chars[4].ToString() 
-                    + "\n" + chars[5].ToString() + chars[6].ToString() + chars[7].ToString() + chars[8].ToString() + chars[9].ToString() + "...";
-
-            ChangeSizeDelta(240);
-            }
-            else 
-            { 
-                result = nameSplit[0];
                 ChangeSizeDelta(132);
+                result = nameSplit[0];
+            }
+            // 2줄
+            else
+            {
+                ChangeSizeDelta(240);
+                result = nameSplit[0] + "\n" + nameSplit[1];
+            }
+        }
+
+        // 여섯글자 이상
+        else if (chars0.Length >= 5)
+        {
+            ChangeSizeDelta(240);
+
+            // 띄어쓰기 없는 경우
+            if (nameSplit.Length < 2)
+            {
+                result = nameSplit[0];
+            }
+
+            // 띄어쓰기 있는 경우
+            else
+            {
+                char[] chars1 = nameSplit[1].ToCharArray(); // 두번째 줄 몇글자인지   
+
+                // 두번째 줄이 5글자 이하
+                if (chars1.Length < 5)
+                {
+                    result = nameSplit[0] + "\n" + nameSplit[1]; // 두번째 줄 다섯글자 이하
+                }
+                // 두번째 줄이 6글자 이상
+                else
+                {
+                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // 두번째 줄 다섯글자 초과
+                }
             }
         }
 
@@ -152,10 +175,10 @@ public class SettingPropInfo : MonoBehaviour
     string ConvertDistance(double distance)
     {
         string result = "";
-        
+
         int tmp = Mathf.FloorToInt((float)distance);
 
-        if(tmp > 1000)
+        if (tmp > 1000)
         {
             result = (tmp / 1000).ToString() + "km";
         }
@@ -167,7 +190,7 @@ public class SettingPropInfo : MonoBehaviour
         return result;
     }
 
-    
+
     // 서버에서 사진 받아오기
     public IEnumerator GetTexture(Parameters raw)
     {

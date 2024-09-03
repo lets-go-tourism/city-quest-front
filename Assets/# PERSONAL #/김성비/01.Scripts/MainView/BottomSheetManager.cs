@@ -5,6 +5,7 @@ using System.Dynamic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class BottomSheetManager : MonoBehaviour
@@ -32,6 +33,11 @@ public class BottomSheetManager : MonoBehaviour
         placeGOList = new List<GameObject>();
         tourGOList = new List<GameObject>();
     }
+
+    //private void Update()
+    //{
+        
+    //}
 
     private IEnumerator Start()
     {
@@ -77,27 +83,33 @@ public class BottomSheetManager : MonoBehaviour
 
         //while (count < tourList.Count)
         //{
-            for (int i = count; i < 50 + count; i++)
+        for (int i = count; i < 50 + count; i++)
+        {
+            GameObject go = Instantiate(cardTour, contentTour);
+
+            tourGOList.Add(go);
+
+            CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
+            cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
+            cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
+            if (tourList[i].imageUrl != string.Empty)
             {
-                GameObject go = Instantiate(cardTour, contentTour);
-
-                tourGOList.Add(go);
-
-                CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
-                cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
-                cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
-                if (tourList[i].imageUrl != string.Empty)
-                {
-                    cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
-                }
-                else { print(TextBreakTour(tourList[i].title)); }
-                cardinfo.SettingTourType(tourList[i].contenttypeid);
-                cardinfo.InputTourList(tourList[i]);
+                cardinfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
+                cardinfo.info[3].GetComponent<TextMeshProUGUI>().enabled = false;
+                cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
             }
+            else 
+            {
+                cardinfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
+                cardinfo.info[3].GetComponent<TextMeshProUGUI>().enabled = true;
+            }
+            cardinfo.SettingTourType(tourList[i].contenttypeid);
+            cardinfo.InputTourList(tourList[i]);
+        }
 
-            yield return null;
-            //count += 50;
-            //yield return new WaitForSeconds(1);
+        yield return null;
+        //count += 50;
+        //yield return new WaitForSeconds(1);
         //}
 
         //while (count < tourList.Count)
@@ -153,7 +165,7 @@ public class BottomSheetManager : MonoBehaviour
         }
     }
 
-    // 문자열 변환
+    // 텍스트브레이크 - 장소
     string TextBreakPlace(string text)
     {
         string result = string.Empty;
@@ -161,66 +173,102 @@ public class BottomSheetManager : MonoBehaviour
         string tmp = text;
         string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
 
+        char[] chars0 = text.ToCharArray();
 
-        if (nameSplit.Length > 1)
+        // 다섯글자
+        if (chars0.Length < 5)
         {
-            result = nameSplit[0] + "\n" + nameSplit[1];
-        }
-        else
-        {
-            char[] chars = nameSplit[0].ToCharArray();
-
-            if (chars.Length > 5)
+            // 1줄
+            if (nameSplit.Length < 2)
             {
-                if (chars.Length > 8)
-                {
-                    string tmp1 = chars[0].ToString() + chars[1].ToString() + chars[2].ToString() + chars[3].ToString() + chars[4].ToString();
-                    string tmp2 = chars[5].ToString() + chars[6].ToString() + chars[7].ToString() + chars[8].ToString();
-
-                    result = tmp1 + "\n" + tmp2;
-                }
-                else
-                {
-                    string tmp3 = chars[0].ToString() + chars[1].ToString() + chars[2].ToString() + chars[3].ToString();
-                    string tmp4 = chars[4].ToString() + chars[5].ToString();
-
-                    result = tmp3 + "\n" + tmp4;
-                }
+                result = nameSplit[0]; 
             }
+            // 2줄
             else
             {
+                result = nameSplit[0] + "\n" + nameSplit[1];
+            }
+        }
+
+        // 여섯글자 이상
+        else if (chars0.Length >= 5) 
+        {
+            // 띄어쓰기 없는 경우
+            if (nameSplit.Length < 2) 
+            {
                 result = nameSplit[0];
+            }
+
+            // 띄어쓰기 있는 경우
+            else
+            {
+                char[] chars1 = nameSplit[1].ToCharArray(); // 두번째 줄 몇글자인지
+
+                // 두번째 줄이 5글자 이하
+                if (chars1.Length < 5)
+                {
+                    result = nameSplit[0] + "\n" + nameSplit[1]; // 두번째 줄 다섯글자 이하
+                }
+                // 두번째 줄이 6글자 이상
+                else
+                {
+                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // 두번째 줄 다섯글자 초과
+                }   
             }
         }
 
         return result;
     }
 
-    // 텍스트브레이크
+    // 텍스트브레이크 - 관광정보
     string TextBreakTour(string text)
     {
         string result = string.Empty;
-        char[] chars = text.ToCharArray();
+        string[] splitStr = { " " };
+        string tmp = text;
+        string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
 
-        if (chars.Length > 10)
-        {
-            string tmp1 = chars[0].ToString() + chars[1].ToString() + chars[2].ToString() + chars[3].ToString() + chars[4].ToString();
-            string tmp2 = chars[5].ToString() + chars[6].ToString() + chars[7].ToString() + chars[8].ToString();
+        char[] chars0 = text.ToCharArray();
 
-            result = tmp1 + "\n" + tmp2 + "...";
-        }
-        else
+        // 다섯글자
+        if (chars0.Length < 5)
         {
-            string[] splitStr = { " " };
-            string tmp = text;
-            string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
-            if (nameSplit.Length > 1)
+            // 1줄
+            if (nameSplit.Length < 2)
+            {
+                result = nameSplit[0];
+            }
+            // 2줄
+            else
             {
                 result = nameSplit[0] + "\n" + nameSplit[1];
             }
-            else
+        }
+
+        // 여섯글자 이상
+        else if (chars0.Length >= 5)
+        {
+            // 띄어쓰기 없는 경우
+            if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
+            }
+
+            // 띄어쓰기 있는 경우
+            else
+            {
+                char[] chars1 = nameSplit[1].ToCharArray(); // 두번째 줄 몇글자인지
+
+                // 두번째 줄이 5글자 이하
+                if (chars1.Length < 5)
+                {
+                    result = nameSplit[0] + "\n" + nameSplit[1]; // 두번째 줄 다섯글자 이하
+                }
+                // 두번째 줄이 6글자 이상
+                else
+                {
+                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // 두번째 줄 다섯글자 초과
+                }
             }
         }
 
@@ -263,7 +311,6 @@ public class BottomSheetManager : MonoBehaviour
 
         }
     }
-
 
     // 관광정보 탭 정렬
     public void SortingTour(string str)

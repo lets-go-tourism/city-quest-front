@@ -94,7 +94,7 @@ public class tmpTouch : MonoBehaviour
             {
                 began = true;
             }
-            else if(began &&  touch.phase == TouchPhase.Moved)
+            else if (began && touch.phase == TouchPhase.Moved)
             {
                 began = false;
             }
@@ -103,36 +103,37 @@ public class tmpTouch : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                print("터치 시도");
-
-                // 탐험장소 프랍을 터치했을 때
-                if (Physics.Raycast(ray, out hit, layerProp))
+                if (Physics.Raycast(ray, out hit))
                 {
-                    DataManager.instance.requestSuccess = false;
+                    int hitLayer = hit.collider.gameObject.layer;
 
-                    // 프랍정보를 받아옴
-                    Prop prop = hit.collider.GetComponent<Prop>();
+                    if (hitLayer == LayerMask.NameToLayer("Prop"))
+                    {
+                        DataManager.instance.requestSuccess = false;
 
-                    // 프랍정보 중 propNo 을 서버에 보냄
-                    KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
+                        // 프랍정보를 받아옴
+                        Prop prop = hit.collider.GetComponent<Prop>();
 
-                    // propNo 에 해당되는 데이터를 받아와서 팝업창에 정보 세팅
-                    SettingPropInfo.instance.StartCoroutine(nameof(SettingPropInfo.instance.PropInfoSetting));
-                }
+                        // 프랍정보 중 propNo 을 서버에 보냄
+                        KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
 
-                // 관광정보 프랍을 터치했을 때
-                else if (Physics.Raycast(ray, out hit, layerTour))
-                {
-                    //DataManager.instance.requestSuccess = false;
+                        // propNo 에 해당되는 데이터를 받아와서 팝업창에 정보 세팅
+                        SettingPropInfo.instance.StartCoroutine(nameof(SettingPropInfo.instance.PropInfoSetting));
+                    }
 
-                    // 관광 정보를 받아옴
-                    TourData tourData = hit.collider.GetComponent<TourData>();
-                    ServerTourInfo serverTourInfo = tourData.ServerTourInfo;
+                    else if(hitLayer == LayerMask.NameToLayer("Tour"))
+                    {
+                        //DataManager.instance.requestSuccess = false;
 
-                    // 암전 키고 << 
+                        Props_UI.instance.canvasTour.enabled = true;
 
-                    // 팝업창에 정보 세팅
-                    SettingTourInfo.instance.TourInfoSetting();
+                        // 관광 정보를 받아옴
+                        TourData tourData = hit.collider.GetComponent<TourData>();
+                        ServerTourInfo serverTourInfo = tourData.ServerTourInfo;
+
+                        // 팝업창에 정보 세팅
+                        SettingTourInfo.instance.StartCoroutine(nameof(SettingTourInfo.instance.TourInfoSetting),serverTourInfo);
+                    }
                 }
             }
         }

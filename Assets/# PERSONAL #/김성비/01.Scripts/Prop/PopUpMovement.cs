@@ -33,6 +33,13 @@ public class PopUpMovement : MonoBehaviour
     {
         if (place) 
         { 
+            // UI 활성화
+            Props_UI.instance.canvasProp.enabled = true;
+
+            // 3D 모델링        
+            Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
+            Props_UI.instance.propModeling.gameObject.SetActive(true);
+
             rtPlace.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack);
 
             yield return new WaitForSeconds(0.5f);
@@ -40,20 +47,20 @@ public class PopUpMovement : MonoBehaviour
             placeState = PlaceState.UP;
         }
         else 
-        { 
+        {
+            // UI 활성화
+            Props_UI.instance.canvasTour.enabled = true;
+
+            // 3D 모델링        
+            Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
+            Props_UI.instance.propModeling.gameObject.SetActive(true);
+
             rtTour.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack);
 
             yield return new WaitForSeconds(0.5f);
 
             tourState = TourState.UP;
         }
-
-        // UI 활성화
-        Props_UI.instance.canvasProp.enabled = true;
-
-        // 3D 모델링        
-        Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-        Props_UI.instance.propModeling.gameObject.SetActive(true);
     }
 
     public IEnumerator MoveDOWN(bool place)
