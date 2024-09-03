@@ -289,7 +289,7 @@ public class TryQuestConnection:ConnectionStratage
         if (response.status == "OK")
         {
             DataManager.instance.SetQuestInfo(response.data);
-            DataManager.instance.requestSuccess = true;
+            // 성공하면 여기
         }
     }
 }
