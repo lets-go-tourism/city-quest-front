@@ -11,7 +11,6 @@ public class TourData : MonoBehaviour
     {
         this.ServerTourInfo = serverTourInfo;
         this.MeshGO = Instantiate(go, transform);
-
     }
 
 }

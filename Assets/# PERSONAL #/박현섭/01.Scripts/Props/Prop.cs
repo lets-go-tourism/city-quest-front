@@ -27,7 +27,7 @@ public class Prop : MonoBehaviour
             {
                 propGO.SetActive(true);
                 MapUIController.Instance.NameTagContainer.AddTarget(this);
-                if(PropData.status)
+                if(PropData.status == false)
                     CloudContainer.Instance.AddTarget(this);
             }
             else

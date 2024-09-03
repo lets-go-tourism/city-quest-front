@@ -49,7 +49,7 @@ public class TourDataController : MonoBehaviour
             float y = (float)MercatorProjection.latToY(double.Parse(tourList[i].latitude));
 
             Vector3 objPosition = new Vector3(x, 0, y) - MapReader.Instance.boundsCenter;
-            obj.transform.position = objPosition;
+            obj.transform.position = objPosition + new Vector3(0, 10, 0);
 
             TourInfoWordList.Add(tourList[i], obj.GetComponent<TourData>());
             obj.GetComponent<TourData>().Setting(tourList[i], ContentTypeGODic[int.Parse(tourList[i].contenttypeid)]);

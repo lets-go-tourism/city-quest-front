@@ -285,6 +285,13 @@ public class CameraFeed : MonoBehaviour
 
     public void CameraOff()
     {
+        if (webCamTexture != null)
+        {
+            webCamTexture.Stop(); 
+            Destroy(webCamTexture);
+            webCamTexture = null;
+        }
+
         cameraCanvas.enabled = false;
     }
 

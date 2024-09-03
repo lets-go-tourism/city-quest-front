@@ -77,6 +77,11 @@ public class GPS : MonoBehaviour
         return Distance(lat, lon, Latitude, Longtitude, 'm');
     }
 
+    public float GetDistToUserInRealWorld(double lat, double lon)
+    {
+        return 0;
+    }
+
     public bool GetLocation()
     {
         //statusText.text = locationService.status.ToString();
@@ -129,9 +134,29 @@ public class GPS : MonoBehaviour
             distance1.CompareTo(distance2);
             return distance1.CompareTo(distance2);
         });
+
+        DataManager.instance.SetHometourPlaceList(tourPlacesList);
     }
 
-    private double Distance(double lat1, double lon1, double lat2, double lon2, char unit) //각 두 곳의 위도경도를 알면 unit의 거리단위로 거리를 측정하는 함수
+
+    public void DistanceCheck() //관광정보 리스트들에 위도 경도와 나의 GPS 거리를 재서 업데이트함
+    {
+        List<ServerTourInfo> tourPlacesList = DataManager.instance.GetHometourPlacesList();
+        LocationInfo info = DataManager.instance.GetGPSInfo();
+
+
+        for (int i = 0; i < tourPlacesList.Count; i++)
+        {
+            double placeLatitude = Double.Parse(tourPlacesList[i].latitude);
+            double placeLontitude = Double.Parse(tourPlacesList[i].longitude);
+
+            tourPlacesList[i].distance = Distance(placeLatitude, info.latitude, placeLontitude, info.longitude, 'M').ToString();
+        }
+
+        //전체를한번에
+    }
+
+    public double Distance(double lat1, double lon1, double lat2, double lon2, char unit) //각 두 곳의 위도경도를 알면 unit의 거리단위로 거리를 측정하는 함수
     {
         if ((lat1 == lat2) && (lon1 == lon2))
         {
@@ -154,6 +179,7 @@ public class GPS : MonoBehaviour
             }
             return (dist);
         }
+        //하나하나마다계산
     }
 
     private double deg2rad(double deg)
