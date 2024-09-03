@@ -52,16 +52,24 @@ public class SettingPropInfo : MonoBehaviour
     }
 
 
-    // 미탐험 장소 데이터 세팅
+    #region 미탐험 장소 데이터 세팅
     IEnumerator SettingNO()
     {
         // 컨텐트 만들기
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingNO));
 
+        yield return StartCoroutine(nameof(NOInfoSetting));
+
+        // 팝업창 열기
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+    }
+
+    IEnumerator NOInfoSetting()
+    {
         // 데이터 세팅 : 모델링, 장소명, 거리, 주소명, 장소사진, (구분선,) 퀘스트 => 6가지
         //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
-        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ConvertDistance(DataManager.instance.GetQuestInfo().distance); 
+        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ConvertDistance(DataManager.instance.GetQuestInfo().distance);
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
         Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4);
@@ -69,19 +77,23 @@ public class SettingPropInfo : MonoBehaviour
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<Image>().sprite = SettingPropContent.instance.content[6].GetComponent<SpritesHolder>().sprites[0];
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<Button>().enabled = true;
-
-        // 팝업창 열기
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
     }
+    #endregion
 
-    // 탐험한 장소 데이터 세팅
+    #region 탐험한 장소 데이터 세팅
     IEnumerator SettingYES()
     {
         // 컨텐트 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingYES));
 
-        //print(DataManager.instance.GetQuestInfo().locationName);
+       yield return StartCoroutine(nameof(YESInfoSetting));
 
+        // 팝업창 열기
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+    }
+
+    IEnumerator YESInfoSetting()
+    {
         // 데이터 세팅 : 모델링, 장소명, 방문날짜, 주소명, 퀘스트사진, 장소사진 => 6가지
         //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
@@ -92,11 +104,8 @@ public class SettingPropInfo : MonoBehaviour
         yield return StartCoroutine(GetTexture(parameters));
         parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5);
         yield return StartCoroutine(GetTexture(parameters));
-
-        // 팝업창 열기
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
     }
-
+    #endregion
 
     // 장소명 자르기
     string TextBreak(string str)

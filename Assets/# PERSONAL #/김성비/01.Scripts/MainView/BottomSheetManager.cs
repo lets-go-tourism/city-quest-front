@@ -75,8 +75,8 @@ public class BottomSheetManager : MonoBehaviour
         // 관광정보 카드 생성
         int count = 0;
 
-        while (count < tourList.Count)
-        {
+        //while (count < tourList.Count)
+        //{
             for (int i = count; i < 50 + count; i++)
             {
                 GameObject go = Instantiate(cardTour, contentTour);
@@ -95,9 +95,10 @@ public class BottomSheetManager : MonoBehaviour
                 cardinfo.InputTourList(tourList[i]);
             }
 
-            count += 50;
-            yield return new WaitForSeconds(1);
-        }
+            yield return null;
+            //count += 50;
+            //yield return new WaitForSeconds(1);
+        //}
 
         //while (count < tourList.Count)
         //{
