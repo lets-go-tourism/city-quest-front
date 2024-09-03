@@ -565,7 +565,10 @@ public class KJY_ConnectionTMP : MonoBehaviour
     {
         QuestSetting setting = new QuestSetting();
         LocationInfo info = GPS.Instance.LocationInfo;
-        setting.url = "http://43.203.101.31:8080/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
+        //setting.url = "http://43.203.101.31:8080/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
+        setting.url = "http://43.203.101.31:8080/api/v1/quest?questNo=" + questNo + "&lon=" + 126.9786567 + "&lat=" + 37.566826;
+
+        print(setting.url);
 
         TryQuestConnection questConnection = new TryQuestConnection(setting);
     }

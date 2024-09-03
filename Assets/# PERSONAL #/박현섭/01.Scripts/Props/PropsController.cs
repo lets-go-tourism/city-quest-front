@@ -23,6 +23,7 @@ public class PropsController : MonoBehaviour
     [SerializeField] private GameObject propPref;
 
     public Dictionary<long, GameObject> PropMeshDic { get; private set; } = new Dictionary<long, GameObject>();
+    public Dictionary<long, Material> PropMaterial { get; private set; } = new Dictionary<long, Material>();
 
 
     private IEnumerator Start()
@@ -34,6 +35,10 @@ public class PropsController : MonoBehaviour
         PropMeshDic.Add(7, (GameObject)Resources.Load("PropMeshData/SM_PalDGate"));
         PropMeshDic.Add(8, (GameObject)Resources.Load("PropMeshData/SM_HhongGate"));
         PropMeshDic.Add(19, (GameObject)Resources.Load("PropMeshData/SM_Kbow"));
+
+        PropMaterial.Add(4, (Material)Resources.Load("PropMeshData/Material/Churros"));
+        PropMaterial.Add(5, (Material)Resources.Load("PropMeshData/Material/coffee"));
+        PropMaterial.Add(19, (Material)Resources.Load("PropMeshData/Material/KBow"));
 
         while (DataManager.instance.requestSuccess == false)
         {
