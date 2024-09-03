@@ -155,6 +155,7 @@ public class BottomSheetManager : MonoBehaviour
     // 거리 단위 변환
     string ConvertDistance(double distance)
     {
+        print(distance);
         string result = string.Empty;
 
         double tmp = Math.Truncate(distance);
@@ -162,6 +163,7 @@ public class BottomSheetManager : MonoBehaviour
         if (tmp > 1000)
         {
             double calcultate = tmp / 1000;
+            print(calcultate);
             result = (Math.Round(calcultate, 1)).ToString() + "km";
         }
         else
