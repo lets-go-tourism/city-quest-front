@@ -99,6 +99,7 @@ public class DataManager : MonoBehaviour
     //프랍리스트 설정하는 함수
     public void SetHomePropsList(List<ServerProp> homeProps)
     {
+        print("이거 실행 됨???????");
         propsList = homeProps;
     }
 
