@@ -23,6 +23,7 @@ public class SettingManager : MonoBehaviour
     [SerializeField] private Sprite offBtn;
     [SerializeField] private Sprite logOutButtonClick;
 
+
     public AudioSource audioSource;
 
     private bool isSound;
