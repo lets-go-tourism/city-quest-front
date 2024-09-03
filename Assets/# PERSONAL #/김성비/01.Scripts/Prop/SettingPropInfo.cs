@@ -93,7 +93,7 @@ public class SettingPropInfo : MonoBehaviour
         // 데이터 세팅 : 모델링, 장소명, 방문날짜, 주소명, 퀘스트사진, 장소사진 => 6가지
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
         SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().date.ToString("MM월 dd일");
-        SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().addr);
+        SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
         if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
         {
@@ -176,13 +176,14 @@ public class SettingPropInfo : MonoBehaviour
     // 거리 계산
     string ConvertDistance(double distance)
     {
-        string result = "";
+        string result = string.Empty;
 
-        int tmp = Mathf.FloorToInt((float)distance);
-
+        double tmp = Math.Truncate(distance);
+        
         if (tmp > 1000)
         {
-            result = (tmp / 1000).ToString() + "km";
+
+            result = ((int)(tmp / 1000)).ToString() + "km";
         }
         else
         {
@@ -191,7 +192,6 @@ public class SettingPropInfo : MonoBehaviour
 
         return result;
     }
-
 
     // 서버에서 사진 받아오기
     public IEnumerator GetTexture(Parameters raw)
