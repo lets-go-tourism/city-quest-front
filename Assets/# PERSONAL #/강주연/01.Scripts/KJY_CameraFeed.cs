@@ -27,11 +27,13 @@ public class CameraFeed : MonoBehaviour
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
 
+    [SerializeField] private Canvas cameraCanvas;
+
     private void Start()
     {
         rawImageTransform = webCamRawImage.rectTransform;
         originalPos = rawImageTransform.localPosition;
-        SetWebCam();
+        //SetWebCam();
         //StartCoroutine(Tutorial());
     }
 
@@ -274,9 +276,16 @@ public class CameraFeed : MonoBehaviour
         RenderTexture.active = currentRenderTexture;
 
         KJY_ConnectionTMP.instance.OnClickTest(texture2D, 1);
+
+        CameraOff();
         //if (notTutorial == true)
         //{
         //}
+    }
+
+    public void CameraOff()
+    {
+        cameraCanvas.enabled = false;
     }
 
     //private IEnumerator Tutorial()

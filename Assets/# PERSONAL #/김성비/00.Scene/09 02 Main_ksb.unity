@@ -96147,6 +96147,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3431295481325358044, guid: 784efb17008e6c54aa507daac1c82b07,
+        type: 3}
+      propertyPath: m_Name
+      value: BackGround Dark
+      objectReference: {fileID: 0}
     - target: {fileID: 3775725548050496145, guid: 784efb17008e6c54aa507daac1c82b07,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -96316,6 +96321,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322805082988616322, guid: 784efb17008e6c54aa507daac1c82b07,
+        type: 3}
+      propertyPath: m_BackgroundDarkImage
+      value: 
+      objectReference: {fileID: 1558686475}
+    - target: {fileID: 7758328120921448472, guid: 784efb17008e6c54aa507daac1c82b07,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7811203126578553215, guid: 784efb17008e6c54aa507daac1c82b07,
         type: 3}
@@ -104413,6 +104428,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: 
   end: 
+--- !u!114 &1558686475 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7758328120921448472, guid: 784efb17008e6c54aa507daac1c82b07,
+    type: 3}
+  m_PrefabInstance: {fileID: 1429935776}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1559067647
 Mesh:
   m_ObjectHideFlags: 0

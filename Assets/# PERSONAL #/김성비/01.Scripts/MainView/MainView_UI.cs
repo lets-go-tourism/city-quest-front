@@ -25,6 +25,11 @@ public class MainView_UI : MonoBehaviour
         buttons[2].onClick.AddListener(() => BTN_Quests());
     }
 
+    private void Start()
+    {
+        m_BackgroundDarkImage.enabled = false;
+    }
+
     void BTN_Settings()
     {
         print("BTN_Settings");
@@ -38,5 +43,18 @@ public class MainView_UI : MonoBehaviour
     void BTN_Quests()
     {
         print("BTN_Quests");
+    }
+
+    // ¹ÚÇö¼·
+    public Image m_BackgroundDarkImage;
+
+    public void BackgroundDarkEnable()
+    {
+        m_BackgroundDarkImage.enabled = true;
+    }
+
+    public void BackgroundDarkDisable()
+    {
+        m_BackgroundDarkImage.enabled = false;
     }
 }

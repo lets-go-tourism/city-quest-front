@@ -79,6 +79,9 @@ public class PopUpMovement : MonoBehaviour
             tourState = TourState.DOWN;
         }
 
+        // ¹è°æ ¾ÏÀü ²ô±â
+        MainView_UI.instance.BackgroundDarkDisable();
+
         // 3D ¸ðµ¨¸µ        
         Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
         Props_UI.instance.propModeling.gameObject.SetActive(false);

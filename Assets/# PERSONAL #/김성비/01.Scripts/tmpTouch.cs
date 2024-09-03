@@ -72,25 +72,38 @@ public class tmpTouch : MonoBehaviour
         RayTouch();
     }
 
+    private bool began = true;
+
     private void RayTouch()
     {
         if (Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
 
+            // UI 뚫고 GameObject 터치 제한
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                if (EventSystem.current.IsPointerOverGameObject(i))
+                {
+                    began = false;
+                    return;
+                }
+            }
+
             if (touch.phase == TouchPhase.Began)
             {
-                // UI 뚫고 GameObject 터치 제한
-                for (int i = 0; i < Input.touchCount; i++)
-                {
-                    if (EventSystem.current.IsPointerOverGameObject(i))
-                    {
-                        return;
-                    }
-                }
-
+                began = true;
+            }
+            else if(began &&  touch.phase == TouchPhase.Moved)
+            {
+                began = false;
+            }
+            else if (touch.phase == TouchPhase.Ended && began)
+            {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
+
+                print("터치 시도");
 
                 // 탐험장소 프랍을 터치했을 때
                 if (Physics.Raycast(ray, out hit, layerProp))
@@ -110,10 +123,13 @@ public class tmpTouch : MonoBehaviour
                 // 관광정보 프랍을 터치했을 때
                 else if (Physics.Raycast(ray, out hit, layerTour))
                 {
-                    DataManager.instance.requestSuccess = false;
+                    //DataManager.instance.requestSuccess = false;
 
                     // 관광 정보를 받아옴
+                    TourData tourData = hit.collider.GetComponent<TourData>();
+                    ServerTourInfo serverTourInfo = tourData.ServerTourInfo;
 
+                    // 암전 키고 << 
 
                     // 팝업창에 정보 세팅
                     SettingTourInfo.instance.TourInfoSetting();

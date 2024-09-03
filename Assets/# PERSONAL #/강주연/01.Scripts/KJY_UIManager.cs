@@ -94,36 +94,24 @@ public class KJY_UIManager : MonoBehaviour
         }
         else
         {
-            text1.text = "here";
-            LoginResponse loginResponse = DataManager.instance.GetLoginData();
-            if (text1.text == null)
-            {
-                text1.text = "error";
-            }
-            if (loginResponse.data.agreed != true)
-            {
-                isConfirmView = true;
-                kakaoBtn.SetActive(false);
-                authorizationObject.SetActive(true);
-                text1.text = "here";
-            }
-            else if (Permission.HasUserAuthorizedPermission(Permission.FineLocation) == false || Permission.HasUserAuthorizedPermission(Permission.Camera) == false || Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS") == false) 
-            {
-                splash_onBoardObject.SetActive(false);
-                kakaoBtn.SetActive(false);
-                authorizationObject.SetActive(true);
-                isLogin = true;
-                text1.text = "here2";
-            }
-            else
-            {
-                //SceneMove();
-                kakaoBtn.SetActive(false); //TMP
-                splash_onBoardObject.SetActive(false); //TMP
-                kakaoBtn.SetActive(false); //TMP
-                KJY_ConnectionTMP.instance.OnClickHomeConnection();
-                text1.text = "here3";
-            }
+            LoginCheck();
+        }
+    }
+
+    public void LoginCheck()
+    {
+        if (Permission.HasUserAuthorizedPermission(Permission.FineLocation) == false || Permission.HasUserAuthorizedPermission(Permission.Camera) == false || Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS") == false)
+        {
+            splash_onBoardObject.SetActive(false);
+            kakaoBtn.SetActive(false);
+            authorizationObject.SetActive(true);
+            isLogin = true;
+        }
+        else
+        {
+            splash_onBoardObject.SetActive(false); //TMP
+            kakaoBtn.SetActive(false); //TMP
+            SceneMove();
         }
     }
 
@@ -219,6 +207,7 @@ public class KJY_UIManager : MonoBehaviour
                 authorizationObject.SetActive(false);
                 loginText.text = "회원가입 성공!\n환영해요.";
                 CustomerLoginUI.SetActive(true);
+                DataManager.instance.JsonSave();
             }
             else
             {
@@ -250,6 +239,7 @@ public class KJY_UIManager : MonoBehaviour
         {
             state = authState.GPS;
             AuthorizationCamera();
+            DataManager.instance.JsonSave();
         }
         else if (state == authState.GPS)
         {
@@ -304,6 +294,8 @@ public class KJY_UIManager : MonoBehaviour
     #region existCustomer
     public void ShownLoginSccuess()
     {
+        splash_onBoardObject.SetActive(false);
+        kakaoBtn.SetActive(false);
         loginText.text = "로그인 성공!\n환영해요.";
         CustomerLoginUI.SetActive(true);
     }
