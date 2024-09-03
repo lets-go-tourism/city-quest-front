@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class ButtonActions : MonoBehaviour
 {
     Button btn;
-    public Transform bs_Tour;
+    public Transform BS_Place;
     public Transform content;
 
     private void Start()
@@ -40,15 +40,15 @@ public class ButtonActions : MonoBehaviour
         {
             Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
             Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
-            bs_Tour.gameObject.SetActive(false);
+            BS_Place.gameObject.SetActive(true);
         }
 
         // °ü±¤Á¤º¸ ÅÇ
         if (num == 1)
         {
-            Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
             Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
-            bs_Tour.gameObject.SetActive(true);
+            Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
+            BS_Place.gameObject.SetActive(false);
         }
     }
 }

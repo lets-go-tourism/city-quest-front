@@ -73,23 +73,36 @@ public class BottomSheetManager : MonoBehaviour
     IEnumerator GenTour()
     {
         // 관광정보 카드 생성
-        for (int i = 0; i < 10; i++)
+        int count = 0;
+
+        while (count < tourList.Count)
         {
-            GameObject go = Instantiate(cardTour, contentTour);
+            for (int i = count; i < 50 + count; i++)
+            {
+                if (double.Parse(tourList[i].distance) < 1500)
+                {
+                    GameObject go = Instantiate(cardTour, contentTour);
 
-            tourGOList.Add(go);
+                    tourGOList.Add(go);
 
-            CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
-            cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
-            cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
-            cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
-            cardinfo.SettingTourType(tourList[i].contenttypeid);
-            cardinfo.InputTourList(tourList[i]);
+                    CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
+                    cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
+                    cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
+                    if (tourList[i].imageUrl != string.Empty)
+                    {
+                        cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
+                    }
+                    else { print(TextBreakTour(tourList[i].title)); }
+                    cardinfo.SettingTourType(tourList[i].contenttypeid);
+                    cardinfo.InputTourList(tourList[i]);
+                }
+            }
+
+            count += 50;
+            yield return new WaitForSeconds(1);
         }
 
-        yield return new WaitForSeconds(1f);
-
-        GetComponent<ButtonActions>().ChangeBottomSheet(0);
+        // GetComponent<ButtonActions>().ChangeBottomSheet(0);
     }
 
     // 거리 단위 변환
