@@ -17,11 +17,8 @@ public class SettingTourInfo : MonoBehaviour
 
     public Transform[] contents;
 
-    public IEnumerator TourInfoSetting(ServerTourInfo info)
+    public void TourInfoSetting(ServerTourInfo info)
     {
-        // 암전 키고
-        MainView_UI.instance.BackgroundDarkEnable();
-
         // 이름
         contents[0].gameObject.SetActive(false);
         contents[0].gameObject.SetActive(true);
@@ -47,7 +44,7 @@ public class SettingTourInfo : MonoBehaviour
         {
             contents[5].GetComponent<TextMeshProUGUI>().enabled = false;
             contents[4].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
-            yield return StartCoroutine(nameof(GetTexture), info.imageUrl);
+            //yield return StartCoroutine(nameof(GetTexture), info.imageUrl);
         }
         else
         {
@@ -145,19 +142,26 @@ public class SettingTourInfo : MonoBehaviour
     }
 
     // 장소 이미지 변환
-    public IEnumerator GetTexture(string str)
+    public IEnumerator GetTexture(ServerTourInfo tourInfo)
     {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(str);
+        // 암전 키고
+        MainView_UI.instance.BackgroundDarkEnable();
+
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(tourInfo.imageUrl);
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
             Debug.Log(www.error);
+
+            // 암전 끄고
+            MainView_UI.instance.BackgroundDarkDisable();
         }
         else
         {
             Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
             contents[4].GetComponent<RawImage>().texture = myTexture;
+            TourInfoSetting(tourInfo);
         }
     }
 

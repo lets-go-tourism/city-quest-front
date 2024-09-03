@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -28,7 +29,7 @@ public class HttpManager : MonoBehaviour
     public string test;
 
     // 박현섭
-    public bool RequestSuccess { get; private set; } = false;
+    //public bool RequestSuccess { get; private set; } = false;
 
     private void Awake()
     {
@@ -116,6 +117,11 @@ public class HttpManager : MonoBehaviour
             print("요청 완료");
             print(request.downloadHandler.text);
             requester.Complete(request.downloadHandler);
+
+            if(successDelegate != null)
+                successDelegate.Invoke();
+
+            successDelegate = null;
         }
         else
         {
@@ -124,6 +130,19 @@ public class HttpManager : MonoBehaviour
             print(request.downloadHandler.text);
             print(request.error);
             //StartCoroutine(KJY_ConnectionTMP.instance.successText());
+
+            if(errorDelegate != null)
+                errorDelegate.Invoke();
+
+            errorDelegate = null;
         }
     }
+
+
+    public delegate void RequestSuccessDelegate();
+    public delegate void RequestErrorDelegate();
+
+    public RequestSuccessDelegate successDelegate;
+    public RequestErrorDelegate errorDelegate;
+
 }

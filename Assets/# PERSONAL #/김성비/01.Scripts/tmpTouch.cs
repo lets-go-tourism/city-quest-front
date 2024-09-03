@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -109,7 +110,7 @@ public class tmpTouch : MonoBehaviour
 
                     if (hitLayer == LayerMask.NameToLayer("Prop"))
                     {
-                        DataManager.instance.requestSuccess = false;
+                        //DataManager.instance.requestSuccess = false;
 
                         // 프랍정보를 받아옴
                         Prop prop = hit.collider.GetComponent<Prop>();
@@ -117,8 +118,13 @@ public class tmpTouch : MonoBehaviour
                         // 프랍정보 중 propNo 을 서버에 보냄
                         KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
 
+                        MainView_UI.instance.BackgroundDarkEnable();
+
+                        HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); };
+                        HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
+
                         // propNo 에 해당되는 데이터를 받아와서 팝업창에 정보 세팅
-                        SettingPropInfo.instance.StartCoroutine(nameof(SettingPropInfo.instance.PropInfoSetting));
+
                     }
 
                     else if(hitLayer == LayerMask.NameToLayer("Tour"))
@@ -131,8 +137,11 @@ public class tmpTouch : MonoBehaviour
                         TourData tourData = hit.collider.GetComponent<TourData>();
                         ServerTourInfo serverTourInfo = tourData.ServerTourInfo;
 
+                        //
+                        SettingTourInfo.instance.StartCoroutine(nameof(SettingTourInfo.instance.GetTexture), serverTourInfo);
+
                         // 팝업창에 정보 세팅
-                        SettingTourInfo.instance.StartCoroutine(nameof(SettingTourInfo.instance.TourInfoSetting),serverTourInfo);
+                        
                     }
                 }
             }
