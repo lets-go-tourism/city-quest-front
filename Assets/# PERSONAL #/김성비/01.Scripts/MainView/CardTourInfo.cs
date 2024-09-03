@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
+using TMPro;
 
 public class CardTourInfo : MonoBehaviour
 {
@@ -22,10 +23,16 @@ public class CardTourInfo : MonoBehaviour
 
     public ServerTourInfo ServerTourInfo { get; private set; }
 
+    public IEnumerator Start()
+    {
+        info[1].GetComponent<TextMeshProUGUI>().text = GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.longitude), double.Parse(ServerTourInfo.latitude)).ToString();
+
+        yield return new WaitForSeconds(5);
+    }
+
     // 이미지 세팅
     public IEnumerator GetTexture(string url)
     {
-
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
@@ -50,14 +57,14 @@ public class CardTourInfo : MonoBehaviour
         int no = 0;
         no = int.Parse(str);
 
-        if (no == 12)       { type = Type.TouristSpot; }
-        else if (no == 14)  { type = Type.CulturalFacilities; }
-        else if (no == 15)  { type = Type.Festival; }
-        else if (no == 25)  { type = Type.TravelCource; }
-        else if (no == 28)  { type = Type.LeisureSports; }
-        else if (no == 32)  { type = Type.Lodgment; }
-        else if (no == 38)  { type = Type.Shopping; }
-        else if (no == 39)  { type = Type.Food; }
+        if (no == 12) { type = Type.TouristSpot; }
+        else if (no == 14) { type = Type.CulturalFacilities; }
+        else if (no == 15) { type = Type.Festival; }
+        else if (no == 25) { type = Type.TravelCource; }
+        else if (no == 28) { type = Type.LeisureSports; }
+        else if (no == 32) { type = Type.Lodgment; }
+        else if (no == 38) { type = Type.Shopping; }
+        else if (no == 39) { type = Type.Food; }
     }
 
 

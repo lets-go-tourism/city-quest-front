@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
-using static SettingPropInfo;
-using UnityEngine.Networking;
-using UnityEngine.UI;
 using System;
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+using UnityEngine.Networking;
 
 public class SettingTourInfo : MonoBehaviour
 {
@@ -121,15 +119,17 @@ public class SettingTourInfo : MonoBehaviour
     }
 
     // 거리 변환
+
     string ConvertDistance(double distance)
     {
-        string result = "";
+        string result = string.Empty;
 
-        int tmp = Mathf.FloorToInt((float)distance);
+        double tmp = Math.Truncate(distance);
 
         if (tmp > 1000)
         {
-            result = (tmp / 1000).ToString() + "km";
+            double calcultate = tmp / 1000;
+            result = (Math.Round(calcultate, 1)).ToString() + "km";
         }
         else
         {

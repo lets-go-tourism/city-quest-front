@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
+using TMPro;
 
 public class CardPlaceInfo : MonoBehaviour
 {
@@ -15,6 +16,14 @@ public class CardPlaceInfo : MonoBehaviour
     public Type type;
 
     public ServerAdventurePlace ServerAdventurePlace { get; private set; }
+    public ServerProp ServerProp { get; private set; }
+
+    public IEnumerator Start()
+    {
+        info[1].GetComponent<TextMeshProUGUI>().text = (GPS.Instance.GetDistToUserInRealWorld(ServerProp.longitude, ServerProp.latitude)).ToString();
+
+        yield return new WaitForSeconds(5);
+    }
 
     public IEnumerator GetTexture(string url)
     {
@@ -44,6 +53,11 @@ public class CardPlaceInfo : MonoBehaviour
     public void SetServerProp(ServerAdventurePlace prop)
     {
         this.ServerAdventurePlace = prop;
+    }
+
+    public void setPlaceProp(ServerProp serverProp)
+    {
+        this.ServerProp = serverProp;
     }
 
     public void SendPlaceInfo()

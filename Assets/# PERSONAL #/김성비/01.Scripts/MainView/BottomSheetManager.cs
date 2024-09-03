@@ -16,6 +16,7 @@ public class BottomSheetManager : MonoBehaviour
     public Transform contentTour;
 
     // 리스트
+    List<ServerProp> propList;
     List<ServerAdventurePlace> placeList;
     List<ServerTourInfo> tourList;
 
@@ -31,11 +32,8 @@ public class BottomSheetManager : MonoBehaviour
         tourGOList = new List<GameObject>();
     }
 
-    //private void Update()
-    //{
-        
-    //}
-
+    CardPlaceInfo cardPlaceInfo;
+    CardTourInfo cardTourInfo;
     private IEnumerator Start()
     {
         while (DataManager.instance.requestSuccess == false)
@@ -49,6 +47,7 @@ public class BottomSheetManager : MonoBehaviour
     // 초기 세팅
     public IEnumerator SettingList()
     {
+        propList = DataManager.instance.GetHomePropsList();
         placeList = DataManager.instance.GetHomeAdventurePlacesList();
         tourList = DataManager.instance.GetHometourPlacesList();
 
@@ -59,13 +58,16 @@ public class BottomSheetManager : MonoBehaviour
 
             placeGOList.Add(go);
 
-            CardPlaceInfo cardinfo = placeGOList[i].GetComponent<CardPlaceInfo>();
+            cardPlaceInfo = placeGOList[i].GetComponent<CardPlaceInfo>();
 
-            cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakPlace(placeList[i].name);
-            cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(placeList[i].distance);
-            cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), placeList[i].imageUrl);
-            cardinfo.SettingPlaceType(placeList[i].status);
-            cardinfo.SetServerProp(placeList[i]);
+            cardPlaceInfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakPlace(placeList[i].name);
+            cardPlaceInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
+            cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.GetTexture), placeList[i].imageUrl);
+            cardPlaceInfo.SettingPlaceType(placeList[i].status);
+            cardPlaceInfo.SetServerProp(placeList[i]);
+            cardPlaceInfo.setPlaceProp(propList[i]);
+
+            cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start));
         }
 
         yield return StartCoroutine(GenTour());
@@ -78,88 +80,96 @@ public class BottomSheetManager : MonoBehaviour
         // 관광정보 카드 생성
         int count = 0;
 
-        //while (count < tourList.Count)
-        //{
-        for (int i = count; i < 50 + count; i++)
+        while (count < tourList.Count)
         {
-            GameObject go = Instantiate(cardTour, contentTour);
+            int end = Mathf.Min(count + 30, tourList.Count);
 
-            tourGOList.Add(go);
+            for (int i = count; i < end; i++)
+            {
+                GameObject go = Instantiate(cardTour, contentTour);
 
-            CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
-            cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
-            cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
-            if (tourList[i].imageUrl != string.Empty)
-            {
-                cardinfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
-                cardinfo.info[3].GetComponent<TextMeshProUGUI>().enabled = false;
-                cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
+                tourGOList.Add(go);
+
+                cardTourInfo = tourGOList[i].GetComponent<CardTourInfo>();
+                cardTourInfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
+                cardTourInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
+                if (tourList[i].imageUrl != string.Empty)
+                {
+                    cardTourInfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
+                    cardTourInfo.info[3].GetComponent<TextMeshProUGUI>().enabled = false;
+                    cardTourInfo.StartCoroutine(nameof(cardTourInfo.GetTexture), tourList[i].imageUrl);
+                }
+                else
+                {
+                    cardTourInfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
+                    cardTourInfo.info[3].GetComponent<TextMeshProUGUI>().enabled = true;
+                }
+                cardTourInfo.SettingTourType(tourList[i].contenttypeid);
+                cardTourInfo.InputTourList(tourList[i]);
             }
-            else 
+            if (count == 120)
             {
-                cardinfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
-                cardinfo.info[3].GetComponent<TextMeshProUGUI>().enabled = true;
+                count += 10;
             }
-            cardinfo.SettingTourType(tourList[i].contenttypeid);
-            cardinfo.InputTourList(tourList[i]);
+            else
+            {
+                count += 30;
+            }
+
+            if(count >= tourList.Count) yield break;
+
+            yield return new WaitForSeconds(1);
         }
-
-        yield return null;
-        //count += 50;
-        //yield return new WaitForSeconds(1);
-        //}
-
-        //while (count < tourList.Count)
-        //{
-        //    for (int i = count; i < 50 + count; i++)
-        //    {
-        //        if (double.Parse(tourList[i].distance) < 1500)
-        //        {
-        //            GameObject go = Instantiate(cardTour, contentTour);
-
-        //            tourGOList.Add(go);
-
-        //            CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
-        //            cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
-        //            cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
-        //            if (tourList[i].imageUrl != string.Empty)
-        //            {
-        //                cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
-        //            }
-        //            else { print(TextBreakTour(tourList[i].title)); }
-        //            cardinfo.SettingTourType(tourList[i].contenttypeid);
-        //            cardinfo.InputTourList(tourList[i]);
-        //        }
-        //    }
-
-        //    count += 50;
-        //    yield return new WaitForSeconds(1);
-        //}
-        // GetComponent<ButtonActions>().ChangeBottomSheet(0);
+        ///count += 50;
+        ///yield return new WaitForSeconds(1);
+        ///}
+        ///while (count < tourList.Count)
+        ///{
+        ///    for (int i = count; i < 50 + count; i++)
+        ///    {
+        ///        if (double.Parse(tourList[i].distance) < 1500)
+        ///        {
+        ///            GameObject go = Instantiate(cardTour, contentTour);
+        ///
+        ///            tourGOList.Add(go);
+        ///
+        ///            CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
+        ///            cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
+        ///            cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
+        ///            if (tourList[i].imageUrl != string.Empty)
+        ///            {
+        ///                cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
+        ///            }
+        ///            else { print(TextBreakTour(tourList[i].title)); }
+        ///            cardinfo.SettingTourType(tourList[i].contenttypeid);
+        ///            cardinfo.InputTourList(tourList[i]);
+        ///        }
+        ///    }
+        ///
+        ///    count += 50;
+        ///    yield return new WaitForSeconds(1);
+        ///}
+        /// GetComponent<ButtonActions>().ChangeBottomSheet(0);
     }
 
     // 거리 단위 변환
-    string MtoKM(double distance)
+    string ConvertDistance(double distance)
     {
-        float adjDistance = 0;
+        string result = string.Empty;
 
-        if (distance < 1000)
+        double tmp = Math.Truncate(distance);
+
+        if (tmp > 1000)
         {
-            adjDistance = (float)distance;
-            int tmp = Mathf.FloorToInt(adjDistance);
-
-            adjDistance = tmp;
-            return adjDistance.ToString() + "m";
+            double calcultate = tmp / 1000;
+            result = (Math.Round(calcultate, 1)).ToString() + "km";
         }
         else
         {
-            adjDistance = (float)distance;
-            int tmp = Mathf.FloorToInt(adjDistance);
-
-            adjDistance = tmp / 1000;
-
-            return adjDistance.ToString() + "km";
+            result = tmp.ToString() + "m";
         }
+
+        return result;
     }
 
     // 텍스트브레이크 - 장소
@@ -178,7 +188,7 @@ public class BottomSheetManager : MonoBehaviour
             // 1줄
             if (nameSplit.Length < 2)
             {
-                result = nameSplit[0]; 
+                result = nameSplit[0];
             }
             // 2줄
             else
@@ -188,10 +198,10 @@ public class BottomSheetManager : MonoBehaviour
         }
 
         // 여섯글자 이상
-        else if (chars0.Length >= 5) 
+        else if (chars0.Length >= 5)
         {
             // 띄어쓰기 없는 경우
-            if (nameSplit.Length < 2) 
+            if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
@@ -210,7 +220,7 @@ public class BottomSheetManager : MonoBehaviour
                 else
                 {
                     result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // 두번째 줄 다섯글자 초과
-                }   
+                }
             }
         }
 
