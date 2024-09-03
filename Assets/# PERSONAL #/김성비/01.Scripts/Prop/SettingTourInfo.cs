@@ -29,8 +29,6 @@ public class SettingTourInfo : MonoBehaviour
         double latTour = double.Parse(info.latitude);
         double lonTour = double.Parse(info.longitude);
 
-        GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour);
-
         contents[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));
 
         // аж╪р

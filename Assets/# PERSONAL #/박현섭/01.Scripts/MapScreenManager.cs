@@ -9,7 +9,7 @@ public class MapScreenManager : MonoBehaviour
     {
         HttpManager.instance.loginData = new LoginResponse();
         HttpManager.instance.loginData.data = new LoginData();
-        HttpManager.instance.loginData.data.accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzI1Mjc5MjM1LCJleHAiOjE4MTE2NzkyMzV9.taaVL_qnRmhE5nBQQvieeOy0KAO-vguGbsocbJq8OglzZzgjYlUiC9oLG3BT0SKM";
+        HttpManager.instance.loginData.data.accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0IiwiaWF0IjoxNzI1MzUxMjc1LCJleHAiOjE4MTE3NTEyNzV9.Z79jBdCygqYa7d0eJzgOt1ZGBVVF90tLB0axxRmyRDWZbg89B7rRzrVtknQ_8Qgn";
         KJY_ConnectionTMP.instance.OnClickHomeConnection();
     }
 }

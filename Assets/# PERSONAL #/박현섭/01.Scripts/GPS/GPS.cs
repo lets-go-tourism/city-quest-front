@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,9 +9,8 @@ public class GPS : MonoBehaviour
 {
     public static GPS Instance;
 
-    [Header("ÀÓ½Ã ÇöÀç À§Ä¡")]
+    [Header("ì„ì‹œ í˜„ì¬ ìœ„ì¹˜")]
     public bool gpsTestPos = false;
-    public Vector3 testPos;
 
     [Header("Setting")]
     public bool startGPSOnStart;
@@ -21,8 +20,8 @@ public class GPS : MonoBehaviour
     [Header("Chche")]
     private LocationService locationService;
 
-    public float Latitude { get; private set; }
-    public float Longtitude { get; private set; }
+    public double Latitude { get; private set; }
+    public double Longtitude { get; private set; }
 
     public LocationInfo LocationInfo { get; private set; }
 
@@ -41,6 +40,12 @@ public class GPS : MonoBehaviour
         if (startGPSOnStart)
         {
             StartGPS();
+        }
+
+        if (gpsTestPos)
+        {
+            Longtitude = 127.016415;
+            Latitude = 37.282649;
         }
     }
 
@@ -61,15 +66,15 @@ public class GPS : MonoBehaviour
 
     private void Update()
     {
+        if (gpsTestPos)
+            return;
+
         GetLocation();
     }
 
     public Vector3 GetUserWorldPosition()
     {
-        if (gpsTestPos)
-            return testPos;
-        else
-            return new Vector3((float)MercatorProjection.lonToX(Longtitude), 0, (float)MercatorProjection.latToY(Latitude)) - MapReader.Instance.bounds.Center;
+        return new Vector3((float)MercatorProjection.lonToX(Longtitude), 0, (float)MercatorProjection.latToY(Latitude)) - MapReader.Instance.boundsCenter;
     }
 
     public double GetUserToDist(double lat, double lon)
@@ -77,9 +82,9 @@ public class GPS : MonoBehaviour
         return Distance(lat, lon, Latitude, Longtitude, 'm');
     }
 
-    public float GetDistToUserInRealWorld(double lat, double lon)
+    public double GetDistToUserInRealWorld(double lat1, double lon1)
     {
-        return 0;
+        return Distance(lat1, lon1, Latitude, Longtitude, 'M');
     }
 
     public bool GetLocation()
@@ -101,7 +106,7 @@ public class GPS : MonoBehaviour
                 LocationInfo = locationService.lastData;
                 Latitude = LocationInfo.latitude;
                 Longtitude = LocationInfo.longitude;
-                //UpdateLocationUI(info); // ÀÓ½Ã
+                //UpdateLocationUI(info); // ì„ì‹œ
                 return true;
         }
     }
@@ -113,7 +118,7 @@ public class GPS : MonoBehaviour
         //altitudeText.text = "alt: " + info.altitude.ToString();
     }
 
-    public void DistanceSort() //°¢ ÇÔ¼ö °Å¸® È®ÀÎÈÄ ¾÷µ¥ÀÌÆ® ÈÄ ¼ÖÆ®ÇØÁÜ
+    public void DistanceSort() //ê° í•¨ìˆ˜ ê±°ë¦¬ í™•ì¸í›„ ì—…ë°ì´íŠ¸ í›„ ì†”íŠ¸í•´ì¤Œ
     {
         List<ServerTourInfo> tourPlacesList = DataManager.instance.GetHometourPlacesList();
         LocationInfo info = DataManager.instance.GetGPSInfo();
@@ -139,7 +144,7 @@ public class GPS : MonoBehaviour
     }
 
 
-    public void DistanceCheck() //°ü±¤Á¤º¸ ¸®½ºÆ®µé¿¡ À§µµ °æµµ¿Í ³ªÀÇ GPS °Å¸®¸¦ Àç¼­ ¾÷µ¥ÀÌÆ®ÇÔ
+    public void DistanceCheck() //ê´€ê´‘ì •ë³´ ë¦¬ìŠ¤íŠ¸ë“¤ì— ìœ„ë„ ê²½ë„ì™€ ë‚˜ì˜ GPS ê±°ë¦¬ë¥¼ ì¬ì„œ ì—…ë°ì´íŠ¸í•¨
     {
         List<ServerTourInfo> tourPlacesList = DataManager.instance.GetHometourPlacesList();
         LocationInfo info = DataManager.instance.GetGPSInfo();
@@ -153,10 +158,10 @@ public class GPS : MonoBehaviour
             tourPlacesList[i].distance = Distance(placeLatitude, info.latitude, placeLontitude, info.longitude, 'M').ToString();
         }
 
-        //ÀüÃ¼¸¦ÇÑ¹ø¿¡
+        //ì „ì²´ë¥¼í•œë²ˆì—
     }
 
-    public double Distance(double lat1, double lon1, double lat2, double lon2, char unit) //°¢ µÎ °÷ÀÇ À§µµ°æµµ¸¦ ¾Ë¸é unitÀÇ °Å¸®´ÜÀ§·Î °Å¸®¸¦ ÃøÁ¤ÇÏ´Â ÇÔ¼ö
+    public double Distance(double lat1, double lon1, double lat2, double lon2, char unit) //ê° ë‘ ê³³ì˜ ìœ„ë„ê²½ë„ë¥¼ ì•Œë©´ unitì˜ ê±°ë¦¬ë‹¨ìœ„ë¡œ ê±°ë¦¬ë¥¼ ì¸¡ì •í•˜ëŠ” í•¨ìˆ˜
     {
         if ((lat1 == lat2) && (lon1 == lon2))
         {
@@ -179,7 +184,7 @@ public class GPS : MonoBehaviour
             }
             return (dist);
         }
-        //ÇÏ³ªÇÏ³ª¸¶´Ù°è»ê
+        //í•˜ë‚˜í•˜ë‚˜ë§ˆë‹¤ê³„ì‚°
     }
 
     private double deg2rad(double deg)
