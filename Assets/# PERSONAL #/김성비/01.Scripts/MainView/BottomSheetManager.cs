@@ -79,29 +79,52 @@ public class BottomSheetManager : MonoBehaviour
         {
             for (int i = count; i < 50 + count; i++)
             {
-                if (double.Parse(tourList[i].distance) < 1500)
+                GameObject go = Instantiate(cardTour, contentTour);
+
+                tourGOList.Add(go);
+
+                CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
+                cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
+                cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
+                if (tourList[i].imageUrl != string.Empty)
                 {
-                    GameObject go = Instantiate(cardTour, contentTour);
-
-                    tourGOList.Add(go);
-
-                    CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
-                    cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
-                    cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
-                    if (tourList[i].imageUrl != string.Empty)
-                    {
-                        cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
-                    }
-                    else { print(TextBreakTour(tourList[i].title)); }
-                    cardinfo.SettingTourType(tourList[i].contenttypeid);
-                    cardinfo.InputTourList(tourList[i]);
+                    cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
                 }
+                else { print(TextBreakTour(tourList[i].title)); }
+                cardinfo.SettingTourType(tourList[i].contenttypeid);
+                cardinfo.InputTourList(tourList[i]);
             }
 
             count += 50;
             yield return new WaitForSeconds(1);
         }
 
+        //while (count < tourList.Count)
+        //{
+        //    for (int i = count; i < 50 + count; i++)
+        //    {
+        //        if (double.Parse(tourList[i].distance) < 1500)
+        //        {
+        //            GameObject go = Instantiate(cardTour, contentTour);
+
+        //            tourGOList.Add(go);
+
+        //            CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
+        //            cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
+        //            cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
+        //            if (tourList[i].imageUrl != string.Empty)
+        //            {
+        //                cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
+        //            }
+        //            else { print(TextBreakTour(tourList[i].title)); }
+        //            cardinfo.SettingTourType(tourList[i].contenttypeid);
+        //            cardinfo.InputTourList(tourList[i]);
+        //        }
+        //    }
+
+        //    count += 50;
+        //    yield return new WaitForSeconds(1);
+        //}
         // GetComponent<ButtonActions>().ChangeBottomSheet(0);
     }
 
