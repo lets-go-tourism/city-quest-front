@@ -27,7 +27,7 @@ public class SettingPropInfo : MonoBehaviour
         instance = this;
     }
 
-    // ¼­¹ö Åë½Å ¹Þ¾Æ¿Í¼­ ¼¼ÆÃ ½ÃÀÛ
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿Í¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void PropInfoSetting()
     {
         MainView_UI.instance.BackgroundDarkEnable();
@@ -45,23 +45,23 @@ public class SettingPropInfo : MonoBehaviour
     }
 
 
-    #region ¹ÌÅ½Çè Àå¼Ò µ¥ÀÌÅÍ ¼¼ÆÃ
+    #region ï¿½ï¿½Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     IEnumerator SettingNO()
     {
-        // ÄÁÅÙÆ® ¸¸µé±â
+        // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingNO));
 
         yield return StartCoroutine(nameof(NOInfoSetting));
 
-        // ÆË¾÷Ã¢ ¿­±â
+        // ï¿½Ë¾ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
     }
 
     IEnumerator NOInfoSetting()
     {
-        // µ¥ÀÌÅÍ ¼¼ÆÃ : (¸ðµ¨¸µ,) Àå¼Ò¸í, °Å¸®, ÁÖ¼Ò¸í, ¸µÅ©, Àå¼Ò»çÁø, (±¸ºÐ¼±,) Äù½ºÆ® => 6°¡Áö
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : (ï¿½ðµ¨¸ï¿½,) ï¿½ï¿½Ò¸ï¿½, ï¿½Å¸ï¿½, ï¿½Ö¼Ò¸ï¿½, ï¿½ï¿½Å©, ï¿½ï¿½Ò»ï¿½ï¿½ï¿½, (ï¿½ï¿½ï¿½Ð¼ï¿½,) ï¿½ï¿½ï¿½ï¿½Æ® => 6ï¿½ï¿½ï¿½ï¿½
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
-        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ConvertDistance(DataManager.instance.GetQuestInfo().distance);
+        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().distance.ToString();
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
         if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
@@ -76,23 +76,25 @@ public class SettingPropInfo : MonoBehaviour
     }
     #endregion
 
-    #region Å½ÇèÇÑ Àå¼Ò µ¥ÀÌÅÍ ¼¼ÆÃ
+    #region Å½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     IEnumerator SettingYES()
     {
-        // ÄÁÅÙÆ® »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingYES));
 
         yield return StartCoroutine(nameof(YESInfoSetting));
 
-        // ÆË¾÷Ã¢ ¿­±â
+        // ï¿½Ë¾ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
     }
 
     IEnumerator YESInfoSetting()
     {
-        // µ¥ÀÌÅÍ ¼¼ÆÃ : ¸ðµ¨¸µ, Àå¼Ò¸í, ¹æ¹®³¯Â¥, ÁÖ¼Ò¸í, Äù½ºÆ®»çÁø, Àå¼Ò»çÁø => 6°¡Áö
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ðµ¨¸ï¿½, ï¿½ï¿½Ò¸ï¿½, ï¿½æ¹®ï¿½ï¿½Â¥, ï¿½Ö¼Ò¸ï¿½, ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ => 6ï¿½ï¿½ï¿½ï¿½
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
-        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().date.ToString("MM¿ù ddÀÏ");
+
+        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DateTime.Parse(DataManager.instance.GetQuestInfo().date).ToString("MMï¿½ï¿½ ddï¿½ï¿½"); 
+
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
         if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
@@ -108,7 +110,7 @@ public class SettingPropInfo : MonoBehaviour
     }
     #endregion
 
-    // Àå¼Ò¸í ÀÚ¸£±â
+    // ï¿½ï¿½Ò¸ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½
     string TextBreak(string str)
     {
         string result = string.Empty;
@@ -118,16 +120,16 @@ public class SettingPropInfo : MonoBehaviour
 
         char[] chars0 = str.ToCharArray();
 
-        // ´Ù¼¸±ÛÀÚ
+        // ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½
         if (chars0.Length < 5)
         {
-            // 1ÁÙ
+            // 1ï¿½ï¿½
             if (nameSplit.Length < 2)
             {
                 ChangeSizeDelta(132);
                 result = nameSplit[0];
             }
-            // 2ÁÙ
+            // 2ï¿½ï¿½
             else
             {
                 ChangeSizeDelta(240);
@@ -135,31 +137,31 @@ public class SettingPropInfo : MonoBehaviour
             }
         }
 
-        // ¿©¼¸±ÛÀÚ ÀÌ»ó
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½
         else if (chars0.Length >= 5)
         {
             ChangeSizeDelta(240);
 
-            // ¶ç¾î¾²±â ¾ø´Â °æ¿ì
+            // ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
 
-            // ¶ç¾î¾²±â ÀÖ´Â °æ¿ì
+            // ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
             else
             {
-                char[] chars1 = nameSplit[1].ToCharArray(); // µÎ¹øÂ° ÁÙ ¸î±ÛÀÚÀÎÁö   
+                char[] chars1 = nameSplit[1].ToCharArray(); // ï¿½Î¹ï¿½Â° ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   
 
-                // µÎ¹øÂ° ÁÙÀÌ 5±ÛÀÚ ÀÌÇÏ
+                // ï¿½Î¹ï¿½Â° ï¿½ï¿½ï¿½ï¿½ 5ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (chars1.Length < 5)
                 {
-                    result = nameSplit[0] + "\n" + nameSplit[1]; // µÎ¹øÂ° ÁÙ ´Ù¼¸±ÛÀÚ ÀÌÇÏ
+                    result = nameSplit[0] + "\n" + nameSplit[1]; // ï¿½Î¹ï¿½Â° ï¿½ï¿½ ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 }
-                // µÎ¹øÂ° ÁÙÀÌ 6±ÛÀÚ ÀÌ»ó
+                // ï¿½Î¹ï¿½Â° ï¿½ï¿½ï¿½ï¿½ 6ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½
                 else
                 {
-                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // µÎ¹øÂ° ÁÙ ´Ù¼¸±ÛÀÚ ÃÊ°ú
+                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // ï¿½Î¹ï¿½Â° ï¿½ï¿½ ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½
                 }
             }
         }
@@ -167,13 +169,13 @@ public class SettingPropInfo : MonoBehaviour
         return result;
     }
 
-    // Àå¼Ò¸í SizeDelta Å©±â Á¶Àý
+    // ï¿½ï¿½Ò¸ï¿½ SizeDelta Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     void ChangeSizeDelta(int delta)
     {
         SettingPropContent.instance.content[1].GetComponent<RectTransform>().sizeDelta = new Vector2(840, delta);
     }
 
-    // °Å¸® °è»ê
+    // ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½
     string ConvertDistance(double distance)
     {
         string result = string.Empty;
@@ -193,7 +195,7 @@ public class SettingPropInfo : MonoBehaviour
         return result;
     }
 
-    // ¼­¹ö¿¡¼­ »çÁø ¹Þ¾Æ¿À±â
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
     public IEnumerator GetTexture(Parameters raw)
     {
 

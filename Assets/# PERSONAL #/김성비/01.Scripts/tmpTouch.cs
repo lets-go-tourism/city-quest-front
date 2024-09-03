@@ -97,7 +97,8 @@ public class tmpTouch : MonoBehaviour
             }
             else if (began && touch.phase == TouchPhase.Moved)
             {
-                began = false;
+                if(touch.deltaPosition.magnitude > 5f)
+                    began = false;
             }
             else if (touch.phase == TouchPhase.Ended && began)
             {

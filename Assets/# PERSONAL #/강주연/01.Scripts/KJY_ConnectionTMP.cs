@@ -244,7 +244,7 @@ public class QuestData
     public string difficulty;
     public string questDesc;
     public double distance;
-    public DateTime date;
+    public string date;
     public string questImage;
 }
 

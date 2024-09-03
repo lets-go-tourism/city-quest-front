@@ -23,11 +23,12 @@ public class MainView_UI : MonoBehaviour
         buttons[0].onClick.AddListener(() => BTN_Settings());
         buttons[1].onClick.AddListener(() => BTN_Achieves());
         buttons[2].onClick.AddListener(() => BTN_Quests());
+        m_BackgroundDarkImage.enabled = false;
     }
 
     private void Start()
     {
-        m_BackgroundDarkImage.enabled = false;
+        
     }
 
     void BTN_Settings()

@@ -28665,7 +28665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc3903333be9989478c46e6c9f722978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gpsTestPos: 1
+  gpsTestPos: 0
   startGPSOnStart: 1
   desiredAccuracyInMeters: 5
   updateDistanceInMeters: 5
@@ -56656,6 +56656,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: 
   end: 
+--- !u!1 &864914930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6634321732051997616, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1362120653}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &869181614
 Mesh:
   m_ObjectHideFlags: 0
@@ -87250,11 +87256,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DataManager
       objectReference: {fileID: 0}
-    - target: {fileID: 2626376600067534128, guid: 13edf3a1bd46d5d4db7a9d90d6dbe731,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6226718372261381864, guid: 13edf3a1bd46d5d4db7a9d90d6dbe731,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -89745,9 +89746,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6265605817180691795, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
         type: 3}
+      propertyPath: camCanvas
+      value: 
+      objectReference: {fileID: 1698405887}
+    - target: {fileID: 6265605817180691795, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
+        type: 3}
+      propertyPath: checkObject
+      value: 
+      objectReference: {fileID: 864914930}
+    - target: {fileID: 6265605817180691795, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
+        type: 3}
       propertyPath: cameraCanvas
       value: 
       objectReference: {fileID: 1698405887}
+    - target: {fileID: 6265605817180691795, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
+        type: 3}
+      propertyPath: captureObject
+      value: 
+      objectReference: {fileID: 1614693531}
     - target: {fileID: 6555328501892800701, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -89756,12 +89772,12 @@ PrefabInstance:
     - target: {fileID: 6555328501892800701, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -78.96926
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6555328501892800701, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 24.202026
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6555328501892800701, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
         type: 3}
@@ -107922,6 +107938,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: 
   end: 
+--- !u!1 &1614693531 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1976685658935686465, guid: f9754a2a1510c3c4c9da9f1b8b33e89b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1362120653}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1616296515
 PrefabInstance:
   m_ObjectHideFlags: 0
