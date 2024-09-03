@@ -18,11 +18,14 @@ public class CardPlaceInfo : MonoBehaviour
     public ServerAdventurePlace ServerAdventurePlace { get; private set; }
     public ServerProp ServerProp { get; private set; }
 
-    public IEnumerator Start()
+    public IEnumerator Start2()
     {
-        info[1].GetComponent<TextMeshProUGUI>().text = (GPS.Instance.GetDistToUserInRealWorld(ServerProp.longitude, ServerProp.latitude)).ToString();
-
-        yield return new WaitForSeconds(5);
+        while (true)
+        {
+            string meter = ((int)GPS.Instance.GetDistToUserInRealWorld(ServerProp.latitude, ServerProp.longitude)).ToString();
+            info[1].GetComponent<TextMeshProUGUI>().text = meter + 'm';
+            yield return new WaitForSeconds(5);
+        }
     }
 
     public IEnumerator GetTexture(string url)

@@ -61,6 +61,7 @@ public class TryImageConnection : MonoBehaviour
             login = DataManager.instance.GetLoginData();
 
             www.SetRequestHeader("Authorization", login.data.accessToken);
+            print(login.data.accessToken);
 
             yield return www.SendWebRequest();
 

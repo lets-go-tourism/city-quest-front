@@ -67,7 +67,7 @@ public class BottomSheetManager : MonoBehaviour
             cardPlaceInfo.SetServerProp(placeList[i]);
             cardPlaceInfo.setPlaceProp(propList[i]);
 
-            cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start));
+            cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start2));
         }
 
         yield return StartCoroutine(GenTour());
@@ -93,7 +93,7 @@ public class BottomSheetManager : MonoBehaviour
                 cardTourInfo = tourGOList[i].GetComponent<CardTourInfo>();
                 cardTourInfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
                 cardTourInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
-                if (tourList[i].imageUrl != string.Empty)
+                if (tourList[i].imageUrl.Length > 5)
                 {
                     cardTourInfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
                     cardTourInfo.info[3].GetComponent<TextMeshProUGUI>().enabled = false;
@@ -106,6 +106,8 @@ public class BottomSheetManager : MonoBehaviour
                 }
                 cardTourInfo.SettingTourType(tourList[i].contenttypeid);
                 cardTourInfo.InputTourList(tourList[i]);
+
+                cardTourInfo.StartCoroutine(nameof(cardTourInfo.Start2));
             }
             if (count == 120)
             {

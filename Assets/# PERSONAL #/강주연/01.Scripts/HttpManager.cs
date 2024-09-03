@@ -37,8 +37,6 @@ public class HttpManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(instance);
-            LoginResponse loginData = new LoginResponse();
-            loginData.data = new LoginData();
         }
         else
         {

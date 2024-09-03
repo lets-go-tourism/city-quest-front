@@ -145,22 +145,26 @@ public class SettingTourInfo : MonoBehaviour
         // 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
 
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(tourInfo.imageUrl);
-        yield return www.SendWebRequest();
-        if (www.result != UnityWebRequest.Result.Success)
+        if(tourInfo.imageUrl != string.Empty)
         {
-            Debug.Log(www.error);
+            UnityWebRequest www = UnityWebRequestTexture.GetTexture(tourInfo.imageUrl);
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
 
-            // 암전 끄고
-            MainView_UI.instance.BackgroundDarkDisable();
-        }
-        else
-        {
-            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                // 암전 끄고
+                MainView_UI.instance.BackgroundDarkDisable();
+            }
+            else
+            {
+                Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
-            contents[4].GetComponent<RawImage>().texture = myTexture;
-            TourInfoSetting(tourInfo);
+                contents[4].GetComponent<RawImage>().texture = myTexture;
+                
+            }
         }
+        TourInfoSetting(tourInfo);
     }
 
     // 색깔 변환

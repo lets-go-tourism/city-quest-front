@@ -9,7 +9,7 @@ public class MapScreenManager : MonoBehaviour
 #if UNITY_EDITOR
         HttpManager.instance.loginData = new LoginResponse();
         HttpManager.instance.loginData.data = new LoginData();
-        HttpManager.instance.loginData.data.accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0IiwiaWF0IjoxNzI1MzUxMjc1LCJleHAiOjE4MTE3NTEyNzV9.Z79jBdCygqYa7d0eJzgOt1ZGBVVF90tLB0axxRmyRDWZbg89B7rRzrVtknQ_8Qgn";
+        HttpManager.instance.loginData.data.accessToken = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIzOCIsImlhdCI6MTcyNTM4MzMxOSwiZXhwIjoxODExNzgzMzE5fQ.dHrpyncjuC75zWZjzpItdq4KaA3r3WYOwnz82C3vT1P_JHvXY7BiY_-0jQ2L6m3p\",\"refreshToken\":\"eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3MjUzODMzMTksImV4cCI6MTgxMTc4MzMxOX0.8bTp2sb_yRLu8GixBdTgTTJfypry1QobBktlWNDfaPVw8Dp-2ogdyQynV3QCPXV3";
 
         DataManager.instance.SetLoginData(HttpManager.instance.loginData);
 #endif

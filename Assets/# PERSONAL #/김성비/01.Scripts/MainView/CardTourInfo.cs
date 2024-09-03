@@ -23,11 +23,14 @@ public class CardTourInfo : MonoBehaviour
 
     public ServerTourInfo ServerTourInfo { get; private set; }
 
-    public IEnumerator Start()
-    {
-        info[1].GetComponent<TextMeshProUGUI>().text = GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.longitude), double.Parse(ServerTourInfo.latitude)).ToString();
-
-        yield return new WaitForSeconds(5);
+    public IEnumerator Start2()
+    { 
+        while(true)
+        {
+            string meter = ((int)GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.latitude), double.Parse(ServerTourInfo.longitude))).ToString();
+            info[1].GetComponent<TextMeshProUGUI>().text = meter + "m";
+            yield return new WaitForSeconds(5);
+        }
     }
 
     // 이미지 세팅
