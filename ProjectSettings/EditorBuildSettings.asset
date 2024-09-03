@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: "Assets/# PERSONAL #/\uBC15\uD604\uC12D/00.Scene/09 03 Main.unity"
     guid: cfe96e1116f00864697344555f4e889d
+  - enabled: 1
+    path: "Assets/# PERSONAL #/\uAC15\uC8FC\uC5F0/00.Scene/LoginScene.unity"
+    guid: 738a1f298bd9ec14fb00365d86cc4205
+  - enabled: 1
+    path: "Assets/# PERSONAL #/\uAC15\uC8FC\uC5F0/00.Scene/09 03 Main_KJY.unity"
+    guid: 99ac869f5c258634da4aaf4ef4d4840c
   m_configObjects: {}

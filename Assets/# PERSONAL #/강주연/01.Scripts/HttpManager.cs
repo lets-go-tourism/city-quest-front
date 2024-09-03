@@ -24,7 +24,7 @@ public class HttpManager : MonoBehaviour
 {
     public static HttpManager instance;
     private RequestHeader headerState = RequestHeader.login;
-    public LoginResponse loginData = null;
+    public LoginResponse loginData = new LoginResponse();
     public string test;
 
     // ¹ÚÇö¼·
@@ -35,7 +35,11 @@ public class HttpManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            return;
+            DontDestroyOnLoad(instance);
+        }
+        else
+        {
+            Destroy(this);
         }
     }
 
@@ -97,6 +101,7 @@ public class HttpManager : MonoBehaviour
                 {
                     request.SetRequestHeader("Content-Type", "application/json");
                     request.SetRequestHeader("Authorization", loginData.data.accessToken);
+                    Debug.Log(loginData.data.accessToken);
                     //request.SetRequestHeader("Authorization", test);
                 }
                 break;

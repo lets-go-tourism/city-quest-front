@@ -56,6 +56,7 @@ public class KJY_UIManager : MonoBehaviour
     public authState state = authState.None;
     private bool isLogin = false;
 
+
     private void Awake()
     {
         instance = this;
@@ -87,7 +88,7 @@ public class KJY_UIManager : MonoBehaviour
         explain.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         //여기서 로그인되있는지 안되있는지에 토큰 정보에 따라서 바로 이동시켜줄지 아니면 온보딩으로 이동할지 결정
-        if (DataManager.instance.GetLoginData() == null) // 로그인안됐는경우
+        if (DataManager.instance.GetLoginData() == null || DataManager.instance.isLogout == true) // 로그인안됐는경우
         {
             isConfirmView = true;
             kakaoBtn.SetActive(true);
@@ -214,6 +215,7 @@ public class KJY_UIManager : MonoBehaviour
                 authorizationObject.SetActive(false);
                 loginText.text = "로그인 성공!\n환영해요.";
                 CustomerLoginUI.SetActive(true);
+                DataManager.instance.JsonSave();
             }
         }
         else
@@ -253,12 +255,14 @@ public class KJY_UIManager : MonoBehaviour
                 authorizationObject.SetActive(false);
                 loginText.text = "회원가입 성공!\n환영해요.";
                 CustomerLoginUI.SetActive(true);
+                DataManager.instance.JsonSave();
             }
             else
             {
                 authorizationObject.SetActive(false);
                 loginText.text = "로그인 성공!\n환영해요.";
                 CustomerLoginUI.SetActive(true);
+                DataManager.instance.JsonSave();
             }
         }
     }
