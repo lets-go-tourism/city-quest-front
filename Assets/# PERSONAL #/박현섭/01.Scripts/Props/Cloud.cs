@@ -28,7 +28,7 @@ public class Cloud : MonoBehaviour
 
     private void Update()
     {
-        transform.position = TargetProp.transform.TransformPoint(TargetProp.MeshFilter.mesh.bounds.center);
+        transform.position = TargetProp.PropObj.transform.TransformPoint(TargetProp.GetBoundsCenter());
     }
 
     private void OnDisable()

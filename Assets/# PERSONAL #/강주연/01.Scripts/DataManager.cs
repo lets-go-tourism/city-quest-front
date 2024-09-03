@@ -33,6 +33,8 @@ public class DataManager : MonoBehaviour
     [Header("SaveUserTokenData")]
     private string path;
 
+    public bool isLogout = false;
+
     #region notUse
     [Header("QuestList")]
     private List<QuestData> questDataList;
@@ -50,12 +52,12 @@ public class DataManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this);
+            JsonLoad();
         }
         else
             Destroy(this);
-
+        
         path = Path.Combine(Application.persistentDataPath, "database.json");
-        JsonLoad();
     }
 
     public void JsonLoad()
@@ -65,10 +67,15 @@ public class DataManager : MonoBehaviour
         {
             string loadJson = File.ReadAllText(path);
             saveData = JsonUtility.FromJson<LoginResponse>(loadJson);
+
             if (saveData != null)
             {
                 SetLoginData(saveData);
             }
+        }
+        else
+        {
+            Debug.Log("none_here");
         }
     }
 
@@ -143,8 +150,15 @@ public class DataManager : MonoBehaviour
 
     public void SetLoginData(LoginResponse loginData)
     {
-        this.loginData = loginData;
-        HttpManager.instance.loginData = loginData;
+        if (loginData != null)
+        {
+            this.loginData = loginData;
+            HttpManager.instance.loginData = loginData;
+        }
+        else
+        {
+            Debug.Log("not_login_data");
+        }
     }
 
     public LoginResponse GetLoginData()

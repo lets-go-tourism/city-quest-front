@@ -28,14 +28,9 @@ public class SettingPropInfo : MonoBehaviour
     }
 
     // 서버 통신 받아와서 세팅 시작
-    public IEnumerator PropInfoSetting()
+    public void PropInfoSetting()
     {
         MainView_UI.instance.BackgroundDarkEnable();
-
-        while (DataManager.instance.requestSuccess == false)
-        {
-            yield return null;
-        }
 
         if (DataManager.instance.GetQuestInfo().status)
         {

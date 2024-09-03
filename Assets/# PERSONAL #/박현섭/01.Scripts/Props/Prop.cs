@@ -15,6 +15,8 @@ public class Prop : MonoBehaviour
 
     public float OffsetY { get; private set; } = -25f;
 
+    private MeshFilter propObjMeshFileter;
+
     public bool PropActive { get { return propActive; } 
         private set 
         {
@@ -40,7 +42,10 @@ public class Prop : MonoBehaviour
     }
     private bool propActive = false;
 
-    public MeshFilter MeshFilter { get; private set; }
+    public Vector3 GetBoundsCenter()
+    {
+        return propObjMeshFileter.mesh.bounds.center;
+    }
 
     public void Init(ServerProp propData, ServerAdventurePlace homeAdventurePlace, GameObject propGO)
     {
@@ -51,7 +56,7 @@ public class Prop : MonoBehaviour
 
     private void Start()
     {
-        MeshFilter = propGO.GetComponent<MeshFilter>();
+        propObjMeshFileter = propGO.GetComponent<MeshFilter>();
         propGO.SetActive(false);
         originPos = transform.position;
     }

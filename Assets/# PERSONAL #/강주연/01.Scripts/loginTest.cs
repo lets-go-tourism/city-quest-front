@@ -25,9 +25,10 @@ public class LoginData
 
 public class loginTest : MonoBehaviour
 {
-    public List<string> extractedValues;
+    public List<string> extractedValues = new List<string>();
     public LoginResponse loginData;
     public TextMeshProUGUI text;
+    private int count;
 
     public void ShowUrl()
     {
@@ -60,35 +61,43 @@ public class loginTest : MonoBehaviour
 
         switch (callbackType)
         {
-            case GpmWebViewCallback.CallbackType.PageStarted:
+            case GpmWebViewCallback.CallbackType.Open:
+                {
+                    count = 0;
+                }
                 break;
 
             case GpmWebViewCallback.CallbackType.PageLoad:
                 {
                     Debug.Log("WebView Load Finished");
-                   
-                    // JavaScript를 실행하여 JSON 데이터를 가져옵니다.
-                    string script = @"
-                (function() {
-                    function getTextContent(element) {
-                        return element ? element.textContent.trim() : '';
-                    }
-            
-                    function getAllTextContent() {
-                        let elements = document.querySelectorAll('*');
-                        let texts = [];
-                        elements.forEach(function(element) {
-                            let textContent = getTextContent(element);
-                            if (textContent) {
-                                texts.push(textContent);
-                            }
-                        });
-                        return texts;
-                    }
 
-                    return JSON.stringify(getAllTextContent());
-                })();";
-                    GpmWebView.ExecuteJavaScript(script);
+                    count++;
+
+
+                   // if (count == 1 || count == 2 || count == 3)
+                    //{
+                            string script = @"
+                        (function() {
+                            function getTextContent(element) {
+                                return element ? element.textContent.trim() : '';
+                            }
+
+                            function getAllTextContent() {
+                                let elements = document.querySelectorAll('*');
+                                let texts = [];
+                                elements.forEach(function(element) {
+                                    let textContent = getTextContent(element);
+                                    if (textContent) {
+                                        texts.push(textContent);
+                                    }
+                                });
+                                return texts;
+                            }
+
+                            return JSON.stringify(getAllTextContent());
+                        })();";
+                            GpmWebView.ExecuteJavaScript(script);
+                    //}
                 }
                 break;
             case GpmWebViewCallback.CallbackType.ExecuteJavascript:
@@ -106,30 +115,29 @@ public class loginTest : MonoBehaviour
                         print(i + "번째 " + extractedValues[i]);
                     }
 
-                    loginData = new LoginResponse();
-                    loginData.data = new LoginData();
-                    
-                    loginData.timeStamp = DateTime.Now;
-                    loginData.status = extractedValues[4];
-                    
-                    loginData.data.accessToken = extractedValues[7];
-                    loginData.data.refreshToken = extractedValues[9];
-                    loginData.data.tokenType = extractedValues[11];
-                    print("////////////////");
-                    loginData.data.agreed = bool.Parse(extractedValues[13]);
-
-                    print("///////////////////////////");
-
-                    DataManager.instance.SetLoginData(loginData);
-                    if (extractedValues[13] == "false")
+                    if (extractedValues[4] == "OK" && extractedValues.Count > 13)
                     {
-                        KJY_UIManager.instance.ShowConfirmScrollView();
+                        loginData = new LoginResponse();
+                        loginData.data = new LoginData();
+
+                        loginData.timeStamp = DateTime.Now;
+                        loginData.status = extractedValues[4];
+                        loginData.data.accessToken = extractedValues[7];
+                        loginData.data.refreshToken = extractedValues[9];
+                        loginData.data.tokenType = extractedValues[11];
+                        loginData.data.agreed = bool.Parse(extractedValues[13]);
+
+                        DataManager.instance.SetLoginData(loginData);
+                        if (extractedValues[13] == "false")
+                        {
+                            KJY_UIManager.instance.ShowConfirmScrollView();
+                        }
+                        else
+                        {
+                            KJY_UIManager.instance.LoginCheck();
+                        }
+                        GpmWebView.Close();
                     }
-                    else
-                    {
-                        KJY_UIManager.instance.LoginCheck();
-                    }
-                    GpmWebView.Close();
                 }
                 break;
             default:

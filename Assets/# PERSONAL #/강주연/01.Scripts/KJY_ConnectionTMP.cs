@@ -33,6 +33,7 @@ public class TryImageConnection : MonoBehaviour
     private int questNo;
     private string url;
     private byte[] data;
+    private LoginResponse login = new LoginResponse();
 
     public void Initialize(ImageSetting setting)
     {
@@ -53,11 +54,13 @@ public class TryImageConnection : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddBinaryData("image", data, "image.jpg", "image/jpg");
-        form.AddField("questNo", questNo.ToString());
 
          
         using (UnityWebRequest www = UnityWebRequest.Post(url, form))
         {
+            login = DataManager.instance.GetLoginData();
+
+            www.SetRequestHeader("Authorization", login.data.accessToken);
 
             yield return www.SendWebRequest();
 
@@ -76,6 +79,7 @@ public class TryImageConnection : MonoBehaviour
     private void Complete(DownloadHandler result)
     {
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
+
     }
 }
 #endregion
@@ -285,7 +289,7 @@ public class TryQuestConnection:ConnectionStratage
         if (response.status == "OK")
         {
             DataManager.instance.SetQuestInfo(response.data);
-            DataManager.instance.requestSuccess = true;
+            // 성공하면 여기
         }
     }
 }
@@ -536,9 +540,11 @@ public class KJY_ConnectionTMP : MonoBehaviour
         {
             questNo = questNo,
             data = texture.EncodeToJPG(),
-            url = "http://43.203.101.31:8080/api/v1/quest/image3"
+            url = "https://letsgotour.store/api/v1/quest/image/" + questNo.ToString()
+          
         };
 
+        Debug.Log(setting.url);
         TryImageConnection tryImageConnection = gameObject.AddComponent<TryImageConnection>();
         tryImageConnection.Initialize(setting);
     }
@@ -556,7 +562,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
         //setting.longitude = info.longitude;
         setting.latitude = 37.282649;
         setting.longitude = 127.016415;
-        setting.url = "http://43.203.101.31:8080/api/v1/home?" + "lon=" + setting.longitude + "&lat=" + setting.latitude;
+        setting.url = "https://letsgotour.store/api/v1/home?" + "lon=" + setting.longitude + "&lat=" + setting.latitude;
 
         TryHomeConnection homeConnection = new TryHomeConnection(setting);
     }
@@ -565,15 +571,16 @@ public class KJY_ConnectionTMP : MonoBehaviour
     {
         QuestSetting setting = new QuestSetting();
         LocationInfo info = GPS.Instance.LocationInfo;
-        setting.url = "http://43.203.101.31:8080/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
+        setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
 
+        Debug.Log(setting.url);
         TryQuestConnection questConnection = new TryQuestConnection(setting);
     }
 
     public void OnConnectionConfirm()
     {
         ConfirmSetting setting = new ConfirmSetting();
-        setting.url = "letsgotour.store/auth/terms";
+        setting.url = "https://letsgotour.store/auth/terms";
 
         TryConfirmConnection confirmConnection = new TryConfirmConnection(setting);
     }
@@ -581,7 +588,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
     public void OnConnectionDelete()
     {
         DeleteSetting setting = new DeleteSetting();
-        setting.url = "letsgotour.store/auth/unlink";
+        setting.url = "https://letsgotour.store/auth/unlink";
 
         TryDeleteConnection confirmConnection = new TryDeleteConnection(setting);
     }

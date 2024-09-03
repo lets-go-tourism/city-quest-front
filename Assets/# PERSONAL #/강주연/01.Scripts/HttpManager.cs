@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -24,18 +25,22 @@ public class HttpManager : MonoBehaviour
 {
     public static HttpManager instance;
     private RequestHeader headerState = RequestHeader.login;
-    public LoginResponse loginData = null;
+    public LoginResponse loginData = new LoginResponse();
     public string test;
 
     // 박현섭
-    public bool RequestSuccess { get; private set; } = false;
+    //public bool RequestSuccess { get; private set; } = false;
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            return;
+            DontDestroyOnLoad(instance);
+        }
+        else
+        {
+            Destroy(this);
         }
     }
 
@@ -97,6 +102,7 @@ public class HttpManager : MonoBehaviour
                 {
                     request.SetRequestHeader("Content-Type", "application/json");
                     request.SetRequestHeader("Authorization", loginData.data.accessToken);
+                    Debug.Log(loginData.data.accessToken);
                     //request.SetRequestHeader("Authorization", test);
                 }
                 break;
@@ -111,6 +117,11 @@ public class HttpManager : MonoBehaviour
             print("요청 완료");
             print(request.downloadHandler.text);
             requester.Complete(request.downloadHandler);
+
+            if(successDelegate != null)
+                successDelegate.Invoke();
+
+            successDelegate = null;
         }
         else
         {
@@ -119,6 +130,19 @@ public class HttpManager : MonoBehaviour
             print(request.downloadHandler.text);
             print(request.error);
             //StartCoroutine(KJY_ConnectionTMP.instance.successText());
+
+            if(errorDelegate != null)
+                errorDelegate.Invoke();
+
+            errorDelegate = null;
         }
     }
+
+
+    public delegate void RequestSuccessDelegate();
+    public delegate void RequestErrorDelegate();
+
+    public RequestSuccessDelegate successDelegate;
+    public RequestErrorDelegate errorDelegate;
+
 }

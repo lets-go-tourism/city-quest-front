@@ -23,6 +23,7 @@ public class CameraFeed : MonoBehaviour
 
     [SerializeField] private GameObject captureObject;
     [SerializeField] private GameObject checkObject;
+    [SerializeField] private Canvas camCanvas;
 
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
@@ -39,16 +40,11 @@ public class CameraFeed : MonoBehaviour
 
     public void SetWebCam()
     {
-        if (Permission.HasUserAuthorizedPermission(Permission.Camera))
+        if (camCanvas.enabled == false)
         {
-            CreateWebCamTexture();
+            camCanvas.enabled = true;
         }
-        else
-        {
-            PermissionCallbacks permissionCallbacks = new();
-            permissionCallbacks.PermissionGranted += CreateWebCamTexture;
-            Permission.RequestUserPermission(Permission.Camera, permissionCallbacks);
-        }
+        CreateWebCamTexture();
     }
 
     public void SwitchCamera()
@@ -278,9 +274,6 @@ public class CameraFeed : MonoBehaviour
         KJY_ConnectionTMP.instance.OnClickTest(texture2D, 1);
 
         CameraOff();
-        //if (notTutorial == true)
-        //{
-        //}
     }
 
     public void CameraOff()
