@@ -138,7 +138,6 @@ public class tmpTouch : MonoBehaviour
                         TourData tourData = hit.collider.GetComponent<TourData>();
                         ServerTourInfo serverTourInfo = tourData.ServerTourInfo;
 
-                        //
                         SettingTourInfo.instance.StartCoroutine(nameof(SettingTourInfo.instance.GetTexture), serverTourInfo);
 
                         // 팝업창에 정보 세팅

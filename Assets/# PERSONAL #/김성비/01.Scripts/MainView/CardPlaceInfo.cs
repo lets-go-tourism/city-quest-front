@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
 using TMPro;
+using System;
 
 public class CardPlaceInfo : MonoBehaviour
 {
@@ -22,10 +23,29 @@ public class CardPlaceInfo : MonoBehaviour
     {
         while (true)
         {
-            string meter = ((int)GPS.Instance.GetDistToUserInRealWorld(ServerProp.latitude, ServerProp.longitude)).ToString();
-            info[1].GetComponent<TextMeshProUGUI>().text = meter + 'm';
+            string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(ServerProp.latitude, ServerProp.longitude)).ToString();
+            info[1].GetComponent<TextMeshProUGUI>().text = meter;
             yield return new WaitForSeconds(5);
         }
+    }
+
+    string ConvertDistance(double distance)
+    {
+        string result = string.Empty;
+
+        double tmp = distance;
+        double a = 1000;
+        if (tmp > a)
+        {
+            double calcultate = Math.Round(tmp / a, 1);
+            result = calcultate.ToString() + "km";
+        }
+        else
+        {
+            result = tmp.ToString() + "m";
+        }
+
+        return result;
     }
 
     public IEnumerator GetTexture(string url)

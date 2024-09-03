@@ -61,7 +61,7 @@ public class SettingPropInfo : MonoBehaviour
     {
         // ������ ���� : (�𵨸�,) ��Ҹ�, �Ÿ�, �ּҸ�, ��ũ, ��һ���, (���м�,) ����Ʈ => 6����
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
-        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().distance.ToString();
+        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ConvertDistance(DataManager.instance.GetQuestInfo().distance).ToString();
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
         if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
@@ -93,7 +93,7 @@ public class SettingPropInfo : MonoBehaviour
         // ������ ���� : �𵨸�, ��Ҹ�, �湮��¥, �ּҸ�, ����Ʈ����, ��һ��� => 6����
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
 
-        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DateTime.Parse(DataManager.instance.GetQuestInfo().date).ToString("MM�� dd��"); 
+        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DateTime.Parse(DataManager.instance.GetQuestInfo().date).ToString("MM월 dd일"); 
 
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
@@ -180,16 +180,17 @@ public class SettingPropInfo : MonoBehaviour
     {
         string result = string.Empty;
 
-        double tmp = Math.Truncate(distance);
+        double tmp = distance;
         
-        if (tmp > 1000)
+        if (tmp < 1)
         {
-
-            result = ((int)(tmp / 1000)).ToString() + "km";
+            tmp = distance * 100;
+            result = (int)tmp  + "m";
         }
         else
         {
-            result = tmp.ToString() + "m";
+            tmp = (int)distance;
+            result = tmp.ToString() + "km";
         }
 
         return result;
