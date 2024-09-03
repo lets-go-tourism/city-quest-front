@@ -58,11 +58,19 @@ public class DataManager : MonoBehaviour
             Destroy(this);
         
         path = Path.Combine(Application.persistentDataPath, "database.json");
+        //JsonLoad();
+    }
+
+    private void Start()
+    {
+        
     }
 
     public void JsonLoad()
     {
         LoginResponse saveData = new LoginResponse();
+        saveData.data = new LoginData();
+
         if (File.Exists(path))
         {
             string loadJson = File.ReadAllText(path);
@@ -75,7 +83,7 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("none_here");
+            Debug.Log("none_load");
         }
     }
 
@@ -153,11 +161,13 @@ public class DataManager : MonoBehaviour
         if (loginData != null)
         {
             this.loginData = loginData;
-            HttpManager.instance.loginData = loginData;
+            Debug.Log("have_logindata");
         }
-        else
+
+        if (HttpManager.instance != null)
         {
-            Debug.Log("not_login_data");
+            HttpManager.instance.loginData = loginData;
+            Debug.Log("Have_httpManager");
         }
     }
 
