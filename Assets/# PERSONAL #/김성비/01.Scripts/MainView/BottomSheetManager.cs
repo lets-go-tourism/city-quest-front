@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
 using TMPro;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using static Unity.Burst.Intrinsics.X86.Avx;
+using System.Collections;
+using System.Collections.Generic;
 
 public class BottomSheetManager : MonoBehaviour
 {
@@ -308,7 +305,6 @@ public class BottomSheetManager : MonoBehaviour
             {
                 placeGOList[i].gameObject.SetActive(false);
             }
-
         }
     }
 

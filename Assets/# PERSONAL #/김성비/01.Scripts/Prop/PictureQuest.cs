@@ -13,15 +13,11 @@ public class PictureQuest : MonoBehaviour
         btn.onClick.AddListener(() => TakingPicture());
     }
 
+    public int propnumber;
+
     void TakingPicture()
     {
-        //// 모델링 비활성화
-        //Props_UI.instance.propModeling.gameObject.SetActive(false);
-
-        //// 팝업창 UI 비활성화
-        //Props_UI.instance.canvasProp.enabled = false;
-
-        // 카메라 UI 활성화
-        Props_UI.instance.CanvasCamera.enabled = true;
+        // 윤주한테 프랍넘버 쏘기
+        //KJY_ConnectionTMP.instance.QuestNo(propnumber);
     }
 }

@@ -1,10 +1,9 @@
 using TMPro;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
-using System;
-
 
 public class SettingPropInfo : MonoBehaviour
 {
@@ -65,16 +64,19 @@ public class SettingPropInfo : MonoBehaviour
 
     IEnumerator NOInfoSetting()
     {
-        // 데이터 세팅 : 모델링, 장소명, 거리, 주소명, 장소사진, (구분선,) 퀘스트 => 6가지
-        //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
+        // 데이터 세팅 : (모델링,) 장소명, 거리, 주소명, 링크, 장소사진, (구분선,) 퀘스트 => 6가지
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
         SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ConvertDistance(DataManager.instance.GetQuestInfo().distance);
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
-        Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4);
-        yield return StartCoroutine(nameof(GetTexture), parameters);
+        if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+        {
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4);
+            yield return StartCoroutine(nameof(GetTexture), parameters);
+        }
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<Image>().sprite = SettingPropContent.instance.content[6].GetComponent<SpritesHolder>().sprites[0];
+        SettingPropContent.instance.content[6].GetChild(0).GetComponent<PictureQuest>().propnumber = (int)DataManager.instance.GetQuestInfo().propNo;
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<Button>().enabled = true;
     }
     #endregion
@@ -94,15 +96,20 @@ public class SettingPropInfo : MonoBehaviour
     IEnumerator YESInfoSetting()
     {
         // 데이터 세팅 : 모델링, 장소명, 방문날짜, 주소명, 퀘스트사진, 장소사진 => 6가지
-        //Props_UI.instance.propModeling.GetComponent<MeshRenderer>().material = prop.GetComponent<MeshRenderer>().material;
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
         SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().date.ToString("MM월 dd일");
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().addr);
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
-        Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4);
-        yield return StartCoroutine(GetTexture(parameters));
-        parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5);
-        yield return StartCoroutine(GetTexture(parameters));
+        if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
+        {
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4);
+            yield return StartCoroutine(GetTexture(parameters));
+        }
+        if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+        {
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5);
+            yield return StartCoroutine(GetTexture(parameters));
+        }
     }
     #endregion
 

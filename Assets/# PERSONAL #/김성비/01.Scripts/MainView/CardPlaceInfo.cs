@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
+using System.Collections;
+using UnityEngine.Networking;
 
 public class CardPlaceInfo : MonoBehaviour
 {

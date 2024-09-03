@@ -6,6 +6,7 @@ using static SettingPropInfo;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class SettingTourInfo : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class SettingTourInfo : MonoBehaviour
     {
         // 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
+
+        // 이미지
+        contents[6].GetComponent<Image>().sprite = Resources.Load<Sprite>("TourSprites/" + info.contenttypeid);
 
         // 이름
         contents[0].gameObject.SetActive(false);
