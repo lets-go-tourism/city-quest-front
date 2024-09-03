@@ -77,6 +77,11 @@ public class GPS : MonoBehaviour
         return Distance(lat, lon, Latitude, Longtitude, 'm');
     }
 
+    public float GetDistToUserInRealWorld(double lat, double lon)
+    {
+        return 0;
+    }
+
     public bool GetLocation()
     {
         //statusText.text = locationService.status.ToString();
