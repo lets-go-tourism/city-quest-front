@@ -33,6 +33,8 @@ public class DataManager : MonoBehaviour
     [Header("SaveUserTokenData")]
     private string path;
 
+    public bool isLogout = false;
+
     #region notUse
     [Header("QuestList")]
     private List<QuestData> questDataList;
@@ -50,12 +52,12 @@ public class DataManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this);
+            JsonLoad();
         }
         else
             Destroy(this);
+        
         path = Path.Combine(Application.persistentDataPath, "database.json");
-
-        JsonLoad();
     }
 
     public void JsonLoad()
@@ -151,20 +153,11 @@ public class DataManager : MonoBehaviour
         if (loginData != null)
         {
             this.loginData = loginData;
+            HttpManager.instance.loginData = loginData;
         }
         else
         {
             Debug.Log("not_login_data");
-        }
-
-        if (HttpManager.instance != null)
-        {
-            HttpManager.instance.loginData = loginData;
-            Debug.Log("accessToken" + this.loginData.data.accessToken);
-        }
-        else
-        {
-            Debug.LogError("HttpManager.instance is null. Cannot set loginData.");
         }
     }
 

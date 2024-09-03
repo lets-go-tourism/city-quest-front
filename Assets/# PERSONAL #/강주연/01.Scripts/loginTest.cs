@@ -70,32 +70,34 @@ public class loginTest : MonoBehaviour
             case GpmWebViewCallback.CallbackType.PageLoad:
                 {
                     Debug.Log("WebView Load Finished");
+
                     count++;
 
-                    if (count == 3)
-                    {
-                        string script = @"
-                    (function() {
-                        function getTextContent(element) {
-                            return element ? element.textContent.trim() : '';
-                        }
 
-                        function getAllTextContent() {
-                            let elements = document.querySelectorAll('*');
-                            let texts = [];
-                            elements.forEach(function(element) {
-                                let textContent = getTextContent(element);
-                                if (textContent) {
-                                    texts.push(textContent);
-                                }
-                            });
-                            return texts;
-                        }
+                   // if (count == 1 || count == 2 || count == 3)
+                    //{
+                            string script = @"
+                        (function() {
+                            function getTextContent(element) {
+                                return element ? element.textContent.trim() : '';
+                            }
 
-                        return JSON.stringify(getAllTextContent());
-                    })();";
-                        GpmWebView.ExecuteJavaScript(script);
-                    }
+                            function getAllTextContent() {
+                                let elements = document.querySelectorAll('*');
+                                let texts = [];
+                                elements.forEach(function(element) {
+                                    let textContent = getTextContent(element);
+                                    if (textContent) {
+                                        texts.push(textContent);
+                                    }
+                                });
+                                return texts;
+                            }
+
+                            return JSON.stringify(getAllTextContent());
+                        })();";
+                            GpmWebView.ExecuteJavaScript(script);
+                    //}
                 }
                 break;
             case GpmWebViewCallback.CallbackType.ExecuteJavascript:
@@ -113,7 +115,7 @@ public class loginTest : MonoBehaviour
                         print(i + "¹øÂ° " + extractedValues[i]);
                     }
 
-                    if (extractedValues.Count > 13)
+                    if (extractedValues[4] == "OK" && extractedValues.Count > 13)
                     {
                         loginData = new LoginResponse();
                         loginData.data = new LoginData();

@@ -25,6 +25,6 @@ public class PictureQuest : MonoBehaviour
         //Props_UI.instance.CanvasCamera.enabled = true;
 
         //카메라 활성화 (canvas 및 webCam)
-        GameObject.FindFirstObjectByType<CameraFeed>().SetWebCam();
+        GameObject.Find("CameraController").GetComponent<CameraFeed>().SetWebCam();
     }
 }
