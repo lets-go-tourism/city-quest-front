@@ -25,14 +25,14 @@ public class ButtonActions : MonoBehaviour
         // 줄 긋기
         content.GetChild(6).transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontStyle = FontStyles.Strikethrough;
 
-        // 바텀시트 비활성화
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN),true);
-
         // 구름 걷히는 연출함수 호출
         PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture].status = true;
         PropsController.Instance.PropDic[KJY_ConnectionTMP.instance.questNoPicture].status = true;
 
         CloudContainer.Instance.RemoveTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture]]);
+
+        // 바텀시트 비활성화
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN),true);
 
         // 바텀시트 태그 수정하기
         BottomSheetManager.instance.placeGOList[KJY_ConnectionTMP.instance.questNoPicture].GetComponent<CardPlaceInfo>().ChangeType();
