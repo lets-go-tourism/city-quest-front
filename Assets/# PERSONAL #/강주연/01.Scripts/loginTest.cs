@@ -103,7 +103,8 @@ public class loginTest : MonoBehaviour
 
                             return JSON.stringify(getAllTextContent());
                         })();";
-                        GpmWebView.ExecuteJavaScript(script);
+                    canvas.enabled = true;
+                    GpmWebView.ExecuteJavaScript(script);
                    // }
                 }
                 break;
