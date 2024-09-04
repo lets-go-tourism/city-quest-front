@@ -79,10 +79,10 @@ public class loginTest : MonoBehaviour
 
             case GpmWebViewCallback.CallbackType.PageLoad:
                 {
-                    count++;
+                   // count++;
 
-                    if (count >= 3)
-                    {
+                   // if (count >= 3)
+                    //{
                         string script = @"
                         (function() {
                             function getTextContent(element) {
@@ -103,9 +103,8 @@ public class loginTest : MonoBehaviour
 
                             return JSON.stringify(getAllTextContent());
                         })();";
-                        canvas.enabled = true;
                         GpmWebView.ExecuteJavaScript(script);
-                    }
+                   // }
                 }
                 break;
             case GpmWebViewCallback.CallbackType.ExecuteJavascript:
@@ -118,6 +117,7 @@ public class loginTest : MonoBehaviour
 
                     if (extractedValues.Count == 43)
                     {
+                        canvas.enabled = true;
                         if (extractedValues[4] == "OK")
                         {
                             loginData = new LoginResponse();
