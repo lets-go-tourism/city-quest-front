@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class BottomSheetManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class BottomSheetManager : MonoBehaviour
 
     public List<GameObject> placeGOList;
     public List<GameObject> tourGOList;
+
+    //public Dictionary<ServerAdventurePlace, CardPlaceInfo> BottomSheetPlaceDic { get; private set; } = new Dictionary<ServerAdventurePlace, CardPlaceInfo>();
 
     public static BottomSheetManager instance;
     private void Awake()
@@ -55,9 +58,9 @@ public class BottomSheetManager : MonoBehaviour
         for (int i = 0; i < placeList.Count; i++)
         {
             GameObject go = Instantiate(cardPlace, contentPlace);
-
+            //CardPlaceInfo info = go.GetComponent<CardPlaceInfo>();
+            //BottomSheetPlaceDic.Add(, info);
             placeGOList.Add(go);
-
             cardPlaceInfo = placeGOList[i].GetComponent<CardPlaceInfo>();
 
             cardPlaceInfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakPlace(placeList[i].name);

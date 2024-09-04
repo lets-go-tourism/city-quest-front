@@ -36,6 +36,10 @@ public class ButtonActions : MonoBehaviour
 
         // 바텀시트 태그 수정하기
         BottomSheetManager.instance.placeGOList[KJY_ConnectionTMP.instance.questNoPicture -1].GetComponent<CardPlaceInfo>().ChangeType();
+
+        // 태그 초기화
+        ChangeSprites.instance.ChangePlaceSprites(0);
+        ChangeSprites.instance.ChangeTourSprites(0);
     }
 
     // 태그 스프라이트 및 내용 바꾸기
@@ -56,5 +60,9 @@ public class ButtonActions : MonoBehaviour
             Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
             BS_Place.gameObject.SetActive(false);
         }
+
+        // 스크롤 초기화
+        MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
+        MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
     }
 }
