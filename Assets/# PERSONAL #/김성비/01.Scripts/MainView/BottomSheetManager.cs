@@ -274,12 +274,11 @@ public class BottomSheetManager : MonoBehaviour
         }
     }
 
-    // ��� �� ����
+    // 장소 탭 재정렬
     public void SortingPlace(string str)
     {
         for (int i = 0; i < placeGOList.Count; i++)
         {
-
             if (placeGOList[i].GetComponent<CardPlaceInfo>().type.ToString() == str)
             {
                 placeGOList[i].gameObject.SetActive(true);
@@ -291,7 +290,7 @@ public class BottomSheetManager : MonoBehaviour
         }
     }
 
-    // �������� �� ����
+    // 관광정보 탭 재정렬
     public void SortingTour(string str)
     {
         for (int i = 0; i < tourGOList.Count; i++)

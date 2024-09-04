@@ -103,4 +103,9 @@ public class CardPlaceInfo : MonoBehaviour
     ///    public double distance;
     ///    public bool status;
     ///}
+    ///
+    public void ChangeType()
+    {
+        type = Type.REVEAL;
+    }
 }
