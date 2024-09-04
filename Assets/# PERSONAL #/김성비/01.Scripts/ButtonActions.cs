@@ -1,9 +1,17 @@
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonActions : MonoBehaviour
 {
+    public static ButtonActions Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     Button btn;
     public Transform BS_Place;
     public Transform content;
@@ -15,6 +23,8 @@ public class ButtonActions : MonoBehaviour
 
     public void QuestDone()
     {
+        CameraFeed.Instance.CameraOff();
+
         // 버튼 터치 불가능하게 만들기
         content.GetChild(6).transform.GetChild(0).GetComponent<Button>().enabled = false;
 

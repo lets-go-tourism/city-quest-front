@@ -48,11 +48,12 @@ public class ChangeSprites : MonoBehaviour
         }
         else if (no == 1)
         {
-            BottomSheetManager.instance.SortingPlace("REVEAL");
+            print("1차 진입");
+            BottomSheetManager.instance.SortingPlace(CardPlaceInfo.Type.REVEAL);
         }
         else if (no == 2)
         {
-            BottomSheetManager.instance.SortingPlace("UNREVEAL");
+            BottomSheetManager.instance.SortingPlace(CardPlaceInfo.Type.UNREVEAL);
         }
 
         // 스크롤 초기화
