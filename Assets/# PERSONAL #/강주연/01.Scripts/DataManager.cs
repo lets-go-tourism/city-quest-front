@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -34,7 +35,6 @@ public class DataManager : MonoBehaviour
     private string path;
 
     public bool isLogout = false;
-
     #region notUse
     [Header("QuestList")]
     private List<QuestData> questDataList;
@@ -46,54 +46,66 @@ public class DataManager : MonoBehaviour
     private List<QuestData> explorationQuestList;
     #endregion
 
+    private class SaveData
+    {
+        public string timeStamp;
+        public string status;
+        public string accessToken;
+        public string refreshToken;
+        public bool agreed;
+    }
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(this);
-            JsonLoad();
         }
         else
             Destroy(this);
-        
+            
         path = Path.Combine(Application.persistentDataPath, "database.json");
-        //JsonLoad();
-    }
-
-    private void Start()
-    {
-        
+        JsonLoad();
     }
 
     public void JsonLoad()
     {
-        LoginResponse saveData = new LoginResponse();
-        saveData.data = new LoginData();
+        SaveData saveData;
 
         if (File.Exists(path))
         {
             string loadJson = File.ReadAllText(path);
-            saveData = JsonUtility.FromJson<LoginResponse>(loadJson);
+            saveData = JsonUtility.FromJson<SaveData>(loadJson);
 
             if (saveData != null)
             {
-                SetLoginData(saveData);
+                LoginResponse loginResponse = new LoginResponse();
+                loginResponse.data = new LoginData();
+
+                loginResponse.timeStamp = DateTime.Parse(saveData.timeStamp);
+                loginResponse.status = saveData.status;
+                loginResponse.data.accessToken = saveData.accessToken;
+                loginResponse.data.refreshToken = saveData.refreshToken;
+                loginResponse.data.agreed = saveData.agreed;
+
+                SetLoginData(loginResponse);
             }
-        }
-        else
-        {
-            Debug.Log("none_load");
         }
     }
 
     public void JsonSave()
     {
-        LoginResponse saveData = new LoginResponse();
+        SaveData save = new SaveData();
+        save.timeStamp = loginData.timeStamp.ToString();
+        save.status = loginData.status;
+        save.accessToken = loginData.data.accessToken;
+        save.refreshToken = loginData.data.refreshToken;
+        save.agreed = loginData.data.agreed;
 
-        saveData = GetLoginData();
-        string json = JsonUtility.ToJson(saveData, true);
-        File.WriteAllText(path, json);
+        string json = JsonUtility.ToJson(save, true); // JSON 형식으로 변환
+        File.WriteAllText(path, json); // 파일로 저장
+        Debug.Log(json);
     }
 
     //프랍리스트 설정하는 함수
@@ -167,8 +179,8 @@ public class DataManager : MonoBehaviour
 
         if (HttpManager.instance != null)
         {
-            HttpManager.instance.loginData = loginData;
             Debug.Log("Have_httpManager");
+            HttpManager.instance.loginData = loginData;
         }
     }
 

@@ -36,9 +36,7 @@ public class HttpManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(instance);
-            LoginResponse loginData = new LoginResponse();
-            loginData.data = new LoginData();
+            DontDestroyOnLoad(this);
         }
         else
         {
@@ -76,7 +74,10 @@ public class HttpManager : MonoBehaviour
 
                 if (headerState == RequestHeader.other)
                 {
-                    loginData = DataManager.instance.GetLoginData();
+                    if (DataManager.instance.GetLoginData() != null)
+                    {
+                        loginData = DataManager.instance.GetLoginData();
+                    }
 
                     request.SetRequestHeader("Content-Type", "application/json");
                     request.SetRequestHeader("Authorization", loginData.data.accessToken);
@@ -104,7 +105,10 @@ public class HttpManager : MonoBehaviour
 
                 if (headerState == RequestHeader.other)
                 {
-                    loginData = DataManager.instance.GetLoginData();
+                    if (DataManager.instance.GetLoginData() != null)
+                    {
+                        loginData = DataManager.instance.GetLoginData();
+                    }
 
                     request.SetRequestHeader("Content-Type", "application/json");
                     request.SetRequestHeader("Authorization", loginData.data.accessToken);

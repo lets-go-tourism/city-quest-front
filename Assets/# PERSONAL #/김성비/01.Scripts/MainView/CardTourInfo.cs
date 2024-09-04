@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
 using TMPro;
+using System;
 
 public class CardTourInfo : MonoBehaviour
 {
@@ -23,11 +24,33 @@ public class CardTourInfo : MonoBehaviour
 
     public ServerTourInfo ServerTourInfo { get; private set; }
 
-    public IEnumerator Start()
-    {
-        info[1].GetComponent<TextMeshProUGUI>().text = GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.longitude), double.Parse(ServerTourInfo.latitude)).ToString();
+    public IEnumerator Start2()
+    { 
+        while(true)
+        {
+            string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.latitude), double.Parse(ServerTourInfo.longitude))).ToString();
+            info[1].GetComponent<TextMeshProUGUI>().text = meter;
+            yield return new WaitForSeconds(5);
+        }
+    }
 
-        yield return new WaitForSeconds(5);
+    string ConvertDistance(double distance)
+    {
+        string result = string.Empty;
+
+        double tmp = distance;
+        double a = 1000;
+        if (tmp > a)
+        {
+            double calcultate = Math.Round(tmp / a, 1);
+            result = calcultate.ToString() + "km";
+        }
+        else
+        {
+            result = tmp.ToString() + "m";
+        }
+
+        return result;
     }
 
     // 이미지 세팅

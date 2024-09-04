@@ -17,20 +17,23 @@ public class SettingTourInfo : MonoBehaviour
 
     public void TourInfoSetting(ServerTourInfo info)
     {
+        // 이미지
+        contents[0].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TourSprites/" + info.contenttypeid);
+
         // 이름
-        contents[0].gameObject.SetActive(false);
-        contents[0].gameObject.SetActive(true);
-        contents[0].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(info.title);
+        contents[1].gameObject.SetActive(false);
+        contents[1].gameObject.SetActive(true);
+        contents[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(info.title);
 
         // 거리
         //contents[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(double.Parse(info.distance));
         double latTour = double.Parse(info.latitude);
         double lonTour = double.Parse(info.longitude);
 
-        contents[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));
+        contents[2].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));
 
         // 주소
-        contents[2].GetComponent<TextMeshProUGUI>().text = info.addr;
+        contents[3].GetComponent<TextMeshProUGUI>().text = info.addr;
 
         // 링크
         //contents[4].GetComponent<OpenKakaoMap>().url = info.url;
@@ -38,15 +41,15 @@ public class SettingTourInfo : MonoBehaviour
         // 사진
         if (info.imageUrl != string.Empty)
         {
-            contents[5].GetComponent<TextMeshProUGUI>().enabled = false;
-            contents[4].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
+            contents[5].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
             //yield return StartCoroutine(nameof(GetTexture), info.imageUrl);
+            contents[6].GetComponent<TextMeshProUGUI>().enabled = false;
         }
         else
         {
-            contents[5].GetComponent<TextMeshProUGUI>().enabled = true;
-            contents[4].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
-            contents[4].GetComponent<RawImage>().texture = null;
+            contents[5].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
+            contents[5].GetComponent<RawImage>().texture = null;
+            contents[6].GetComponent<TextMeshProUGUI>().enabled = true;
         }
 
         // 팝업창 UI 활성화
@@ -145,22 +148,26 @@ public class SettingTourInfo : MonoBehaviour
         // 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
 
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(tourInfo.imageUrl);
-        yield return www.SendWebRequest();
-        if (www.result != UnityWebRequest.Result.Success)
+        if(tourInfo.imageUrl != string.Empty)
         {
-            Debug.Log(www.error);
+            UnityWebRequest www = UnityWebRequestTexture.GetTexture(tourInfo.imageUrl);
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
 
-            // 암전 끄고
-            MainView_UI.instance.BackgroundDarkDisable();
-        }
-        else
-        {
-            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                // 암전 끄고
+                MainView_UI.instance.BackgroundDarkDisable();
+            }
+            else
+            {
+                Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
-            contents[4].GetComponent<RawImage>().texture = myTexture;
-            TourInfoSetting(tourInfo);
+                contents[5].GetComponent<RawImage>().texture = myTexture;
+                
+            }
         }
+        TourInfoSetting(tourInfo);
     }
 
     // 색깔 변환

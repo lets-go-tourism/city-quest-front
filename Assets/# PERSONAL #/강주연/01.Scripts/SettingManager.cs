@@ -57,8 +57,8 @@ public class SettingManager : MonoBehaviour
 
     public void DeletePopUp()
     {
-        DataManager.instance.isLogout = true;
         DataManager.instance.SetLoginData(null);
+        DataManager.instance.isLogout = true;
         deletePopUp.SetActive(true);
     }
 

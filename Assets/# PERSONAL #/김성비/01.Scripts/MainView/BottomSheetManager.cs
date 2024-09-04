@@ -7,15 +7,15 @@ using System.Collections.Generic;
 
 public class BottomSheetManager : MonoBehaviour
 {
-    // Àå¼Ò
+    // ï¿½ï¿½ï¿½
     public GameObject cardPlace;
     public Transform contentPlace;
 
-    // °ü±¤Á¤º¸
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public GameObject cardTour;
     public Transform contentTour;
 
-    // ¸®½ºÆ®
+    // ï¿½ï¿½ï¿½ï¿½Æ®
     List<ServerProp> propList;
     List<ServerAdventurePlace> placeList;
     List<ServerTourInfo> tourList;
@@ -44,14 +44,14 @@ public class BottomSheetManager : MonoBehaviour
         StartCoroutine(SettingList());
     }
 
-    // ÃÊ±â ¼¼ÆÃ
+    // ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½
     public IEnumerator SettingList()
     {
         propList = DataManager.instance.GetHomePropsList();
         placeList = DataManager.instance.GetHomeAdventurePlacesList();
         tourList = DataManager.instance.GetHometourPlacesList();
 
-        // Àå¼Ò Ä«µå »ý¼º
+        // ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         for (int i = 0; i < placeList.Count; i++)
         {
             GameObject go = Instantiate(cardPlace, contentPlace);
@@ -67,7 +67,7 @@ public class BottomSheetManager : MonoBehaviour
             cardPlaceInfo.SetServerProp(placeList[i]);
             cardPlaceInfo.setPlaceProp(propList[i]);
 
-            cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start));
+            cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start2));
         }
 
         yield return StartCoroutine(GenTour());
@@ -77,7 +77,7 @@ public class BottomSheetManager : MonoBehaviour
 
     IEnumerator GenTour()
     {
-        // °ü±¤Á¤º¸ Ä«µå »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         int count = 0;
 
         while (count < tourList.Count)
@@ -93,7 +93,7 @@ public class BottomSheetManager : MonoBehaviour
                 cardTourInfo = tourGOList[i].GetComponent<CardTourInfo>();
                 cardTourInfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
                 cardTourInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
-                if (tourList[i].imageUrl != string.Empty)
+                if (tourList[i].imageUrl.Length > 5)
                 {
                     cardTourInfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
                     cardTourInfo.info[3].GetComponent<TextMeshProUGUI>().enabled = false;
@@ -106,6 +106,8 @@ public class BottomSheetManager : MonoBehaviour
                 }
                 cardTourInfo.SettingTourType(tourList[i].contenttypeid);
                 cardTourInfo.InputTourList(tourList[i]);
+
+                cardTourInfo.StartCoroutine(nameof(cardTourInfo.Start2));
             }
             if (count == 120)
             {
@@ -120,51 +122,20 @@ public class BottomSheetManager : MonoBehaviour
 
             yield return new WaitForSeconds(1);
         }
-        ///count += 50;
-        ///yield return new WaitForSeconds(1);
-        ///}
-        ///while (count < tourList.Count)
-        ///{
-        ///    for (int i = count; i < 50 + count; i++)
-        ///    {
-        ///        if (double.Parse(tourList[i].distance) < 1500)
-        ///        {
-        ///            GameObject go = Instantiate(cardTour, contentTour);
-        ///
-        ///            tourGOList.Add(go);
-        ///
-        ///            CardTourInfo cardinfo = tourGOList[i].GetComponent<CardTourInfo>();
-        ///            cardinfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
-        ///            cardinfo.info[1].GetComponent<TextMeshProUGUI>().text = MtoKM(double.Parse(tourList[i].distance));
-        ///            if (tourList[i].imageUrl != string.Empty)
-        ///            {
-        ///                cardinfo.StartCoroutine(nameof(cardinfo.GetTexture), tourList[i].imageUrl);
-        ///            }
-        ///            else { print(TextBreakTour(tourList[i].title)); }
-        ///            cardinfo.SettingTourType(tourList[i].contenttypeid);
-        ///            cardinfo.InputTourList(tourList[i]);
-        ///        }
-        ///    }
-        ///
-        ///    count += 50;
-        ///    yield return new WaitForSeconds(1);
-        ///}
-        /// GetComponent<ButtonActions>().ChangeBottomSheet(0);
     }
 
-    // °Å¸® ´ÜÀ§ º¯È¯
+    // ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     string ConvertDistance(double distance)
     {
         print(distance);
         string result = string.Empty;
 
-        double tmp = Math.Truncate(distance);
-
-        if (tmp > 1000)
+        double tmp = distance;
+        double a = 1000;
+        if (tmp > a)
         {
-            double calcultate = tmp / 1000;
-            print(calcultate);
-            result = (Math.Round(calcultate, 1)).ToString() + "km";
+            double calcultate = Math.Round(tmp / a, 1);
+            result = calcultate.ToString() + "km";
         }
         else
         {
@@ -174,7 +145,7 @@ public class BottomSheetManager : MonoBehaviour
         return result;
     }
 
-    // ÅØ½ºÆ®ºê·¹ÀÌÅ© - Àå¼Ò
+    // ï¿½Ø½ï¿½Æ®ï¿½ê·¹ï¿½ï¿½Å© - ï¿½ï¿½ï¿½
     string TextBreakPlace(string text)
     {
         string result = string.Empty;
@@ -184,44 +155,44 @@ public class BottomSheetManager : MonoBehaviour
 
         char[] chars0 = text.ToCharArray();
 
-        // ´Ù¼¸±ÛÀÚ
+        // ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½
         if (chars0.Length < 5)
         {
-            // 1ÁÙ
+            // 1ï¿½ï¿½
             if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
-            // 2ÁÙ
+            // 2ï¿½ï¿½
             else
             {
                 result = nameSplit[0] + "\n" + nameSplit[1];
             }
         }
 
-        // ¿©¼¸±ÛÀÚ ÀÌ»ó
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½
         else if (chars0.Length >= 5)
         {
-            // ¶ç¾î¾²±â ¾ø´Â °æ¿ì
+            // ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
 
-            // ¶ç¾î¾²±â ÀÖ´Â °æ¿ì
+            // ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
             else
             {
-                char[] chars1 = nameSplit[1].ToCharArray(); // µÎ¹øÂ° ÁÙ ¸î±ÛÀÚÀÎÁö
+                char[] chars1 = nameSplit[1].ToCharArray(); // ï¿½Î¹ï¿½Â° ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-                // µÎ¹øÂ° ÁÙÀÌ 5±ÛÀÚ ÀÌÇÏ
+                // ï¿½Î¹ï¿½Â° ï¿½ï¿½ï¿½ï¿½ 5ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (chars1.Length < 5)
                 {
-                    result = nameSplit[0] + "\n" + nameSplit[1]; // µÎ¹øÂ° ÁÙ ´Ù¼¸±ÛÀÚ ÀÌÇÏ
+                    result = nameSplit[0] + "\n" + nameSplit[1]; // ï¿½Î¹ï¿½Â° ï¿½ï¿½ ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 }
-                // µÎ¹øÂ° ÁÙÀÌ 6±ÛÀÚ ÀÌ»ó
+                // ï¿½Î¹ï¿½Â° ï¿½ï¿½ï¿½ï¿½ 6ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½
                 else
                 {
-                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // µÎ¹øÂ° ÁÙ ´Ù¼¸±ÛÀÚ ÃÊ°ú
+                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // ï¿½Î¹ï¿½Â° ï¿½ï¿½ ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½
                 }
             }
         }
@@ -229,7 +200,7 @@ public class BottomSheetManager : MonoBehaviour
         return result;
     }
 
-    // ÅØ½ºÆ®ºê·¹ÀÌÅ© - °ü±¤Á¤º¸
+    // ï¿½Ø½ï¿½Æ®ï¿½ê·¹ï¿½ï¿½Å© - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     string TextBreakTour(string text)
     {
         string result = string.Empty;
@@ -239,44 +210,44 @@ public class BottomSheetManager : MonoBehaviour
 
         char[] chars0 = text.ToCharArray();
 
-        // ´Ù¼¸±ÛÀÚ
+        // ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½
         if (chars0.Length < 5)
         {
-            // 1ÁÙ
+            // 1ï¿½ï¿½
             if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
-            // 2ÁÙ
+            // 2ï¿½ï¿½
             else
             {
                 result = nameSplit[0] + "\n" + nameSplit[1];
             }
         }
 
-        // ¿©¼¸±ÛÀÚ ÀÌ»ó
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½
         else if (chars0.Length >= 5)
         {
-            // ¶ç¾î¾²±â ¾ø´Â °æ¿ì
+            // ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
 
-            // ¶ç¾î¾²±â ÀÖ´Â °æ¿ì
+            // ï¿½ï¿½î¾²ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
             else
             {
-                char[] chars1 = nameSplit[1].ToCharArray(); // µÎ¹øÂ° ÁÙ ¸î±ÛÀÚÀÎÁö
+                char[] chars1 = nameSplit[1].ToCharArray(); // ï¿½Î¹ï¿½Â° ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-                // µÎ¹øÂ° ÁÙÀÌ 5±ÛÀÚ ÀÌÇÏ
+                // ï¿½Î¹ï¿½Â° ï¿½ï¿½ï¿½ï¿½ 5ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (chars1.Length < 5)
                 {
-                    result = nameSplit[0] + "\n" + nameSplit[1]; // µÎ¹øÂ° ÁÙ ´Ù¼¸±ÛÀÚ ÀÌÇÏ
+                    result = nameSplit[0] + "\n" + nameSplit[1]; // ï¿½Î¹ï¿½Â° ï¿½ï¿½ ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 }
-                // µÎ¹øÂ° ÁÙÀÌ 6±ÛÀÚ ÀÌ»ó
+                // ï¿½Î¹ï¿½Â° ï¿½ï¿½ï¿½ï¿½ 6ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½
                 else
                 {
-                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // µÎ¹øÂ° ÁÙ ´Ù¼¸±ÛÀÚ ÃÊ°ú
+                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // ï¿½Î¹ï¿½Â° ï¿½ï¿½ ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½
                 }
             }
         }
@@ -284,7 +255,7 @@ public class BottomSheetManager : MonoBehaviour
         return result;
     }
 
-    // ÀüÃ¼ È°¼ºÈ­
+    // ï¿½ï¿½Ã¼ È°ï¿½ï¿½È­
     public void soringAll(bool place)
     {
         if (place)
@@ -303,7 +274,7 @@ public class BottomSheetManager : MonoBehaviour
         }
     }
 
-    // Àå¼Ò ÅÇ Á¤·Ä
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void SortingPlace(string str)
     {
         for (int i = 0; i < placeGOList.Count; i++)
@@ -320,7 +291,7 @@ public class BottomSheetManager : MonoBehaviour
         }
     }
 
-    // °ü±¤Á¤º¸ ÅÇ Á¤·Ä
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void SortingTour(string str)
     {
         for (int i = 0; i < tourGOList.Count; i++)
