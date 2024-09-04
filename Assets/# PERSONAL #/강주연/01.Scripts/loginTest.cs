@@ -103,7 +103,7 @@ public class loginTest : MonoBehaviour
 
                             return JSON.stringify(getAllTextContent());
                         })();";
-                        GpmWebView.ExecuteJavaScript(script);
+                    GpmWebView.ExecuteJavaScript(script);
                    // }
                 }
                 break;
@@ -115,11 +115,11 @@ public class loginTest : MonoBehaviour
                     string cleanedString = data.Replace("\\\\\\", "");
                     extractedValues = ExtractStringsAndBooleans(cleanedString);
 
-                    if (extractedValues.Count == 43)
+                    if (extractedValues.Count >= 13)
                     {
-                        canvas.enabled = true;
                         if (extractedValues[4] == "OK")
                         {
+                            GpmWebView.Close();
                             loginData = new LoginResponse();
                             loginData.data = new LoginData();
 
@@ -140,13 +140,10 @@ public class loginTest : MonoBehaviour
                                 Debug.Log("inhere");
                                 KJY_UIManager.instance.ShownLoginSccuess();
                             }
-                            GpmWebView.Close();
-                            canvas.enabled = false;
                         }
                     }
                     else
                     {
-                        canvas.enabled = false;
                     }
                 }
                 break;
