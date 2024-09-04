@@ -83,7 +83,7 @@ public class DataManager : MonoBehaviour
                 LoginResponse loginResponse = new LoginResponse();
                 loginResponse.data = new LoginData();
 
-                loginResponse.timeStamp = DateTime.Parse(saveData.timeStamp);
+                loginResponse.timeStamp = DateTime.Now;
                 loginResponse.status = saveData.status;
                 loginResponse.data.accessToken = saveData.accessToken;
                 loginResponse.data.refreshToken = saveData.refreshToken;

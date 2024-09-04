@@ -116,9 +116,8 @@ public class loginTest : MonoBehaviour
                     string cleanedString = data.Replace("\\\\\\", "");
                     extractedValues = ExtractStringsAndBooleans(cleanedString);
 
-                    if (extractedValues.Count == 43)
+                    if (extractedValues.Count >= 13)
                     {
-                        canvas.enabled = true;
                         if (extractedValues[4] == "OK")
                         {
                             loginData = new LoginResponse();
@@ -141,8 +140,8 @@ public class loginTest : MonoBehaviour
                                 Debug.Log("inhere");
                                 KJY_UIManager.instance.ShownLoginSccuess();
                             }
-                            GpmWebView.Close();
                             canvas.enabled = false;
+                            GpmWebView.Close();
                         }
                     }
                     else
