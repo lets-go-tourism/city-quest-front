@@ -103,7 +103,6 @@ public class loginTest : MonoBehaviour
 
                             return JSON.stringify(getAllTextContent());
                         })();";
-                    canvas.enabled = true;
                     GpmWebView.ExecuteJavaScript(script);
                    // }
                 }
@@ -120,6 +119,7 @@ public class loginTest : MonoBehaviour
                     {
                         if (extractedValues[4] == "OK")
                         {
+                            GpmWebView.Close();
                             loginData = new LoginResponse();
                             loginData.data = new LoginData();
 
@@ -140,13 +140,10 @@ public class loginTest : MonoBehaviour
                                 Debug.Log("inhere");
                                 KJY_UIManager.instance.ShownLoginSccuess();
                             }
-                            canvas.enabled = false;
-                            GpmWebView.Close();
                         }
                     }
                     else
                     {
-                        canvas.enabled = false;
                     }
                 }
                 break;
