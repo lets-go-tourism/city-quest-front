@@ -35,7 +35,7 @@ public class ButtonActions : MonoBehaviour
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN),true);
 
         // 바텀시트 태그 수정하기
-        BottomSheetManager.instance.placeGOList[KJY_ConnectionTMP.instance.questNoPicture].GetComponent<CardPlaceInfo>().ChangeType();
+        BottomSheetManager.instance.placeGOList[KJY_ConnectionTMP.instance.questNoPicture -1].GetComponent<CardPlaceInfo>().ChangeType();
     }
 
     // 태그 스프라이트 및 내용 바꾸기
