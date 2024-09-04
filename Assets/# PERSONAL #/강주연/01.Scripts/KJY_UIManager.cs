@@ -71,6 +71,7 @@ public class KJY_UIManager : MonoBehaviour
         logo.transform.position = logoFirstPosition.position;
         confirmBtn.interactable = false;
         StartCoroutine(Splash());
+        KJY_UIManager.instance.StartSplash();
     }
 
     private void Update()

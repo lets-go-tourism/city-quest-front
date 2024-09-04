@@ -57,15 +57,16 @@ public class DataManager : MonoBehaviour
 
     private void Awake()
     {
-         path = Path.Combine(Application.persistentDataPath, "database.json");
         if (instance == null)
         {
             instance = this;
-            JsonLoad();
             DontDestroyOnLoad(this);
         }
         else
             Destroy(this);
+            
+        path = Path.Combine(Application.persistentDataPath, "database.json");
+        JsonLoad();
     }
 
     public void JsonLoad()
@@ -90,14 +91,6 @@ public class DataManager : MonoBehaviour
 
                 SetLoginData(loginResponse);
             }
-            else
-            {
-                KJY_UIManager.instance.StartSplash();
-            }
-        }
-        else
-        {
-            Debug.Log("none_load");
         }
     }
 
@@ -189,12 +182,6 @@ public class DataManager : MonoBehaviour
             Debug.Log("Have_httpManager");
             HttpManager.instance.loginData = loginData;
         }
-
-        if (KJY_UIManager.instance != null)
-        {
-           KJY_UIManager.instance.StartSplash();
-        }
-       
     }
 
     public LoginResponse GetLoginData()

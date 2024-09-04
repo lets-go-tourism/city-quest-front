@@ -79,6 +79,8 @@ public class loginTest : MonoBehaviour
 
             case GpmWebViewCallback.CallbackType.PageLoad:
                 {
+                    count++;
+
                     if (count >= 3)
                     {
                         string script = @"
@@ -135,6 +137,7 @@ public class loginTest : MonoBehaviour
                             }
                             else
                             {
+                                Debug.Log("inhere");
                                 KJY_UIManager.instance.ShownLoginSccuess();
                             }
                             GpmWebView.Close();
