@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class ChangeSprites : MonoBehaviour
 {
+    public static ChangeSprites instance;
+    private void Awake()
+    {
+        instance = this;
+    }
     //public enum Sort
     //{
     //    N,

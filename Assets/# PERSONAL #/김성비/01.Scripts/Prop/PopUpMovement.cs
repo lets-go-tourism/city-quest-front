@@ -86,6 +86,10 @@ public class PopUpMovement : MonoBehaviour
             tourState = TourState.DOWN;
         }
 
+        // 태그 초기화
+        ChangeSprites.instance.ChangePlaceSprites(0);
+        ChangeSprites.instance.ChangeTourSprites(0);
+
         // 배경 암전 끄기
         MainView_UI.instance.BackgroundDarkDisable();
 
