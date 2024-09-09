@@ -7,6 +7,13 @@ using UnityEngine.UI;
 
 public class CameraFeed : MonoBehaviour
 {
+    public static CameraFeed Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     [Header("Setting")]
     public Vector2 requestedRatio;
     public int requestedFPS;
@@ -273,8 +280,6 @@ public class CameraFeed : MonoBehaviour
         RenderTexture.active = currentRenderTexture;
 
         KJY_ConnectionTMP.instance.OnClickTest(texture2D);
-
-        CameraOff();
     }
 
     public void CameraOff()

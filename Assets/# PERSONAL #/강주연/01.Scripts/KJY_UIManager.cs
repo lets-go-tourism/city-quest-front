@@ -71,7 +71,6 @@ public class KJY_UIManager : MonoBehaviour
         logo.transform.position = logoFirstPosition.position;
         confirmBtn.interactable = false;
         StartCoroutine(Splash());
-        KJY_UIManager.instance.StartSplash();
     }
 
     private void Update()
@@ -210,7 +209,35 @@ public class KJY_UIManager : MonoBehaviour
     public void AuthorizationAlram()//Alram보내는거 권한 허락받는 함수
     {
 #if UNITY_ANDROID
-        if (Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+        if (AndroidVersionCheck() == true)
+        {
+            if (Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+            {
+                if (isLogin == false)
+                {
+                    DataManager.instance.JsonSave();
+                    authorizationObject.SetActive(false);
+                    loginText.text = "회원가입 성공!\n환영해요.";
+                    CustomerLoginUI.SetActive(true);
+                }
+                else
+                {
+                    DataManager.instance.JsonSave();
+                    authorizationObject.SetActive(false);
+                    loginText.text = "로그인 성공!\n환영해요.";
+                    CustomerLoginUI.SetActive(true);
+                }
+            }
+            else
+            {
+                PermissionCallbacks callbacks = new();
+                callbacks.PermissionGranted += PermissionGrantedCallback;
+                callbacks.PermissionDenied += PermissionDeniedCallback;
+
+                Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS", callbacks);
+            }
+        }
+        else
         {
             if (isLogin == false)
             {
@@ -226,14 +253,6 @@ public class KJY_UIManager : MonoBehaviour
                 loginText.text = "로그인 성공!\n환영해요.";
                 CustomerLoginUI.SetActive(true);
             }
-        }
-        else
-        {
-            PermissionCallbacks callbacks = new();
-            callbacks.PermissionGranted += PermissionGrantedCallback;
-            callbacks.PermissionDenied += PermissionDeniedCallback;
-
-            Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS", callbacks);
         }
 #endif
     }

@@ -8,6 +8,7 @@ public class SceneManager : MonoBehaviour
 
     public void Awake()
     {
+        Application.targetFrameRate = 120;
         if (instance == null)
         {
             instance = this;

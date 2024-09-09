@@ -307,6 +307,7 @@ public class MapCameraController : MonoBehaviour
 
         _panVelocity = Vector2.zero;
         transform.position = Vector3.Lerp(transform.position, m_TargetPosition, Time.deltaTime * m_MoveSpeed);
+        LimitCameraMovement();
     }
 
     public void StartCameraMoveToTarget(Vector3 targetPos)

@@ -66,6 +66,7 @@ public class BottomSheetManager : MonoBehaviour
             cardPlaceInfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakPlace(placeList[i].name);
             cardPlaceInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
             cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.GetTexture), placeList[i].imageUrl);
+
             cardPlaceInfo.SettingPlaceType(placeList[i].status);
             cardPlaceInfo.SetServerProp(placeList[i]);
             cardPlaceInfo.setPlaceProp(propList[i]);
@@ -121,10 +122,12 @@ public class BottomSheetManager : MonoBehaviour
                 count += 30;
             }
 
-            if(count >= tourList.Count) yield break;
+            if(count >= tourList.Count) break;
 
             yield return new WaitForSeconds(1);
         }
+
+        MainView_UI.instance.BackgroundDarkDisable();
     }
 
     // �Ÿ� ���� ��ȯ
@@ -278,12 +281,17 @@ public class BottomSheetManager : MonoBehaviour
     }
 
     // 장소 탭 재정렬
-    public void SortingPlace(string str)
+    public void SortingPlace(CardPlaceInfo.Type type)
     {
         for (int i = 0; i < placeGOList.Count; i++)
         {
-            if (placeGOList[i].GetComponent<CardPlaceInfo>().type.ToString() == str)
+            print("2차 진입 " + i);
+            CardPlaceInfo card = placeGOList[i].GetComponent<CardPlaceInfo>();
+
+            print("의 타입은 " + card.type);
+            if (placeGOList[i].GetComponent<CardPlaceInfo>().type == type)
             {
+                print(placeGOList[i].name);
                 placeGOList[i].gameObject.SetActive(true);
             }
             else

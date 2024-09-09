@@ -79,10 +79,10 @@ public class loginTest : MonoBehaviour
 
             case GpmWebViewCallback.CallbackType.PageLoad:
                 {
-                    count++;
+                   // count++;
 
-                    if (count >= 3)
-                    {
+                   // if (count >= 3)
+                    //{
                         string script = @"
                         (function() {
                             function getTextContent(element) {
@@ -103,9 +103,8 @@ public class loginTest : MonoBehaviour
 
                             return JSON.stringify(getAllTextContent());
                         })();";
-                        canvas.enabled = true;
-                        GpmWebView.ExecuteJavaScript(script);
-                    }
+                    GpmWebView.ExecuteJavaScript(script);
+                   // }
                 }
                 break;
             case GpmWebViewCallback.CallbackType.ExecuteJavascript:
@@ -116,10 +115,11 @@ public class loginTest : MonoBehaviour
                     string cleanedString = data.Replace("\\\\\\", "");
                     extractedValues = ExtractStringsAndBooleans(cleanedString);
 
-                    if (extractedValues.Count == 43)
+                    if (extractedValues.Count >= 13)
                     {
                         if (extractedValues[4] == "OK")
                         {
+                            GpmWebView.Close();
                             loginData = new LoginResponse();
                             loginData.data = new LoginData();
 
@@ -140,13 +140,10 @@ public class loginTest : MonoBehaviour
                                 Debug.Log("inhere");
                                 KJY_UIManager.instance.ShownLoginSccuess();
                             }
-                            GpmWebView.Close();
-                            canvas.enabled = false;
                         }
                     }
                     else
                     {
-                        canvas.enabled = false;
                     }
                 }
                 break;

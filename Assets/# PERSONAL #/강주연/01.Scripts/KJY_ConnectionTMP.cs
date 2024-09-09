@@ -68,6 +68,7 @@ public class TryImageConnection : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError($"Error: {www.error}");
+                ButtonActions.Instance.QuestDone();
             }
             else
             {
@@ -80,7 +81,7 @@ public class TryImageConnection : MonoBehaviour
     private void Complete(DownloadHandler result)
     {
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
-
+        ButtonActions.Instance.QuestDone();
     }
 }
 #endregion

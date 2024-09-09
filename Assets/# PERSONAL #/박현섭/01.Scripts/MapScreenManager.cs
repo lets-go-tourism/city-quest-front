@@ -25,6 +25,5 @@ public class MapScreenManager : MonoBehaviour
         {
             yield return null;
         }
-        MainView_UI.instance.BackgroundDarkDisable();
     }
 }
