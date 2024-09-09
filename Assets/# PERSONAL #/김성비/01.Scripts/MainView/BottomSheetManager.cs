@@ -8,15 +8,15 @@ using Unity.VisualScripting;
 
 public class BottomSheetManager : MonoBehaviour
 {
-    // ���
+    // 장소
     public GameObject cardPlace;
     public Transform contentPlace;
 
-    // ��������
+    // 관광정보
     public GameObject cardTour;
     public Transform contentTour;
 
-    // ����Ʈ
+    // 리스트
     List<ServerProp> propList;
     List<ServerAdventurePlace> placeList;
     List<ServerTourInfo> tourList;
@@ -47,14 +47,14 @@ public class BottomSheetManager : MonoBehaviour
         StartCoroutine(SettingList());
     }
 
-    // �ʱ� ����
+    // 바텀시트 만들기
     public IEnumerator SettingList()
     {
         propList = DataManager.instance.GetHomePropsList();
         placeList = DataManager.instance.GetHomeAdventurePlacesList();
         tourList = DataManager.instance.GetHometourPlacesList();
 
-        // ��� ī�� ����
+        // 장소 바텀시트
         for (int i = 0; i < placeList.Count; i++)
         {
             GameObject go = Instantiate(cardPlace, contentPlace);
@@ -74,6 +74,7 @@ public class BottomSheetManager : MonoBehaviour
             cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start2));
         }
 
+        // 관광정보 바텀시트
         yield return StartCoroutine(GenTour());
 
         yield return null;
@@ -81,7 +82,7 @@ public class BottomSheetManager : MonoBehaviour
 
     IEnumerator GenTour()
     {
-        // �������� ī�� ����
+        // 관광정보 바텀시트
         int count = 0;
 
         while (count < tourList.Count)
@@ -122,7 +123,7 @@ public class BottomSheetManager : MonoBehaviour
                 count += 30;
             }
 
-            if(count >= tourList.Count) break;
+            if (count >= tourList.Count) break;
 
             yield return new WaitForSeconds(1);
         }
@@ -130,7 +131,7 @@ public class BottomSheetManager : MonoBehaviour
         MainView_UI.instance.BackgroundDarkDisable();
     }
 
-    // �Ÿ� ���� ��ȯ
+    // 거리 변환
     string ConvertDistance(double distance)
     {
         print(distance);
@@ -151,7 +152,7 @@ public class BottomSheetManager : MonoBehaviour
         return result;
     }
 
-    // �ؽ�Ʈ�극��ũ - ���
+    // 장소 글자 변환
     string TextBreakPlace(string text)
     {
         string result = string.Empty;
@@ -161,41 +162,41 @@ public class BottomSheetManager : MonoBehaviour
 
         char[] chars0 = text.ToCharArray();
 
-        // �ټ�����
+        // 5글자 이하
         if (chars0.Length < 5)
         {
-            // 1��
+            // 1줄
             if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
-            // 2��
+            // 2줄
             else
             {
                 result = nameSplit[0] + "\n" + nameSplit[1];
             }
         }
 
-        // �������� �̻�
+        // 6글자 이상
         else if (chars0.Length >= 5)
         {
-            // ���� ���� ���
+            // 1줄
             if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
 
-            // ���� �ִ� ���
+            // 2줄
             else
             {
-                char[] chars1 = nameSplit[1].ToCharArray(); // �ι�° �� ���������
+                char[] chars1 = nameSplit[1].ToCharArray();
 
-                // �ι�° ���� 5���� ����
+                // 두번째 줄 5글자 이하
                 if (chars1.Length < 5)
                 {
                     result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
                 }
-                // �ι�° ���� 6���� �̻�
+                // 두번째 줄 6글자 이상
                 else
                 {
                     result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
@@ -206,7 +207,7 @@ public class BottomSheetManager : MonoBehaviour
         return result;
     }
 
-    // �ؽ�Ʈ�극��ũ - ��������
+    // 관광정보 글자 변환
     string TextBreakTour(string text)
     {
         string result = string.Empty;
@@ -216,41 +217,41 @@ public class BottomSheetManager : MonoBehaviour
 
         char[] chars0 = text.ToCharArray();
 
-        // �ټ�����
+        // 5글자 이하
         if (chars0.Length < 5)
         {
-            // 1��
+            // 1줄
             if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
-            // 2��
+            // 2줄
             else
             {
                 result = nameSplit[0] + "\n" + nameSplit[1];
             }
         }
 
-        // �������� �̻�
+        // 6글자 이상
         else if (chars0.Length >= 5)
         {
-            // ���� ���� ���
+            // 1줄
             if (nameSplit.Length < 2)
             {
                 result = nameSplit[0];
             }
 
-            // ���� �ִ� ���
+            // 2줄
             else
             {
-                char[] chars1 = nameSplit[1].ToCharArray(); // �ι�° �� ���������
+                char[] chars1 = nameSplit[1].ToCharArray();
 
-                // �ι�° ���� 5���� ����
+                // 두번째 줄 5글자 이하
                 if (chars1.Length < 5)
                 {
                     result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
                 }
-                // �ι�° ���� 6���� �̻�
+                // 두번째 줄 6글자 이상
                 else
                 {
                     result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
@@ -261,7 +262,7 @@ public class BottomSheetManager : MonoBehaviour
         return result;
     }
 
-    // ��ü Ȱ��ȭ
+    // 전체 보기
     public void soringAll(bool place)
     {
         if (place)
@@ -280,39 +281,45 @@ public class BottomSheetManager : MonoBehaviour
         }
     }
 
-    // 장소 탭 재정렬
+    // 장소 탭 카드 활성/비활성
     public void SortingPlace(CardPlaceInfo.Type type)
     {
-        for (int i = 0; i < placeGOList.Count; i++)
+        if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
         {
-            print("2차 진입 " + i);
-            CardPlaceInfo card = placeGOList[i].GetComponent<CardPlaceInfo>();
+            for (int i = 0; i < placeGOList.Count; i++)
+            {
+                print("2차 진입 " + i);
+                CardPlaceInfo card = placeGOList[i].GetComponent<CardPlaceInfo>();
 
-            print("의 타입은 " + card.type);
-            if (placeGOList[i].GetComponent<CardPlaceInfo>().type == type)
-            {
-                print(placeGOList[i].name);
-                placeGOList[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                placeGOList[i].gameObject.SetActive(false);
+                print("의 타입은 " + card.type);
+                if (placeGOList[i].GetComponent<CardPlaceInfo>().type == type)
+                {
+                    print(placeGOList[i].name);
+                    placeGOList[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    placeGOList[i].gameObject.SetActive(false);
+                }
             }
         }
     }
 
-    // 관광정보 탭 재정렬
+    // 관광정보 탭 카드 활성/비활성
     public void SortingTour(string str)
     {
-        for (int i = 0; i < tourGOList.Count; i++)
+        if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
         {
-            if (tourGOList[i].GetComponent<CardTourInfo>().type.ToString() == str)
+            for (int i = 0; i < tourGOList.Count; i++)
             {
-                tourGOList[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                tourGOList[i].gameObject.SetActive(false);
+                if (tourGOList[i].GetComponent<CardTourInfo>().type.ToString() == str)
+                {
+                    tourGOList[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    tourGOList[i].gameObject.SetActive(false);
+                }
             }
         }
     }

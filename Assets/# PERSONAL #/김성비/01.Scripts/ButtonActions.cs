@@ -42,10 +42,10 @@ public class ButtonActions : MonoBehaviour
         CloudContainer.Instance.RemoveTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture]]);
 
         // 바텀시트 비활성화
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN),true);
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
 
         // 바텀시트 태그 수정하기
-        BottomSheetManager.instance.placeGOList[KJY_ConnectionTMP.instance.questNoPicture -1].GetComponent<CardPlaceInfo>().ChangeType();
+        BottomSheetManager.instance.placeGOList[KJY_ConnectionTMP.instance.questNoPicture - 1].GetComponent<CardPlaceInfo>().ChangeType();
 
         // 태그 초기화
         ChangeSprites.instance.ChangePlaceSprites(0);
@@ -55,24 +55,27 @@ public class ButtonActions : MonoBehaviour
     // 태그 스프라이트 및 내용 바꾸기
     public void ChangeBottomSheet(int num)
     {
-        // 장소 탭
-        if (num == 0)
+        if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
         {
-            Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
-            Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
-            BS_Place.gameObject.SetActive(true);
-        }
+            // 장소 탭 보기
+            if (num == 0)
+            {
+                Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
+                Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
+                BS_Place.gameObject.SetActive(true);
+            }
 
-        // 관광정보 탭
-        if (num == 1)
-        {
-            Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
-            Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
-            BS_Place.gameObject.SetActive(false);
-        }
+            // 관광정보 탭 보기
+            if (num == 1)
+            {
+                Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
+                Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
+                BS_Place.gameObject.SetActive(false);
+            }
 
-        // 스크롤 초기화
-        MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
-        MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
+            // 스크롤 초기화
+            MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
+            MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
+        }
     }
 }
