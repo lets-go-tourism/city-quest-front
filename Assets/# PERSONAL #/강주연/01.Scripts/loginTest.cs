@@ -29,19 +29,16 @@ public class loginTest : MonoBehaviour
 {
     public List<string> extractedValues = new List<string>();
     public LoginResponse loginData;
-    private bool test = false;
-    private int count;
-    [SerializeField]private Canvas canvas;
-    private int width = Screen.width;
-    private int height = Screen.height;
+    public string editorNewUser;
 
     public void ShowUrl()
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
         GpmWebView.ShowUrl(
             "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao",
             new GpmWebViewRequest.Configuration()
             {
-                style = GpmWebViewStyle.POPUP,
+                style = GpmWebViewStyle.FULLSCREEN,
                 isClearCookie = true,
                 isClearCache = true,
                 isNavigationBarVisible = true,
@@ -53,7 +50,11 @@ public class loginTest : MonoBehaviour
             },
              OnCallback,
          new List<string>(),  // ºó ½ºÅ´ ¸®½ºÆ® Àü´Þ
-         new List<string>()); 
+         new List<string>());
+#elif UNITY_EDITOR
+        Application.OpenURL("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao");
+        KJY_LoginManager.instance.EditorButtonOn();
+#endif
     }
 
     private void OnCallback(GpmWebViewCallback.CallbackType callbackType, string data, GpmWebViewError error)
@@ -68,21 +69,8 @@ public class loginTest : MonoBehaviour
 
         switch (callbackType)
         {
-
-            case GpmWebViewCallback.CallbackType.Open:
-                {
-                    GpmWebView.SetPosition(0, 0);
-                    GpmWebView.SetSize(width, height);
-                    count = 0;
-                }
-                break;
-
             case GpmWebViewCallback.CallbackType.PageLoad:
                 {
-                   // count++;
-
-                   // if (count >= 3)
-                    //{
                         string script = @"
                         (function() {
                             function getTextContent(element) {
@@ -104,7 +92,6 @@ public class loginTest : MonoBehaviour
                             return JSON.stringify(getAllTextContent());
                         })();";
                     GpmWebView.ExecuteJavaScript(script);
-                   // }
                 }
                 break;
             case GpmWebViewCallback.CallbackType.ExecuteJavascript:
@@ -120,6 +107,8 @@ public class loginTest : MonoBehaviour
                         if (extractedValues[4] == "OK")
                         {
                             GpmWebView.Close();
+                            KJY_LoginManager.instance.SplashUIOff();
+
                             loginData = new LoginResponse();
                             loginData.data = new LoginData();
 
@@ -133,12 +122,11 @@ public class loginTest : MonoBehaviour
                             DataManager.instance.SetLoginData(loginData);
                             if (extractedValues[13] == "false")
                             {
-                                KJY_UIManager.instance.ShowConfirmScrollView();
+                                KJY_LoginManager.instance.ShowConfirmScrollView();
                             }
                             else
                             {
-                                Debug.Log("inhere");
-                                KJY_UIManager.instance.ShownLoginSccuess();
+                                KJY_LoginManager.instance.ShownLoginSccuess();
                             }
                         }
                     }
@@ -205,10 +193,5 @@ public class loginTest : MonoBehaviour
         loginData.data.agreed = bool.Parse(extractedValues[13]);
 
         DataManager.instance.SetLoginData(loginData);
-    }
-
-    public void CanvasOnOff(bool value)
-    {
-        canvas.enabled = value;
     }
 }
