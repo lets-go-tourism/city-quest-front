@@ -17,30 +17,36 @@ public class BottomSheetMovement : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        rt = GetComponent<RectTransform>(); 
+        rt = GetComponent<RectTransform>();
     }
 
     public void MoveUP()
     {
         // 바텀시트 올라가기
-        rt.DOAnchorPosY(-696, 0.5f).SetEase(Ease.OutBack);
+        rt.DOAnchorPosY(948, 0.5f).SetEase(Ease.OutBack);
         Invoke(nameof(ChangeUP), 0.5f);
     }
 
-    public void MoveDOWN() 
+    public void MoveDOWN()
     {
         // 바텀시트 내려가기
-        rt.DOAnchorPosY(-1260, 0.3f);
+        rt.DOAnchorPosY(360, 0.3f);
         ChangeDOWN();
     }
 
     void ChangeUP()
     {
-        state = State.UP;
+        if (state == State.DOWN)
+        {
+            state = State.UP;
+        }
     }
 
     void ChangeDOWN()
     {
-        state = State.DOWN;
+        if (state == State.UP)
+        {
+            state = State.DOWN;
+        }
     }
 }
