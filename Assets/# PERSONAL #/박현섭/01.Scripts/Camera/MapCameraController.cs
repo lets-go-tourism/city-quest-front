@@ -38,11 +38,11 @@ public class MapCameraController : MonoBehaviour
 
     [Space(40f)]
 
-    [Header("최소 확대 사이즈")]
-    [SerializeField] private float _orthoMin = 2f;
+    [Header("최소 확대 높이")]
+    [SerializeField] private float _heightMin = 2f;
 
-    [Header("최대 확대 사이즈")]
-    [SerializeField] private float _orthoMax = 12f;
+    [Header("최대 확대 높이")]
+    [SerializeField] private float _heightMax = 12f;
 
 
     [Space(40f)]
@@ -58,7 +58,7 @@ public class MapCameraController : MonoBehaviour
     private bool _lastFramePinch = false;
 
     private float initDist = 42f; // var for calculation [used in Pinching()]
-    private float initOrtho = 6;  // var for calculation [used in Pinching()]
+    private float initHeight = 6;  // var for calculation [used in Pinching()]
 
     private bool _initTouch = false; // if init touch is on UI element
 
@@ -94,7 +94,7 @@ public class MapCameraController : MonoBehaviour
         if (_initTouch == false)
         {
             Panning();
-            //Pinching();
+            Pinching();
         }
         else
         {
@@ -191,10 +191,10 @@ public class MapCameraController : MonoBehaviour
 
             if (!_lastFramePinch)
             {
-                zoomTarget = _cameraToMove.ScreenToWorldPoint(((Vector3)(touchZero.position + touchOne.position) + new Vector3(0, 0, _cameraToMove.transform.position.y)) / 2);
+                zoomTarget = _cameraToMove.ScreenToWorldPoint(((Vector3)(touchZero.position + touchOne.position)) / 2 + new Vector3(0, 0, _cameraToMove.transform.position.y));
                 initPos = _cameraToMove.transform.position;
                 initDist = Vector2.Distance(touchZero.position, touchOne.position);
-                initOrtho = _cameraToMove.transform.position.y;
+                initHeight = _cameraToMove.transform.position.y;
             }
 
             if (touchZero.phase == TouchPhase.Moved || touchOne.phase == TouchPhase.Moved)
@@ -204,19 +204,20 @@ public class MapCameraController : MonoBehaviour
 
                 PanningFunction((touchZero.deltaPosition + touchOne.deltaPosition) / 40);
 
-                float y = Mathf.Clamp(_cameraToMove.transform.position.y * (prevDist / dist), _orthoMax, _orthoMin);
+                print(prevDist / dist);
+                float y = Mathf.Clamp(_cameraToMove.transform.position.y * (prevDist / dist), _heightMax, _heightMin);
                 _cameraToMove.transform.position = new Vector3(_cameraToMove.transform.position.x, y, _cameraToMove.transform.position.z);
 
                 float t;
-                float x = _cameraToMove.orthographicSize;
+                float x = _cameraToMove.transform.position.y;
 
-                if (initOrtho != _orthoMin)
+                if (initHeight != _heightMin)
                 {
-                    float a = -(1 / ((initOrtho - _orthoMin)));
-                    float b = 1 + (_orthoMin / ((initOrtho - _orthoMin)));
+                    float a = -(1 / ((initHeight - _heightMin)));
+                    float b = 1 + (_heightMin / ((initHeight - _heightMin)));
                     t = Mathf.Clamp(a * x + b, 0f, 1f);
 
-                    _cameraToMove.transform.position = Vector3.Lerp(initPos, new Vector3(zoomTarget.x, _cameraToMove.transform.position.y, zoomTarget.y), t);
+                    //_cameraToMove.transform.position = Vector3.Lerp(initPos, new Vector3(zoomTarget.x, _cameraToMove.transform.position.y, zoomTarget.y), t);
 
                     LimitCameraMovement();
                 }
@@ -226,7 +227,7 @@ public class MapCameraController : MonoBehaviour
             Vector3 prevTarg = ((touchZero.position - touchZero.deltaPosition) + (touchOne.position - touchOne.deltaPosition)) / 2;
             Vector3 targ = (touchZero.position + touchOne.position) / 2;
 
-            zoomTarget = _cameraToMove.ScreenToWorldPoint(_cameraToMove.WorldToScreenPoint(zoomTarget) - (targ - prevTarg));
+            zoomTarget = _cameraToMove.ScreenToWorldPoint(_cameraToMove.WorldToScreenPoint(zoomTarget) - (targ - prevTarg) + new Vector3(0, 0, _cameraToMove.transform.position.y));
             initPos = _cameraToMove.ScreenToWorldPoint(_cameraToMove.WorldToScreenPoint(initPos) - (targ - prevTarg));
         }
         else
@@ -282,9 +283,9 @@ public class MapCameraController : MonoBehaviour
     /// </summary>
     private void MinOrthoAchievedAnimation()
     {
-        if (_cameraToMove.orthographicSize < _orthoMin + 0.6f)
+        if (_cameraToMove.orthographicSize < _heightMin + 0.6f)
         {
-            _cameraToMove.orthographicSize = Mathf.Lerp(_cameraToMove.orthographicSize, _orthoMin + 0.6f, 0.06f);
+            _cameraToMove.orthographicSize = Mathf.Lerp(_cameraToMove.orthographicSize, _heightMin + 0.6f, 0.06f);
             _cameraToMove.orthographicSize = Mathf.Round(_cameraToMove.orthographicSize * 1000.0f) * 0.001f;
             LimitCameraMovement();
         }
