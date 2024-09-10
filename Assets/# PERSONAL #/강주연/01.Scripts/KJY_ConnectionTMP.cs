@@ -433,7 +433,7 @@ public class TryConfirmConnection : ConnectionStratage
         if (response.status == "OK")
         {
             //UI넘어가는거 호출해주기
-            KJY_UIManager.instance.OnClickConfirmButton();
+            KJY_LoginManager.instance.OnClickConfirmButton();
         }
     }
 }

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,9 +15,9 @@ public enum authState
     Alarm
 }
 
-public class KJY_UIManager : MonoBehaviour
+public class KJY_LoginManager : MonoBehaviour
 {
-    public static KJY_UIManager instance;
+    public static KJY_LoginManager instance;
 
     [Header("splash_onBoard")]
     [SerializeField] private GameObject splash_onBoardObject;
@@ -50,8 +51,9 @@ public class KJY_UIManager : MonoBehaviour
     [SerializeField] private GameObject CustomerLoginBtn;
     [SerializeField] private Sprite CustomerLoginBtnClickSprite;
 
-    [SerializeField] private GameObject testBtn;
-    [SerializeField] private TextMeshProUGUI text1;
+    [Header("Editor")]
+    [SerializeField] private GameObject editorButton;
+    [SerializeField] private List<string> loginEditorData;
 
     public authState state = authState.None;
     private bool isLogin = false;
@@ -148,11 +150,16 @@ public class KJY_UIManager : MonoBehaviour
     #endregion
 
     #region newCustomer
-    //회원가입일시
-    public void ShowConfirmScrollView()
+
+    public void SplashUIOff()
     {
         splash_onBoardObject.SetActive(false);
         kakaoBtn.SetActive(false);
+    }
+
+    //회원가입일시
+    public void ShowConfirmScrollView()
+    {
         //여기서 로그인했는지 안했는지에 따라 달라짐
         confrimObject.SetActive(true);
         isConfirmView = true;
@@ -328,16 +335,12 @@ public class KJY_UIManager : MonoBehaviour
     {
         if (Permission.HasUserAuthorizedPermission(Permission.FineLocation) == false || Permission.HasUserAuthorizedPermission(Permission.Camera) == false || Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS") == false)
         {
-            splash_onBoardObject.SetActive(false);
-            kakaoBtn.SetActive(false);
             authorizationObject.SetActive(true);
             isLogin = true;
         }
         else
         {
             DataManager.instance.JsonSave();
-            splash_onBoardObject.SetActive(false);
-            kakaoBtn.SetActive(false);
             loginText.text = "로그인 성공!\n환영해요.";
             CustomerLoginUI.SetActive(true);
         }
@@ -355,4 +358,34 @@ public class KJY_UIManager : MonoBehaviour
         SceneMove();
     }
 
+    public void EditorButtonOn()
+    {
+        SplashUIOff();
+        editorButton.SetActive(true);
+    }
+
+    public void OnClickEditorButton()
+    {
+        LoginResponse loginData = new LoginResponse();
+        loginData.data = new LoginData();
+
+        loginData.timeStamp = DateTime.Now;
+        loginData.status = loginEditorData[0];
+        loginData.data.accessToken = loginEditorData[1];
+        loginData.data.refreshToken = loginEditorData[2];
+        loginData.data.tokenType = loginEditorData[3];
+        loginData.data.agreed = bool.Parse(loginEditorData[4]);
+
+        DataManager.instance.SetLoginData(loginData);
+        if (loginEditorData[4] == "false")
+        {
+            SplashUIOff();
+            ShowConfirmScrollView();
+        }
+        else
+        {
+            SplashUIOff();
+            ShownLoginSccuess();
+        }
+    }
 }
