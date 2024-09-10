@@ -37,8 +37,7 @@ public class PopUpMovement : MonoBehaviour
             Props_UI.instance.canvasProp.enabled = true;
 
             // 3D ¸ðµ¨¸µ        
-            Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-            Props_UI.instance.propModeling.gameObject.SetActive(true);
+
 
             rtPlace.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack);
 
@@ -52,8 +51,7 @@ public class PopUpMovement : MonoBehaviour
             Props_UI.instance.canvasTour.enabled = true;
 
             // 3D ¸ðµ¨¸µ        
-            Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-            Props_UI.instance.propModeling.gameObject.SetActive(true);
+            //Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
 
             rtTour.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack);
 
@@ -90,7 +88,6 @@ public class PopUpMovement : MonoBehaviour
         MainView_UI.instance.BackgroundDarkDisable();
 
         // 3D ¸ðµ¨¸µ        
-        Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
-        Props_UI.instance.propModeling.gameObject.SetActive(false);
+
     }
 }
