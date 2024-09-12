@@ -20,6 +20,7 @@ public class CameraFeed : MonoBehaviour
 
     [Header("Component")]
     public RawImage webCamRawImage;
+    public RectTransform webCam;
 
     [Header("Data")]
     public WebCamTexture webCamTexture;
@@ -52,6 +53,7 @@ public class CameraFeed : MonoBehaviour
         {
             camCanvas.enabled = true;
         }
+        webCam.sizeDelta = new Vector2(Screen.width, Screen.width);
         CreateWebCamTexture();
     }
 

@@ -24,6 +24,7 @@ public class KJY_LoginManager : MonoBehaviour
     [SerializeField] private RectTransform logoFirstPosition;
     [SerializeField] private RectTransform logoSecondPosition;
     [SerializeField] private GameObject logo;
+    [SerializeField] private Image logoImage;
     [SerializeField] private TextMeshProUGUI explain;
 
     [Header("OnBoard")]
@@ -92,10 +93,10 @@ public class KJY_LoginManager : MonoBehaviour
     private IEnumerator Splash()
     {
         yield return new WaitForSeconds(0.5f);
-        yield return logo.transform.DOMove(logoSecondPosition.position, 1f);
+        yield return StartCoroutine(onLogo());
         //explain.DOFade(1f, 1f);
         //explain.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.6f);
         //여기서 로그인되있는지 안되있는지에 토큰 정보에 따라서 바로 이동시켜줄지 아니면 온보딩으로 이동할지 결정
         if (DataManager.instance.GetLoginData() == null || DataManager.instance.isLogout == true) // 로그인안됐는경우
         {
@@ -106,6 +107,13 @@ public class KJY_LoginManager : MonoBehaviour
         {
             LoginCheck();
         }
+    }
+
+    IEnumerator onLogo()
+    {
+        logo.transform.DOMove(logoSecondPosition.position, 0.8f);
+        logoImage.DOFade(1, 0.8f);
+        yield return new WaitForSeconds(1f);
     }
 
     public void LoginCheck()
