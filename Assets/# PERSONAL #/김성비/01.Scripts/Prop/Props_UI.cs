@@ -15,11 +15,12 @@ public class Props_UI : MonoBehaviour
     void Awake()
     {
         instance = this;
+        ResetScollView();
     }
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.M)) 
+        if (Input.GetKeyUp(KeyCode.M))
         {
             ContentReset();
         }
@@ -28,5 +29,11 @@ public class Props_UI : MonoBehaviour
     void ContentReset()
     {
         PopUpMovement.instance.rtTour.GetComponent<ScrollRect>().normalizedPosition = new Vector2(1, 1);
+    }
+
+    public void ResetScollView()
+    {
+        canvasProp.transform.GetChild(0).GetComponent<ScrollRect>().normalizedPosition = new Vector2(1f, 1f);
+        canvasTour.transform.GetChild(0).GetComponent<ScrollRect>().normalizedPosition = new Vector2(1f, 1f);
     }
 }

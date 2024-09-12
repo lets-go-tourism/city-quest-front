@@ -10,11 +10,20 @@ public class MainView_UI : MonoBehaviour
     /// - Quests   : 진행중인 퀘스트
     /// </summary>
     //[SerializeField]
-    public Button[] buttons;
+    // 메인화면 버튼 : 설정(, 퀘스트, 업적)
+    //public Button[] buttons;
 
+    // 바텀시트
+    public RectTransform bottomSheet;
+
+    // 바텀시트  스크롤뷰
+    public ScrollRect categoryScrollRect;
+
+    // 바텀시트 카드 스크롤뷰
     public ScrollRect placeScrollRect;
     public ScrollRect tourScrollRect;
 
+    // 종료 확인 UI
     public Transform quitUI;
 
     public static MainView_UI instance;
@@ -22,27 +31,13 @@ public class MainView_UI : MonoBehaviour
     {
         instance = this;
 
-        buttons[0].onClick.AddListener(() => BTN_Settings());
-        buttons[1].onClick.AddListener(() => BTN_Achieves());
-        buttons[2].onClick.AddListener(() => BTN_Quests());
+        //buttons[0].onClick.AddListener(() => BTN_Settings());
+        //buttons[1].onClick.AddListener(() => BTN_Achieves());
+        //buttons[2].onClick.AddListener(() => BTN_Quests());
         m_BackgroundDarkImage.enabled = false;
         quitUI.gameObject.SetActive(false);
-    }
 
-
-    void BTN_Settings()
-    {
-        print("BTN_Settings");
-    }
-
-    void BTN_Achieves()
-    {
-        print("BTN_Achieves");
-    }
-
-    void BTN_Quests()
-    {
-        print("BTN_Quests");
+        categoryScrollRect.normalizedPosition = Vector2.zero;
     }
 
     // 박현섭

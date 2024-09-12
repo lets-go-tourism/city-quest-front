@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 
 public class SettingPropInfo : MonoBehaviour
 {
+    // 퀘스트 사진 파라미터
     public class Parameters
     {
         public string url;

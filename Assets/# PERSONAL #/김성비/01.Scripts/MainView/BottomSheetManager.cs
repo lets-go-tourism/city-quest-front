@@ -47,7 +47,7 @@ public class BottomSheetManager : MonoBehaviour
         StartCoroutine(SettingList());
     }
 
-    // 바텀시트 만들기
+    #region 바텀시트 만들기
     public IEnumerator SettingList()
     {
         propList = DataManager.instance.GetHomePropsList();
@@ -59,8 +59,12 @@ public class BottomSheetManager : MonoBehaviour
 
         // 관광정보 바텀시트
         yield return StartCoroutine(GenTour());
+
+        // 검은 화면 끄기   ====================================== 스켈레톤 UI 로 대체하기 ======================================
+        MainView_UI.instance.BackgroundDarkDisable();
     }
 
+    // 장소 바텀시트
     IEnumerator GenPlace()
     {
         for (int i = 0; i < placeList.Count; i++)
@@ -84,10 +88,10 @@ public class BottomSheetManager : MonoBehaviour
 
         yield return null;
     }
-
+        
+    // 관광정보 바텀시트
     IEnumerator GenTour()
     {
-        // 관광정보 바텀시트
         int count = 0;
 
         while (count < tourList.Count)
@@ -132,9 +136,8 @@ public class BottomSheetManager : MonoBehaviour
 
             yield return new WaitForSeconds(1);
         }
-
-        MainView_UI.instance.BackgroundDarkDisable();
     }
+    #endregion
 
     // 거리 변환
     string ConvertDistance(double distance)
@@ -157,62 +160,7 @@ public class BottomSheetManager : MonoBehaviour
         return result;
     }
 
-    //// 장소 글자 변환
-    //string TextBreakPlace(string text)
-    //{
-    //    string result = string.Empty;
-    //    string[] splitStr = { " " };
-    //    string tmp = text;
-    //    string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
-
-    //    char[] chars0 = text.ToCharArray();
-
-    //    // 5글자 이하
-    //    if (chars0.Length < 5)
-    //    {
-    //        // 1줄
-    //        if (nameSplit.Length < 2)
-    //        {
-    //            result = nameSplit[0];
-    //        }
-    //        // 2줄
-    //        else
-    //        {
-    //            result = nameSplit[0] + "\n" + nameSplit[1];
-    //        }
-    //    }
-
-    //    // 6글자 이상
-    //    else if (chars0.Length >= 5)
-    //    {
-    //        // 1줄
-    //        if (nameSplit.Length < 2)
-    //        {
-    //            result = nameSplit[0];
-    //        }
-
-    //        // 2줄
-    //        else
-    //        {
-    //            char[] chars1 = nameSplit[1].ToCharArray();
-
-    //            // 두번째 줄 5글자 이하
-    //            if (chars1.Length < 5)
-    //            {
-    //                result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
-    //            }
-    //            // 두번째 줄 6글자 이상
-    //            else
-    //            {
-    //                result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
-    //            }
-    //        }
-    //    }
-
-    //    return result;
-    //}
-
-    // 관광정보 글자 변환
+    // 글자수 제한
     string TextBreakTour(string text)
     {
         string result = string.Empty;
@@ -232,6 +180,7 @@ public class BottomSheetManager : MonoBehaviour
         return result;
     }
 
+    #region 태그 전환
     // 전체 보기
     public void soringAll(bool place)
     {
@@ -293,4 +242,62 @@ public class BottomSheetManager : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    //// 장소 글자 변환
+    //string TextBreakPlace(string text)
+    //{
+    //    string result = string.Empty;
+    //    string[] splitStr = { " " };
+    //    string tmp = text;
+    //    string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
+
+    //    char[] chars0 = text.ToCharArray();
+
+    //    // 5글자 이하
+    //    if (chars0.Length < 5)
+    //    {
+    //        // 1줄
+    //        if (nameSplit.Length < 2)
+    //        {
+    //            result = nameSplit[0];
+    //        }
+    //        // 2줄
+    //        else
+    //        {
+    //            result = nameSplit[0] + "\n" + nameSplit[1];
+    //        }
+    //    }
+
+    //    // 6글자 이상
+    //    else if (chars0.Length >= 5)
+    //    {
+    //        // 1줄
+    //        if (nameSplit.Length < 2)
+    //        {
+    //            result = nameSplit[0];
+    //        }
+
+    //        // 2줄
+    //        else
+    //        {
+    //            char[] chars1 = nameSplit[1].ToCharArray();
+
+    //            // 두번째 줄 5글자 이하
+    //            if (chars1.Length < 5)
+    //            {
+    //                result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
+    //            }
+    //            // 두번째 줄 6글자 이상
+    //            else
+    //            {
+    //                result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
+    //            }
+    //        }
+    //    }
+
+    //    return result;
+    //}
+
+    // 관광정보 글자 변환
 }

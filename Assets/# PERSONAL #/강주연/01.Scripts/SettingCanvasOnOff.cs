@@ -17,10 +17,12 @@ public class SettingCanvasOnOff : MonoBehaviour
     public void SettingCanvasOn()
     {
         settingCanvas.enabled = true;
+        ksb_setting.transform.root.GetComponent<tmpTouch>().state = tmpTouch.State.Setting;
     }
 
     public void SettingCanvasOff()
     {
         settingCanvas.enabled = false;
+        ksb_setting.transform.root.GetComponent<tmpTouch>().state = tmpTouch.State.Main;
     }
 }

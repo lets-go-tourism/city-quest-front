@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -31,6 +32,10 @@ public class tmpTouch : MonoBehaviour
     public GraphicRaycaster raycaster;
     PointerEventData point;
     SettingCanvasOnOff settingUI;
+    bool follow;
+    Vector2 originPos;
+    Vector2 movedPos;
+    float moved;
 
     private void Start()
     {
@@ -38,11 +43,21 @@ public class tmpTouch : MonoBehaviour
         layerTour = 1 << LayerMask.NameToLayer("Tour");
 
         point = new PointerEventData(null);
-        settingUI = transform.Find("SettingPrefab").GetComponent<SettingCanvasOnOff>();
+        settingUI = GameObject.Find("SettingPrefab").GetComponent<SettingCanvasOnOff>();
+
+        follow = false;
     }
 
-
     void Update()
+    {
+        RayBottomSheet();
+
+        RayTouch();
+
+        BackTouch();
+    }
+
+    void RayBottomSheet()
     {
         if (Input.touchCount > 0)
         {
@@ -50,30 +65,95 @@ public class tmpTouch : MonoBehaviour
             point.position = touch.position;
             List<RaycastResult> results = new List<RaycastResult>();
             raycaster.Raycast(point, results);
-
-            foreach (RaycastResult r in results)
+            if (touch.phase == TouchPhase.Began)
             {
-                if (r.gameObject.CompareTag("BottomSheet") && BottomSheetMovement.instance.state == BottomSheetMovement.State.DOWN)
+                foreach (RaycastResult r in results)
                 {
-                    if (GetComponent<PopUpMovement>().placeState == PopUpMovement.PlaceState.UP || GetComponent<PopUpMovement>().tourState == PopUpMovement.TourState.UP)
+                    if (r.gameObject.CompareTag("BottomSheet"))// && BottomSheetMovement.instance.state == BottomSheetMovement.State.DOWN)
                     {
-                        return;
-                    }
-                    else
-                    {
-                        BottomSheetMovement.instance.MoveUP();
+                        if (GetComponent<PopUpMovement>().placeState == PopUpMovement.PlaceState.UP || GetComponent<PopUpMovement>().tourState == PopUpMovement.TourState.UP)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            originPos = touch.position;
+                            follow = true;
+                        }
                     }
                 }
             }
+
+            else if (touch.phase == TouchPhase.Moved && follow)
+            {
+                foreach (RaycastResult r in results)
+                {
+                    if (r.gameObject.CompareTag("BottomSheet"))
+                    {
+                        if (GetComponent<PopUpMovement>().placeState == PopUpMovement.PlaceState.UP || GetComponent<PopUpMovement>().tourState == PopUpMovement.TourState.UP)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            //if (touch.position.y >= 948)
+                            //{
+                            //    touch.position = new Vector2(0, 948);
+                            //}
+                            //else if (touch.position.y <= 360)
+                            //{
+                            //    touch.position = new Vector2(0, 360);
+                            //}
+
+                            movedPos = touch.position;
+
+                            moved = originPos.y - movedPos.y;
+
+                            print(moved);
+
+                            if (BottomSheetMovement.instance.state == BottomSheetMovement.State.DOWN && 360 - moved > 360)
+                            {
+                                MainView_UI.instance.bottomSheet.anchoredPosition = new Vector2(0, 360 - moved);
+
+                                if (moved <= -300)
+                                {
+                                    BottomSheetMovement.instance.MoveUP();
+                                    follow = false;
+                                }
+                            }
+                            else if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP && 948 - moved < 948)
+                            {
+                                MainView_UI.instance.bottomSheet.anchoredPosition = new Vector2(0, 948 - moved);
+                                if (moved >= 300)
+                                {
+                                    BottomSheetMovement.instance.MoveDOWN();
+                                    follow = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                if (moved >= 0 && moved < 300 && BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
+                {
+                    BottomSheetMovement.instance.MoveUP();
+                }
+                else if (moved <= 0 && moved > -300 && BottomSheetMovement.instance.state == BottomSheetMovement.State.DOWN)
+                {
+                    BottomSheetMovement.instance.MoveDOWN();
+                }
+
+                follow = true;
+            }
         }
-
-        RayTouch();
-
-        BackTouch();
     }
 
     private bool began = true;
 
+    // 메인화면 프랍 터치
     private void RayTouch()
     {
         if (Input.touchCount > 0)
@@ -147,9 +227,10 @@ public class tmpTouch : MonoBehaviour
         }
     }
 
+    // 안드로이드 뒤로가기
     void BackTouch()
     {
-        if(Application.platform == RuntimePlatform.Android) { }
+        if (Application.platform == RuntimePlatform.Android) { }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // 메인화면
@@ -180,18 +261,17 @@ public class tmpTouch : MonoBehaviour
                 if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP && PopUpMovement.instance.tourState == PopUpMovement.TourState.DOWN)
                 {
                     PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
-                    print("탐험 팝업창이 켜져 있을 때");
                 }
                 // 관광
                 else if (PopUpMovement.instance.tourState == PopUpMovement.TourState.UP && PopUpMovement.instance.placeState == PopUpMovement.PlaceState.DOWN)
                 {
                     PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
-                    print("관광 팝업창이 켜져 있을 때");
                 }
             }
         }
     }
 
+    // 앱 종료
     public void Quit(bool quit)
     {
         if (quit)

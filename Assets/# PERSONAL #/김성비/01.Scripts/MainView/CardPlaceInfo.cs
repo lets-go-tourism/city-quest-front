@@ -130,6 +130,12 @@ public class CardPlaceInfo : MonoBehaviour
             selected = false;
         }
     }
+
+    public void ChangeType()
+    {
+        type = Type.REVEAL;
+    }
+
     ///public class HomeAdventurePlace
     ///{
     ///    public long adventureNo;
@@ -140,8 +146,4 @@ public class CardPlaceInfo : MonoBehaviour
     ///    public bool status;
     ///}
     ///
-    public void ChangeType()
-    {
-        type = Type.REVEAL;
-    }
 }

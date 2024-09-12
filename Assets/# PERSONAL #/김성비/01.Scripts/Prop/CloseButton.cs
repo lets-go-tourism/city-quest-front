@@ -19,10 +19,12 @@ public class CloseButton : MonoBehaviour
         if (name == "prop" && PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
         {
             PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
+            Props_UI.instance.ResetScollView();
         }
         else if(name =="tour" && PopUpMovement.instance.tourState == PopUpMovement.TourState.UP)
         {
             PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
+            Props_UI.instance.ResetScollView();
         }
     }
 }
