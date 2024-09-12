@@ -55,6 +55,14 @@ public class BottomSheetManager : MonoBehaviour
         tourList = DataManager.instance.GetHometourPlacesList();
 
         // 장소 바텀시트
+        yield return StartCoroutine(GenPlace());
+
+        // 관광정보 바텀시트
+        yield return StartCoroutine(GenTour());
+    }
+
+    IEnumerator GenPlace()
+    {
         for (int i = 0; i < placeList.Count; i++)
         {
             GameObject go = Instantiate(cardPlace, contentPlace);
@@ -63,7 +71,7 @@ public class BottomSheetManager : MonoBehaviour
             placeGOList.Add(go);
             cardPlaceInfo = placeGOList[i].GetComponent<CardPlaceInfo>();
 
-            cardPlaceInfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakPlace(placeList[i].name);
+            cardPlaceInfo.info[0].GetComponent<TextMeshProUGUI>().text = placeList[i].name.ToString();
             cardPlaceInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
             cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.GetTexture), placeList[i].imageUrl);
 
@@ -73,9 +81,6 @@ public class BottomSheetManager : MonoBehaviour
 
             cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start2));
         }
-
-        // 관광정보 바텀시트
-        yield return StartCoroutine(GenTour());
 
         yield return null;
     }
@@ -152,111 +157,76 @@ public class BottomSheetManager : MonoBehaviour
         return result;
     }
 
-    // 장소 글자 변환
-    string TextBreakPlace(string text)
-    {
-        string result = string.Empty;
-        string[] splitStr = { " " };
-        string tmp = text;
-        string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
+    //// 장소 글자 변환
+    //string TextBreakPlace(string text)
+    //{
+    //    string result = string.Empty;
+    //    string[] splitStr = { " " };
+    //    string tmp = text;
+    //    string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
 
-        char[] chars0 = text.ToCharArray();
+    //    char[] chars0 = text.ToCharArray();
 
-        // 5글자 이하
-        if (chars0.Length < 5)
-        {
-            // 1줄
-            if (nameSplit.Length < 2)
-            {
-                result = nameSplit[0];
-            }
-            // 2줄
-            else
-            {
-                result = nameSplit[0] + "\n" + nameSplit[1];
-            }
-        }
+    //    // 5글자 이하
+    //    if (chars0.Length < 5)
+    //    {
+    //        // 1줄
+    //        if (nameSplit.Length < 2)
+    //        {
+    //            result = nameSplit[0];
+    //        }
+    //        // 2줄
+    //        else
+    //        {
+    //            result = nameSplit[0] + "\n" + nameSplit[1];
+    //        }
+    //    }
 
-        // 6글자 이상
-        else if (chars0.Length >= 5)
-        {
-            // 1줄
-            if (nameSplit.Length < 2)
-            {
-                result = nameSplit[0];
-            }
+    //    // 6글자 이상
+    //    else if (chars0.Length >= 5)
+    //    {
+    //        // 1줄
+    //        if (nameSplit.Length < 2)
+    //        {
+    //            result = nameSplit[0];
+    //        }
 
-            // 2줄
-            else
-            {
-                char[] chars1 = nameSplit[1].ToCharArray();
+    //        // 2줄
+    //        else
+    //        {
+    //            char[] chars1 = nameSplit[1].ToCharArray();
 
-                // 두번째 줄 5글자 이하
-                if (chars1.Length < 5)
-                {
-                    result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
-                }
-                // 두번째 줄 6글자 이상
-                else
-                {
-                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
-                }
-            }
-        }
+    //            // 두번째 줄 5글자 이하
+    //            if (chars1.Length < 5)
+    //            {
+    //                result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
+    //            }
+    //            // 두번째 줄 6글자 이상
+    //            else
+    //            {
+    //                result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
+    //            }
+    //        }
+    //    }
 
-        return result;
-    }
+    //    return result;
+    //}
 
     // 관광정보 글자 변환
     string TextBreakTour(string text)
     {
         string result = string.Empty;
-        string[] splitStr = { " " };
-        string tmp = text;
-        string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
+        char[] chars = text.ToCharArray();
 
-        char[] chars0 = text.ToCharArray();
-
-        // 5글자 이하
-        if (chars0.Length < 5)
+        // _ 체크
+        for (int i = 0; i < chars.Length; i++)
         {
-            // 1줄
-            if (nameSplit.Length < 2)
-            {
-                result = nameSplit[0];
-            }
-            // 2줄
-            else
-            {
-                result = nameSplit[0] + "\n" + nameSplit[1];
-            }
+            if (chars[i] == '_') { chars[i] = ' '; print("_ 변환 완료"); }
         }
 
-        // 6글자 이상
-        else if (chars0.Length >= 5)
+        if(chars.Length > 12)
         {
-            // 1줄
-            if (nameSplit.Length < 2)
-            {
-                result = nameSplit[0];
-            }
-
-            // 2줄
-            else
-            {
-                char[] chars1 = nameSplit[1].ToCharArray();
-
-                // 두번째 줄 5글자 이하
-                if (chars1.Length < 5)
-                {
-                    result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
-                }
-                // 두번째 줄 6글자 이상
-                else
-                {
-                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
-                }
-            }
+            result = chars[0].ToString() + chars[1].ToString() + chars[2].ToString() + chars[3].ToString() + chars[4].ToString() + chars[5].ToString() + chars[6].ToString() + chars[7].ToString() + chars[8].ToString() + chars[9].ToString() + chars[10].ToString() + chars[11].ToString();
         }
 
         return result;

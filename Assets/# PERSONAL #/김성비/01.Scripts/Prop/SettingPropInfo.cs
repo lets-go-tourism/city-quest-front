@@ -27,7 +27,7 @@ public class SettingPropInfo : MonoBehaviour
         instance = this;
     }
 
-    // ���� ��� �޾ƿͼ� ���� ����
+    // 팝업창
     public void PropInfoSetting()
     {
         MainView_UI.instance.BackgroundDarkEnable();
@@ -45,22 +45,22 @@ public class SettingPropInfo : MonoBehaviour
     }
 
 
-    #region ��Ž�� ��� ������ ����
+    #region 미탐험 장소 팝업창 세팅
     IEnumerator SettingNO()
     {
-        // ����Ʈ �����
+        // 프랍 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingNO));
 
+        // 정보값 적용
         yield return StartCoroutine(nameof(NOInfoSetting));
 
-        // �˾�â ����
+        // UI
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
     }
 
     IEnumerator NOInfoSetting()
     {
-        // ������ ���� : (�𵨸�,) ��Ҹ�, �Ÿ�, �ּҸ�, ��ũ, ��һ���, (���м�,) ����Ʈ => 6����
-        SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
+        SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ConvertDistance(DataManager.instance.GetQuestInfo().distance).ToString();
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
@@ -76,22 +76,22 @@ public class SettingPropInfo : MonoBehaviour
     }
     #endregion
 
-    #region Ž���� ��� ������ ����
+    #region 탐험완료 장소 팝업창
     IEnumerator SettingYES()
     {
-        // ����Ʈ ����
+        // 프랍 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingYES));
 
+        // 정보값 적용
         yield return StartCoroutine(nameof(YESInfoSetting));
 
-        // �˾�â ����
+        // UI
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
     }
 
     IEnumerator YESInfoSetting()
     {
-        // ������ ���� : �𵨸�, ��Ҹ�, �湮��¥, �ּҸ�, ����Ʈ����, ��һ��� => 6����
-        SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = TextBreak(DataManager.instance.GetQuestInfo().locationName);
+        SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
 
         SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DateTime.Parse(DataManager.instance.GetQuestInfo().date).ToString("MM월 dd일"); 
 
@@ -110,72 +110,7 @@ public class SettingPropInfo : MonoBehaviour
     }
     #endregion
 
-    // ��Ҹ� �ڸ���
-    string TextBreak(string str)
-    {
-        string result = string.Empty;
-        string[] splitStr = { " " };
-        string tmp = str;
-        string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
-
-        char[] chars0 = str.ToCharArray();
-
-        // �ټ�����
-        if (chars0.Length < 5)
-        {
-            // 1��
-            if (nameSplit.Length < 2)
-            {
-                ChangeSizeDelta(132);
-                result = nameSplit[0];
-            }
-            // 2��
-            else
-            {
-                ChangeSizeDelta(240);
-                result = nameSplit[0] + "\n" + nameSplit[1];
-            }
-        }
-
-        // �������� �̻�
-        else if (chars0.Length >= 5)
-        {
-            ChangeSizeDelta(240);
-
-            // ���� ���� ���
-            if (nameSplit.Length < 2)
-            {
-                result = nameSplit[0];
-            }
-
-            // ���� �ִ� ���
-            else
-            {
-                char[] chars1 = nameSplit[1].ToCharArray(); // �ι�° �� ���������   
-
-                // �ι�° ���� 5���� ����
-                if (chars1.Length < 5)
-                {
-                    result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
-                }
-                // �ι�° ���� 6���� �̻�
-                else
-                {
-                    result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
-                }
-            }
-        }
-
-        return result;
-    }
-
-    // ��Ҹ� SizeDelta ũ�� ����
-    void ChangeSizeDelta(int delta)
-    {
-        SettingPropContent.instance.content[1].GetComponent<RectTransform>().sizeDelta = new Vector2(840, delta);
-    }
-
-    // �Ÿ� ���
+    // 거리 변환
     string ConvertDistance(double distance)
     {
         string result = string.Empty;
@@ -196,7 +131,7 @@ public class SettingPropInfo : MonoBehaviour
         return result;
     }
 
-    // �������� ���� �޾ƿ���
+    // 이미지 불러오기
     public IEnumerator GetTexture(Parameters raw)
     {
 
@@ -213,4 +148,64 @@ public class SettingPropInfo : MonoBehaviour
             SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<RawImage>().texture = myTexture;
         }
     }
+
+    #region 미사용
+    //// ��Ҹ� �ڸ���
+    //string TextBreak(string str)
+    //{
+    //    string result = string.Empty;
+    //    string[] splitStr = { " " };
+    //    string tmp = str;
+    //    string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
+    //    char[] chars0 = str.ToCharArray();
+    //    // �ټ�����
+    //    if (chars0.Length < 5)
+    //    {
+    //        // 1��
+    //        if (nameSplit.Length < 2)
+    //        {
+    //            ChangeSizeDelta(132);
+    //            result = nameSplit[0];
+    //        }
+    //        // 2��
+    //        else
+    //        {
+    //            ChangeSizeDelta(240);
+    //            result = nameSplit[0] + "\n" + nameSplit[1];
+    //        }
+    //    }
+    //    // �������� �̻�
+    //    else if (chars0.Length >= 5)
+    //    {
+    //        ChangeSizeDelta(240);
+    //        // ���� ���� ���
+    //        if (nameSplit.Length < 2)
+    //        {
+    //            result = nameSplit[0];
+    //        }
+    //        // ���� �ִ� ���
+    //        else
+    //        {
+    //            char[] chars1 = nameSplit[1].ToCharArray(); // �ι�° �� ���������   
+    //            // �ι�° ���� 5���� ����
+    //            if (chars1.Length < 5)
+    //            {
+    //                result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
+    //            }
+    //            // �ι�° ���� 6���� �̻�
+    //            else
+    //            {
+    //                result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
+    //            }
+    //        }
+    //    }
+    //    return result;
+    //}
+    // ��Ҹ� SizeDelta ũ�� ����
+    //void ChangeSizeDelta(int delta)
+    //{
+    //    SettingPropContent.instance.content[1].GetComponent<RectTransform>().sizeDelta = new Vector2(840, delta);
+    //}
+    // �Ÿ� ���
+    #endregion
 }

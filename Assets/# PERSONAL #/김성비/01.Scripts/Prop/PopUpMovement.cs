@@ -25,8 +25,8 @@ public class PopUpMovement : MonoBehaviour
     {
         instance = this;
 
-        rtTour.anchoredPosition = new Vector2(0, -1770);
-        rtPlace.anchoredPosition = new Vector2(0, -2060);
+        rtTour.anchoredPosition = new Vector2(0, -1800);
+        rtPlace.anchoredPosition = new Vector2(0, -2300);
     }
 
     public IEnumerator MoveUP(bool place)
@@ -39,7 +39,7 @@ public class PopUpMovement : MonoBehaviour
             // 3D ¸ðµ¨¸µ        
 
 
-            rtPlace.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack);
+            rtPlace.DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -53,7 +53,7 @@ public class PopUpMovement : MonoBehaviour
             // 3D ¸ðµ¨¸µ        
             //Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
 
-            rtTour.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack);
+            rtTour.DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -65,7 +65,7 @@ public class PopUpMovement : MonoBehaviour
     {
         if (place) 
         { 
-            rtPlace.DOAnchorPosY(-2060, 0.5f);
+            rtPlace.DOAnchorPosY(-2300, 0.38f);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -75,7 +75,7 @@ public class PopUpMovement : MonoBehaviour
         }
         else 
         {
-            rtTour.DOAnchorPosY(-1770, 0.5f);
+            rtTour.DOAnchorPosY(-1800, 0.38f);
 
             yield return new WaitForSeconds(0.5f);
 

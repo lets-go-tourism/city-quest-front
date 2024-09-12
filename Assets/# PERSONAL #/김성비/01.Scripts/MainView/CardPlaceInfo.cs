@@ -9,12 +9,22 @@ public class CardPlaceInfo : MonoBehaviour
 {
     public Transform[] info;
 
+    // 탐험/미탐험
     public enum Type
     {
         REVEAL,
         UNREVEAL
     }
     public Type type;
+
+    // 선택/미선택
+    public enum State
+    {
+        UnSelected,
+        Selected
+    }
+    public State state;
+    bool selected;
 
     public ServerAdventurePlace ServerAdventurePlace { get; private set; }
     public ServerProp ServerProp { get; private set; }
@@ -85,15 +95,41 @@ public class CardPlaceInfo : MonoBehaviour
 
     public void SendPlaceInfo()
     {
-        for (int i = 0; i < BottomSheetManager.instance.contentPlace.childCount; i++)
+        // 미선택 -> 선택
+        if (!selected)
         {
-            BottomSheetManager.instance.contentPlace.GetChild(i).GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+            Selected(true);
+
+            // 나머지 미선택
+            for (int i = 0; i < BottomSheetManager.instance.contentPlace.childCount; i++)
+            {
+                BottomSheetManager.instance.contentPlace.GetChild(i).GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+            }
+            // 누른 것만 선택
+            transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
+
+            // 화면 이동
+            MapCameraController.Instance.StartCameraMoveToTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[this.ServerAdventurePlace].transform.position);
         }
-        transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
 
-        MapCameraController.Instance.StartCameraMoveToTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[this.ServerAdventurePlace].transform.position);
+        // 선택 -> 미선택
+        else
+        {
+            Selected(false);
+            transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+        }
     }
-
+    public void Selected(bool isSelected)
+    {
+        if (isSelected)
+        {
+            selected = true;
+        }
+        else
+        {
+            selected = false;
+        }
+    }
     ///public class HomeAdventurePlace
     ///{
     ///    public long adventureNo;

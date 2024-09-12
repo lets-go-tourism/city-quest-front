@@ -1,6 +1,4 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,16 +17,28 @@ public class tmpTouch : MonoBehaviour
     /// 2. 1의 정보를 UI로 표시한다.
     /// </summary>
 
+    public enum State
+    {
+        Main,
+        QuitUI,
+        Setting,
+        Pop,
+    }
+    public State state;
+
     int layerProp, layerTour;
     Touch touch;
     public GraphicRaycaster raycaster;
     PointerEventData point;
+    SettingCanvasOnOff settingUI;
+
     private void Start()
     {
         layerProp = 1 << LayerMask.NameToLayer("Prop");
         layerTour = 1 << LayerMask.NameToLayer("Tour");
 
         point = new PointerEventData(null);
+        settingUI = transform.Find("SettingPrefab").GetComponent<SettingCanvasOnOff>();
     }
 
 
@@ -54,23 +64,12 @@ public class tmpTouch : MonoBehaviour
                         BottomSheetMovement.instance.MoveUP();
                     }
                 }
-                //else if (r.gameObject.CompareTag("Quest"))
-                //{
-                //    print("dfkjslkfjsdlkfsdl");
-                //}
-                //else if(r.gameObject.CompareTag("CardPlace") && BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
-                //{
-                //    print(r.gameObject.transform.parent);
-                //    // 할 일 : 카드 정보와 일치하는 장소/관광정보 프랍으로 화면이 이동
-                //}
-                //else if(r.gameObject.CompareTag("CardTour") && BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
-                //{
-                //    print(r.gameObject.transform.parent);
-                //}
             }
         }
 
         RayTouch();
+
+        BackTouch();
     }
 
     private bool began = true;
@@ -97,7 +96,7 @@ public class tmpTouch : MonoBehaviour
             }
             else if (began && touch.phase == TouchPhase.Moved)
             {
-                if(touch.deltaPosition.magnitude > 5f)
+                if (touch.deltaPosition.magnitude > 5f)
                     began = false;
             }
             else if (touch.phase == TouchPhase.Ended && began)
@@ -128,7 +127,7 @@ public class tmpTouch : MonoBehaviour
 
                     }
 
-                    else if(hitLayer == LayerMask.NameToLayer("Tour"))
+                    else if (hitLayer == LayerMask.NameToLayer("Tour"))
                     {
                         //DataManager.instance.requestSuccess = false;
 
@@ -141,10 +140,74 @@ public class tmpTouch : MonoBehaviour
                         SettingTourInfo.instance.StartCoroutine(nameof(SettingTourInfo.instance.GetTexture), serverTourInfo);
 
                         // 팝업창에 정보 세팅
-                        
+
                     }
                 }
             }
+        }
+    }
+
+    void BackTouch()
+    {
+        if(Application.platform == RuntimePlatform.Android) { }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // 메인화면
+            if (state == State.Main)
+            {
+                // 앱 종료 확인 UI 활성화
+                MainView_UI.instance.quitUI.gameObject.SetActive(true);
+
+                state = State.QuitUI;
+            }
+            // 앱 종료 확인 UI 
+            else if (state == State.QuitUI)
+            {
+                // 앱 종료 확인 UI 비활성화
+                MainView_UI.instance.quitUI.gameObject.SetActive(false);
+
+                state = State.Main;
+            }
+            // 설정창이 켜져있을 때
+            else if (state == State.Setting)
+            {
+                settingUI.SettingCanvasOff();
+            }
+            // 팝업창이 활성화 되어있을 때
+            else
+            {
+                // 탐험
+                if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP && PopUpMovement.instance.tourState == PopUpMovement.TourState.DOWN)
+                {
+                    PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
+                    print("탐험 팝업창이 켜져 있을 때");
+                }
+                // 관광
+                else if (PopUpMovement.instance.tourState == PopUpMovement.TourState.UP && PopUpMovement.instance.placeState == PopUpMovement.PlaceState.DOWN)
+                {
+                    PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
+                    print("관광 팝업창이 켜져 있을 때");
+                }
+            }
+        }
+    }
+
+    public void Quit(bool quit)
+    {
+        if (quit)
+        {
+            MainView_UI.instance.quitUI.gameObject.SetActive(false);
+            print("꺼짐");
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+        else
+        {
+            MainView_UI.instance.quitUI.gameObject.SetActive(false);
+            state = State.Main;
         }
     }
 }

@@ -23,10 +23,11 @@ public class CardTourInfo : MonoBehaviour
     public Type type;
 
     public ServerTourInfo ServerTourInfo { get; private set; }
+    bool selected;
 
     public IEnumerator Start2()
-    { 
-        while(true)
+    {
+        while (true)
         {
             string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.latitude), double.Parse(ServerTourInfo.longitude))).ToString();
             info[1].GetComponent<TextMeshProUGUI>().text = meter;
@@ -98,15 +99,38 @@ public class CardTourInfo : MonoBehaviour
 
     public void SendTourInfo()
     {
-        for (int i = 0; i < BottomSheetManager.instance.contentTour.childCount; i++)
+        // 미선택 -> 선택
+        if (!selected)
         {
-            BottomSheetManager.instance.contentTour.GetChild(i).GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
-        }
-        transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
+            Selected(true);
 
-        MapCameraController.Instance.StartCameraMoveToTarget(TourDataController.Instance.TourInfoWordList[ServerTourInfo].transform.position);
+            for (int i = 0; i < BottomSheetManager.instance.contentTour.childCount; i++)
+            {
+                BottomSheetManager.instance.contentTour.GetChild(i).GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+            }
+            transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
+
+            MapCameraController.Instance.StartCameraMoveToTarget(TourDataController.Instance.TourInfoWordList[ServerTourInfo].transform.position);
+        }
+
+        // 
+        else
+        {
+            Selected(false);
+        }
     }
 
+    public void Selected(bool isSelected)
+    {
+        if (isSelected)
+        {
+            selected = true;
+        }
+        else
+        {
+            selected = false;
+        }
+    }
     //string TypeConvert(string str)
     //{
     //    string result = string.Empty;

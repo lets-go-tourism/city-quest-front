@@ -15,6 +15,8 @@ public class MainView_UI : MonoBehaviour
     public ScrollRect placeScrollRect;
     public ScrollRect tourScrollRect;
 
+    public Transform quitUI;
+
     public static MainView_UI instance;
     private void Awake()
     {
@@ -24,12 +26,9 @@ public class MainView_UI : MonoBehaviour
         buttons[1].onClick.AddListener(() => BTN_Achieves());
         buttons[2].onClick.AddListener(() => BTN_Quests());
         m_BackgroundDarkImage.enabled = false;
+        quitUI.gameObject.SetActive(false);
     }
 
-    private void Start()
-    {
-        
-    }
 
     void BTN_Settings()
     {
