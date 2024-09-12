@@ -40,7 +40,7 @@ public class PopUpMovement : MonoBehaviour
             Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
             Props_UI.instance.propModeling.gameObject.SetActive(true);
 
-            rtPlace.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack);
+            rtPlace.DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -55,7 +55,7 @@ public class PopUpMovement : MonoBehaviour
             Props_UI.instance.propModeling.rotation = Quaternion.Euler(-5, -10, 0);
             Props_UI.instance.propModeling.gameObject.SetActive(true);
 
-            rtTour.DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack);
+            rtTour.DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -67,7 +67,7 @@ public class PopUpMovement : MonoBehaviour
     {
         if (place) 
         { 
-            rtPlace.DOAnchorPosY(-2060, 0.5f);
+            rtPlace.DOAnchorPosY(-2060, 0.38f);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -77,7 +77,7 @@ public class PopUpMovement : MonoBehaviour
         }
         else 
         {
-            rtTour.DOAnchorPosY(-1770, 0.5f);
+            rtTour.DOAnchorPosY(-1770, 0.38f);
 
             yield return new WaitForSeconds(0.5f);
 
