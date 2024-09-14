@@ -25,7 +25,7 @@ public class CardTourInfo : MonoBehaviour
     public ServerTourInfo ServerTourInfo { get; private set; }
     bool selected;
 
-    public IEnumerator Start2()
+    public IEnumerator Start()
     {
         while (true)
         {
@@ -57,21 +57,17 @@ public class CardTourInfo : MonoBehaviour
     // 이미지 세팅
     public IEnumerator GetTexture(string url)
     {
-        using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
         {
-            yield return www.SendWebRequest();
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
-            if (www.result == UnityWebRequest.Result.Success)
-            {
-                Texture2D texture = DownloadHandlerTexture.GetContent(www);
-
-                // 이미지를 자르고 사용하는 코드 호출
-                CropImage(texture);
-            }
-            else
-            {
-                Debug.LogError(www.error);
-            }
+            CropImage(texture);
         }
     }
 

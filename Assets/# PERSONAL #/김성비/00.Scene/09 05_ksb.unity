@@ -134593,8 +134593,8 @@ MonoBehaviour:
   _limitXMax: 1089
   _limitZMin: -1121
   _limitZMax: 1168
-  _orthoMin: 500
-  _orthoMax: 100
+  _heightMin: 2
+  _heightMax: 12
   _interpolationStep: 4
   m_MoveSpeed: 2.5
 --- !u!82 &2017078498

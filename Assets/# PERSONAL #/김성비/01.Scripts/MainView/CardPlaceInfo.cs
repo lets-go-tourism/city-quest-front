@@ -29,7 +29,7 @@ public class CardPlaceInfo : MonoBehaviour
     public ServerAdventurePlace ServerAdventurePlace { get; private set; }
     public ServerProp ServerProp { get; private set; }
 
-    public IEnumerator Start2()
+    public IEnumerator Start()
     {
         while (true)
         {
@@ -60,7 +60,6 @@ public class CardPlaceInfo : MonoBehaviour
 
     public IEnumerator GetTexture(string url)
     {
-
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)

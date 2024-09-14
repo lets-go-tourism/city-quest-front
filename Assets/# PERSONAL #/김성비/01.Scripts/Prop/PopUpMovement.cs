@@ -58,6 +58,8 @@ public class PopUpMovement : MonoBehaviour
 
             tourState = TourState.UP;
         }
+
+        tmpTouch.instance.StartCoroutine(nameof(tmpTouch.instance.ChangeState),tmpTouch.State.Pop);
     }
 
     public IEnumerator MoveDOWN(bool place)

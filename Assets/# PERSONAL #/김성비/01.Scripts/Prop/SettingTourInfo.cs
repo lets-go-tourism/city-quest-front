@@ -41,15 +41,18 @@ public class SettingTourInfo : MonoBehaviour
         // 사진
         if (info.imageUrl != string.Empty)
         {
-            contents[5].GetComponent<RawImage>().color = new Color(1f, 0.98f, 0.96f, 1f);
+            contents[5].GetComponent<Image>().color = new Color(1f, 0.98f, 0.96f, 1f);
             //yield return StartCoroutine(nameof(GetTexture), info.imageUrl);
             contents[6].GetComponent<TextMeshProUGUI>().enabled = false;
         }
         else
         {
-            contents[5].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
-            contents[5].GetComponent<RawImage>().texture = null;
+            contents[7].gameObject.SetActive(false);
+            contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(840, 576);
+            contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(840, 540);
+            contents[5].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
             contents[6].GetComponent<TextMeshProUGUI>().enabled = true;
+            contents[7].gameObject.SetActive(true);
         }
 
         // 팝업창 UI 활성화
@@ -82,7 +85,7 @@ public class SettingTourInfo : MonoBehaviour
         // 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
 
-        if(tourInfo.imageUrl != string.Empty)
+        if (tourInfo.imageUrl != string.Empty)
         {
             UnityWebRequest www = UnityWebRequestTexture.GetTexture(tourInfo.imageUrl);
             yield return www.SendWebRequest();
@@ -98,12 +101,9 @@ public class SettingTourInfo : MonoBehaviour
                 Texture2D texture = DownloadHandlerTexture.GetContent(www);
                 ProcessImage(texture);
 
-                //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-
-                //contents[5].GetComponent<RawImage>().texture = myTexture;
-                
             }
         }
+
         TourInfoSetting(tourInfo);
     }
 
@@ -121,16 +121,21 @@ public class SettingTourInfo : MonoBehaviour
         float targetHeight = targetWidth / originalAspect;
 
         // RectTransform의 사이즈 조정
-        if (contents[5].parent.GetComponent<RectTransform>() != null)
+        if (contents[7].GetComponent<RectTransform>() != null)
         {
-            contents[5].parent.GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight+36);
-        }
+            contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight);
+            contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight + 36);
 
+            contents[7].gameObject.SetActive(false);
+        }
         // UI.Image에 텍스처 적용
         if (contents[5].GetComponent<Image>() != null)
         {
             contents[5].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f));
         }
+
+
+        contents[7].gameObject.SetActive(true);
     }
 
     #region 미사용

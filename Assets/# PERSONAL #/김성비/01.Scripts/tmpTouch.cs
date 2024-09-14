@@ -18,7 +18,20 @@ public class tmpTouch : MonoBehaviour
     ///     
     /// 2. 1의 정보를 UI로 표시한다.
     /// </summary>
+    public static tmpTouch instance;
 
+    private void Awake()
+    {
+        instance = this;
+
+        layerProp = 1 << LayerMask.NameToLayer("Prop");
+        layerTour = 1 << LayerMask.NameToLayer("Tour");
+
+        point = new PointerEventData(null);
+        settingUI = GameObject.Find("SettingPrefab").GetComponent<SettingCanvasOnOff>();
+
+        follow = false;
+    }
     public enum State
     {
         Main,
@@ -37,17 +50,6 @@ public class tmpTouch : MonoBehaviour
     Vector2 originPos;
     Vector2 movedPos;
     float moved;
-
-    private void Start()
-    {
-        layerProp = 1 << LayerMask.NameToLayer("Prop");
-        layerTour = 1 << LayerMask.NameToLayer("Tour");
-
-        point = new PointerEventData(null);
-        settingUI = GameObject.Find("SettingPrefab").GetComponent<SettingCanvasOnOff>();
-
-        follow = false;
-    }
 
     void Update()
     {
@@ -233,45 +235,44 @@ public class tmpTouch : MonoBehaviour
     // 안드로이드 뒤로가기
     void BackTouch()
     {
-        if (Application.platform == RuntimePlatform.Android) { }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Application.platform == RuntimePlatform.Android)
         {
-            // 메인화면
-            if (state == State.Main)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                // 앱 종료 확인 UI 활성화
-#if UNITY_ANDROID
-                ShowToast("'뒤로' 버튼을 한번 더 누르시면 종료됩니다.");
-#endif
-                MainView_UI.instance.quitUI.gameObject.SetActive(true);
-                StartCoroutine(nameof(ChangeState),State.Quit);
-            }
-            // 토스트메시지
-            else if (state == State.Quit)
-            {
-                Quit();
-            }
-            // 설정창
-            else if (state == State.Setting)
-            {
-                settingUI.SettingCanvasOff();
-                StartCoroutine(nameof(ChangeState), State.Main);
-            }
-            // 팝업창
-            else
-            {
-                // 탐험
-                if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP && PopUpMovement.instance.tourState == PopUpMovement.TourState.DOWN)
+                // 메인화면
+                if (state == State.Main)
                 {
-                    PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
+                    // 앱 종료 확인 UI 활성화
+                    GetComponent<ToastMessage>().ShowToast("'뒤로' 버튼을 한번 더 누르시면 종료됩니다.");
+                    StartCoroutine(nameof(ChangeState), State.Quit);
                 }
-                // 관광
-                else if (PopUpMovement.instance.tourState == PopUpMovement.TourState.UP && PopUpMovement.instance.placeState == PopUpMovement.PlaceState.DOWN)
+                // 토스트메시지
+                else if (state == State.Quit)
                 {
-                    PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
+                    Quit();
                 }
+                // 설정창
+                else if (state == State.Setting)
+                {
+                    settingUI.SettingCanvasOff();
+                    StartCoroutine(nameof(ChangeState), State.Main);
+                }
+                // 팝업창
+                else if(state == State.Pop)
+                {
+                    // 탐험
+                    if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
+                    {
+                        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
+                    }
+                    // 관광
+                    else if (PopUpMovement.instance.tourState == PopUpMovement.TourState.UP)
+                    {
+                        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
+                    }
 
-                StartCoroutine(nameof(ChangeState), State.Main);
+                    StartCoroutine(nameof(ChangeState), State.Main);
+                }
             }
         }
     }
@@ -283,28 +284,13 @@ public class tmpTouch : MonoBehaviour
         if (change == State.Quit)
         {
             yield return new WaitForSeconds(2.5f);
-            MainView_UI.instance.quitUI.gameObject.SetActive(false);
             state = State.Main;
         }
-    }
-
-    public void ShowToast(string message)
-    {
-        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject curActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-
-        curActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
-        {
-            AndroidJavaObject toast = new AndroidJavaObject("android.widget.Toast", curActivity);
-            toast.CallStatic<AndroidJavaObject>("makeText", curActivity, message, 2f).Call("show");
-        }));
     }
 
     // 앱 종료
     public void Quit()
     {
-        MainView_UI.instance.quitUI.gameObject.SetActive(false);
-        print("꺼짐");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif

@@ -55,11 +55,14 @@ public class BottomSheetManager : MonoBehaviour
         tourList = DataManager.instance.GetHometourPlacesList();
 
         // 장소 바텀시트
+        print("장소 바텀시트");
         yield return StartCoroutine(GenPlace());
 
         // 관광정보 바텀시트
+        print("관광정보 바텀시트");
         yield return StartCoroutine(GenTour());
 
+        print("검은 화면 끄기");
         // 검은 화면 끄기   ====================================== 스켈레톤 UI 로 대체하기 ======================================
         MainView_UI.instance.BackgroundDarkDisable();
     }
@@ -83,7 +86,7 @@ public class BottomSheetManager : MonoBehaviour
             cardPlaceInfo.SetServerProp(placeList[i]);
             cardPlaceInfo.setPlaceProp(propList[i]);
 
-            cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start2));
+            //cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start2));
         }
 
         yield return null;
@@ -109,19 +112,19 @@ public class BottomSheetManager : MonoBehaviour
                 cardTourInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
                 if (tourList[i].imageUrl.Length > 5)
                 {
-                    cardTourInfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 1f);
+                    cardTourInfo.info[2].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                     cardTourInfo.info[3].GetComponent<TextMeshProUGUI>().enabled = false;
                     cardTourInfo.StartCoroutine(nameof(cardTourInfo.GetTexture), tourList[i].imageUrl);
                 }
                 else
                 {
-                    cardTourInfo.info[2].GetComponent<RawImage>().color = new Color(1f, 250f/255f, 246f/255f, 1f);
+                    cardTourInfo.info[2].GetComponent<Image>().color = new Color(1f, 0.98f, 0.96f, 1f);
                     cardTourInfo.info[3].GetComponent<TextMeshProUGUI>().enabled = true;
                 }
                 cardTourInfo.SettingTourType(tourList[i].contenttypeid);
                 cardTourInfo.InputTourList(tourList[i]);
 
-                cardTourInfo.StartCoroutine(nameof(cardTourInfo.Start2));
+                //cardTourInfo.StartCoroutine(nameof(cardTourInfo.Start2));
             }
             if (count == 120)
             {
@@ -169,13 +172,14 @@ public class BottomSheetManager : MonoBehaviour
         // _ 체크
         for (int i = 0; i < chars.Length; i++)
         {
-            if (chars[i] == '_') { chars[i] = ' '; print("_ 변환 완료"); }
+            if (chars[i] == '_') { chars[i] = ' '; }
         }
 
-        if(chars.Length > 12)
-        {
-            result = chars[0].ToString() + chars[1].ToString() + chars[2].ToString() + chars[3].ToString() + chars[4].ToString() + chars[5].ToString() + chars[6].ToString() + chars[7].ToString() + chars[8].ToString() + chars[9].ToString() + chars[10].ToString() + chars[11].ToString();
-        }
+        result = chars.ArrayToString();
+        //if(chars.Length > 10)
+        //{
+        //    result = chars[0].ToString() + chars[1].ToString() + chars[2].ToString() + chars[3].ToString() + chars[4].ToString() + chars[5].ToString() + chars[6].ToString() + chars[7].ToString() + chars[8].ToString() + chars[9].ToString() + chars[10].ToString() + "...";
+        //}
 
         return result;
     }

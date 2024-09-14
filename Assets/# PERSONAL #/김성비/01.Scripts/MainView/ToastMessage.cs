@@ -11,7 +11,7 @@ public class ToastMessage : MonoBehaviour
         curActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
         {
             AndroidJavaObject toast = new AndroidJavaObject("android.widget.Toast", curActivity);
-            toast.CallStatic<AndroidJavaObject>("makeText", curActivity, text, 0).Call("show");
+            toast.CallStatic<AndroidJavaObject>("makeText", curActivity, text, 2).Call("show");
         }));
     }
 }
