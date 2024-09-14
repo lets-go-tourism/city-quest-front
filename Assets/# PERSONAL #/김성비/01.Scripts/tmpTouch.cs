@@ -1,8 +1,9 @@
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Collections;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using UnityEngine.Android;
 
 public class tmpTouch : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class tmpTouch : MonoBehaviour
     public enum State
     {
         Main,
-        QuitUI,
+        Quit,
         Setting,
         Pop,
     }
@@ -57,6 +58,7 @@ public class tmpTouch : MonoBehaviour
         BackTouch();
     }
 
+    // 바텀시트 터치
     void RayBottomSheet()
     {
         if (Input.touchCount > 0)
@@ -146,6 +148,7 @@ public class tmpTouch : MonoBehaviour
                     BottomSheetMovement.instance.MoveDOWN();
                 }
 
+                moved = 0;
                 follow = true;
             }
         }
@@ -237,24 +240,24 @@ public class tmpTouch : MonoBehaviour
             if (state == State.Main)
             {
                 // 앱 종료 확인 UI 활성화
+#if UNITY_ANDROID
+                ShowToast("'뒤로' 버튼을 한번 더 누르시면 종료됩니다.");
+#endif
                 MainView_UI.instance.quitUI.gameObject.SetActive(true);
-
-                state = State.QuitUI;
+                StartCoroutine(nameof(ChangeState),State.Quit);
             }
-            // 앱 종료 확인 UI 
-            else if (state == State.QuitUI)
+            // 토스트메시지
+            else if (state == State.Quit)
             {
-                // 앱 종료 확인 UI 비활성화
-                MainView_UI.instance.quitUI.gameObject.SetActive(false);
-
-                state = State.Main;
+                Quit();
             }
-            // 설정창이 켜져있을 때
+            // 설정창
             else if (state == State.Setting)
             {
                 settingUI.SettingCanvasOff();
+                StartCoroutine(nameof(ChangeState), State.Main);
             }
-            // 팝업창이 활성화 되어있을 때
+            // 팝업창
             else
             {
                 // 탐험
@@ -267,27 +270,46 @@ public class tmpTouch : MonoBehaviour
                 {
                     PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
                 }
+
+                StartCoroutine(nameof(ChangeState), State.Main);
             }
         }
     }
 
-    // 앱 종료
-    public void Quit(bool quit)
+    public IEnumerator ChangeState(State change)
     {
-        if (quit)
+        state = change;
+
+        if (change == State.Quit)
         {
-            MainView_UI.instance.quitUI.gameObject.SetActive(false);
-            print("꺼짐");
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
-        }
-        else
-        {
+            yield return new WaitForSeconds(2.5f);
             MainView_UI.instance.quitUI.gameObject.SetActive(false);
             state = State.Main;
         }
+    }
+
+    public void ShowToast(string message)
+    {
+        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject curActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+        curActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+        {
+            AndroidJavaObject toast = new AndroidJavaObject("android.widget.Toast", curActivity);
+            toast.CallStatic<AndroidJavaObject>("makeText", curActivity, message, 2f).Call("show");
+        }));
+    }
+
+    // 앱 종료
+    public void Quit()
+    {
+        MainView_UI.instance.quitUI.gameObject.SetActive(false);
+        print("꺼짐");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+#if UNITY_ANDROID
+        Application.Quit();
+#endif
     }
 }

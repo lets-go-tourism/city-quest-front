@@ -57,22 +57,57 @@ public class CardTourInfo : MonoBehaviour
     // 이미지 세팅
     public IEnumerator GetTexture(string url)
     {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
-        yield return www.SendWebRequest();
-        if (www.result != UnityWebRequest.Result.Success)
+        using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
         {
-            Debug.Log(www.error);
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(www);
+
+                // 이미지를 자르고 사용하는 코드 호출
+                CropImage(texture);
+            }
+            else
+            {
+                Debug.LogError(www.error);
+            }
+        }
+    }
+
+    private void CropImage(Texture2D texture)
+    {
+        // 원본 이미지 크기
+        float originalWidth = texture.width;
+        float originalHeight = texture.height;
+
+        // 원본 이미지 비율 계산
+        float originalAspect = originalWidth / originalHeight;
+
+        // 목표 크기 계산
+        float targetWidth = 240;
+        float targetHeight = 240;
+
+        // 가로 길이가 더 긴 경우
+        if (originalWidth > originalHeight)
+        {
+            // 세로 길이를 240으로 맞추고 비율에 맞춰 가로 길이 계산
+            targetWidth = targetHeight * originalAspect;
+            targetHeight = 240;
         }
         else
         {
-            Texture2D myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-
-            //Texture2D my = new Texture2D(myTexture.width, myTexture.height, TextureFormat.RGB24, false);
-            //my.SetPixels(myTexture.GetPixels());
-            //my.Compress(false);
-            //my.Apply(false, true);
-            info[2].GetComponent<RawImage>().texture = myTexture;
+            // 세로 길이가 더 긴 경우
+            targetWidth = 240;
+            targetHeight = targetWidth / originalAspect;
         }
+
+        if (info[2].GetComponent<RectTransform>() != null)
+        {
+            info[2].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight);
+        }
+
+        info[2].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f));
     }
 
     // 타입 세팅
@@ -131,6 +166,8 @@ public class CardTourInfo : MonoBehaviour
             selected = false;
         }
     }
+
+
     //string TypeConvert(string str)
     //{
     //    string result = string.Empty;
@@ -146,7 +183,6 @@ public class CardTourInfo : MonoBehaviour
 
     //    return result;
     //}
-
     ///[System.Serializable]
     ///public class HometourPlace
     ///{
@@ -158,7 +194,6 @@ public class CardTourInfo : MonoBehaviour
     ///    public string contenttypeid;
     ///    public string longitude;
     ///}
-
     /// contenttypeid
     /// 관광지 : 12
     /// 문화시설 : 14

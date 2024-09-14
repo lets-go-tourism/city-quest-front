@@ -21,8 +21,8 @@ public class SettingTourInfo : MonoBehaviour
         contents[0].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TourSprites/" + info.contenttypeid);
 
         // 이름
-        contents[1].gameObject.SetActive(false);
-        contents[1].gameObject.SetActive(true);
+        //contents[1].gameObject.SetActive(false);
+        //contents[1].gameObject.SetActive(true);
         contents[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = info.title.ToString();
 
         // 거리
@@ -95,13 +95,42 @@ public class SettingTourInfo : MonoBehaviour
             }
             else
             {
-                Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                Texture2D texture = DownloadHandlerTexture.GetContent(www);
+                ProcessImage(texture);
 
-                contents[5].GetComponent<RawImage>().texture = myTexture;
+                //Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+
+                //contents[5].GetComponent<RawImage>().texture = myTexture;
                 
             }
         }
         TourInfoSetting(tourInfo);
+    }
+
+    private void ProcessImage(Texture2D texture)
+    {
+        // 원본 이미지 크기
+        float originalWidth = texture.width;
+        float originalHeight = texture.height;
+
+        // 원본 이미지 비율 계산
+        float originalAspect = originalWidth / originalHeight;
+
+        // 목표 가로 길이에 맞춰 세로 길이 계산
+        float targetWidth = 840;
+        float targetHeight = targetWidth / originalAspect;
+
+        // RectTransform의 사이즈 조정
+        if (contents[5].parent.GetComponent<RectTransform>() != null)
+        {
+            contents[5].parent.GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight+36);
+        }
+
+        // UI.Image에 텍스처 적용
+        if (contents[5].GetComponent<Image>() != null)
+        {
+            contents[5].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f));
+        }
     }
 
     #region 미사용

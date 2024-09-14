@@ -71,10 +71,43 @@ public class CardPlaceInfo : MonoBehaviour
         {
             Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
-            //texture.Compress(false);
-            //texture.Apply(false, true);
-            info[2].GetComponent<RawImage>().texture = texture;
+            CropImage(texture);
         }
+    }
+
+    private void CropImage(Texture2D texture)
+    {
+        // 원본 이미지 크기
+        float originalWidth = texture.width;
+        float originalHeight = texture.height;
+
+        // 원본 이미지 비율 계산
+        float originalAspect = originalWidth / originalHeight;
+
+        // 목표 크기 계산
+        float targetWidth = 240;
+        float targetHeight = 240;
+
+        // 가로 길이가 더 긴 경우
+        if (originalWidth > originalHeight)
+        {
+            // 세로 길이를 240으로 맞추고 비율에 맞춰 가로 길이 계산
+            targetWidth = targetHeight * originalAspect;
+            targetHeight = 240;
+        }
+        else
+        {
+            // 세로 길이가 더 긴 경우
+            targetWidth = 240;
+            targetHeight = targetWidth / originalAspect;
+        }
+
+        if (info[2].GetComponent<RectTransform>() != null)
+        {
+            info[2].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight);
+        }
+
+        info[2].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f));
     }
 
     public void SettingPlaceType(bool reveal)

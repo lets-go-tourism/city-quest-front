@@ -38,7 +38,6 @@ public class PopUpMovement : MonoBehaviour
 
             // 3D ¸ðµ¨¸µ        
 
-
             rtPlace.DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
 
             yield return new WaitForSeconds(0.5f);
@@ -67,7 +66,7 @@ public class PopUpMovement : MonoBehaviour
 
         if (place)
         {
-            rtPlace.DOAnchorPosY(-2300, 0.38f);
+            rtPlace.DOAnchorPosY(-2100, 0.38f);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -88,8 +87,5 @@ public class PopUpMovement : MonoBehaviour
 
         // ¹è°æ ¾ÏÀü ²ô±â
         MainView_UI.instance.BackgroundDarkDisable();
-
-        // 3D ¸ðµ¨¸µ        
-
     }
 }

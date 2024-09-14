@@ -5,10 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/# PUBLIC #/00.Scene/LoginScene.unity
     guid: 60558f2fdeb47af40848c34139ae6bbb
-  - enabled: 1
+  - enabled: 0
     path: Assets/# PUBLIC #/00.Scene/09 04.unity
     guid: 58eec998fd1063247ba1db41a8510553
+  - enabled: 1
+    path: "Assets/# PERSONAL #/\uAE40\uC131\uBE44/00.Scene/09 05_ksb.unity"
+    guid: 027c9bd1b4ccabf43b627979d32ff628
   m_configObjects: {}

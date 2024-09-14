@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class BottomSheetMovement : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class BottomSheetMovement : MonoBehaviour
         UP, DOWN
     }
     public State state;
+
+    public ScrollRect[] scrollRects;
+    public Button[] btns;
 
     public static BottomSheetMovement instance;
     private void Awake()
@@ -40,6 +44,12 @@ public class BottomSheetMovement : MonoBehaviour
         {
             state = State.UP;
         }
+
+        for (int i = 0; i < scrollRects.Length; i++)
+        {
+            scrollRects[i].horizontal = true;
+            btns[i].enabled = true;
+        }
     }
 
     void ChangeDOWN()
@@ -47,6 +57,12 @@ public class BottomSheetMovement : MonoBehaviour
         if (state == State.UP)
         {
             state = State.DOWN;
+        }
+
+        for (int i = 0; i < scrollRects.Length; i++)
+        {
+            scrollRects[i].horizontal = false;
+            btns[i].enabled = false;
         }
     }
 }

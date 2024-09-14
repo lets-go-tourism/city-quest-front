@@ -115,7 +115,7 @@ public class BottomSheetManager : MonoBehaviour
                 }
                 else
                 {
-                    cardTourInfo.info[2].GetComponent<RawImage>().color = new Color(1f, 1f, 1f, 0f);
+                    cardTourInfo.info[2].GetComponent<RawImage>().color = new Color(1f, 250f/255f, 246f/255f, 1f);
                     cardTourInfo.info[3].GetComponent<TextMeshProUGUI>().enabled = true;
                 }
                 cardTourInfo.SettingTourType(tourList[i].contenttypeid);
