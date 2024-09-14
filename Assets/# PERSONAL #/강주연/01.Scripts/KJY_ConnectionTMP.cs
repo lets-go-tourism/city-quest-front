@@ -433,7 +433,7 @@ public class TryConfirmConnection : ConnectionStratage
         if (response.status == "OK")
         {
             //UI넘어가는거 호출해주기
-            KJY_UIManager.instance.OnClickConfirmButton();
+            KJY_LoginManager.instance.OnClickConfirmButton();
         }
     }
 }
@@ -577,12 +577,19 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
     public void OnConnectionQuest(int questNo) //퀘스트 팝업 통신하는 함수
     {
+
+#if UNITY_ANDROID && !UNITY_EDITOR
         QuestSetting setting = new QuestSetting();
         LocationInfo info = GPS.Instance.LocationInfo;
         setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
-
-        Debug.Log(setting.url);
         TryQuestConnection questConnection = new TryQuestConnection(setting);
+#elif UNITY_EDITOR
+        QuestSetting setting = new QuestSetting();
+        float latitude = (float)37.566826;
+        float longitude = (float) 126.9786567;
+        setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + longitude + "&lat=" + latitude;
+        TryQuestConnection questConnection = new TryQuestConnection(setting);
+#endif
     }
 
     public void OnConnectionConfirm()

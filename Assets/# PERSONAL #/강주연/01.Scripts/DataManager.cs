@@ -64,8 +64,12 @@ public class DataManager : MonoBehaviour
         }
         else
             Destroy(this);
-            
+
+#if UNITY_ANDROID && !UNITY_EDITOR
         path = Path.Combine(Application.persistentDataPath, "database.json");
+#elif UNITY_EDITOR
+        path = Path.Combine(Application.dataPath, "database.json");
+#endif
         JsonLoad();
     }
 

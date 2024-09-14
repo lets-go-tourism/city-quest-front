@@ -1335,6 +1335,7 @@ MonoBehaviour:
   requestedRatio: {x: 1, y: 1}
   requestedFPS: 60
   webCamRawImage: {fileID: 7403585366432539998}
+  webCam: {fileID: 8726239026367949704}
   webCamTexture: {fileID: 0}
   captureObject: {fileID: 1976685658935686465}
   checkObject: {fileID: 6634321732051997616}
