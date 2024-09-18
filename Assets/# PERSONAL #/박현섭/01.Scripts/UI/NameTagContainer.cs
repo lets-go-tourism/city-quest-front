@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class NameTagContainer : MonoBehaviour
 {
-    public NameTagUI[] NameTagArr { get; private set; } = new NameTagUI[30];
+    public NameTagUI[] NameTagArr { get; private set; } = new NameTagUI[31];
 
     private int nameTagCount = 0;
 
@@ -29,11 +30,35 @@ public class NameTagContainer : MonoBehaviour
         }
     }
 
+    public void AddTarget(TourData target)
+    {
+        for (int i = 0; i < nameTagCount; i++)
+        {
+            if (NameTagArr[i].enabled)
+                continue;
+
+            NameTagArr[i].Init(target);
+            break;
+        }
+    }
+
     public void RemoveTarget(Prop target)
     {
         for (int i  = 0; i < nameTagCount; i++)
         {
             if (NameTagArr[i].TargetProp != target)
+                continue;
+
+            NameTagArr[i].enabled = false;
+            break;
+        }
+    }
+
+    public void RemoveTarget(TourData target)
+    {
+        for (int i = 0; i < nameTagCount; i++)
+        {
+            if (NameTagArr[i].TourData != target)
                 continue;
 
             NameTagArr[i].enabled = false;

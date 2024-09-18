@@ -74,6 +74,10 @@ public class MapCameraController : MonoBehaviour
     private AudioSource m_AudioSource;
     private bool m_Audio = false;
 
+    // 화면의 중앙이 어디인지
+    private float value = 0.7f;
+    public bool isBottom = false;
+
     private void Start()
     {
         m_AudioSource = GetComponent<AudioSource>();
@@ -307,7 +311,22 @@ public class MapCameraController : MonoBehaviour
             return;
 
         _panVelocity = Vector2.zero;
-        transform.position = Vector3.Lerp(transform.position, m_TargetPosition, Time.deltaTime * m_MoveSpeed);
+
+        Vector3 targetPos = m_TargetPosition - (isBottom ? _cameraToMove.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height * 0.7f, _cameraToMove.transform.position.y)) - _cameraToMove.transform.position : Vector3.zero);
+        if (isBottom)
+        {
+            targetPos -= new Vector3(0, targetPos.y - _cameraToMove.transform.position.y, 0);
+        }
+
+        transform.position = 
+            // 러프 해서
+            Vector3.Lerp(transform.position,
+
+            // 타겟 포지션으로
+            targetPos,
+
+            // 시간을 보간해서
+            Time.deltaTime * m_MoveSpeed);
         LimitCameraMovement();
     }
 

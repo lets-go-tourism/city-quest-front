@@ -27,6 +27,7 @@ public class BottomSheetMovement : MonoBehaviour
     public void MoveUP()
     {
         // 바텀시트 올라가기
+        rt.DOPause();
         rt.DOAnchorPosY(948, 0.5f).SetEase(Ease.OutBack);
         Invoke(nameof(ChangeUP), 0.5f);
     }
@@ -34,6 +35,7 @@ public class BottomSheetMovement : MonoBehaviour
     public void MoveDOWN()
     {
         // 바텀시트 내려가기
+        rt.DOPause();
         rt.DOAnchorPosY(360, 0.3f);
         ChangeDOWN();
     }
@@ -43,6 +45,7 @@ public class BottomSheetMovement : MonoBehaviour
         if (state == State.DOWN)
         {
             state = State.UP;
+            MapCameraController.Instance.isBottom = true;
         }
 
         for (int i = 0; i < scrollRects.Length; i++)
@@ -57,6 +60,7 @@ public class BottomSheetMovement : MonoBehaviour
         if (state == State.UP)
         {
             state = State.DOWN;
+            MapCameraController.Instance.isBottom = false;
         }
 
         for (int i = 0; i < scrollRects.Length; i++)

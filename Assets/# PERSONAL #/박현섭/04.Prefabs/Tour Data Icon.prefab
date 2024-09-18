@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 817377177288934720}
   - component: {fileID: 3018549223074333944}
   - component: {fileID: 2706843829292527638}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: Tour Data Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

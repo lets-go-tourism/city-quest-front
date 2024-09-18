@@ -24,6 +24,7 @@ public class Cloud : MonoBehaviour
     private void OnEnable()
     {
         meshRenderer.enabled = true;
+        transform.position = TargetProp.PropObj.transform.TransformPoint(TargetProp.GetBoundsCenter());
     }
 
     private void Update()

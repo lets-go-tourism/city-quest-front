@@ -6,7 +6,16 @@ using UnityEngine.UI;
 
 public class NameTagUI : MonoBehaviour
 {
+    public enum State
+    {
+        Prop,
+        TourData
+    }
+
+    public State state;
+
     public Prop TargetProp { get; private set; }
+    public TourData TourData { get; private set; }
     private RectTransform rectTransform;
 
     private Image myImage;
@@ -23,6 +32,14 @@ public class NameTagUI : MonoBehaviour
     public void Init(Prop target)
     {
         this.TargetProp = target;
+        state = State.Prop;
+        enabled = true;
+    }
+
+    public void Init(TourData target)
+    {
+        this.TourData = target;
+        state = State.TourData;
         enabled = true;
     }
 
@@ -30,7 +47,8 @@ public class NameTagUI : MonoBehaviour
     {
         myImage.enabled = true;
         myText.enabled = true;
-        SettingTextWidth(rectTransform, myText, TargetProp.HomeAdventurePlaceData.name.ToString());
+
+        SettingTextWidth(rectTransform, myText, state == State.Prop ? TargetProp.HomeAdventurePlaceData.name : TourData.ServerTourInfo.title);
     }
 
     private void SettingTextWidth(RectTransform rectTrf, TextMeshProUGUI tmpText, string textValue)
@@ -44,7 +62,7 @@ public class NameTagUI : MonoBehaviour
 
     private void Update()
     {
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(TargetProp.transform.position + new Vector3(0, 0, TargetProp.OffsetY));
+        Vector3 screenPoint = state == State.Prop ? Camera.main.WorldToScreenPoint(TargetProp.transform.position + new Vector3(0, 0, TargetProp.OffsetY)) : Camera.main.WorldToScreenPoint(TourData.transform.position + new Vector3(0, 0, -15f));
         rectTransform.anchoredPosition = screenPoint;
     }
 
