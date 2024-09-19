@@ -17,12 +17,6 @@ public class SettingPropContent : MonoBehaviour
         content = new List<Transform>();
     }
 
-    //public enum State
-    //{
-    //    NO,YES
-    //}
-    //public State state;
-    
     public IEnumerator SettingNO()
     {
         yield return StartCoroutine(ResetContent());

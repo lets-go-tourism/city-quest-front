@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.Android;
 public class ToastMessage : MonoBehaviour
 {
-
     public static void ShowToast(string text)
     {
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
