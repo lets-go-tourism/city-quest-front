@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -128,6 +129,10 @@ public class DataManager : MonoBehaviour
     //탐험미탐험 장소 설정하는 함수
     public void SetHomeAdventurePlaceList(List<ServerAdventurePlace> adventurePlaces)
     {
+        for (int i = 0; i < adventurePlaces.Count; i++)
+        {
+            adventurePlaces[i].name = ReplaceHanjaWithSpace(adventurePlaces[i].name);
+        }
         adventurePlacesList = adventurePlaces;
     }
 
@@ -140,6 +145,11 @@ public class DataManager : MonoBehaviour
     //관광정보 설정하는 함수
     public void SetHometourPlaceList(List<ServerTourInfo> hometourPlaces)
     {
+        for (int i = 0; i < hometourPlaces.Count; i++)
+        {
+            hometourPlaces[i].title = ReplaceHanjaWithSpace(hometourPlaces[i].title);
+        }
+
         tourPlacesList = hometourPlaces;
     }
 
@@ -196,6 +206,23 @@ public class DataManager : MonoBehaviour
     public string GetPathData()
     {
         return path;
+    }
+
+    public string ReplaceHanjaWithSpace(string input)
+    {
+        // 문자열의 각 문자를 순회하면서 한자를 찾고, 한자를 공백으로 대체
+        return new string(input.Select(c => IsHanja(c) ? ' ' : c).ToArray());
+    }
+
+    // 문자가 한자인지 확인하는 메서드
+    private bool IsHanja(char c)
+    {
+        int codePoint = c;
+        // 한자 범위: 기본 한자, 확장 A, 확장 B
+        return (codePoint >= 0x4E00 && codePoint <= 0x9FFF) ||
+               (codePoint >= 0x3400 && codePoint <= 0x4DBF) ||
+               (codePoint >= 0x20000 && codePoint <= 0x2A6DF) ||
+               (codePoint == '(' || codePoint == ')' || codePoint == '<' || codePoint == '>');
     }
 
     #region notUse

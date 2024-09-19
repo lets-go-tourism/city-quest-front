@@ -30,11 +30,15 @@ public class CameraFeed : MonoBehaviour
     //private bool notTutorial = false;
 
     [SerializeField] private GameObject captureObject;
+    [SerializeField] private RectTransform captureRect;
     [SerializeField] private GameObject checkObject;
+    [SerializeField] private RectTransform checkRect;
     [SerializeField] private Canvas camCanvas;
 
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
+    private Vector3 originalCapRect;
+    private Vector3 originalCheckRect;
 
     public long questNo;
     [SerializeField] private Canvas cameraCanvas;
@@ -43,6 +47,8 @@ public class CameraFeed : MonoBehaviour
     {
         rawImageTransform = webCamRawImage.rectTransform;
         originalPos = rawImageTransform.localPosition;
+        originalCapRect = captureRect.localPosition;
+        originalCheckRect = checkRect.localPosition;
         //SetWebCam();
         //StartCoroutine(Tutorial());
     }
@@ -53,7 +59,22 @@ public class CameraFeed : MonoBehaviour
         {
             camCanvas.enabled = true;
         }
-        webCam.sizeDelta = new Vector2(Screen.width, Screen.width);
+        
+        if (Screen.width < 1080)
+        {
+            webCam.sizeDelta = new Vector2(Screen.width, Screen.width);
+        }
+        else
+        {
+            webCam.sizeDelta = new Vector2(1080, 1080);
+        }
+        //float dis = (Screen.width / 1080) * 100;
+        //Vector3 tmp1 = captureRect.localPosition;
+        //tmp1.y -= dis;
+        //Vector3 tmp2 = checkRect.localPosition;
+        //tmp2.y -= dis;
+        //captureRect.localPosition = tmp1;
+        //checkRect.localPosition = tmp2;
         CreateWebCamTexture();
     }
 
