@@ -309,7 +309,7 @@ public class tmpTouch : MonoBehaviour
                 if (state == State.Main)
                 {
                     // 앱 종료 확인 UI 활성화
-                    GetComponent<ToastMessage>().ShowToast("'뒤로' 버튼을 한번 더 누르시면 종료됩니다.");
+                    ToastMessage.ShowToast("'뒤로' 버튼을 한번 더 누르시면 종료됩니다.");
                     StartCoroutine(nameof(ChangeState), State.Quit);
                 }
                 // 토스트메시지

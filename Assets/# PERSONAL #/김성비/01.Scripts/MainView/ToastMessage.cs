@@ -3,7 +3,7 @@ using UnityEngine.Android;
 public class ToastMessage : MonoBehaviour
 {
 
-    public void ShowToast(string text)
+    public static void ShowToast(string text)
     {
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject curActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
