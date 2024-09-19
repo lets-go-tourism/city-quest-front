@@ -46,6 +46,9 @@ public class TourData : MonoBehaviour
 
     private void Update()
     {
+        float sizeScale = Camera.main.transform.position.y / 500 * 0.55f;
+        transform.localScale = new Vector3(sizeScale, sizeScale, sizeScale);
+
         updateTime += Time.deltaTime;
 
         if (updateTime <= 0.2f)
