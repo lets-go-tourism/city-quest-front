@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.UI;
+using static PopUpMovement;
 
 public enum authState
 {
@@ -49,6 +50,9 @@ public class KJY_LoginManager : MonoBehaviour
     [Header("LoginSuccess")]
     [SerializeField] private TextMeshProUGUI loginText;
     [SerializeField] private GameObject CustomerLoginUI;
+    [SerializeField] private GameObject loginImageUI;
+    [SerializeField] private Image loginImage;
+    [SerializeField] private RectTransform spotPosition;
     [SerializeField] private GameObject CustomerLoginBtn;
     [SerializeField] private Sprite CustomerLoginBtnClickSprite;
 
@@ -74,6 +78,7 @@ public class KJY_LoginManager : MonoBehaviour
         logo.transform.position = logoFirstPosition.position;
         confirmBtn.interactable = false;
         StartCoroutine(Splash());
+        //logiunUIRect.DOAnchorPosY(-1800, 0.38f);
     }
 
     private void Update()
@@ -233,14 +238,16 @@ public class KJY_LoginManager : MonoBehaviour
                     DataManager.instance.JsonSave();
                     authorizationObject.SetActive(false);
                     loginText.text = "회원가입 성공!\n환영해요.";
-                    CustomerLoginUI.SetActive(true);
+                    StartCoroutine(nameof(PopupCoroutine));
+                    //CustomerLoginUI.SetActive(true);
                 }
                 else
                 {
                     DataManager.instance.JsonSave();
                     authorizationObject.SetActive(false);
                     loginText.text = "로그인 성공!\n환영해요.";
-                    CustomerLoginUI.SetActive(true);
+                    StartCoroutine(nameof(PopupCoroutine));
+                    //CustomerLoginUI.SetActive(true);
                 }
             }
             else
@@ -259,14 +266,16 @@ public class KJY_LoginManager : MonoBehaviour
                 DataManager.instance.JsonSave();
                 authorizationObject.SetActive(false);
                 loginText.text = "회원가입 성공!\n환영해요.";
-                CustomerLoginUI.SetActive(true);
+                StartCoroutine(nameof(PopupCoroutine));
+                //CustomerLoginUI.SetActive(true);
             }
             else
             {
                 DataManager.instance.JsonSave();
                 authorizationObject.SetActive(false);
                 loginText.text = "로그인 성공!\n환영해요.";
-                CustomerLoginUI.SetActive(true);
+                StartCoroutine(nameof(PopupCoroutine));
+                //CustomerLoginUI.SetActive(true);
             }
         }
 #endif
@@ -298,14 +307,16 @@ public class KJY_LoginManager : MonoBehaviour
                 DataManager.instance.JsonSave();
                 authorizationObject.SetActive(false);
                 loginText.text = "회원가입 성공!\n환영해요.";
-                CustomerLoginUI.SetActive(true);
+                //CustomerLoginUI.SetActive(true);
+                StartCoroutine(nameof(PopupCoroutine));
             }
             else
             {
                 DataManager.instance.JsonSave();
                 authorizationObject.SetActive(false);
                 loginText.text = "로그인 성공!\n환영해요.";
-                CustomerLoginUI.SetActive(true);
+                //CustomerLoginUI.SetActive(true);
+                StartCoroutine(nameof(PopupCoroutine));
             }
         }
     }
@@ -350,10 +361,29 @@ public class KJY_LoginManager : MonoBehaviour
         {
             DataManager.instance.JsonSave();
             loginText.text = "로그인 성공!\n환영해요.";
-            CustomerLoginUI.SetActive(true);
+
+            //CustomerLoginUI.SetActive(true);
+            StartCoroutine(nameof(PopupCoroutine));
         }
     }
     #endregion
+
+    private IEnumerator PopupCoroutine()
+    {
+        CustomerLoginUI.SetActive(true);
+
+
+        loginImageUI.transform.DOMove(spotPosition.position, 0.8f);
+        
+        loginImage.DOFade(1, 0.5f);
+
+        yield return new WaitForSeconds(0.5f);
+        //rtTour.DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
+
+        //yield return new WaitForSeconds(0.5f);
+
+        //tourState = TourState.UP;
+    }
 
     public void SceneMove() // 씬이동하는 함수 Manager로만들까... -> 공통으로 필요
     {
@@ -395,5 +425,10 @@ public class KJY_LoginManager : MonoBehaviour
             SplashUIOff();
             ShownLoginSccuess();
         }
+    }
+
+    public void TestPopup()
+    {
+        StartCoroutine(PopupCoroutine());
     }
 }
