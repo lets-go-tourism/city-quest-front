@@ -70,6 +70,8 @@ public class tmpTouch : MonoBehaviour
         defaultBottomSheetHeight = MainView_UI.instance.bottomSheet.anchoredPosition.y;
     }
 
+    private bool realMove = false;
+
     void RayBottomSheet()
     {
         if (Input.touchCount > 0)
@@ -101,19 +103,34 @@ public class tmpTouch : MonoBehaviour
             {
                 movedPos = touch.position;
                 moved = originPos.y - movedPos.y;
+                
+                if(Mathf.Abs(moved) > 30)
+                    realMove = true;
 
-                MainView_UI.instance.bottomSheet.anchoredPosition = new Vector2(0, Mathf.Clamp(startBottomSheetHeight - moved, limitBottomSheetLowHeight, defaultBottomSheetHeight));
+                if(realMove)
+                    MainView_UI.instance.bottomSheet.anchoredPosition = new Vector2(0, Mathf.Clamp(startBottomSheetHeight - moved, limitBottomSheetLowHeight, defaultBottomSheetHeight));
             }
 
             else if (touch.phase == TouchPhase.Ended && follow)
             {
-                if (MainView_UI.instance.bottomSheet.anchoredPosition.y > defaultBottomSheetHeight / 2 + limitBottomSheetLowHeight)
-                    BottomSheetMovement.instance.MoveUP();
-                else if (MainView_UI.instance.bottomSheet.anchoredPosition.y < defaultBottomSheetHeight / 2 + limitBottomSheetLowHeight)
-                    BottomSheetMovement.instance.MoveDOWN();
+                if(Mathf.Abs(startBottomSheetHeight - MainView_UI.instance.bottomSheet.anchoredPosition.y) > 100)
+                {
+                    if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
+                        BottomSheetMovement.instance.MoveDOWN();
+                    else
+                        BottomSheetMovement.instance.MoveUP();
+                }
+                else
+                {
+                    if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
+                        BottomSheetMovement.instance.MoveUP();
+                    else
+                        BottomSheetMovement.instance.MoveDOWN();
+                }
 
                 moved = 0;
                 follow = false;
+                realMove = false;
             }
         }
     }

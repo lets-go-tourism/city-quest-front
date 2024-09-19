@@ -68,6 +68,7 @@ public class TryImageConnection : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError($"Error: {www.error}");
+                ToastMessage.ShowToast("이미지 업로드에 실패했어요");
                 ButtonActions.Instance.QuestDone();
             }
             else
@@ -81,6 +82,7 @@ public class TryImageConnection : MonoBehaviour
     private void Complete(DownloadHandler result)
     {
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
+        ToastMessage.ShowToast("이미지를 업로드했어요");
         ButtonActions.Instance.QuestDone();
     }
 }
@@ -203,10 +205,13 @@ public class TryHomeConnection : ConnectionStratage
             DataManager.instance.SetHomeAdventurePlaceList(response.data.adventurePlace);
             DataManager.instance.SetHometourPlaceList(response.data.tourPlace);
             DataManager.instance.requestSuccess = true;
+
+            ToastMessage.ShowToast("불러오기에 성공했어요");
         }
         else
         {
             Debug.Log(result.error);
+            ToastMessage.ShowToast("불러오기에 실패했어요 앱을 다시 시작해주세요");
         }
     }
 
@@ -292,6 +297,10 @@ public class TryQuestConnection:ConnectionStratage
         {
             DataManager.instance.SetQuestInfo(response.data);
             // 성공하면 여기
+        }
+        else
+        {
+            ToastMessage.ShowToast("프랍 데이터를 불러오지 못했어요 다시 시도해 주세요");
         }
     }
 }
@@ -435,6 +444,10 @@ public class TryConfirmConnection : ConnectionStratage
             //UI넘어가는거 호출해주기
             KJY_LoginManager.instance.OnClickConfirmButton();
         }
+        else
+        {
+            ToastMessage.ShowToast("통신에 실패했어요");
+        }
     }
 }
 #endregion
@@ -503,6 +516,10 @@ public class TryDeleteConnection : ConnectionStratage
         {
             //첫씬으로돌아가고 토큰 파일도 없애버리고 DataManager도 완전 다시하게해야함
             SettingManager.instance.DeletePopUp();
+        }
+        else
+        {
+            ToastMessage.ShowToast("계정 삭제에 실패했어요 다시 시도해 주세요");
         }
     }
 }
