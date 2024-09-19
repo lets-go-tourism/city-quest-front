@@ -37,6 +37,8 @@ public class DataManager : MonoBehaviour
     [Header("SaveUserTokenData")]
     private string path;
 
+    private List<string> removeList = new List<string> {"장안문", "진미통닭", "수원선경도서관", "플라잉수원", "화성어차"};
+
     public bool isLogout = false;
 
     #region notUse
@@ -173,8 +175,12 @@ public class DataManager : MonoBehaviour
         for (int i = 0; i < hometourPlaces.Count; i++)
         {
             hometourPlaces[i].title = ReplaceHanjaWithSpace(hometourPlaces[i].title);
-        }
 
+            if (RemoveTourList(hometourPlaces[i].title))
+            {
+                hometourPlaces.Remove(hometourPlaces[i]);
+            }
+        }
         tourPlacesList = hometourPlaces;
 
         for (int i = 0; i < tourPlacesList.Count; i++)
@@ -185,6 +191,18 @@ public class DataManager : MonoBehaviour
             Vector3 objPosition = new Vector3(x, 0, y) - MapReader.Instance.boundsCenter;
             tourPlacesList[i].position = objPosition;
         }
+    }
+
+    public bool RemoveTourList(string tour)
+    {
+        for (int i = 0; i < removeList.Count; i++)
+        {
+            if (tour == removeList[i])
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     //관광정보 얻는 함수
