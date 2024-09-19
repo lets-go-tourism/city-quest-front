@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -128,6 +127,7 @@ public class ServerProp
     public double longitude;
     public double latitude;
     public bool status;
+    public Vector3 position;
 }
 
 [System.Serializable]
@@ -151,6 +151,7 @@ public class ServerTourInfo
     public string title;
     public string contenttypeid;
     public string longitude;
+    public Vector3 position;
 }
 
 [System.Serializable]

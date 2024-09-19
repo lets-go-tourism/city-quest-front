@@ -12,9 +12,11 @@ public class DataManager : MonoBehaviour
 
     [Header("PropDataList")]
     private List<ServerProp> propsList;
+    private Dictionary<long, ServerProp> propDiction;
 
     [Header("AdventurePlaceList")]
     private List<ServerAdventurePlace> adventurePlacesList;
+    private Dictionary<long, ServerAdventurePlace> adventurePlaceDiction;
 
     [Header("tourPlaceList")]
     private List<ServerTourInfo> tourPlacesList;
@@ -36,6 +38,7 @@ public class DataManager : MonoBehaviour
     private string path;
 
     public bool isLogout = false;
+
     #region notUse
     [Header("QuestList")]
     private List<QuestData> questDataList;
@@ -73,6 +76,19 @@ public class DataManager : MonoBehaviour
 #endif
         JsonLoad();
     }
+
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Alpha1))
+    //    {
+    //        SortTourAdventureList();
+    //    }
+
+    //    //  if (Input.GetKeyDown(KeyCode.Alpha2))
+    //    //    {
+    //    //        SortTourPlaceList();
+    //    //    }
+    //}
 
     public void JsonLoad()
     {
@@ -118,6 +134,15 @@ public class DataManager : MonoBehaviour
     {
         print("이거 실행 됨???????");
         propsList = homeProps;
+
+        for (int i = 0; i < propsList.Count; i++)
+        {
+            float x = (float)MercatorProjection.lonToX(propsList[i].longitude);
+            float y = (float)MercatorProjection.latToY(propsList[i].latitude);
+
+            Vector3 objPosition = new Vector3(x, 0, y) - MapReader.Instance.boundsCenter;
+            propsList[i].position = objPosition;
+        }
     }
 
     //프랍리스트 얻는 함수
@@ -151,6 +176,15 @@ public class DataManager : MonoBehaviour
         }
 
         tourPlacesList = hometourPlaces;
+
+        for (int i = 0; i < tourPlacesList.Count; i++)
+        {
+            float x = (float)MercatorProjection.lonToX(double.Parse(tourPlacesList[i].longitude));
+            float y = (float)MercatorProjection.latToY(double.Parse(tourPlacesList[i].latitude));
+
+            Vector3 objPosition = new Vector3(x, 0, y) - MapReader.Instance.boundsCenter;
+            tourPlacesList[i].position = objPosition;
+        }
     }
 
     //관광정보 얻는 함수
@@ -210,7 +244,6 @@ public class DataManager : MonoBehaviour
 
     public string ReplaceHanjaWithSpace(string input)
     {
-        // 문자열의 각 문자를 순회하면서 한자를 찾고, 한자를 공백으로 대체
         return new string(input.Select(c => IsHanja(c) ? ' ' : c).ToArray());
     }
 
@@ -223,6 +256,50 @@ public class DataManager : MonoBehaviour
                (codePoint >= 0x3400 && codePoint <= 0x4DBF) ||
                (codePoint >= 0x20000 && codePoint <= 0x2A6DF) ||
                (codePoint == '(' || codePoint == ')' || codePoint == '<' || codePoint == '>');
+    }
+
+    //public void SortTourPlaceList()
+    //{
+    //    Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2);
+
+    //    Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
+
+    //    tourPlacesList = tourPlacesList
+    //        .OrderBy(place => Vector3.Distance(worldCenter, place.position))
+    //        .ToList();
+    //}
+
+    public void SortTourAdventureList()
+    {
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2);
+
+        Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
+
+
+        var tmpList = new List<(ServerProp Prop, ServerAdventurePlace Adventure)>();
+        
+        for (int i = 0; i < propsList.Count; i++)
+        {
+           tmpList.Add((propsList[i], adventurePlacesList[i]));
+        }
+
+         var sortedTmpList = tmpList
+        .OrderBy(item => Vector3.Distance(worldCenter, item.Prop.position))
+        .ToList();
+
+        propsList = sortedTmpList.Select(item => item.Prop).ToList();
+        adventurePlacesList = sortedTmpList.Select(item => item.Adventure).ToList();
+    }
+
+    public void SortPropList()
+    {
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2);
+
+        Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
+
+        propsList = propsList
+            .OrderBy(place => Vector3.Distance(worldCenter, place.position))
+            .ToList();
     }
 
     #region notUse
