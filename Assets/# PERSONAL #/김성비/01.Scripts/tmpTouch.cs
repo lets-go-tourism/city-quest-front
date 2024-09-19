@@ -82,9 +82,14 @@ public class tmpTouch : MonoBehaviour
             {
                 foreach (RaycastResult r in results)
                 {
-                    if (r.gameObject.CompareTag("BottomSheet"))// && BottomSheetMovement.instance.state == BottomSheetMovement.State.DOWN)
+                    if(r.gameObject.CompareTag("BackgroundDark"))
                     {
-                        print(r.gameObject.name);
+                        follow = false;
+                        break;
+                    }
+
+                    else if (r.gameObject.CompareTag("BottomSheet"))// && BottomSheetMovement.instance.state == BottomSheetMovement.State.DOWN)
+                    {
                         originPos = touch.position;
                         startBottomSheetHeight = MainView_UI.instance.bottomSheet.anchoredPosition.y;
                         follow = true;
