@@ -145,7 +145,7 @@ public class BottomSheetManager : MonoBehaviour
     // 거리 변환
     string ConvertDistance(double distance)
     {
-        print(distance);
+        //print(distance);
         string result = string.Empty;
 
         double tmp = distance;

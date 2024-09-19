@@ -61,18 +61,32 @@ public class SettingPropInfo : MonoBehaviour
 
     IEnumerator NOInfoSetting()
     {
+        // 3D 모델링
+        PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
+        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
+        // 그림자
+        SettingPropContent.instance.content[0].GetChild(1).GetComponent<Image>().enabled = true;
+        // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
+        // 거리
         SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ConvertDistance(DataManager.instance.GetQuestInfo().distance).ToString();
+        // 장소명
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
+        // 카카오지도 URL
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
+        // 장소 사진
         if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
         {
             Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4);
             yield return StartCoroutine(nameof(GetTexture), parameters);
         }
+        // 퀘스트
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
+        // 퀘스트 배경이미지
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<Image>().sprite = SettingPropContent.instance.content[6].GetComponent<SpritesHolder>().sprites[0];
+        // 프랍 넘버
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<PictureQuest>().propnumber = (int)DataManager.instance.GetQuestInfo().propNo;
+        // 터치 가능
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<Button>().enabled = true;
     }
     #endregion
@@ -92,17 +106,26 @@ public class SettingPropInfo : MonoBehaviour
 
     IEnumerator YESInfoSetting()
     {
+        // 3D 모델링
+        PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
+        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
+        // 그림자
+        SettingPropContent.instance.content[0].GetChild(1).GetComponent<Image>().enabled = false;
+        // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
-
+        // 방문일자
         SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DateTime.Parse(DataManager.instance.GetQuestInfo().date).ToString("MM월 dd일"); 
-
+        // 장소명
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
+        // 카카오지도
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
+        // 퀘스트 사진
         if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
         {
             Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4);
             yield return StartCoroutine(GetTexture(parameters));
         }
+        // 장소 사진
         if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
         {
             Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5);
@@ -149,64 +172,4 @@ public class SettingPropInfo : MonoBehaviour
             SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<RawImage>().texture = myTexture;
         }
     }
-
-    #region 미사용
-    //// ��Ҹ� �ڸ���
-    //string TextBreak(string str)
-    //{
-    //    string result = string.Empty;
-    //    string[] splitStr = { " " };
-    //    string tmp = str;
-    //    string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
-    //    char[] chars0 = str.ToCharArray();
-    //    // �ټ�����
-    //    if (chars0.Length < 5)
-    //    {
-    //        // 1��
-    //        if (nameSplit.Length < 2)
-    //        {
-    //            ChangeSizeDelta(132);
-    //            result = nameSplit[0];
-    //        }
-    //        // 2��
-    //        else
-    //        {
-    //            ChangeSizeDelta(240);
-    //            result = nameSplit[0] + "\n" + nameSplit[1];
-    //        }
-    //    }
-    //    // �������� �̻�
-    //    else if (chars0.Length >= 5)
-    //    {
-    //        ChangeSizeDelta(240);
-    //        // ���� ���� ���
-    //        if (nameSplit.Length < 2)
-    //        {
-    //            result = nameSplit[0];
-    //        }
-    //        // ���� �ִ� ���
-    //        else
-    //        {
-    //            char[] chars1 = nameSplit[1].ToCharArray(); // �ι�° �� ���������   
-    //            // �ι�° ���� 5���� ����
-    //            if (chars1.Length < 5)
-    //            {
-    //                result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
-    //            }
-    //            // �ι�° ���� 6���� �̻�
-    //            else
-    //            {
-    //                result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
-    //            }
-    //        }
-    //    }
-    //    return result;
-    //}
-    // ��Ҹ� SizeDelta ũ�� ����
-    //void ChangeSizeDelta(int delta)
-    //{
-    //    SettingPropContent.instance.content[1].GetComponent<RectTransform>().sizeDelta = new Vector2(840, delta);
-    //}
-    // �Ÿ� ���
-    #endregion
 }

@@ -273,9 +273,6 @@ public class tmpTouch : MonoBehaviour
 
                         HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); };
                         HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
-
-                        // propNo 에 해당되는 데이터를 받아와서 팝업창에 정보 세팅
-
                     }
 
                     else if (hitLayer == LayerMask.NameToLayer("Tour"))

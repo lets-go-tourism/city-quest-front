@@ -24,9 +24,6 @@ public class PopUpMovement : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
-        //rtTour.anchoredPosition = new Vector2(0, -1800);
-        //rtPlace.anchoredPosition = new Vector2(0, -2300);
     }
 
     public IEnumerator MoveUP(bool place)
@@ -68,7 +65,7 @@ public class PopUpMovement : MonoBehaviour
 
         if (place)
         {
-            rtPlace.DOAnchorPosY(-2100, 0.38f);
+            rtPlace.DOAnchorPosY(-2600, 0.38f);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -78,7 +75,7 @@ public class PopUpMovement : MonoBehaviour
         }
         else
         {
-            rtTour.DOAnchorPosY(-1800, 0.38f);
+            rtTour.DOAnchorPosY(-2300, 0.38f);
 
             yield return new WaitForSeconds(0.5f);
 
