@@ -134,9 +134,10 @@ public class HttpManager : MonoBehaviour
             print("요청 실패");
             print(request.downloadHandler.text);
             print(request.error);
+            requester.Complete(request.downloadHandler);
             //StartCoroutine(KJY_ConnectionTMP.instance.successText());
 
-            if(errorDelegate != null)
+            if (errorDelegate != null)
                 errorDelegate.Invoke();
 
             errorDelegate = null;
