@@ -1,5 +1,7 @@
+using Gpm.Common.ThirdParty.MessagePack.Resolvers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,8 +66,19 @@ public class Prop : MonoBehaviour
         originPos = transform.position;
     }
 
+    private float updateTime = 0;
+
     private void Update()
     {
+        updateTime += Time.deltaTime;
+
+        if(updateTime > 0.2f)
+        {
+            CheckDistToCamera();
+            updateTime = 0;
+        }
+
+
         CheckDistToCamera();
 
         if (PropActive == false)
@@ -95,7 +108,7 @@ public class Prop : MonoBehaviour
 
     private void CheckDistToCamera()
     {
-        if ((Camera.main.transform.position - new Vector3(0, 500, 0) - transform.position).sqrMagnitude > 100000)
+        if ((Camera.main.transform.position - new Vector3(0, Camera.main.transform.position.y, 0) - transform.position).sqrMagnitude > 100000)
             PropActive = false;
         else
             PropActive = true;
