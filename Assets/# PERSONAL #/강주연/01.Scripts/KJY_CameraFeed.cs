@@ -42,6 +42,8 @@ public class CameraFeed : MonoBehaviour
 
     public long questNo;
     [SerializeField] private Canvas cameraCanvas;
+    [SerializeField] private Camera cam;
+    public Vector2 referenceResolution = new Vector2(1080, 2340);
 
     private void Start()
     {
@@ -59,23 +61,51 @@ public class CameraFeed : MonoBehaviour
         {
             camCanvas.enabled = true;
         }
+
         
-        if (Screen.width < 1080)
+        webCam.localPosition = originalPos;
+        captureRect.localPosition = originalCapRect;
+        checkRect.localPosition = originalCheckRect;
+
+        //AdjustUIPosition(originalPos, webCam);
+        //AdjustUIPosition(captureRect.localPosition, captureRect);
+        //AdjustUIPosition(originalCheckRect, checkRect);
+
+        if (Screen.width > 1440)
         {
-            webCam.sizeDelta = new Vector2(Screen.width, Screen.width);
+            float ratio = Screen.width / 1080;
+            float newY =  125 * ratio;
+            float newY2 =  250 * ratio;
+
+            Vector3 tmp1 = webCam.localPosition;
+            Vector3 tmp2 = captureRect.localPosition;
+            Vector3 tmp3 = checkRect.localPosition;
+
+            tmp1.y += newY;
+            tmp2.y += newY2;
+            tmp3.y += newY2;
+
+            webCam.localPosition = tmp1;
+            captureRect.localPosition = tmp2;
+            checkRect.localPosition = tmp3;
         }
-        else
-        {
-            webCam.sizeDelta = new Vector2(1080, 1080);
-        }
-        //float dis = (Screen.width / 1080) * 100;
-        //Vector3 tmp1 = captureRect.localPosition;
-        //tmp1.y -= dis;
-        //Vector3 tmp2 = checkRect.localPosition;
-        //tmp2.y -= dis;
-        //captureRect.localPosition = tmp1;
-        //checkRect.localPosition = tmp2;
+
         CreateWebCamTexture();
+    }
+
+
+    private void AdjustUIPosition(Vector2 referencePosition, RectTransform targetUI)
+    {
+        float currentWidth = Screen.width;
+        float currentHeight = Screen.height;
+
+        float relativeX = referencePosition.x / referenceResolution.x;
+        float relativeY = referencePosition.y / referenceResolution.y;
+
+        float newX = relativeX * currentWidth;
+        float newY = relativeY * currentHeight;
+
+        targetUI.localPosition = new Vector2(newX, newY);
     }
 
     public void SwitchCamera()
@@ -315,6 +345,27 @@ public class CameraFeed : MonoBehaviour
         }
 
         cameraCanvas.enabled = false;
+    }
+
+    public void CameraResolution()
+    {
+        Rect viewport = cam.rect;
+
+        float screenAspectRatio = (float)(Screen.width / Screen.height);
+        float targetAspectRation = 9f / 19.5f;
+
+        if (screenAspectRatio < targetAspectRation)
+        {
+            viewport.height = screenAspectRatio / targetAspectRation;
+            viewport.y = (1f - viewport.height) / 2f;
+        }
+        else
+        {
+            viewport.width = targetAspectRation / screenAspectRatio;
+            viewport.x = (1f - viewport.width) / 2f;
+        }
+
+        cam.rect = viewport;
     }
 
     //private IEnumerator Tutorial()

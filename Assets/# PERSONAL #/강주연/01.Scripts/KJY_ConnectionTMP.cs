@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -83,6 +82,8 @@ public class TryImageConnection : MonoBehaviour
     {
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
         ToastMessage.ShowToast("이미지를 업로드했어요");
+        KJY_ConnectionTMP.instance.OnConnectionFailUI();
+
         ButtonActions.Instance.QuestDone();
     }
 }
@@ -128,6 +129,7 @@ public class ServerProp
     public double longitude;
     public double latitude;
     public bool status;
+    public Vector3 position;
 }
 
 [System.Serializable]
@@ -151,6 +153,7 @@ public class ServerTourInfo
     public string title;
     public string contenttypeid;
     public string longitude;
+    public Vector3 position;
 }
 
 [System.Serializable]
@@ -212,6 +215,7 @@ public class TryHomeConnection : ConnectionStratage
         {
             Debug.Log(result.error);
             ToastMessage.ShowToast("불러오기에 실패했어요 앱을 다시 시작해주세요");
+            KJY_ConnectionTMP.instance.OnConnectionFailUI();
         }
     }
 
@@ -301,6 +305,8 @@ public class TryQuestConnection:ConnectionStratage
         else
         {
             ToastMessage.ShowToast("프랍 데이터를 불러오지 못했어요 다시 시도해 주세요");
+            KJY_ConnectionTMP.instance.OnConnectionFailUI();
+
         }
     }
 }
@@ -381,7 +387,7 @@ public class TryQuestConnection:ConnectionStratage
 //}
 #endregion
 
-#region ConfimrConnection
+#region ConfirmConnection
 [System.Serializable]
 public class ConfirmSetting
 {
@@ -447,6 +453,8 @@ public class TryConfirmConnection : ConnectionStratage
         else
         {
             ToastMessage.ShowToast("통신에 실패했어요");
+            KJY_ConnectionTMP.instance.OnConnectionFailUI();
+
         }
     }
 }
@@ -520,6 +528,8 @@ public class TryDeleteConnection : ConnectionStratage
         else
         {
             ToastMessage.ShowToast("계정 삭제에 실패했어요 다시 시도해 주세요");
+            KJY_ConnectionTMP.instance.OnConnectionFailUI();
+
         }
     }
 }
@@ -533,6 +543,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
     public HttpRequester requestHttp;
     public RequestHeader requestHeaderHttp;
     public int questNoPicture;
+    public GameObject connectionFailUI;
 
 
     private void Awake()
@@ -546,6 +557,19 @@ public class KJY_ConnectionTMP : MonoBehaviour
         {
             Destroy(this);
         }
+    }
+
+    private void Update()
+    {
+        if (connectionFailUI == null)
+        {
+            connectionFailUI = GameObject.Find("ConnectionFail Canvas").transform.GetChild(0).gameObject;
+        }
+    }
+
+    public void OnConnectionFailUI()
+    {
+        connectionFailUI.SetActive(true);
     }
 
     public void QuestNo(int questNo)

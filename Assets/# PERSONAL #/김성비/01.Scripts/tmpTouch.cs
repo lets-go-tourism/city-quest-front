@@ -29,7 +29,7 @@ public class tmpTouch : MonoBehaviour
         layerTour = 1 << LayerMask.NameToLayer("Tour");
 
         point = new PointerEventData(null);
-        settingUI = GameObject.Find("SettingPrefab").GetComponent<SettingCanvasOnOff>();
+        settingUI = GameObject.Find("M_SettingPrefab").GetComponent<SettingCanvasOnOff>();
 
         follow = false;
     }

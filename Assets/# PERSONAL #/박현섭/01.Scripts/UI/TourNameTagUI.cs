@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class TourNameTagUI : MonoBehaviour
 {
+    private const int _offsetY = -17;
+
     public int value = 500;
 
     public TourData TargetTour { get; private set; }
@@ -50,7 +52,7 @@ public class TourNameTagUI : MonoBehaviour
         enabled = true;
         this.TargetTour = target;
         Visible = true;
-        RectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(TargetTour.transform.position + new Vector3(0, 0, -15f));
+        CustomeUpdate();
         SettingTextWidth(RectTransform, myText, TargetTour.ServerTourInfo.title);
         
     }
@@ -82,12 +84,12 @@ public class TourNameTagUI : MonoBehaviour
 
     private void Update()
     {
-        RectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(TargetTour.transform.position + new Vector3(0, 0, -15f));
+        RectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(TargetTour.transform.position + new Vector3(0, 0, _offsetY * Camera.main.transform.position.y / 500));
     }
 
     public void CustomeUpdate()
     {
-        RectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(TargetTour.transform.position + new Vector3(0, 0, -15f));
+        RectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(TargetTour.transform.position + new Vector3(0, 0, _offsetY * Camera.main.transform.position.y / 500));
     }
 
     private void OnDisable()
