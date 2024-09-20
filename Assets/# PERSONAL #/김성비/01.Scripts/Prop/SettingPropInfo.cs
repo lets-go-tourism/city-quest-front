@@ -73,7 +73,7 @@ public class SettingPropInfo : MonoBehaviour
         // 장소명
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         // 카카오지도 URL
-        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
+        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 장소 사진
         if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
         {
@@ -118,7 +118,7 @@ public class SettingPropInfo : MonoBehaviour
         // 장소명
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         // 카카오지도
-        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().url = DataManager.instance.GetQuestInfo().kakaoMapUrl;
+        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 퀘스트 사진
         if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
         {

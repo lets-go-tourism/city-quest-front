@@ -40,11 +40,13 @@ public class SettingTourInfo : MonoBehaviour
         // url 없을 때
         else
         {
+            contents[7].gameObject.SetActive(false);                                        // 이미지 비활성화
             contents[5].GetComponent<Image>().sprite = null;                                // 이미지 초기화
             contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(840, 576);    // parent 크기 초기화
             contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(840, 540);    // 관광정보 이미지 크기 초기화
             contents[5].GetComponent<Image>().color = new Color(1f, 0.98f, 0.96f, 1f);      // 색 바꾸기
             contents[6].GetComponent<TextMeshProUGUI>().enabled = true;                     // 안내문 활성화
+            contents[7].gameObject.SetActive(true);
         }
 
         // 팝업창 UI 활성화
