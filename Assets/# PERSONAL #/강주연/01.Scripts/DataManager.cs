@@ -134,7 +134,6 @@ public class DataManager : MonoBehaviour
     //프랍리스트 설정하는 함수
     public void SetHomePropsList(List<ServerProp> homeProps)
     {
-        print("이거 실행 됨???????");
         propsList = homeProps;
 
         for (int i = 0; i < propsList.Count; i++)
@@ -161,6 +160,8 @@ public class DataManager : MonoBehaviour
             adventurePlaces[i].name = ReplaceHanjaWithSpace(adventurePlaces[i].name);
         }
         adventurePlacesList = adventurePlaces;
+
+        SortPropAdventureList();
     }
 
     //탐험미탐험 장소 얻는 함수
@@ -191,6 +192,8 @@ public class DataManager : MonoBehaviour
             Vector3 objPosition = new Vector3(x, 0, y) - MapReader.Instance.boundsCenter;
             tourPlacesList[i].position = objPosition;
         }
+
+        SortTourList();
     }
 
     public bool RemoveTourList(string tour)
@@ -287,7 +290,7 @@ public class DataManager : MonoBehaviour
     //        .ToList();
     //}
 
-    public void SortTourAdventureList()
+    public void SortPropAdventureList()
     {
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2);
 
@@ -309,13 +312,13 @@ public class DataManager : MonoBehaviour
         adventurePlacesList = sortedTmpList.Select(item => item.Adventure).ToList();
     }
 
-    public void SortPropList()
+    public void SortTourList()
     {
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2);
 
         Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
 
-        propsList = propsList
+        tourPlacesList = tourPlacesList
             .OrderBy(place => Vector3.Distance(worldCenter, place.position))
             .ToList();
     }
