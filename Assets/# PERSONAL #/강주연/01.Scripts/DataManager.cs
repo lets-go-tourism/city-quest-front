@@ -16,10 +16,10 @@ public class DataManager : MonoBehaviour
 
     [Header("AdventurePlaceList")]
     private List<ServerAdventurePlace> adventurePlacesList;
-    private Dictionary<long, ServerAdventurePlace> adventurePlaceDiction;
 
     [Header("tourPlaceList")]
     private List<ServerTourInfo> tourPlacesList;
+    //private Dictionary<long, ServerTourInfo> tourPlaceDiction;
 
     [Header("currentGPS")]
     private LocationInfo gpsInfo;
@@ -181,6 +181,7 @@ public class DataManager : MonoBehaviour
             {
                 hometourPlaces.Remove(hometourPlaces[i]);
             }
+            hometourPlaces[i].idx = i;
         }
         tourPlacesList = hometourPlaces;
 

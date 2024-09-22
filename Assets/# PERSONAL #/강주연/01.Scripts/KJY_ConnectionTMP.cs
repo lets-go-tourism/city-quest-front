@@ -154,6 +154,7 @@ public class ServerTourInfo
     public string contenttypeid;
     public string longitude;
     public Vector3 position;
+    public int idx;
 }
 
 [System.Serializable]
