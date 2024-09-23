@@ -116,7 +116,7 @@ public class SettingManager : MonoBehaviour
         if (num == 0)
         {
             effectSource.PlayOneShot(effectClip[num]);
-            effectSource.volume = 0.5f;
+            effectSource.volume = 1f;
         }
         else if (num == 1)
         {
