@@ -54,7 +54,7 @@ public class TourData : MonoBehaviour
         if (updateTime <= 0.2f)
             return;
 
-        if ((Camera.main.transform.position - new Vector3(0, Camera.main.transform.position.y, 0) - transform.position).sqrMagnitude > 100000)
+        if ((Camera.main.transform.position - new Vector3(0, Camera.main.transform.position.y, 0) - transform.position).sqrMagnitude > 150000)
             TourDataAcitve = false;
         else
             TourDataAcitve = true;

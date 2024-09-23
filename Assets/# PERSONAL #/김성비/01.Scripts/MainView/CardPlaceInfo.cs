@@ -31,13 +31,15 @@ public class CardPlaceInfo : MonoBehaviour
 
     public IEnumerator Start()
     {
-        while (true)
+        int num = 0;
+        while (num == 0)
         {
             string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(ServerProp.latitude, ServerProp.longitude)).ToString();
             info[1].GetComponent<TextMeshProUGUI>().text = meter;
             yield return new WaitForSeconds(5);
         }
     }
+
 
     string ConvertDistance(double distance)
     {

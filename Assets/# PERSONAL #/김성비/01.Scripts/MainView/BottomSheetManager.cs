@@ -8,6 +8,15 @@ using Unity.VisualScripting;
 
 public class BottomSheetManager : MonoBehaviour
 {
+    public static BottomSheetManager instance;
+    private void Awake()
+    {
+        instance = this;
+
+        placeGOList = new List<GameObject>();
+        tourGOList = new List<GameObject>();
+    }
+
     // 장소
     public GameObject cardPlace;
     public Transform contentPlace;
@@ -21,22 +30,14 @@ public class BottomSheetManager : MonoBehaviour
     List<ServerAdventurePlace> placeList;
     List<ServerTourInfo> tourList;
 
+    // 각 카드들의 컴포넌트
+    CardPlaceInfo cardPlaceInfo;
+    CardTourInfo cardTourInfo;
+
+    // Sorting 리스트
     public List<GameObject> placeGOList;
     public List<GameObject> tourGOList;
 
-    //public Dictionary<ServerAdventurePlace, CardPlaceInfo> BottomSheetPlaceDic { get; private set; } = new Dictionary<ServerAdventurePlace, CardPlaceInfo>();
-
-    public static BottomSheetManager instance;
-    private void Awake()
-    {
-        instance = this;
-
-        placeGOList = new List<GameObject>();
-        tourGOList = new List<GameObject>();
-    }
-
-    CardPlaceInfo cardPlaceInfo;
-    CardTourInfo cardTourInfo;
     private IEnumerator Start()
     {
         while (DataManager.instance.requestSuccess == false)
@@ -73,11 +74,9 @@ public class BottomSheetManager : MonoBehaviour
         for (int i = 0; i < placeList.Count; i++)
         {
             GameObject go = Instantiate(cardPlace, contentPlace);
-            //CardPlaceInfo info = go.GetComponent<CardPlaceInfo>();
-            //BottomSheetPlaceDic.Add(, info);
-            placeGOList.Add(go);
-            cardPlaceInfo = placeGOList[i].GetComponent<CardPlaceInfo>();
 
+            //placeGOList.Add(go);
+            cardPlaceInfo = contentPlace.GetChild(i).GetComponent<CardPlaceInfo>();
             cardPlaceInfo.info[0].GetComponent<TextMeshProUGUI>().text = placeList[i].name.ToString();
             cardPlaceInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
             cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.GetTexture), placeList[i].imageUrl);
@@ -91,7 +90,7 @@ public class BottomSheetManager : MonoBehaviour
 
         yield return null;
     }
-        
+
     // 관광정보 바텀시트
     IEnumerator GenTour()
     {
@@ -108,6 +107,7 @@ public class BottomSheetManager : MonoBehaviour
                 tourGOList.Add(go);
 
                 cardTourInfo = tourGOList[i].GetComponent<CardTourInfo>();
+
                 cardTourInfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
                 cardTourInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
                 if (tourList[i].imageUrl.Length > 5)
@@ -142,7 +142,7 @@ public class BottomSheetManager : MonoBehaviour
     }
     #endregion
 
-    // 거리 변환
+    #region 거리 변환
     string ConvertDistance(double distance)
     {
         //print(distance);
@@ -162,8 +162,9 @@ public class BottomSheetManager : MonoBehaviour
 
         return result;
     }
+    #endregion
 
-    // 글자수 제한
+    #region 글자수 제한
     string TextBreakTour(string text)
     {
         string result = string.Empty;
@@ -183,6 +184,37 @@ public class BottomSheetManager : MonoBehaviour
 
         return result;
     }
+    #endregion
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            
+        }
+    }
+
+    //#region 카드 재정렬
+    //public void SortingPlaceCards(ServerProp list)
+    //{
+    //    for (int i = 0; i < contentPlace.childCount; i++)
+    //    {
+
+
+    //        if(list.propNo == contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().ServerProp.propNo)
+    //        contentPlace.GetChild(i).SetSiblingIndex(i);
+       
+    //    }
+    //}
+
+    //void SortingTourCards()
+    //{
+
+    //}
+    //#endregion
+
+
+
 
     #region 태그 전환
     // 전체 보기
