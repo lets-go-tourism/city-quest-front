@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce334844d97ae9c408c73edcb2179aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requestSuccess: 0
+  isLogout: 0
