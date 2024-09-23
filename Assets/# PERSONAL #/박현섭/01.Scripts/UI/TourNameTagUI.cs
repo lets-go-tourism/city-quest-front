@@ -54,7 +54,6 @@ public class TourNameTagUI : MonoBehaviour
         Visible = true;
         CustomeUpdate();
         SettingTextWidth(RectTransform, myText, TargetTour.ServerTourInfo.title);
-        
     }
 
     private void SettingTextWidth(RectTransform rectTrf, TextMeshProUGUI tmpText, string textValue)

@@ -108,7 +108,7 @@ public class Prop : MonoBehaviour
 
     private void CheckDistToCamera()
     {
-        if ((Camera.main.transform.position - new Vector3(0, Camera.main.transform.position.y, 0) - transform.position).sqrMagnitude > 100000)
+        if ((Camera.main.transform.position - new Vector3(0, Camera.main.transform.position.y, 0) - transform.position).sqrMagnitude > 150000)
             PropActive = false;
         else
             PropActive = true;

@@ -20,7 +20,7 @@ public class MapCameraController : MonoBehaviour
     #region "Input data" 
 
     [Header("움직이는 카메라")]
-    [SerializeField] private Camera _cameraToMove;
+    [SerializeField] private Camera _cam;
 
     [Space(40f)]
 
@@ -53,7 +53,7 @@ public class MapCameraController : MonoBehaviour
     #region "Private members"
 
     private Vector3 initPos;
-    private Vector2 zoomTarget;
+    private Vector3 zoomTarget;
 
     private bool _lastFramePinch = false;
 
@@ -154,7 +154,7 @@ public class MapCameraController : MonoBehaviour
         if (m_Moving)
             m_Moving = false;
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+        if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
             m_Audio = true;
             time = 0;
@@ -166,7 +166,7 @@ public class MapCameraController : MonoBehaviour
 
             PanningFunction(touchDeltaPosition);
         }
-        else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
+        else if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Stationary)
         {
             time += Time.deltaTime;
 
@@ -195,10 +195,10 @@ public class MapCameraController : MonoBehaviour
 
             if (!_lastFramePinch)
             {
-                zoomTarget = _cameraToMove.ScreenToWorldPoint(((Vector3)(touchZero.position + touchOne.position)) / 2 + new Vector3(0, 0, _cameraToMove.transform.position.y));
-                initPos = _cameraToMove.transform.position;
+                zoomTarget = _cam.ScreenToWorldPoint(((Vector3)(touchZero.position + touchOne.position)) / 2 + new Vector3(0, 0, _cam.transform.position.y));
+                initPos = _cam.transform.position - new Vector3(0, _cam.transform.position.y, 0);
                 initDist = Vector2.Distance(touchZero.position, touchOne.position);
-                initHeight = _cameraToMove.transform.position.y;
+                initHeight = _cam.transform.position.y;
             }
 
             if (touchZero.phase == TouchPhase.Moved || touchOne.phase == TouchPhase.Moved)
@@ -208,31 +208,43 @@ public class MapCameraController : MonoBehaviour
 
                 PanningFunction((touchZero.deltaPosition + touchOne.deltaPosition) / 40);
 
-                print(prevDist / dist);
-                float y = Mathf.Clamp(_cameraToMove.transform.position.y * (prevDist / dist), _heightMax, _heightMin);
-                _cameraToMove.transform.position = new Vector3(_cameraToMove.transform.position.x, y, _cameraToMove.transform.position.z);
+                Vector2 center = (touchOne.position + touchZero.position) / 2;
+                Vector3 currentPinchPosition = _cam.ScreenToWorldPoint((Vector3)center + new Vector3(0, 0, _cam.transform.position.y));
+
+                float y = Mathf.Clamp(_cam.transform.position.y * (prevDist / dist), _heightMax, _heightMin);
+                _cam.transform.position = new Vector3(_cam.transform.position.x, y, _cam.transform.position.z);
+
+                Vector3 newPinchPosition = _cam.ScreenToWorldPoint((Vector3)center + new Vector3(0, 0, _cam.transform.position.y));
+
+                _cam.transform.position -= newPinchPosition - currentPinchPosition;
+                //_cameraToMove.transform.position = new Vector3(_cameraToMove.transform.position.x, y, _cameraToMove.transform.position.z);
 
                 float t;
-                float x = _cameraToMove.transform.position.y;
+                float x = _cam.transform.position.y;
 
-                if (initHeight != _heightMin)
-                {
-                    float a = -(1 / ((initHeight - _heightMin)));
-                    float b = 1 + (_heightMin / ((initHeight - _heightMin)));
-                    t = Mathf.Clamp(a * x + b, 0f, 1f);
+                //if (initHeight != _heightMin)
+                //{
+                //    float a = -(1 / ((initHeight - _heightMin)));
+                //    float b = 1 + (_heightMin / ((initHeight - _heightMin)));
+                //    t = Mathf.Clamp(a * x + b, 0f, 1f);
+                //    t = 1;
+                //    _cameraToMove.transform.position = Vector3.Lerp(new Vector3(initPos.x, _cameraToMove.transform.position.y, initPos.z), new Vector3(zoomTarget.x, _cameraToMove.transform.position.y, zoomTarget.z), t);
 
-                    //_cameraToMove.transform.position = Vector3.Lerp(initPos, new Vector3(zoomTarget.x, _cameraToMove.transform.position.y, zoomTarget.y), t);
+                //    
 
-                    LimitCameraMovement();
-                }
+                //_cameraToMove.transform.position = Vector3.Lerp(new Vector3(initPos.x, _cameraToMove.transform.position.y, initPos.z), new Vector3(zoomTarget.x, _cameraToMove.transform.position.y, zoomTarget.z), t);
+                LimitCameraMovement();
             }
 
             _lastFramePinch = true;
             Vector3 prevTarg = ((touchZero.position - touchZero.deltaPosition) + (touchOne.position - touchOne.deltaPosition)) / 2;
             Vector3 targ = (touchZero.position + touchOne.position) / 2;
 
-            zoomTarget = _cameraToMove.ScreenToWorldPoint(_cameraToMove.WorldToScreenPoint(zoomTarget) - (targ - prevTarg) + new Vector3(0, 0, _cameraToMove.transform.position.y));
-            initPos = _cameraToMove.ScreenToWorldPoint(_cameraToMove.WorldToScreenPoint(initPos) - (targ - prevTarg));
+
+            //print("1 : " + initPos + "와 " + zoomTarget);
+            zoomTarget = _cam.ScreenToWorldPoint(_cam.WorldToScreenPoint(zoomTarget) - (targ - prevTarg));
+            initPos = _cam.ScreenToWorldPoint(_cam.WorldToScreenPoint(initPos) - (targ - prevTarg));
+            //print("2 : " + initPos + "와 " + zoomTarget);
         }
         else
         {
@@ -251,8 +263,8 @@ public class MapCameraController : MonoBehaviour
         Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, transform.position.y + 1);
         Vector3 screenTouch = screenCenter + new Vector3(touchDeltaPosition.x, touchDeltaPosition.y, 0f);
 
-        Vector3 worldCenterPosition = _cameraToMove.ScreenToWorldPoint(screenCenter);
-        Vector3 worldTouchPosition = _cameraToMove.ScreenToWorldPoint(screenTouch);
+        Vector3 worldCenterPosition = _cam.ScreenToWorldPoint(screenCenter);
+        Vector3 worldTouchPosition = _cam.ScreenToWorldPoint(screenTouch);
 
         //print("worldCenterPosition : " + worldCenterPosition + "worldTouchPosition : " + worldTouchPosition);
 
@@ -287,10 +299,10 @@ public class MapCameraController : MonoBehaviour
     /// </summary>
     private void MinOrthoAchievedAnimation()
     {
-        if (_cameraToMove.orthographicSize < _heightMin + 0.6f)
+        if (_cam.orthographicSize < _heightMin + 0.6f)
         {
-            _cameraToMove.orthographicSize = Mathf.Lerp(_cameraToMove.orthographicSize, _heightMin + 0.6f, 0.06f);
-            _cameraToMove.orthographicSize = Mathf.Round(_cameraToMove.orthographicSize * 1000.0f) * 0.001f;
+            _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, _heightMin + 0.6f, 0.06f);
+            _cam.orthographicSize = Mathf.Round(_cam.orthographicSize * 1000.0f) * 0.001f;
             LimitCameraMovement();
         }
     }
@@ -299,8 +311,8 @@ public class MapCameraController : MonoBehaviour
     // 카메라 범위를 제한하는 함수
     private void LimitCameraMovement()
     {
-        float xCord = Mathf.Clamp(_cameraToMove.transform.position.x, _limitXMin + (_cameraToMove.orthographicSize * _cameraToMove.aspect), _limitXMax - (_cameraToMove.orthographicSize * _cameraToMove.aspect));
-        float zCord = Mathf.Clamp(_cameraToMove.transform.position.z, _limitZMin + (_cameraToMove.orthographicSize * _cameraToMove.aspect), _limitZMax - (_cameraToMove.orthographicSize * _cameraToMove.aspect));
+        float xCord = Mathf.Clamp(_cam.transform.position.x, _limitXMin + (_cam.orthographicSize * _cam.aspect), _limitXMax - (_cam.orthographicSize * _cam.aspect));
+        float zCord = Mathf.Clamp(_cam.transform.position.z, _limitZMin + (_cam.orthographicSize * _cam.aspect), _limitZMax - (_cam.orthographicSize * _cam.aspect));
 
         transform.position = new Vector3(xCord, transform.position.y, zCord);
     }
@@ -312,10 +324,10 @@ public class MapCameraController : MonoBehaviour
 
         _panVelocity = Vector2.zero;
 
-        Vector3 targetPos = m_TargetPosition - (isBottom ? _cameraToMove.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height * 0.7f, _cameraToMove.transform.position.y)) - _cameraToMove.transform.position : Vector3.zero);
+        Vector3 targetPos = m_TargetPosition - (isBottom ? _cam.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height * 0.7f, _cam.transform.position.y)) - _cam.transform.position : Vector3.zero);
         if (isBottom)
         {
-            targetPos -= new Vector3(0, targetPos.y - _cameraToMove.transform.position.y, 0);
+            targetPos -= new Vector3(0, targetPos.y - _cam.transform.position.y, 0);
         }
 
         transform.position = 
@@ -333,7 +345,7 @@ public class MapCameraController : MonoBehaviour
     public void StartCameraMoveToTarget(Vector3 targetPos)
     {
         m_Moving = true;
-        m_TargetPosition = new Vector3(targetPos.x, _cameraToMove.transform.position.y, targetPos.z);
+        m_TargetPosition = new Vector3(targetPos.x, _cam.transform.position.y, targetPos.z);
     }
 
     public void StopCameraMove()
