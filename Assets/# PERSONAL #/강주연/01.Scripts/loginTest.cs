@@ -42,6 +42,7 @@ public class loginTest : MonoBehaviour
                 isClearCookie = true,
                 isClearCache = true,
                 isNavigationBarVisible = true,
+                navigationBarColor = "#FFC094",
                 title = "Login",
                 isBackButtonVisible = true,
                 isForwardButtonVisible = true,

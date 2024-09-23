@@ -13,24 +13,34 @@ public class SettingManager : MonoBehaviour
         instance = this;
     }
 
+    [Header("SoundUI")]
     [SerializeField] private GameObject bgSoundBtn;
     [SerializeField] private Button effectSoundBtn;
+    [SerializeField] private Sprite onBtn;
+    [SerializeField] private Sprite offBtn;
+
+    [Header("LogOutUI_DeleteUI")]
     [SerializeField] private GameObject logOutBtn;
     [SerializeField] private GameObject logoutPopUp;
     [SerializeField] private GameObject deletePopUp;
-
-    [SerializeField] private Sprite onBtn;
-    [SerializeField] private Sprite offBtn;
     [SerializeField] private Sprite logOutButtonClick;
 
 
+    [Header("BackGroundAudio")]
     public AudioSource audioSource;
-
     private bool isSound;
+
+    [Header("EffectSoundAudio")]
+    public AudioSource effectSource;
+    public AudioClip[] effectClip;
+
+    private bool isEffectSound;
 
     private void Start()
     {
         isSound = true;
+        isEffectSound = true;
+        effectSoundBtn.GetComponent<Image>().sprite = onBtn;
         bgSoundBtn.GetComponent<Image>().sprite = onBtn;
     }
 
@@ -80,6 +90,41 @@ public class SettingManager : MonoBehaviour
             bgSoundBtn.GetComponent<Image>().sprite = onBtn;
             audioSource.Play();
             isSound = true;
+        }
+    }
+
+    public void EffectSoundOnOff()
+    {
+        if (isEffectSound)
+        {
+            effectSoundBtn.GetComponent<Image>().sprite = offBtn;
+            effectSource.volume = 0;
+            isEffectSound = false;
+        }
+        else
+        {
+            effectSoundBtn.GetComponent<Image>().sprite = onBtn;
+            effectSource.volume = 0.5f;
+            isEffectSound = true;
+        }
+    }
+
+    public void EffectSoundManager(int num)
+    {
+        if (!isEffectSound)
+            return;
+        if (num == 0)
+        {
+            effectSource.PlayOneShot(effectClip[num]);
+            effectSource.volume = 0.5f;
+        }
+        else if (num == 1)
+        {
+            
+        }
+        else if (num == 2)
+        {
+
         }
     }
 }

@@ -29,11 +29,15 @@ public class CameraFeed : MonoBehaviour
     //private bool tutorial = true;
     //private bool notTutorial = false;
 
+    [Header("UI")]
     [SerializeField] private GameObject captureObject;
     [SerializeField] private RectTransform captureRect;
     [SerializeField] private GameObject checkObject;
     [SerializeField] private RectTransform checkRect;
     [SerializeField] private Canvas camCanvas;
+    [SerializeField] private Image switchBtnImage;
+    [SerializeField] private Sprite frontBtnImage;
+    [SerializeField] private Sprite backBtnImage;
 
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
@@ -51,8 +55,6 @@ public class CameraFeed : MonoBehaviour
         originalPos = rawImageTransform.localPosition;
         originalCapRect = captureRect.localPosition;
         originalCheckRect = checkRect.localPosition;
-        //SetWebCam();
-        //StartCoroutine(Tutorial());
     }
 
     public void SetWebCam()
@@ -110,7 +112,16 @@ public class CameraFeed : MonoBehaviour
 
     public void SwitchCamera()
     {
+        StartCoroutine(DestroyWebCamTextureCoroutine());
         useFrontCamera = !useFrontCamera;
+        if (useFrontCamera)
+        {
+            switchBtnImage.sprite = backBtnImage;
+        }
+        else
+        {
+            switchBtnImage.sprite = frontBtnImage;
+        }
         SetWebCam();
     }
 
@@ -215,7 +226,9 @@ public class CameraFeed : MonoBehaviour
         if (!webCamTexture) return;
 
         int videoRotAngle = webCamTexture.videoRotationAngle;
+
         webCamRawImage.transform.localEulerAngles = new Vector3(0, 0, -videoRotAngle);
+
 
         int width, height;
         if (Screen.orientation == ScreenOrientation.Portrait ||
@@ -259,7 +272,15 @@ public class CameraFeed : MonoBehaviour
         photo.SetPixels(webCamTexture.GetPixels());
         photo.Apply();
 
-        Texture2D rotatedPhoto = RotateTexture(photo, false);
+        Texture2D rotatedPhoto;
+        if (useFrontCamera)
+        {
+            rotatedPhoto = RotateTexture(photo, true);
+        }
+        else
+        {
+            rotatedPhoto = RotateTexture(photo, false);
+        }
         webCamRawImage.texture = rotatedPhoto;
 
         webCamTexture.Stop();
