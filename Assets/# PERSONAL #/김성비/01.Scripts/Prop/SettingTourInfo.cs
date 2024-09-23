@@ -14,6 +14,8 @@ public class SettingTourInfo : MonoBehaviour
     }
 
     public Transform[] contents;
+    double latTour;
+    double lonTour;
 
     public void TourInfoSetting(ServerTourInfo info)
     {
@@ -22,13 +24,13 @@ public class SettingTourInfo : MonoBehaviour
         // 이름
         contents[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = info.title.ToString();
         // 거리
-        double latTour = double.Parse(info.latitude);   // 위도
-        double lonTour = double.Parse(info.longitude);  // 경도
+        latTour = double.Parse(info.latitude);   // 위도
+        lonTour = double.Parse(info.longitude);  // 경도
         contents[2].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));    // 실시간 거리
         // 주소
         contents[3].GetComponent<TextMeshProUGUI>().text = info.addr;
         // 링크
-        //contents[4].GetComponent<OpenKakaoMap>().url = info.url;
+        //contents[4].GetComponent<OpenKakaoMap>().SetURL(info.imageUrl);
 
         // 장소사진
         // url 있을 때
@@ -51,8 +53,22 @@ public class SettingTourInfo : MonoBehaviour
 
         // 팝업창 UI 활성화
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), false);
+
+        StartCoroutine(nameof(UpdateDistance));
     }
 
+    IEnumerator UpdateDistance()
+    {
+        int t = 0;
+        while(t == 0)
+        {
+            contents[2].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));    // 실시간 거리
+
+            yield return new WaitForSeconds(5);
+        }
+    }
+
+    #region 변환
     // 거리 변환
     string ConvertDistance(double distance)
     {
@@ -114,6 +130,8 @@ public class SettingTourInfo : MonoBehaviour
         float targetHeight = targetWidth / originalAspect;
 
         // RectTransform의 사이즈 조정
+        contents[7].gameObject.SetActive(false);                                        // 이미지 비활성화
+        
         if (contents[7].GetComponent<RectTransform>() != null)
         {
             contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight);
@@ -125,9 +143,11 @@ public class SettingTourInfo : MonoBehaviour
             contents[5].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f));
         }
 
-        contents[7].gameObject.SetActive(false);                                        // 이미지 비활성화
         contents[7].gameObject.SetActive(true);
+
+        contents[2].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));    // 실시간 거리
     }
+    #endregion
 
     #region 미사용
     //// 장소명 자르기

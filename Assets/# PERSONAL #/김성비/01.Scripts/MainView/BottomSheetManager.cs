@@ -4,19 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class BottomSheetManager : MonoBehaviour
 {
-    public static BottomSheetManager instance;
-    private void Awake()
-    {
-        instance = this;
-
-        placeGOList = new List<GameObject>();
-        tourGOList = new List<GameObject>();
-    }
-
+    #region 변수
     // 장소
     public GameObject cardPlace;
     public Transform contentPlace;
@@ -33,10 +24,14 @@ public class BottomSheetManager : MonoBehaviour
     // 각 카드들의 컴포넌트
     CardPlaceInfo cardPlaceInfo;
     CardTourInfo cardTourInfo;
+    #endregion
 
-    // Sorting 리스트
-    public List<GameObject> placeGOList;
-    public List<GameObject> tourGOList;
+    #region Awake&Start
+    public static BottomSheetManager instance;
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private IEnumerator Start()
     {
@@ -45,11 +40,12 @@ public class BottomSheetManager : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(SettingList());
+        StartCoroutine(SettingBottomSheet());
     }
+    #endregion
 
-    #region 바텀시트 만들기
-    public IEnumerator SettingList()
+    #region 바텀시트 생성
+    public IEnumerator SettingBottomSheet()
     {
         propList = DataManager.instance.GetHomePropsList();
         placeList = DataManager.instance.GetHomeAdventurePlacesList();
@@ -73,9 +69,31 @@ public class BottomSheetManager : MonoBehaviour
     {
         for (int i = 0; i < placeList.Count; i++)
         {
-            GameObject go = Instantiate(cardPlace, contentPlace);
+            Instantiate(cardPlace, contentPlace);
+        }
 
-            //placeGOList.Add(go);
+        SettingPlaceCard();
+
+        yield return null;
+    }
+
+    // 관광정보 바텀시트
+    IEnumerator GenTour()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            Instantiate(cardTour, contentTour);
+        }
+
+        yield return StartCoroutine(nameof(settingTourCard));
+    }
+    #endregion
+
+    #region 바텀시트 정보
+    public void SettingPlaceCard()
+    {
+        for (int i = 0; i < placeList.Count; i++)
+        {
             cardPlaceInfo = contentPlace.GetChild(i).GetComponent<CardPlaceInfo>();
             cardPlaceInfo.info[0].GetComponent<TextMeshProUGUI>().text = placeList[i].name.ToString();
             cardPlaceInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
@@ -84,29 +102,20 @@ public class BottomSheetManager : MonoBehaviour
             cardPlaceInfo.SettingPlaceType(placeList[i].status);
             cardPlaceInfo.SetServerProp(placeList[i]);
             cardPlaceInfo.setPlaceProp(propList[i]);
-
-            //cardPlaceInfo.StartCoroutine(nameof(cardPlaceInfo.Start2));
         }
-
-        yield return null;
     }
 
-    // 관광정보 바텀시트
-    IEnumerator GenTour()
+    public IEnumerator settingTourCard()
     {
         int count = 0;
 
-        while (count < tourList.Count)
+        while (count < 100)
         {
-            int end = Mathf.Min(count + 30, tourList.Count);
+            int end = Mathf.Min(count + 20, 100);
 
             for (int i = count; i < end; i++)
             {
-                GameObject go = Instantiate(cardTour, contentTour);
-
-                tourGOList.Add(go);
-
-                cardTourInfo = tourGOList[i].GetComponent<CardTourInfo>();
+                cardTourInfo = contentTour.GetChild(i).GetComponent<CardTourInfo>();    //tourGOList[i].GetComponent<CardTourInfo>();
 
                 cardTourInfo.info[0].GetComponent<TextMeshProUGUI>().text = TextBreakTour(tourList[i].title);
                 cardTourInfo.info[1].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
@@ -126,23 +135,15 @@ public class BottomSheetManager : MonoBehaviour
 
                 //cardTourInfo.StartCoroutine(nameof(cardTourInfo.Start2));
             }
-            if (count == 120)
+            if (count < 100)
             {
-                count += 10;
+                count += 20;
             }
-            else
-            {
-                count += 30;
-            }
-
-            if (count >= tourList.Count) break;
 
             yield return new WaitForSeconds(1);
         }
     }
-    #endregion
 
-    #region 거리 변환
     string ConvertDistance(double distance)
     {
         //print(distance);
@@ -162,9 +163,7 @@ public class BottomSheetManager : MonoBehaviour
 
         return result;
     }
-    #endregion
 
-    #region 글자수 제한
     string TextBreakTour(string text)
     {
         string result = string.Empty;
@@ -186,154 +185,87 @@ public class BottomSheetManager : MonoBehaviour
     }
     #endregion
 
-    private void Update()
+    #region 바텀시트 재정렬
+    public void SortingPlaceCards()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            
-        }
+        DataManager.instance.SortPropAdventureList();
+
+        SettingPlaceCard();
+
+        MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
     }
 
-    //#region 카드 재정렬
-    //public void SortingPlaceCards(ServerProp list)
-    //{
-    //    for (int i = 0; i < contentPlace.childCount; i++)
-    //    {
+    void SortingTourCards()
+    {
+        DataManager.instance.SortTourList();
 
+        StartCoroutine(nameof(settingTourCard));
 
-    //        if(list.propNo == contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().ServerProp.propNo)
-    //        contentPlace.GetChild(i).SetSiblingIndex(i);
-       
-    //    }
-    //}
+        MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
+    }
+    #endregion
 
-    //void SortingTourCards()
-    //{
-
-    //}
-    //#endregion
-
-
-
-
-    #region 태그 전환
+    #region 태그 및 필터 관리
     // 전체 보기
     public void soringAll(bool place)
     {
         if (place)
         {
-            for (int i = 0; i < placeGOList.Count; i++)
+            for (int i = 0; i < contentPlace.childCount; i++)
             {
-                placeGOList[i].gameObject.SetActive(true);
+                contentPlace.GetChild(i).gameObject.SetActive(true);
             }
         }
         else
         {
-            for (int i = 0; i < tourGOList.Count; i++)
+            for (int i = 0; i < contentTour.childCount; i++)
             {
-                tourGOList[i].gameObject.SetActive(true);
+                contentTour.GetChild(i).gameObject.SetActive(true);
             }
         }
     }
 
     // 장소 탭 카드 활성/비활성
-    public void SortingPlace(CardPlaceInfo.Type type)
+    public void FilteringPlace(CardPlaceInfo.Type type)
     {
         if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
         {
-            for (int i = 0; i < placeGOList.Count; i++)
+            for (int i = 0; i < contentPlace.childCount; i++)
             {
                 print("2차 진입 " + i);
-                CardPlaceInfo card = placeGOList[i].GetComponent<CardPlaceInfo>();
+                CardPlaceInfo card = contentPlace.GetChild(i).GetComponent<CardPlaceInfo>();
 
                 print("의 타입은 " + card.type);
-                if (placeGOList[i].GetComponent<CardPlaceInfo>().type == type)
+                if (contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().type == type)
                 {
-                    print(placeGOList[i].name);
-                    placeGOList[i].gameObject.SetActive(true);
+                    print(contentPlace.GetChild(i).name);
+                    contentPlace.GetChild(i).gameObject.SetActive(true);
                 }
                 else
                 {
-                    placeGOList[i].gameObject.SetActive(false);
+                    contentPlace.GetChild(i).gameObject.SetActive(false);
                 }
             }
         }
     }
 
     // 관광정보 탭 카드 활성/비활성
-    public void SortingTour(string str)
+    public void FilteringTour(string str)
     {
         if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
         {
-            for (int i = 0; i < tourGOList.Count; i++)
+            for (int i = 0; i < contentTour.childCount; i++)
             {
-                if (tourGOList[i].GetComponent<CardTourInfo>().type.ToString() == str)
+                if (contentTour.GetChild(i).GetComponent<CardTourInfo>().type.ToString() == str)
                 {
-                    tourGOList[i].gameObject.SetActive(true);
+                    contentTour.GetChild(i).gameObject.SetActive(true);
                 }
                 else
                 {
-                    tourGOList[i].gameObject.SetActive(false);
+                    contentTour.GetChild(i).gameObject.SetActive(false);
                 }
             }
         }
     }
     #endregion
-
-    //// 장소 글자 변환
-    //string TextBreakPlace(string text)
-    //{
-    //    string result = string.Empty;
-    //    string[] splitStr = { " " };
-    //    string tmp = text;
-    //    string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
-
-    //    char[] chars0 = text.ToCharArray();
-
-    //    // 5글자 이하
-    //    if (chars0.Length < 5)
-    //    {
-    //        // 1줄
-    //        if (nameSplit.Length < 2)
-    //        {
-    //            result = nameSplit[0];
-    //        }
-    //        // 2줄
-    //        else
-    //        {
-    //            result = nameSplit[0] + "\n" + nameSplit[1];
-    //        }
-    //    }
-
-    //    // 6글자 이상
-    //    else if (chars0.Length >= 5)
-    //    {
-    //        // 1줄
-    //        if (nameSplit.Length < 2)
-    //        {
-    //            result = nameSplit[0];
-    //        }
-
-    //        // 2줄
-    //        else
-    //        {
-    //            char[] chars1 = nameSplit[1].ToCharArray();
-
-    //            // 두번째 줄 5글자 이하
-    //            if (chars1.Length < 5)
-    //            {
-    //                result = nameSplit[0] + "\n" + nameSplit[1]; // �ι�° �� �ټ����� ����
-    //            }
-    //            // 두번째 줄 6글자 이상
-    //            else
-    //            {
-    //                result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // �ι�° �� �ټ����� �ʰ�
-    //            }
-    //        }
-    //    }
-
-    //    return result;
-    //}
-
-    // 관광정보 글자 변환
 }

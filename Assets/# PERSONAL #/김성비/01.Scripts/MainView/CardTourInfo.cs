@@ -25,7 +25,7 @@ public class CardTourInfo : MonoBehaviour
     public ServerTourInfo ServerTourInfo { get; private set; }
     bool selected;
 
-    public IEnumerator Start()
+    public IEnumerator UpateDistance()
     {
         int num = 0;
         while (num ==0)
@@ -145,7 +145,7 @@ public class CardTourInfo : MonoBehaviour
             MapCameraController.Instance.StartCameraMoveToTarget(TourDataController.Instance.TourInfoWordList[ServerTourInfo].transform.position);
         }
 
-        // 
+        // 선택 -> 미선택
         else
         {
             Selected(false);
@@ -163,41 +163,4 @@ public class CardTourInfo : MonoBehaviour
             selected = false;
         }
     }
-
-
-    //string TypeConvert(string str)
-    //{
-    //    string result = string.Empty;
-
-    //    if(str == 12.ToString()) { result = "TouristSpot"; }
-    //    else if(str == 14.ToString()) { result = "CulturalFacilities"; }
-    //    else if(str == 15.ToString()) { result = "Festival"; }
-    //    else if(str == 25.ToString()) { result = "TravelCource"; }
-    //    else if(str == 28.ToString()) { result = "LeisureSports"; }
-    //    else if(str == 32.ToString()) { result = "Lodgment"; }
-    //    else if(str == 38.ToString()) { result = "Shopping"; }
-    //    else if(str == 39.ToString()) { result = "Food"; }
-
-    //    return result;
-    //}
-    ///[System.Serializable]
-    ///public class HometourPlace
-    ///{
-    ///    public string distance;
-    ///    public string latitude;
-    ///    public string imageUrl;
-    ///    public string addr;
-    ///    public string title;
-    ///    public string contenttypeid;
-    ///    public string longitude;
-    ///}
-    /// contenttypeid
-    /// 관광지 : 12
-    /// 문화시설 : 14
-    /// 축제/공연/행사 : 15
-    /// 여행코스 : 25
-    /// 레포츠 : 28
-    /// 숙박 : 32
-    /// 쇼핑 : 38
-    /// 음식 : 39
 }

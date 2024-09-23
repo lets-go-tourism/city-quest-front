@@ -51,11 +51,11 @@ public class ChangeSprites : MonoBehaviour
             else if (no == 1)
             {
                 print("1차 진입");
-                BottomSheetManager.instance.SortingPlace(CardPlaceInfo.Type.REVEAL);
+                BottomSheetManager.instance.FilteringPlace(CardPlaceInfo.Type.REVEAL);
             }
             else if (no == 2)
             {
-                BottomSheetManager.instance.SortingPlace(CardPlaceInfo.Type.UNREVEAL);
+                BottomSheetManager.instance.FilteringPlace(CardPlaceInfo.Type.UNREVEAL);
             }
 
             // 스크롤 초기화
@@ -77,14 +77,14 @@ public class ChangeSprites : MonoBehaviour
 
             // 카드 활성화
             if (no == 0) { BottomSheetManager.instance.soringAll(false); }
-            else if (no == 1) { BottomSheetManager.instance.SortingTour("TouristSpot"); }
-            else if (no == 2) { BottomSheetManager.instance.SortingTour("CulturalFacilities"); }
-            else if (no == 3) { BottomSheetManager.instance.SortingTour("Festival"); }
-            else if (no == 4) { BottomSheetManager.instance.SortingTour("TravelCource"); }
-            else if (no == 5) { BottomSheetManager.instance.SortingTour("LeisureSports"); }
-            else if (no == 6) { BottomSheetManager.instance.SortingTour("Lodgment"); }
-            else if (no == 7) { BottomSheetManager.instance.SortingTour("Shopping"); }
-            else if (no == 8) { BottomSheetManager.instance.SortingTour("Food"); }
+            else if (no == 1) { BottomSheetManager.instance.FilteringTour("TouristSpot"); }
+            else if (no == 2) { BottomSheetManager.instance.FilteringTour("CulturalFacilities"); }
+            else if (no == 3) { BottomSheetManager.instance.FilteringTour("Festival"); }
+            else if (no == 4) { BottomSheetManager.instance.FilteringTour("TravelCource"); }
+            else if (no == 5) { BottomSheetManager.instance.FilteringTour("LeisureSports"); }
+            else if (no == 6) { BottomSheetManager.instance.FilteringTour("Lodgment"); }
+            else if (no == 7) { BottomSheetManager.instance.FilteringTour("Shopping"); }
+            else if (no == 8) { BottomSheetManager.instance.FilteringTour("Food"); }
 
             // 스크롤 초기화
             MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;

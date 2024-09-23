@@ -42,10 +42,16 @@ public class ButtonActions : MonoBehaviour
         CloudContainer.Instance.RemoveTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture]]);
 
         // 바텀시트 비활성화
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
+        //PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
 
         // 바텀시트 태그 수정하기
-        BottomSheetManager.instance.placeGOList[KJY_ConnectionTMP.instance.questNoPicture - 1].GetComponent<CardPlaceInfo>().ChangeType();
+        for (int i = 0; i < BottomSheetManager.instance.contentPlace.childCount; i++)
+        {
+            if(BottomSheetManager.instance.contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().ServerProp.propNo == KJY_ConnectionTMP.instance.questNoPicture)
+            {
+                BottomSheetManager.instance.contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().ChangeType();
+            }
+        }
 
         // 태그 초기화
         ChangeSprites.instance.ChangePlaceSprites(0);
