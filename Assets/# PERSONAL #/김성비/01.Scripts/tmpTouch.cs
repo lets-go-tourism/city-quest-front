@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using UnityEngine.Android;
-using Unity.VisualScripting;
 
 public class tmpTouch : MonoBehaviour
 {
@@ -29,7 +27,7 @@ public class tmpTouch : MonoBehaviour
         layerTour = 1 << LayerMask.NameToLayer("Tour");
 
         point = new PointerEventData(null);
-        settingUI = GameObject.Find("M_SettingPrefab").GetComponent<SettingCanvasOnOff>();
+        //settingUI = GameObject.Find("M_SettingPrefab").GetComponent<SettingCanvasOnOff>();
 
         follow = false;
     }

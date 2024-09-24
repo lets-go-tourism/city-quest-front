@@ -10,26 +10,12 @@ public class ChangeSprites : MonoBehaviour
     {
         instance = this;
     }
-    //public enum Sort
-    //{
-    //    N,
-    //    YES,
-    //    NO
-    //}
-    // public Sort sort;
 
     //[HideInInspector] 
     public Transform[] place;
     //[HideInInspector] 
     public Transform[] tour;
 
-    //public void ChangeSort()
-    //{
-    //    if(sort == Sort.N)
-    //    {
-
-    //    }
-    //}
 
     public void ChangePlaceSprites(int no)
     {

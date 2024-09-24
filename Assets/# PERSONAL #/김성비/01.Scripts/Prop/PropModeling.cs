@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PropModeling : MonoBehaviour
@@ -12,6 +13,8 @@ public class PropModeling : MonoBehaviour
     }
 
     public GameObject[] models;
+
+    public GameObject Cloud;
 
     public void ModelingActive(int propNo)
     {

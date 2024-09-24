@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OpenKakaoMap : MonoBehaviour
+public class OpenPlaceKakaoMap : MonoBehaviour
 {
     Button btn;
     public string url;
@@ -21,7 +19,6 @@ public class OpenKakaoMap : MonoBehaviour
 
     void KakaoMapLink(string str)
     {
-        // 할일 : str을 이용해 링크 연결하기
-        print("카카오맵 링크 : " + str);
+        Application.OpenURL(str);
     }
 }

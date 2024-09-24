@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,9 @@ public class MainView_UI : MonoBehaviour
     // 바텀시트 카드 스크롤뷰
     public ScrollRect placeScrollRect;
     public ScrollRect tourScrollRect;
+
+    // 바텀시트 안내 UI
+    public TextMeshProUGUI BSGuideUI;
 
     // 종료 확인 UI
     public Transform quitUI;

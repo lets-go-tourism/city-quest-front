@@ -22,6 +22,13 @@ public class CardTourInfo : MonoBehaviour
     }
     public Type type;
 
+    public enum State
+    {
+        UnSelected,
+        Selectd
+    }
+    public State state;
+
     public ServerTourInfo ServerTourInfo { get; private set; }
     bool selected;
 
@@ -149,6 +156,7 @@ public class CardTourInfo : MonoBehaviour
         else
         {
             Selected(false);
+            transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
         }
     }
 

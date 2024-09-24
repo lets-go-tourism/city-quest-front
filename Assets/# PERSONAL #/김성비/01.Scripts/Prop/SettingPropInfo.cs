@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
+using TriangleNet.Geometry;
 
 public class SettingPropInfo : MonoBehaviour
 {
@@ -65,7 +66,7 @@ public class SettingPropInfo : MonoBehaviour
         PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
         PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
         // 그림자
-        SettingPropContent.instance.content[0].GetChild(1).GetComponent<Image>().enabled = true;
+        PropModeling.instance.Cloud.SetActive(true);
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         // 거리
@@ -73,7 +74,7 @@ public class SettingPropInfo : MonoBehaviour
         // 장소명
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         // 카카오지도 URL
-        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
+        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 장소 사진
         if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
         {
@@ -88,6 +89,8 @@ public class SettingPropInfo : MonoBehaviour
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<PictureQuest>().propnumber = (int)DataManager.instance.GetQuestInfo().propNo;
         // 터치 가능
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<Button>().enabled = true;
+
+        //StartCoroutine(nameof(UpdateDistance));
     }
     #endregion
 
@@ -110,7 +113,7 @@ public class SettingPropInfo : MonoBehaviour
         PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
         PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
         // 그림자
-        SettingPropContent.instance.content[0].GetChild(1).GetComponent<Image>().enabled = false;
+        PropModeling.instance.Cloud.SetActive(false);
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         // 방문일자
@@ -118,7 +121,7 @@ public class SettingPropInfo : MonoBehaviour
         // 장소명
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         // 카카오지도
-        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
+        SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 퀘스트 사진
         if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
         {
@@ -131,8 +134,23 @@ public class SettingPropInfo : MonoBehaviour
             Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5);
             yield return StartCoroutine(GetTexture(parameters));
         }
+
+        //StartCoroutine(nameof(UpdateDistance));
     }
     #endregion
+
+    //public IEnumerator UpdateDistance()
+    //{
+    //    int t = 0;
+    //    while (t == 0)
+    //    {
+    //        // 실시간 거리
+    //        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ;    
+
+    //        yield return new WaitForSeconds(5);
+    //    }
+    //}
+
 
     // 거리 변환
     string ConvertDistance(double distance)

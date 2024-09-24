@@ -30,7 +30,7 @@ public class SettingTourInfo : MonoBehaviour
         // 주소
         contents[3].GetComponent<TextMeshProUGUI>().text = info.addr;
         // 링크
-        //contents[4].GetComponent<OpenKakaoMap>().SetURL(info.imageUrl);
+        contents[4].GetComponent<OpenTourKakaoMap>().SetURL(info.addr);
 
         // 장소사진
         // url 있을 때
@@ -54,19 +54,19 @@ public class SettingTourInfo : MonoBehaviour
         // 팝업창 UI 활성화
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), false);
 
-        StartCoroutine(nameof(UpdateDistance));
+        //StartCoroutine(nameof(UpdateDistance));
     }
 
-    IEnumerator UpdateDistance()
-    {
-        int t = 0;
-        while(t == 0)
-        {
-            contents[2].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));    // 실시간 거리
+    //public IEnumerator UpdateDistance()
+    //{
+    //    int t = 0;
+    //    while(t == 0)
+    //    {
+    //        contents[2].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));    // 실시간 거리
 
-            yield return new WaitForSeconds(5);
-        }
-    }
+    //        yield return new WaitForSeconds(5);
+    //    }
+    //}
 
     #region 변환
     // 거리 변환

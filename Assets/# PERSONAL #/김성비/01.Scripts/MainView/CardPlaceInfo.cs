@@ -153,6 +153,7 @@ public class CardPlaceInfo : MonoBehaviour
             transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
         }
     }
+
     public void Selected(bool isSelected)
     {
         if (isSelected)

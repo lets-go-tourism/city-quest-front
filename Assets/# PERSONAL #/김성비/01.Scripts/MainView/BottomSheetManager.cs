@@ -209,6 +209,8 @@ public class BottomSheetManager : MonoBehaviour
     // 전체 보기
     public void soringAll(bool place)
     {
+        MainView_UI.instance.BSGuideUI.enabled = false;
+
         if (place)
         {
             for (int i = 0; i < contentPlace.childCount; i++)
@@ -232,19 +234,37 @@ public class BottomSheetManager : MonoBehaviour
         {
             for (int i = 0; i < contentPlace.childCount; i++)
             {
-                print("2차 진입 " + i);
+                //print("2차 진입 " + i);
                 CardPlaceInfo card = contentPlace.GetChild(i).GetComponent<CardPlaceInfo>();
 
-                print("의 타입은 " + card.type);
+                //print("의 타입은 " + card.type);
                 if (contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().type == type)
                 {
-                    print(contentPlace.GetChild(i).name);
+                    //print(contentPlace.GetChild(i).name);
                     contentPlace.GetChild(i).gameObject.SetActive(true);
                 }
                 else
                 {
                     contentPlace.GetChild(i).gameObject.SetActive(false);
                 }
+            }
+
+            if (CheckChildActivated(contentPlace))
+            {
+                MainView_UI.instance.BSGuideUI.enabled = true;
+
+                if (type == CardPlaceInfo.Type.UNREVEAL)
+                {
+                    MainView_UI.instance.BSGuideUI.text = "미탐험 장소가 없습니다." + "\n" + "업데이트를 기다려주세요!";
+                }
+                else if (type == CardPlaceInfo.Type.REVEAL)
+                {
+                    MainView_UI.instance.BSGuideUI.text = "탐험한 장소가 없습니다.";
+                }
+            }
+            else
+            {
+                MainView_UI.instance.BSGuideUI.enabled = false;
             }
         }
     }
@@ -265,7 +285,32 @@ public class BottomSheetManager : MonoBehaviour
                     contentTour.GetChild(i).gameObject.SetActive(false);
                 }
             }
+
+            if (CheckChildActivated(contentTour))
+            {
+                MainView_UI.instance.BSGuideUI.text = "관광정보가 없습니다.";
+                MainView_UI.instance.BSGuideUI.enabled = true;
+            }
+            else
+            {
+                MainView_UI.instance.BSGuideUI.enabled = false;
+            }
         }
+    }
+
+    bool CheckChildActivated(Transform parent)
+    {
+        // 하나라도 활성화 되어있으면 false 
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            if (parent.GetChild(i).gameObject.activeSelf)
+            {
+                return false;
+            }
+        }
+
+        // 전부 비활성화 되어있으면
+        return true;
     }
     #endregion
 }
