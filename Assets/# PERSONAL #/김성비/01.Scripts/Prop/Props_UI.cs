@@ -11,6 +11,8 @@ public class Props_UI : MonoBehaviour
 
     public Image[] tags;            // ¹ÙÅÒ½ÃÆ® °ü±¤Á¤º¸ ÅÇ
 
+    public Image[] masks;
+
     public static Props_UI instance;
     void Awake()
     {

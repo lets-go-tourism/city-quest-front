@@ -32,11 +32,13 @@ public class ButtonActions : MonoBehaviour
         // 퀘스트 스프라이트 바꾸기
         content.GetChild(6).transform.GetChild(0).GetComponent<Image>().sprite = content.GetChild(6).GetComponent<SpritesHolder>().sprites[2];
 
-        yield return new WaitForSeconds(0.5f);
         // 줄 긋기
         content.GetChild(6).transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontStyle = FontStyles.Strikethrough;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.8f);
+
+        // 팝업창 닫기
+        yield return PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN),true);
 
         // 구름 걷히는 연출함수 호출
         PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture].status = true;

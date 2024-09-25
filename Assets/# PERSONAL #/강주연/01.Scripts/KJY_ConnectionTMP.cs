@@ -54,7 +54,7 @@ public class TryImageConnection : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddBinaryData("image", data, "image.jpg", "image/jpg");
 
-         
+
         using (UnityWebRequest www = UnityWebRequest.Post(url, form))
         {
             login = DataManager.instance.GetLoginData();
@@ -68,8 +68,7 @@ public class TryImageConnection : MonoBehaviour
             {
                 Debug.LogError($"Error: {www.error}");
                 //ToastMessage.ShowToast("이미지 업로드에 실패했어요");
-                KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
-                ButtonActions.Instance.QuestDone();
+                KJY_ConnectionTMP.instance.FailConnectionCanvasOn();               
             }
             else
             {
@@ -84,7 +83,7 @@ public class TryImageConnection : MonoBehaviour
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
         ToastMessage.ShowToast("이미지를 업로드했어요");
 
-        ButtonActions.Instance.QuestDone();
+        ButtonActions.Instance.StartCoroutine(nameof(ButtonActions.Instance.QuestDone));
     }
 }
 #endregion
@@ -261,7 +260,7 @@ public class QuestData
     public string questImage;
 }
 
-public class TryQuestConnection:ConnectionStratage
+public class TryQuestConnection : ConnectionStratage
 {
     private string url;
 
@@ -505,7 +504,7 @@ public class TryDeleteConnection : ConnectionStratage
     private void OnGetRequest(string jsonData)
     {
         HttpRequester request = new HttpRequester();
-        
+
 
         Debug.Log(this.url);
         request.Setting(RequestType.POST, this.url);
@@ -561,18 +560,18 @@ public class KJY_ConnectionTMP : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (connectionFailUI == null)
-        {
-            //connectionFailUI = GameObject.Find("ConnectionFail Canvas").transform.GetChild(0).gameObject;
-        }
-    }
+    //private void Update()
+    //{
+    //    if (connectionFailUI == null)
+    //    {
+    //        //connectionFailUI = GameObject.Find("ConnectionFail Canvas").transform.GetChild(0).gameObject;
+    //    }
+    //}
 
-    public void OnConnectionFailUI()
-    {
-        connectionFailUI.SetActive(true);
-    }
+    //public void OnConnectionFailUI()
+    //{
+    //    connectionFailUI.SetActive(true);
+    //}
 
     public void QuestNo(int questNo)
     {
@@ -592,7 +591,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
             questNo = questNoPicture,
             data = texture.EncodeToJPG(),
             url = "https://letsgotour.store/api/v1/quest/image/" + questNoPicture.ToString()
-          
+
         };
 
         Debug.Log(setting.url);
@@ -629,7 +628,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
 #elif UNITY_EDITOR
         QuestSetting setting = new QuestSetting();
         float latitude = (float)37.566826;
-        float longitude = (float) 126.9786567;
+        float longitude = (float)126.9786567;
         setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + longitude + "&lat=" + latitude;
         TryQuestConnection questConnection = new TryQuestConnection(setting);
 #endif
