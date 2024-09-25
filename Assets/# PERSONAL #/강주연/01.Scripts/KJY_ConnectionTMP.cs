@@ -67,7 +67,8 @@ public class TryImageConnection : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError($"Error: {www.error}");
-                ToastMessage.ShowToast("이미지 업로드에 실패했어요");
+                //ToastMessage.ShowToast("이미지 업로드에 실패했어요");
+                KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
                 ButtonActions.Instance.QuestDone();
             }
             else
@@ -82,7 +83,6 @@ public class TryImageConnection : MonoBehaviour
     {
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
         ToastMessage.ShowToast("이미지를 업로드했어요");
-        KJY_ConnectionTMP.instance.OnConnectionFailUI();
 
         ButtonActions.Instance.QuestDone();
     }
@@ -215,8 +215,9 @@ public class TryHomeConnection : ConnectionStratage
         else
         {
             Debug.Log(result.error);
-            ToastMessage.ShowToast("불러오기에 실패했어요 앱을 다시 시작해주세요");
-            KJY_ConnectionTMP.instance.OnConnectionFailUI();
+            //ToastMessage.ShowToast("불러오기에 실패했어요 앱을 다시 시작해주세요");
+            KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
+
         }
     }
 
@@ -305,9 +306,9 @@ public class TryQuestConnection:ConnectionStratage
         }
         else
         {
-            ToastMessage.ShowToast("프랍 데이터를 불러오지 못했어요 다시 시도해 주세요");
-            KJY_ConnectionTMP.instance.OnConnectionFailUI();
-
+            //ToastMessage.ShowToast("프랍 데이터를 불러오지 못했어요 다시 시도해 주세요");
+            //KJY_ConnectionTMP.instance.OnConnectionFailUI();
+            KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }
 }
@@ -453,9 +454,9 @@ public class TryConfirmConnection : ConnectionStratage
         }
         else
         {
-            ToastMessage.ShowToast("통신에 실패했어요");
-            KJY_ConnectionTMP.instance.OnConnectionFailUI();
-
+            //ToastMessage.ShowToast("통신에 실패했어요");
+            //KJY_ConnectionTMP.instance.OnConnectionFailUI();
+            KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }
 }
@@ -528,9 +529,9 @@ public class TryDeleteConnection : ConnectionStratage
         }
         else
         {
-            ToastMessage.ShowToast("계정 삭제에 실패했어요 다시 시도해 주세요");
-            KJY_ConnectionTMP.instance.OnConnectionFailUI();
-
+            //ToastMessage.ShowToast("계정 삭제에 실패했어요 다시 시도해 주세요");
+            //KJY_ConnectionTMP.instance.OnConnectionFailUI();
+            KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }
 }
@@ -544,7 +545,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
     public HttpRequester requestHttp;
     public RequestHeader requestHeaderHttp;
     public int questNoPicture;
-    public GameObject connectionFailUI;
+    [SerializeField] private Canvas failCanvas;
 
 
     private void Awake()
@@ -664,4 +665,13 @@ public class KJY_ConnectionTMP : MonoBehaviour
         Application.OpenURL("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao");
     }
 
+    public void FailConnectionCanvasOn()
+    {
+        failCanvas.enabled = true;
+    }
+
+    public void FailConnectionCanvasOff()
+    {
+        failCanvas.enabled = false;
+    }
 }

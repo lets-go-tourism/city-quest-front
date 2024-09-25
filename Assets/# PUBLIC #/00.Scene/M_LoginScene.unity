@@ -2171,11 +2171,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConnectionManager
       objectReference: {fileID: 0}
-    - target: {fileID: 2806690910082374881, guid: 8b292b34943c55b4ba68b2bbd075635f,
-        type: 3}
-      propertyPath: connectionFailUI
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4774565985039275713, guid: 8b292b34943c55b4ba68b2bbd075635f,
         type: 3}
       propertyPath: m_LocalPosition.x
