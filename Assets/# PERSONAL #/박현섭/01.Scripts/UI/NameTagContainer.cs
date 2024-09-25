@@ -7,7 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class NameTagContainer : MonoBehaviour
 {
     public PropNameTagUI[] PropNameTagArr { get; private set; } = new PropNameTagUI[31];
-    public TourNameTagUI[] TourNameTagArr { get; private set; } = new TourNameTagUI[31];
+    public TourNameTagUI[] TourNameTagArr { get; private set; } = new TourNameTagUI[80];
 
     private int _propNameTagCount = 0;
     private int _tourNameTagCount = 0;
@@ -18,15 +18,15 @@ public class NameTagContainer : MonoBehaviour
     {
         _checkNameTagCollision = GetComponent<CheckNameTagCollision>();
 
-        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        for (int i = 0; i < transform.GetChild(1).childCount; i++)
         {
-            PropNameTagArr[i] = transform.GetChild(0).GetChild(i).GetComponent<PropNameTagUI>();
+            PropNameTagArr[i] = transform.GetChild(1).GetChild(i).GetComponent<PropNameTagUI>();
             _propNameTagCount++;
         }
 
-        for(int i = 0; i < transform.GetChild(1).childCount; i++)
+        for(int i = 0; i < transform.GetChild(0).childCount; i++)
         {
-            TourNameTagArr[i] = transform.GetChild(1).GetChild(i).GetComponent<TourNameTagUI>();
+            TourNameTagArr[i] = transform.GetChild(0).GetChild(i).GetComponent<TourNameTagUI>();
             _tourNameTagCount++;
         }
 
@@ -113,17 +113,22 @@ public class NameTagContainer : MonoBehaviour
             if (TourNameTagArr[i].enabled == false || i == index)
                 continue;
 
+            else if (TourNameTagArr[index].Visible == false || TourNameTagArr[i].Visible == false)
+                continue;
+
             TourNameTagArr[i].CustomeUpdate();
             RectTransform rect2 = TourNameTagArr[i].RectTransform;
             
 
             // 두 사각형이 겹치지 않는지 확인 (AABB 충돌 감지)
-            if (rect1.anchoredPosition.x + rect1.sizeDelta.x / 2 < rect2.anchoredPosition.x - rect2.sizeDelta.x / 2 || rect1.anchoredPosition.x - rect1.sizeDelta.x / 2 > rect2.anchoredPosition.x + rect2.sizeDelta.x / 2)
+            if (rect1.anchoredPosition.x + rect1.sizeDelta.x / 2 * rect1.localScale.x < rect2.anchoredPosition.x - rect2.sizeDelta.x / 2 * rect1.localScale.x
+                || rect1.anchoredPosition.x - rect1.sizeDelta.x / 2 * rect1.localScale.x > rect2.anchoredPosition.x + rect2.sizeDelta.x / 2 * rect1.localScale.x)
             {
                 continue; // x축에서 겹치지 않음
             }
 
-            if (rect1.anchoredPosition.y + rect1.sizeDelta.y / 2 < rect2.anchoredPosition.y - rect2.sizeDelta.y / 2 || rect1.anchoredPosition.y - rect1.sizeDelta.y / 2 > rect2.anchoredPosition.y + rect2.sizeDelta.y / 2)
+            if (rect1.anchoredPosition.y + rect1.sizeDelta.y / 2 * rect1.localScale.x < rect2.anchoredPosition.y - rect2.sizeDelta.y / 2 * rect1.localScale.x
+                || rect1.anchoredPosition.y - rect1.sizeDelta.y / 2 * rect1.localScale.x > rect2.anchoredPosition.y + rect2.sizeDelta.y / 2 * rect1.localScale.x)
             {
                 continue; // y축에서 겹치지 않음
             }

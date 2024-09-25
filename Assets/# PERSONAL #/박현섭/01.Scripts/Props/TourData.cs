@@ -31,6 +31,11 @@ public class TourData : MonoBehaviour
 
     private bool tourDataActive = false;
 
+    private void Start()
+    {
+        MapUIController.Instance.uiActiveUpdateDelegate += CheckDist;
+    }
+
     public void Setting(ServerTourInfo serverTourInfo, GameObject go)
     {
         this.ServerTourInfo = serverTourInfo;
@@ -48,18 +53,14 @@ public class TourData : MonoBehaviour
     {
         float sizeScale = Camera.main.transform.position.y / 500 * 0.55f;
         transform.localScale = new Vector3(sizeScale, sizeScale, sizeScale);
+    }
 
-        updateTime += Time.deltaTime;
-
-        if (updateTime <= 0.2f)
-            return;
-
-        if ((Camera.main.transform.position - new Vector3(0, Camera.main.transform.position.y, 0) - transform.position).sqrMagnitude > 150000)
+    private void CheckDist(float dist)
+    {
+        if ((Camera.main.transform.position - new Vector3(0, Camera.main.transform.position.y, 0) - transform.position).sqrMagnitude > dist)
             TourDataAcitve = false;
         else
             TourDataAcitve = true;
-
-        updateTime = 0;
     }
 
 }
