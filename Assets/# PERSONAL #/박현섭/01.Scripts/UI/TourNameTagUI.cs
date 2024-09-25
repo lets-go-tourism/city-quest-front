@@ -27,13 +27,13 @@ public class TourNameTagUI : MonoBehaviour
             myImage.DOPause();
             if (value)
             {
-                myText.DOFade(1, 0.1f);
-                myImage.DOFade(1, 0.1f);
+                myText.DOFade(1, 0.2f);
+                myImage.DOFade(1, 0.2f);
             }
             else
             {
-                myText.DOFade(0, 0.1f);
-                myImage.DOFade(0, 0.1f);
+                myText.DOFade(0, 0.2f);
+                myImage.DOFade(0, 0.2f);
             }
         }
     }

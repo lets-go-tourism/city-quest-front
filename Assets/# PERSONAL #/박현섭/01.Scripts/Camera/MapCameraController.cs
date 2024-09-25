@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -85,6 +86,12 @@ public class MapCameraController : MonoBehaviour
 
     private void Update()
     {
+        if (coolTime > 0)
+            coolTime -= Time.deltaTime;
+        else
+            coolTime = 0;
+
+
         m_Audio = false;
         if (CheckIfUiHasBeenTouched())
             return;
@@ -308,11 +315,19 @@ public class MapCameraController : MonoBehaviour
     }
 
 
+    private float coolTime = 0;
+
     // 카메라 범위를 제한하는 함수
     private void LimitCameraMovement()
     {
         float xCord = Mathf.Clamp(_cam.transform.position.x, _limitXMin + (_cam.orthographicSize * _cam.aspect), _limitXMax - (_cam.orthographicSize * _cam.aspect));
         float zCord = Mathf.Clamp(_cam.transform.position.z, _limitZMin + (_cam.orthographicSize * _cam.aspect), _limitZMax - (_cam.orthographicSize * _cam.aspect));
+
+        if (coolTime == 0 && (transform.position.x != xCord || transform.position.z != zCord))
+        {
+            coolTime = 10;
+            ToastMessage.ShowToast("현재 행궁동 바깥 지역은 서비스 하고 있지 않아요");
+        }
 
         transform.position = new Vector3(xCord, transform.position.y, zCord);
     }

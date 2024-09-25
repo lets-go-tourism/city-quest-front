@@ -564,7 +564,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
     {
         if (connectionFailUI == null)
         {
-            connectionFailUI = GameObject.Find("ConnectionFail Canvas").transform.GetChild(0).gameObject;
+            //connectionFailUI = GameObject.Find("ConnectionFail Canvas").transform.GetChild(0).gameObject;
         }
     }
 

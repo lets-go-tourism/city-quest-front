@@ -59,27 +59,26 @@ public class Prop : MonoBehaviour
 
     private void Start()
     {
-        print(PropData.name + " 의 상태는" + PropData.status);
+        //print(PropData.name + " 의 상태는" + PropData.status);
 
         propObjMeshFileter = propGO.GetComponent<MeshFilter>();
         propGO.SetActive(false);
         originPos = transform.position;
+
+        MapUIController.Instance.uiActiveUpdateDelegate += CheckDistToCamera;
     }
 
     private float updateTime = 0;
 
     private void Update()
     {
-        updateTime += Time.deltaTime;
+        //updateTime += Time.deltaTime;
 
-        if(updateTime > 0.2f)
-        {
-            CheckDistToCamera();
-            updateTime = 0;
-        }
-
-
-        CheckDistToCamera();
+        //if(updateTime > 0.2f)
+        //{
+        //    CheckDistToCamera();
+        //    updateTime = 0;
+        //}
 
         if (PropActive == false)
             return;
@@ -106,9 +105,9 @@ public class Prop : MonoBehaviour
         transform.position = originPos + Vector3.up * curve.Evaluate(time / time2) * 둥둥value + new Vector3(0, 20, 0);
     }
 
-    private void CheckDistToCamera()
+    private void CheckDistToCamera(float distance)
     {
-        if ((Camera.main.transform.position - new Vector3(0, Camera.main.transform.position.y, 0) - transform.position).sqrMagnitude > 150000)
+        if ((transform.position - (Camera.main.transform.position - new Vector3(0, Camera.main.transform.position.y, 0))).sqrMagnitude > distance)
             PropActive = false;
         else
             PropActive = true;
