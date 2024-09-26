@@ -57,9 +57,9 @@ public class OsmWay : BaseOsm
     /// </summary>
     public bool IsRoad { get; private set; }
 
-    public bool IsWater { get; private set; }
+    public bool IsWater { get; set; }
 
-    public bool IsForest { get; private set; }
+    public bool IsForest { get; set; }
 
     /// <summary>
     /// The name of the object.
@@ -76,7 +76,8 @@ public class OsmWay : BaseOsm
         Primary,
         Secondary,
         Tertiary,
-        Residential
+        Residential,
+        Pedestrian
     }
     // 도로 크기의 3가지 단계
     public WaySizeEnum WaySize { get; private set; }
@@ -119,7 +120,7 @@ public class OsmWay : BaseOsm
             string value = GetAttribute<string>("v", t.Attributes);
             if (key == "highway")
             {
-                if (value != "footway" && value != "path" && value != "steps" && value != "service" && value != "pedestrian" && value != "corridor" && value != "living_street")
+                if ( value != "footway" && value != "steps" && value != "path" && value != "corridor")
                 {
                     switch (value)
                     {
@@ -127,6 +128,10 @@ public class OsmWay : BaseOsm
                         case "secondary": WaySize = WaySizeEnum.Secondary; break;
                         case "tertiary": WaySize = WaySizeEnum.Tertiary; break;
                         case "residential": WaySize = WaySizeEnum.Residential; break;
+                        case "living_street":
+                        case "service":
+                        case "pedestrian": WaySize = WaySizeEnum.Pedestrian; break;
+
                     }
                     IsRoad = true;
                 }

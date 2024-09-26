@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "com.coffee.unmask": "https://github.com/mob-sakai/UnmaskForUGUI.git",
     "com.ishape.geometry": "https://github.com/iShapeUnity/Geometry.git",
+    "com.olegknyazev.softmask": "https://github.com/olegknyazev/SoftMask.git?path=/Packages/com.olegknyazev.softmask#1.7.0",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "2.4.4",
     "com.unity.device-simulator.devices": "1.0.0",

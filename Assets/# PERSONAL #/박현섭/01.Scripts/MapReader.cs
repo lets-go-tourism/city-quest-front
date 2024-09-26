@@ -53,7 +53,7 @@ public class MapReader : MonoBehaviour
 
         SetBounds(doc.SelectSingleNode("/osm/bounds"));
         GetNodes(doc.SelectNodes("/osm/node"));
-        GetWays(doc.SelectNodes("/osm/way"));
+        GetWays(doc.SelectNodes("/osm/way"), doc.SelectNodes("/osm/relation"));
 
         float minx = (float)MercatorProjection.lonToX(bounds.MinLon);
         float maxx = (float)MercatorProjection.lonToX(bounds.MaxLon);
@@ -67,12 +67,68 @@ public class MapReader : MonoBehaviour
         boundsCenter = bounds.Center;
     }
 
-    void GetWays(XmlNodeList xmlNodeList)
+    private T GetAttribute<T>(string attrName, XmlAttributeCollection attributes)
+    {
+        // TODO: We are going to assume 'attrName' exists in the collection
+        string strValue = attributes[attrName].Value;
+        return (T)System.Convert.ChangeType(strValue, typeof(T));
+    }
+
+    void GetWays(XmlNodeList xmlNodeList, XmlNodeList xmlNodeList2)
     {
         foreach (XmlNode node in xmlNodeList)
         {
             OsmWay way = new OsmWay(node);
             ways.Add(way);
+        }
+
+        foreach (XmlNode node in xmlNodeList2)
+        {
+            XmlNodeList tags = node.SelectNodes("tag");
+            foreach(XmlNode t in tags)
+            {
+                string key = GetAttribute<string>("k", t.Attributes);
+                string value = GetAttribute<string>("v", t.Attributes);
+
+                if(key == "natural")
+                {
+                    if(value == "water")
+                    {
+                        XmlNodeList members = node.SelectNodes("member");
+                        foreach(XmlNode m in members)
+                        {
+                            ulong refNo = GetAttribute<ulong>("ref", m.Attributes);
+
+                            for(int i = 0; i < ways.Count; i++)
+                            {
+                                if (ways[i].ID == refNo)
+                                {
+                                    ways[i].IsWater = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if (value == "wood")
+                    {
+                        XmlNodeList members = node.SelectNodes("member");
+                        foreach (XmlNode m in members)
+                        {
+                            ulong refNo = GetAttribute<ulong>("ref", m.Attributes);
+
+                            for (int i = 0; i < ways.Count; i++)
+                            {
+                                if (ways[i].ID == refNo)
+                                {
+                                    ways[i].IsForest = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
         foreach (OsmWay way in ways)

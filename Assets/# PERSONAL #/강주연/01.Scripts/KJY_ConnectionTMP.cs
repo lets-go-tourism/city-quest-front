@@ -563,15 +563,15 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
     private void Update()
     {
-        if (connectionFailUI == null)
-        {
-            //connectionFailUI = GameObject.Find("ConnectionFail Canvas").transform.GetChild(0).gameObject;
-        }
+        //if (connectionFailUI == null)
+        //{
+        //    //connectionFailUI = GameObject.Find("ConnectionFail Canvas").transform.GetChild(0).gameObject;
+        //}
     }
 
     public void OnConnectionFailUI()
     {
-        connectionFailUI.SetActive(true);
+        //connectionFailUI.SetActive(true);
     }
 
     public void QuestNo(int questNo)

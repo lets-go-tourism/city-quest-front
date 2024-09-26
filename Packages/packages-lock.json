@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.coffee.unmask": {
+      "version": "https://github.com/mob-sakai/UnmaskForUGUI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "33356da2c43fa28397192baee70910c978e3169f"
+    },
     "com.ishape.geometry": {
       "version": "https://github.com/iShapeUnity/Geometry.git",
       "depth": 0,
@@ -9,6 +16,16 @@
         "com.unity.collections": "2.2.0"
       },
       "hash": "57bf3cd03759dd40899c375ae3052b0534aeac24"
+    },
+    "com.olegknyazev.softmask": {
+      "version": "https://github.com/olegknyazev/SoftMask.git?path=/Packages/com.olegknyazev.softmask#1.7.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.ui": "1.0.0"
+      },
+      "hash": "ba10acd1e94e89a5e7dc03140e46aa0c230902a9"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",

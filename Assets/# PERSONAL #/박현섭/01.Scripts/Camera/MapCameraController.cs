@@ -68,7 +68,7 @@ public class MapCameraController : MonoBehaviour
 
     // 터치 이동이 아닌 이동 변수들
     private Vector3 m_TargetPosition;
-    private bool m_Moving = false;
+    public bool m_Moving { get; private set; } = false;
     [SerializeField] private float m_MoveSpeed = 1;
 
     // 사운드 관련
@@ -354,6 +354,10 @@ public class MapCameraController : MonoBehaviour
 
             // 시간을 보간해서
             Time.deltaTime * m_MoveSpeed);
+
+        if ((transform.position - targetPos).sqrMagnitude < 0.2f)
+            StopCameraMove();
+
         LimitCameraMovement();
     }
 

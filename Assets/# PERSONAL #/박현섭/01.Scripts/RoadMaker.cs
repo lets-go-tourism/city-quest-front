@@ -36,6 +36,7 @@ public class RoadMaker : MonoBehaviour
     public float secondaryWidth = 5;
     public float tertiaryWidth = 5;
     public float residentialWidth = 5;
+    public float pedestrianWidth = 5;
 
     public float wayFloatingOffsetY = 1;
 
@@ -64,7 +65,6 @@ public class RoadMaker : MonoBehaviour
         go.transform.parent = parentObject.transform;
         Vector3 localOrigin = GetCenter(way) + new Vector3(0, wayFloatingOffsetY, 0);
         go.transform.position = localOrigin - map.bounds.Center;
-        WayData s = go.AddComponent<WayData>();
 
         // Add the mesh filter and renderer components to the object
         MeshFilter mf = go.AddComponent<MeshFilter>();
@@ -95,6 +95,9 @@ public class RoadMaker : MonoBehaviour
                 break;
             case OsmWay.WaySizeEnum.Residential:
                 roadWidth = residentialWidth * (float)map.mapSize;
+                break;
+            case OsmWay.WaySizeEnum.Pedestrian:
+                roadWidth = pedestrianWidth * (float)map.mapSize;
                 break;
         }
         mf.mesh = CreateRoadMesh(way, roadWidth);
