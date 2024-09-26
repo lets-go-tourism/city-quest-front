@@ -194,7 +194,6 @@ public class BottomSheetManager : MonoBehaviour
 
         MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
     }
-
     void SortingTourCards()
     {
         DataManager.instance.SortTourList();
@@ -207,7 +206,7 @@ public class BottomSheetManager : MonoBehaviour
 
     #region 태그 및 필터 관리
     // 전체 보기
-    public void soringAll(bool place)
+    public void SortingAll(bool place)
     {
         MainView_UI.instance.BSGuideUI.enabled = false;
 

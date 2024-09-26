@@ -55,7 +55,7 @@ public class TryImageConnection : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddBinaryData("image", data, "image.jpg", "image/jpg");
 
-         
+
         using (UnityWebRequest www = UnityWebRequest.Post(url, form))
         {
             login = DataManager.instance.GetLoginData();
@@ -68,10 +68,11 @@ public class TryImageConnection : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError($"Error: {www.error}");
-                //ToastMessage.ShowToast("ÀÌ¹ÌÁö ¾÷·Îµå¿¡ ½ÇÆÐÇß¾î¿ä");
-                KJY_ConnectionTMP.instance.SetCanvasText("»çÁø »ç¿ë¿¡ ½ÇÆÐÇß¾î¿ä.\n ´Ù½Ã ½ÃµµÇØ ÁÖ¼¼¿ä.");
+                //ToastMessage.ShowToast("ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµå¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½");
+                KJY_ConnectionTMP.instance.SetCanvasText("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ë¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½.\n ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.");
                 KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
                 //ButtonActions.Instance.QuestDone();
+
             }
             else
             {
@@ -85,7 +86,9 @@ public class TryImageConnection : MonoBehaviour
     {
         ButtonActions.Instance.QuestDone();
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
-        ToastMessage.ShowToast("ÀÌ¹ÌÁö¸¦ ¾÷·ÎµåÇß¾î¿ä");
+        //ToastMessage.ShowToast("ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½ß¾ï¿½ï¿½");
+        CameraFeed.Instance.CameraOff();
+        ButtonActions.Instance.StartCoroutine(nameof(ButtonActions.Instance.QuestDone));
     }
 }
 #endregion
@@ -211,14 +214,14 @@ public class TryHomeConnection : ConnectionStratage
             DataManager.instance.SetHometourPlaceList(response.data.tourPlace);
             DataManager.instance.requestSuccess = true;
 
-            ToastMessage.ShowToast("ºÒ·¯¿À±â¿¡ ¼º°øÇß¾î¿ä");
+            ToastMessage.ShowToast("ï¿½Ò·ï¿½ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½");
         }
         else
         {
             Debug.Log(result.error);
-            ToastMessage.ShowToast("Áöµµ¸¦ ÆîÄ¡´Â µ¥ ½ÇÆÐÇß¾î¿ä. ¾ÛÀ» ´Ù½Ã ½ÇÇàÇØ ÁÖ¼¼¿ä.");
+            ToastMessage.ShowToast("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.");
             //KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
-            //¾Û Á¾·á ÄÚµå Ãß°¡
+            //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ß°ï¿½
 
         }
     }
@@ -263,7 +266,7 @@ public class QuestData
     public string questImage;
 }
 
-public class TryQuestConnection:ConnectionStratage
+public class TryQuestConnection : ConnectionStratage
 {
     private string url;
 
@@ -305,11 +308,11 @@ public class TryQuestConnection:ConnectionStratage
         {
             KJY_ConnectionTMP.instance.isQuest = false;
             DataManager.instance.SetQuestInfo(response.data);
-            // ¼º°øÇÏ¸é ¿©±â
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
-            //ToastMessage.ShowToast("ÇÁ¶ø µ¥ÀÌÅÍ¸¦ ºÒ·¯¿ÀÁö ¸øÇß¾î¿ä ´Ù½Ã ½ÃµµÇØ ÁÖ¼¼¿ä");
+            //ToastMessage.ShowToast("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¾ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
             //KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
@@ -452,14 +455,14 @@ public class TryConfirmConnection : ConnectionStratage
 
         if (response.status == "OK")
         {
-            //UI³Ñ¾î°¡´Â°Å È£ÃâÇØÁÖ±â
+            //UIï¿½Ñ¾î°¡ï¿½Â°ï¿½ È£ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
             KJY_LoginManager.instance.OnClickConfirmButton();
         }
         else
         {
-            //ToastMessage.ShowToast("Åë½Å¿¡ ½ÇÆÐÇß¾î¿ä");
+            //ToastMessage.ShowToast("ï¿½ï¿½Å¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
-            KJY_ConnectionTMP.instance.SetCanvasText("¾à°ü µ¿ÀÇ¿¡ ½ÇÆÐÇß¾î¿ä.\n ´Ù½Ã ½ÃµµÇØ ÁÖ¼¼¿ä.");
+            KJY_ConnectionTMP.instance.SetCanvasText("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½.\n ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.");
             KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }
@@ -509,7 +512,7 @@ public class TryDeleteConnection : ConnectionStratage
     private void OnGetRequest(string jsonData)
     {
         HttpRequester request = new HttpRequester();
-        
+
 
         Debug.Log(this.url);
         request.Setting(RequestType.POST, this.url);
@@ -528,14 +531,14 @@ public class TryDeleteConnection : ConnectionStratage
 
         if (response.status == "OK")
         {
-            //Ã¹¾ÀÀ¸·Îµ¹¾Æ°¡°í ÅäÅ« ÆÄÀÏµµ ¾ø¾Ö¹ö¸®°í DataManagerµµ ¿ÏÀü ´Ù½ÃÇÏ°ÔÇØ¾ßÇÔ
+            //Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½ï¿½Å« ï¿½ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ DataManagerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ï¿½Ï°ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
             SettingManager.instance.DeletePopUp();
         }
         else
         {
-            //ToastMessage.ShowToast("°èÁ¤ »èÁ¦¿¡ ½ÇÆÐÇß¾î¿ä ´Ù½Ã ½ÃµµÇØ ÁÖ¼¼¿ä");
+            //ToastMessage.ShowToast("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
-            KJY_ConnectionTMP.instance.SetCanvasText("°èÁ¤ »èÁ¦¿¡ ½ÇÆÐÇß¾î¿ä.\n ´Ù½Ã ½ÃµµÇØ ÁÖ¼¼¿ä.");
+            KJY_ConnectionTMP.instance.SetCanvasText("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½.\n ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.");
             KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }
@@ -586,7 +589,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
         this.questNoPicture = questNo;
     }
 
-    public void OnClickTest(Texture2D texture)//Ä«¸Þ¶ó Åë½ÅÇÏ´Â Á¤º¸
+    public void OnClickTest(Texture2D texture)//Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
         if (texture == null)
         {
@@ -599,7 +602,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
             questNo = questNoPicture,
             data = texture.EncodeToJPG(),
             url = "https://letsgotour.store/api/v1/quest/image/" + questNoPicture.ToString()
-          
+
         };
 
         Debug.Log(setting.url);
@@ -613,7 +616,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
         yield return new WaitForSeconds(1);
     }
 
-    public void OnClickHomeConnection() //È¨Á¤º¸ Åë½ÅÇÏ´Â ÇÔ¼ö
+    public void OnClickHomeConnection() //È¨ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     {
         HomeSetting setting = new HomeSetting();
         isQuest = false;
@@ -627,7 +630,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
         TryHomeConnection homeConnection = new TryHomeConnection(setting);
     }
 
-    public void OnConnectionQuest(int questNo) //Äù½ºÆ® ÆË¾÷ Åë½ÅÇÏ´Â ÇÔ¼ö
+    public void OnConnectionQuest(int questNo) //ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ë¾ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     {
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -639,7 +642,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
 #elif UNITY_EDITOR
         QuestSetting setting = new QuestSetting();
         float latitude = (float)37.566826;
-        float longitude = (float) 126.9786567;
+        float longitude = (float)126.9786567;
         setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + longitude + "&lat=" + latitude;
         TryQuestConnection questConnection = new TryQuestConnection(setting);
         isQuest = true;

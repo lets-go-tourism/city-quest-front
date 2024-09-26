@@ -42,13 +42,10 @@ public class SettingTourInfo : MonoBehaviour
         // url 없을 때
         else
         {
-            contents[7].gameObject.SetActive(false);                                        // 이미지 비활성화
+            SettingSize(540f);                                                              // 사이즈 세팅
             contents[5].GetComponent<Image>().sprite = null;                                // 이미지 초기화
-            contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(840, 576);    // parent 크기 초기화
-            contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(840, 540);    // 관광정보 이미지 크기 초기화
             contents[5].GetComponent<Image>().color = new Color(1f, 0.98f, 0.96f, 1f);      // 색 바꾸기
             contents[6].GetComponent<TextMeshProUGUI>().enabled = true;                     // 안내문 활성화
-            contents[7].gameObject.SetActive(true);
         }
 
         // 팝업창 UI 활성화
@@ -56,6 +53,37 @@ public class SettingTourInfo : MonoBehaviour
 
         //StartCoroutine(nameof(UpdateDistance));
     }
+
+    void SettingSize(float CT)
+    {
+        float contentY = CT;
+
+        // 이미지 비활성화
+        contents[7].gameObject.SetActive(false);
+        // parent 
+        contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY + 36);
+        // 관광정보 이미지 크기
+        contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY);
+        // 이미지 활성화
+        contents[7].gameObject.SetActive(true);
+
+        // 스크롤뷰 크기
+        float scrollY = 720f + contentY - 60f;
+        if(scrollY > 1608)
+        {
+            scrollY = 1608f;
+        }
+        PopUpMovement.instance.rtTour.sizeDelta = new Vector2(960, scrollY);
+        // top 마스크 크기
+        Props_UI.instance.masks[0].GetComponent<RectTransform>().sizeDelta = new Vector2(960, scrollY);
+        // top 마스크 채우기
+        Props_UI.instance.masks[0].fillAmount = 60f / scrollY;
+        // bottom 마스크 크기
+        Props_UI.instance.masks[1].GetComponent<RectTransform>().sizeDelta = new Vector2(960, scrollY);
+        // bottom 마스크 채우기
+        Props_UI.instance.masks[1].fillAmount = 60f / scrollY;
+    }
+
 
     //public IEnumerator UpdateDistance()
     //{
@@ -129,23 +157,26 @@ public class SettingTourInfo : MonoBehaviour
         float targetWidth = 840;
         float targetHeight = targetWidth / originalAspect;
 
-        // RectTransform의 사이즈 조정
-        contents[7].gameObject.SetActive(false);                                        // 이미지 비활성화
-        
-        if (contents[7].GetComponent<RectTransform>() != null)
-        {
-            contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight);
-            contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight + 36);
-        }
         // UI.Image에 텍스처 적용
         if (contents[5].GetComponent<Image>() != null)
         {
             contents[5].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f));
         }
 
-        contents[7].gameObject.SetActive(true);
+        SettingSize(targetHeight);
 
-        contents[2].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));    // 실시간 거리
+        print(contents[0].transform.parent.GetComponent<RectTransform>().sizeDelta.y);
+
+        //// RectTransform의 사이즈 조정
+        //contents[7].gameObject.SetActive(false);                                        // 이미지 비활성화
+        
+        //if (contents[7].GetComponent<RectTransform>() != null)
+        //{
+        //    contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight);
+        //    contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight + 36);
+        //}
+
+        //contents[7].gameObject.SetActive(true);
     }
     #endregion
 

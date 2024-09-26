@@ -64,9 +64,8 @@ public class SettingPropInfo : MonoBehaviour
     {
         // 3D 모델링
         PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
-        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
         // 그림자
-        PropModeling.instance.Cloud.SetActive(true);
+        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         // 거리
@@ -111,9 +110,8 @@ public class SettingPropInfo : MonoBehaviour
     {
         // 3D 모델링
         PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
-        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
         // 그림자
-        PropModeling.instance.Cloud.SetActive(false);
+        PropModeling.instance.CloudsOff();
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         // 방문일자
