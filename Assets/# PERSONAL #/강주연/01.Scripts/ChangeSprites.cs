@@ -32,7 +32,7 @@ public class ChangeSprites : MonoBehaviour
             // 카드 활성화
             if (no == 0)
             {
-                BottomSheetManager.instance.soringAll(true);
+                BottomSheetManager.instance.SortingAll(true);
             }
             else if (no == 1)
             {
@@ -62,7 +62,7 @@ public class ChangeSprites : MonoBehaviour
             tour[no].GetComponent<Image>().sprite = tour[no].GetComponent<SpritesHolder>().sprites[1];        // 눌림
 
             // 카드 활성화
-            if (no == 0) { BottomSheetManager.instance.soringAll(false); }
+            if (no == 0) { BottomSheetManager.instance.SortingAll(false); }
             else if (no == 1) { BottomSheetManager.instance.FilteringTour("TouristSpot"); }
             else if (no == 2) { BottomSheetManager.instance.FilteringTour("CulturalFacilities"); }
             else if (no == 3) { BottomSheetManager.instance.FilteringTour("Festival"); }

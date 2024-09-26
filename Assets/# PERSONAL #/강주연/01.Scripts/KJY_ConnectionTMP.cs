@@ -82,7 +82,7 @@ public class TryImageConnection : MonoBehaviour
     {
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
         ToastMessage.ShowToast("이미지를 업로드했어요");
-
+        CameraFeed.Instance.CameraOff();
         ButtonActions.Instance.StartCoroutine(nameof(ButtonActions.Instance.QuestDone));
     }
 }

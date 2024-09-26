@@ -24,21 +24,17 @@ public class ButtonActions : MonoBehaviour
 
     public IEnumerator QuestDone()
     {
-        CameraFeed.Instance.CameraOff();
-
         // 버튼 터치 불가능하게 만들기
         content.GetChild(6).transform.GetChild(0).GetComponent<Button>().enabled = false;
-
-        // 퀘스트 스프라이트 바꾸기
-        content.GetChild(6).transform.GetChild(0).GetComponent<Image>().sprite = content.GetChild(6).GetComponent<SpritesHolder>().sprites[2];
 
         // 줄 긋기
         content.GetChild(6).transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontStyle = FontStyles.Strikethrough;
 
-        yield return new WaitForSeconds(0.8f);
+        // 퀘스트 스프라이트 바꾸기
+        yield return StartCoroutine(nameof(ChangeSprite));
 
         // 팝업창 닫기
-        yield return PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN),true);
+        yield return PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
 
         // 구름 걷히는 연출함수 호출
         PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture].status = true;
@@ -49,11 +45,36 @@ public class ButtonActions : MonoBehaviour
         // 바텀시트 태그 수정하기
         for (int i = 0; i < BottomSheetManager.instance.contentPlace.childCount; i++)
         {
-            if(BottomSheetManager.instance.contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().ServerProp.propNo == KJY_ConnectionTMP.instance.questNoPicture)
+            if (BottomSheetManager.instance.contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().ServerProp.propNo == KJY_ConnectionTMP.instance.questNoPicture)
             {
                 BottomSheetManager.instance.contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().ChangeType();
             }
         }
+
+        // 바텀시트 초기화
+        ChangeSprites.instance.place[0].GetComponent<Image>().sprite = ChangeSprites.instance.place[0].GetComponent<SpritesHolder>().sprites[1];
+        ChangeSprites.instance.place[1].GetComponent<Image>().sprite = ChangeSprites.instance.place[0].GetComponent<SpritesHolder>().sprites[0];
+        ChangeSprites.instance.place[2].GetComponent<Image>().sprite = ChangeSprites.instance.place[0].GetComponent<SpritesHolder>().sprites[0];
+
+        BottomSheetManager.instance.SortingAll(true);
+        MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
+    }
+
+    IEnumerator ChangeSprite()
+    {
+        float t = 0;
+        float d = 1f;
+
+        Image image = content.GetChild(6).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>();
+
+        while (t < d)
+        {
+            image.fillAmount = Mathf.Lerp(0, 1, t / d);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        image.fillAmount = 1f;
     }
 
     // 태그 스프라이트 및 내용 바꾸기
