@@ -130,17 +130,24 @@ public class HttpManager : MonoBehaviour
         }
         else
         {
-            //SendRequest(KJY_ConnectionTMP.instance.requestHttp, KJY_ConnectionTMP.instance.requestHeaderHttp);
-            print("요청 실패");
-            print(request.downloadHandler.text);
-            print(request.error);
-            requester.Complete(request.downloadHandler);
-            //StartCoroutine(KJY_ConnectionTMP.instance.successText());
+            if (headerState == RequestHeader.other && KJY_ConnectionTMP.instance.isQuest == true)
+            {
+                print("요청 실패");
+                SendRequest(KJY_ConnectionTMP.instance.requestHttp, KJY_ConnectionTMP.instance.requestHeaderHttp);
+            }
+            else
+            {
+                print("요청 실패");
+                print(request.downloadHandler.text);
+                print(request.error);
+                requester.Complete(request.downloadHandler);
+                //StartCoroutine(KJY_ConnectionTMP.instance.successText());
 
-            if (errorDelegate != null)
-                errorDelegate.Invoke();
+                if (errorDelegate != null)
+                    errorDelegate.Invoke();
 
-            errorDelegate = null;
+                errorDelegate = null;
+            }
         }
     }
 

@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.Rendering;
@@ -49,12 +51,29 @@ public class CameraFeed : MonoBehaviour
     [SerializeField] private Camera cam;
     public Vector2 referenceResolution = new Vector2(1080, 2340);
 
+    [Header("Tutorial")]
+    public bool isTutorial = false;
+    [SerializeField] private Sprite tutorialImage_notCrop;
+    [SerializeField] private Sprite tutorialImage_crop;
+    [SerializeField] private Image tutorialRawImage;
+    [SerializeField] private Animator animator;
+    [SerializeField] private GameObject tutorialObject;
+    [SerializeField] private GameObject shutter_Dialog;
+    [SerializeField] private GameObject photoUse_Dialog;
+    [SerializeField] private List<Button> buttonList;
+
+
     private void Start()
     {
         rawImageTransform = webCamRawImage.rectTransform;
         originalPos = rawImageTransform.localPosition;
         originalCapRect = captureRect.localPosition;
         originalCheckRect = checkRect.localPosition;
+        LoginResponse loginData = DataManager.instance.GetLoginData();
+        if (loginData.data.agreed == false)
+        {
+            isTutorial = true;
+        }
     }
 
     public void SetWebCam()
@@ -62,52 +81,47 @@ public class CameraFeed : MonoBehaviour
         if (camCanvas.enabled == false)
         {
             camCanvas.enabled = true;
+            checkObject.SetActive(false);
         }
 
-        
-        webCam.localPosition = originalPos;
-        captureRect.localPosition = originalCapRect;
-        checkRect.localPosition = originalCheckRect;
+        #region notUse_Now     
+        //webCam.localPosition = originalPos;
+        //captureRect.localPosition = originalCapRect;
+        //checkRect.localPosition = originalCheckRect;
 
         //AdjustUIPosition(originalPos, webCam);
         //AdjustUIPosition(captureRect.localPosition, captureRect);
         //AdjustUIPosition(originalCheckRect, checkRect);
 
-        if (Screen.width > 1440)
+        //if (Screen.width > 1440)
+        //{
+        //    float ratio = Screen.width / 1080;
+        //    float newY =  125 * ratio;
+        //    float newY2 =  250 * ratio;
+
+        //    Vector3 tmp1 = webCam.localPosition;
+        //    Vector3 tmp2 = captureRect.localPosition;
+        //    Vector3 tmp3 = checkRect.localPosition;
+
+        //    tmp1.y += newY;
+        //    tmp2.y += newY2;
+        //    tmp3.y += newY2;
+
+        //    webCam.localPosition = tmp1;
+        //    captureRect.localPosition = tmp2;
+        //    checkRect.localPosition = tmp3;
+        //}
+        #endregion
+
+        if (isTutorial)
         {
-            float ratio = Screen.width / 1080;
-            float newY =  125 * ratio;
-            float newY2 =  250 * ratio;
-
-            Vector3 tmp1 = webCam.localPosition;
-            Vector3 tmp2 = captureRect.localPosition;
-            Vector3 tmp3 = checkRect.localPosition;
-
-            tmp1.y += newY;
-            tmp2.y += newY2;
-            tmp3.y += newY2;
-
-            webCam.localPosition = tmp1;
-            captureRect.localPosition = tmp2;
-            checkRect.localPosition = tmp3;
+            tutorialRawImage.sprite = tutorialImage_notCrop;
+            TutorialStart();
         }
-
-        CreateWebCamTexture();
-    }
-
-
-    private void AdjustUIPosition(Vector2 referencePosition, RectTransform targetUI)
-    {
-        float currentWidth = Screen.width;
-        float currentHeight = Screen.height;
-
-        float relativeX = referencePosition.x / referenceResolution.x;
-        float relativeY = referencePosition.y / referenceResolution.y;
-
-        float newX = relativeX * currentWidth;
-        float newY = relativeY * currentHeight;
-
-        targetUI.localPosition = new Vector2(newX, newY);
+        else
+        {
+            CreateWebCamTexture();
+        }
     }
 
     public void SwitchCamera()
@@ -252,16 +266,16 @@ public class CameraFeed : MonoBehaviour
 
     public void CapturePhoto()
     {
-        //if (tutorial == true)
-        //{
-        //    StopCoroutine(Tutorial());
-        //    tutorial = false;
-        //    rawImageTransform.localPosition = originalPos;
-        //}
-        //else
-        //{
+        if (isTutorial)
+        {
+            captureObject.SetActive(false);
+            checkObject.SetActive(true);
+            StartCoroutine(nameof(Shutter));
+        }
+        else
+        {
             StartCoroutine(CapturePhotoCoroutine());
-        //}
+        }
     }
 
     private IEnumerator CapturePhotoCoroutine()
@@ -335,25 +349,33 @@ public class CameraFeed : MonoBehaviour
 
     public void UploadImage()
     {
-        int width = webCamRawImage.texture.width;
-        int height = webCamRawImage.texture.height;
+        if (isTutorial)
+        {
+            KJY_ConnectionTMP.instance.OnClickTest(tutorialRawImage.sprite.texture);
+            TutorialFinish();
+        }
+        else
+        {
+            int width = webCamRawImage.texture.width;
+            int height = webCamRawImage.texture.height;
 
-        RenderTexture currentRenderTexture = RenderTexture.active;
-        RenderTexture copiedRenderTexture = new RenderTexture(width, height, 0);
+            RenderTexture currentRenderTexture = RenderTexture.active;
+            RenderTexture copiedRenderTexture = new RenderTexture(width, height, 0);
 
-        Graphics.Blit(webCamRawImage.texture, copiedRenderTexture);
+            Graphics.Blit(webCamRawImage.texture, copiedRenderTexture);
 
-        RenderTexture.active = copiedRenderTexture;
+            RenderTexture.active = copiedRenderTexture;
 
 
-        Texture2D texture2D = new Texture2D(width, height, TextureFormat.RGB24, false);
+            Texture2D texture2D = new Texture2D(width, height, TextureFormat.RGB24, false);
 
-        texture2D.ReadPixels(new UnityEngine.Rect(0, 0, width, height), 0, 0);
-        texture2D.Apply();
+            texture2D.ReadPixels(new UnityEngine.Rect(0, 0, width, height), 0, 0);
+            texture2D.Apply();
 
-        RenderTexture.active = currentRenderTexture;
+            RenderTexture.active = currentRenderTexture;
 
-        KJY_ConnectionTMP.instance.OnClickTest(texture2D);
+            KJY_ConnectionTMP.instance.OnClickTest(texture2D);
+        }
     }
 
     public void CameraOff()
@@ -389,6 +411,45 @@ public class CameraFeed : MonoBehaviour
         cam.rect = viewport;
     }
 
+    #region Tutoral
+    public void TutorialStart()
+    {
+        tutorialObject.SetActive(true);
+        animator.enabled = true;
+        for (int  i = 0; i < buttonList.Count; i++)
+        {
+            buttonList[i].interactable = false;
+        }
+    }
+
+    public void TutorialShutter()
+    {
+        shutter_Dialog.SetActive(true);
+        buttonList[2].interactable = true;
+    }
+
+    private IEnumerator Shutter()
+    {
+        shutter_Dialog.SetActive(false);
+        yield return tutorialRawImage.DOFade(0, 0.5f);
+        tutorialRawImage.sprite = tutorialImage_crop;
+        yield return tutorialRawImage.DOFade(1, 1f);
+        yield return new WaitForSeconds(1);
+        photoUse_Dialog.SetActive(true);
+    }
+
+    public void TutorialFinish()
+    {
+        tutorialObject.SetActive(false);
+        animator.enabled = false;
+        photoUse_Dialog.SetActive(false);
+
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            buttonList[i].interactable = true;
+        }
+    }
+    #endregion
     //private IEnumerator Tutorial()
     //{
     //    float shakeDuration = 1.0f;
