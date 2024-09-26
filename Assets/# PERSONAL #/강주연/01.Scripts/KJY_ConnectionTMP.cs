@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -68,12 +69,13 @@ public class TryImageConnection : MonoBehaviour
             {
                 Debug.LogError($"Error: {www.error}");
                 //ToastMessage.ShowToast("이미지 업로드에 실패했어요");
+                KJY_ConnectionTMP.instance.SetCanvasText("사진 사용에 실패했어요.\n 다시 시도해 주세요.");
                 KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
-                ButtonActions.Instance.QuestDone();
+                //ButtonActions.Instance.QuestDone();
             }
             else
             {
-                Debug.Log("Image upload complete!");
+                //Debug.Log("Image upload complete!");
                 Complete(www.downloadHandler);
             }
         }
@@ -81,10 +83,9 @@ public class TryImageConnection : MonoBehaviour
 
     private void Complete(DownloadHandler result)
     {
+        ButtonActions.Instance.QuestDone();
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
         ToastMessage.ShowToast("이미지를 업로드했어요");
-
-        ButtonActions.Instance.QuestDone();
     }
 }
 #endregion
@@ -215,8 +216,9 @@ public class TryHomeConnection : ConnectionStratage
         else
         {
             Debug.Log(result.error);
-            //ToastMessage.ShowToast("불러오기에 실패했어요 앱을 다시 시작해주세요");
-            KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
+            ToastMessage.ShowToast("지도를 펼치는 데 실패했어요. 앱을 다시 실행해 주세요.");
+            //KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
+            //앱 종료 코드 추가
 
         }
     }
@@ -301,6 +303,7 @@ public class TryQuestConnection:ConnectionStratage
 
         if (response.status == "OK")
         {
+            KJY_ConnectionTMP.instance.isQuest = false;
             DataManager.instance.SetQuestInfo(response.data);
             // 성공하면 여기
         }
@@ -308,7 +311,7 @@ public class TryQuestConnection:ConnectionStratage
         {
             //ToastMessage.ShowToast("프랍 데이터를 불러오지 못했어요 다시 시도해 주세요");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
-            KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
+            //KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }
 }
@@ -456,6 +459,7 @@ public class TryConfirmConnection : ConnectionStratage
         {
             //ToastMessage.ShowToast("통신에 실패했어요");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
+            KJY_ConnectionTMP.instance.SetCanvasText("약관 동의에 실패했어요.\n 다시 시도해 주세요.");
             KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }
@@ -531,6 +535,7 @@ public class TryDeleteConnection : ConnectionStratage
         {
             //ToastMessage.ShowToast("계정 삭제에 실패했어요 다시 시도해 주세요");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
+            KJY_ConnectionTMP.instance.SetCanvasText("계정 삭제에 실패했어요.\n 다시 시도해 주세요.");
             KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }
@@ -546,6 +551,8 @@ public class KJY_ConnectionTMP : MonoBehaviour
     public RequestHeader requestHeaderHttp;
     public int questNoPicture;
     [SerializeField] private Canvas failCanvas;
+    [SerializeField] private TextMeshProUGUI errorText;
+    public bool isQuest = false;
 
 
     private void Awake()
@@ -561,18 +568,18 @@ public class KJY_ConnectionTMP : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        //if (connectionFailUI == null)
-        //{
-        //    //connectionFailUI = GameObject.Find("ConnectionFail Canvas").transform.GetChild(0).gameObject;
-        //}
-    }
+    //private void Update()
+    //{
+    //    if (connectionFailUI == null)
+    //    {
+    //        //connectionFailUI = GameObject.Find("ConnectionFail Canvas").transform.GetChild(0).gameObject;
+    //    }
+    //}
 
-    public void OnConnectionFailUI()
-    {
-        //connectionFailUI.SetActive(true);
-    }
+    //public void OnConnectionFailUI()
+    //{
+    //    connectionFailUI.SetActive(true);
+    //}
 
     public void QuestNo(int questNo)
     {
@@ -596,6 +603,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
         };
 
         Debug.Log(setting.url);
+        isQuest = false;
         TryImageConnection tryImageConnection = gameObject.AddComponent<TryImageConnection>();
         tryImageConnection.Initialize(setting);
     }
@@ -608,6 +616,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
     public void OnClickHomeConnection() //홈정보 통신하는 함수
     {
         HomeSetting setting = new HomeSetting();
+        isQuest = false;
         //LocationInfo info = DataManager.instance.GetGPSInfo();
         //setting.latitude = info.latitude;
         //setting.longitude = info.longitude;
@@ -626,12 +635,14 @@ public class KJY_ConnectionTMP : MonoBehaviour
         LocationInfo info = GPS.Instance.LocationInfo;
         setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
         TryQuestConnection questConnection = new TryQuestConnection(setting);
+        isQuest = true;
 #elif UNITY_EDITOR
         QuestSetting setting = new QuestSetting();
         float latitude = (float)37.566826;
         float longitude = (float) 126.9786567;
         setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + longitude + "&lat=" + latitude;
         TryQuestConnection questConnection = new TryQuestConnection(setting);
+        isQuest = true;
 #endif
     }
 
@@ -639,6 +650,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
     {
         ConfirmSetting setting = new ConfirmSetting();
         setting.url = "https://letsgotour.store/auth/terms";
+        isQuest = false;
 
         TryConfirmConnection confirmConnection = new TryConfirmConnection(setting);
     }
@@ -647,6 +659,7 @@ public class KJY_ConnectionTMP : MonoBehaviour
     {
         DeleteSetting setting = new DeleteSetting();
         setting.url = "https://letsgotour.store/auth/unlink";
+        isQuest = false;
 
         TryDeleteConnection confirmConnection = new TryDeleteConnection(setting);
     }
@@ -673,5 +686,10 @@ public class KJY_ConnectionTMP : MonoBehaviour
     public void FailConnectionCanvasOff()
     {
         failCanvas.enabled = false;
+    }
+
+    public void SetCanvasText(string text)
+    {
+        errorText.text = text;
     }
 }

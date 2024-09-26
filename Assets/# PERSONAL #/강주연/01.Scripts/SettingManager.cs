@@ -32,7 +32,12 @@ public class SettingManager : MonoBehaviour
 
     [Header("EffectSoundAudio")]
     public AudioSource effectSource;
-    public AudioClip[] effectClip;
+    public AudioClip buttonTouchClip;
+    public AudioClip popUpTouchClip;
+    public AudioClip[] mapMoveTouch_ShortClip;
+    public AudioClip[] mapMoveTouch_LongClip;
+    private int shortClipCount;
+    private int LongClipCount;
 
     private bool isEffectSound;
 
@@ -42,6 +47,8 @@ public class SettingManager : MonoBehaviour
         isEffectSound = true;
         effectSoundBtn.GetComponent<Image>().sprite = onBtn;
         bgSoundBtn.GetComponent<Image>().sprite = onBtn;
+        shortClipCount = 0;
+        LongClipCount = 0;
     }
 
     public void LogOutButton()
@@ -109,22 +116,43 @@ public class SettingManager : MonoBehaviour
         }
     }
 
-    public void EffectSoundManager(int num)
+    public void EffectSound_ButtonTouch()
     {
         if (!isEffectSound)
             return;
-        if (num == 0)
-        {
-            effectSource.PlayOneShot(effectClip[num]);
-            effectSource.volume = 1f;
-        }
-        else if (num == 1)
-        {
-            
-        }
-        else if (num == 2)
-        {
+         effectSource.PlayOneShot(buttonTouchClip);
+         effectSource.volume = 1f;
+    }
 
+    public void EffectSound_PopUpTouch()
+    {
+        if (!isEffectSound)
+            return;
+        effectSource.PlayOneShot(popUpTouchClip);
+        effectSource.volume = 1f;
+    }
+
+    public void EffectSound_MapShortTouch()
+    {
+        if (!isEffectSound)
+            return;
+        if (shortClipCount == mapMoveTouch_ShortClip.Length)
+        {
+            shortClipCount = 0;
         }
+        effectSource.PlayOneShot(mapMoveTouch_ShortClip[shortClipCount]);
+        effectSource.volume = 1f;
+    }
+
+    public void EffectSound_MapLongTouch()
+    {
+        if (!isEffectSound)
+            return;
+        if (LongClipCount == mapMoveTouch_LongClip.Length)
+        {
+            LongClipCount = 0;
+        }
+        effectSource.PlayOneShot(mapMoveTouch_LongClip[LongClipCount]);
+        effectSource.volume = 1f;
     }
 }
