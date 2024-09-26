@@ -18,10 +18,13 @@ public class SettingCanvasOnOff : MonoBehaviour
     {
         settingCanvas.enabled = true;
         ksb_setting.transform.root.GetComponent<tmpTouch>().state = tmpTouch.State.Setting;
+        SettingManager.instance.BackGroundSound_InSetting();
+        SettingManager.instance.EffectSound_ButtonTouch();
     }
 
     public void SettingCanvasOff()
     {
         settingCanvas.enabled = false;
+        SettingManager.instance.BackGroundSound_Original();
     }
 }

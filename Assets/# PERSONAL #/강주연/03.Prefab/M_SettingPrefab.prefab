@@ -318,6 +318,7 @@ MonoBehaviour:
   effectSoundBtn: {fileID: 6258738800414771344}
   onBtn: {fileID: 21300000, guid: 4884a05bd9eb525499b2f67e6146cad6, type: 3}
   offBtn: {fileID: 21300000, guid: 098af955e0c85414ebf767a4284051af, type: 3}
+  bgSource: {fileID: 1802930029796509602}
   logOutBtn: {fileID: 8173254848444046193}
   logoutPopUp: {fileID: 9203140781557334661}
   deletePopUp: {fileID: 1577110440450400130}

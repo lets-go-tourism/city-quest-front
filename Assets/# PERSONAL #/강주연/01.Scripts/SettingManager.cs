@@ -18,6 +18,7 @@ public class SettingManager : MonoBehaviour
     [SerializeField] private Button effectSoundBtn;
     [SerializeField] private Sprite onBtn;
     [SerializeField] private Sprite offBtn;
+    [SerializeField] private AudioSource bgSource;
 
     [Header("LogOutUI_DeleteUI")]
     [SerializeField] private GameObject logOutBtn;
@@ -99,6 +100,22 @@ public class SettingManager : MonoBehaviour
             isSound = true;
         }
     }
+
+    public void BackGroundSound_Original()
+    {
+        bgSource.volume = 0.5f;
+    }
+
+    public void BackGroundSound_InProp()
+    {
+        bgSource.volume = 0.3f;
+    }
+
+    public void BackGroundSound_InSetting()
+    {
+        bgSource.volume = 0.1f;
+    }
+
 
     public void EffectSoundOnOff()
     {
