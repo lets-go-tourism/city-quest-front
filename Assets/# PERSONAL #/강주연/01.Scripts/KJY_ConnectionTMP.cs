@@ -83,10 +83,9 @@ public class TryImageConnection : MonoBehaviour
 
     private void Complete(DownloadHandler result)
     {
+        ButtonActions.Instance.QuestDone();
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
         ToastMessage.ShowToast("이미지를 업로드했어요");
-
-        ButtonActions.Instance.QuestDone();
     }
 }
 #endregion

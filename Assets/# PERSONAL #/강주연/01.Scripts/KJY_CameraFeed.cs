@@ -55,7 +55,7 @@ public class CameraFeed : MonoBehaviour
     public bool isTutorial = false;
     [SerializeField] private Sprite tutorialImage_notCrop;
     [SerializeField] private Sprite tutorialImage_crop;
-    [SerializeField] private Image tutorialRawImage;
+    [SerializeField] private Image tutorialImage;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject tutorialObject;
     [SerializeField] private GameObject shutter_Dialog;
@@ -115,7 +115,7 @@ public class CameraFeed : MonoBehaviour
 
         if (isTutorial)
         {
-            tutorialRawImage.sprite = tutorialImage_notCrop;
+            tutorialImage.sprite = tutorialImage_notCrop;
             TutorialStart();
         }
         else
@@ -351,8 +351,17 @@ public class CameraFeed : MonoBehaviour
     {
         if (isTutorial)
         {
-            KJY_ConnectionTMP.instance.OnClickTest(tutorialRawImage.sprite.texture);
-            TutorialFinish();
+             Sprite sprite = tutorialImage.sprite;
+             Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+             Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
+                                                          (int)sprite.textureRect.y,
+                                                          (int)sprite.textureRect.width,
+                                                          (int)sprite.textureRect.height);
+             newText.SetPixels(newColors);
+             newText.Apply();
+
+            KJY_ConnectionTMP.instance.OnClickTest(newText);
+             TutorialFinish();
         }
         else
         {
@@ -431,9 +440,10 @@ public class CameraFeed : MonoBehaviour
     private IEnumerator Shutter()
     {
         shutter_Dialog.SetActive(false);
-        yield return tutorialRawImage.DOFade(0, 0.5f);
-        tutorialRawImage.sprite = tutorialImage_crop;
-        yield return tutorialRawImage.DOFade(1, 1f);
+        yield return tutorialImage.DOFade(0, 0.5f);
+        tutorialImage.rectTransform.sizeDelta = new Vector2(1081, 1081);
+        tutorialImage.sprite = tutorialImage_crop;
+        yield return tutorialImage.DOFade(1, 1f);
         yield return new WaitForSeconds(1);
         photoUse_Dialog.SetActive(true);
     }

@@ -324,11 +324,34 @@ MonoBehaviour:
   logOutButtonClick: {fileID: 21300000, guid: 2749d9f7ccb613c4786cbcc1f315e231, type: 3}
   audioSource: {fileID: 1802930029796509602}
   effectSource: {fileID: 549729011495677270}
-  effectClip:
-  - {fileID: 8300000, guid: 6e27793c8c4aa0449acc5a201200098c, type: 3}
-  - {fileID: 8300000, guid: 76a32b9c7f22dda488ef4b71f7cd2c54, type: 3}
-  - {fileID: 8300000, guid: 23b59e6901dc9e446970575a1f31972e, type: 3}
-  - {fileID: 8300000, guid: 08b542e7432ef8e499c9949d0ec65512, type: 3}
+  buttonTouchClip: {fileID: 8300000, guid: 6e27793c8c4aa0449acc5a201200098c, type: 3}
+  popUpTouchClip: {fileID: 8300000, guid: 76a32b9c7f22dda488ef4b71f7cd2c54, type: 3}
+  mapMoveTouch_ShortClip:
+  - {fileID: 8300000, guid: 43e09205247d5164693f330bbf7d2f34, type: 3}
+  - {fileID: 8300000, guid: 3da82aef5943c49489588ed4a7d33436, type: 3}
+  - {fileID: 8300000, guid: e03ea4b2a04b66141a9713bd8650cc00, type: 3}
+  - {fileID: 8300000, guid: b0641d67ecbf5ab44a78a1a69579a695, type: 3}
+  - {fileID: 8300000, guid: b3bcaf51542bf4c4da605011de0ef916, type: 3}
+  - {fileID: 8300000, guid: 1059c1117b6594e40a614174239638b7, type: 3}
+  - {fileID: 8300000, guid: 343b76348186a56408a4338a7e5d361c, type: 3}
+  - {fileID: 8300000, guid: 01ebb460d1ecda74c8a88f7066e7e7d1, type: 3}
+  - {fileID: 8300000, guid: 4dc778aa392505b4d9e11bab9bfda4f1, type: 3}
+  - {fileID: 8300000, guid: 0026a5c19e916b244a2dcca7727b07fa, type: 3}
+  - {fileID: 8300000, guid: 6646112c4bba802429e997a8dbc244fd, type: 3}
+  - {fileID: 8300000, guid: 12cff8d8f556c01418a379ec23a36111, type: 3}
+  - {fileID: 8300000, guid: 97b62c431f515504392b21d78d1de020, type: 3}
+  mapMoveTouch_LongClip:
+  - {fileID: 8300000, guid: 5da6c50c2325eb64883192aaba986292, type: 3}
+  - {fileID: 8300000, guid: c25e1bef3d763934e832dcbef01d5a14, type: 3}
+  - {fileID: 8300000, guid: 4f83595ebf9e53146bfe88d27139eee0, type: 3}
+  - {fileID: 8300000, guid: e1e9a12368e274b4db258c47672c8ce0, type: 3}
+  - {fileID: 8300000, guid: f12096d3068ebfe4fafc35d7afcb8a31, type: 3}
+  - {fileID: 8300000, guid: ecaf0114e37f78b4d9a0c235118fceb4, type: 3}
+  - {fileID: 8300000, guid: 460689cfe2d5fb94ba6b691fa0450e4f, type: 3}
+  - {fileID: 8300000, guid: dab997a799f905041b3872c4dfc1ff26, type: 3}
+  - {fileID: 8300000, guid: aa3e520a6df56684fac78b91ee66990a, type: 3}
+  - {fileID: 8300000, guid: db48eac9e03932b4dbad5c672ee3a0c6, type: 3}
+  - {fileID: 8300000, guid: f0cc1e64ae0e57d46af705bb9df68c16, type: 3}
 --- !u!1 &312317752129128171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,8 +1348,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1470,8 +1493,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1618,8 +1641,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2247,8 +2270,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2392,8 +2415,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2740,8 +2763,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2889,8 +2912,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3056,8 +3079,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3787,8 +3810,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5038,8 +5061,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5815,8 +5838,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6402474721210096784}
         m_TargetAssemblyTypeName: SettingManager, Assembly-CSharp
-        m_MethodName: EffectSoundManager
-        m_Mode: 3
+        m_MethodName: EffectSound_ButtonTouch
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
