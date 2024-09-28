@@ -68,11 +68,8 @@ public class TryImageConnection : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError($"Error: {www.error}");
-                //ToastMessage.ShowToast("�̹��� ���ε忡 �����߾��");
-                KJY_ConnectionTMP.instance.SetCanvasText("���� ��뿡 �����߾��.\n �ٽ� �õ��� �ּ���.");
+                KJY_ConnectionTMP.instance.SetCanvasText("사진 사용에 실패했어요.\n 다시 시도해 주세요.");
                 KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
-                //ButtonActions.Instance.QuestDone();
-
             }
             else
             {
@@ -86,7 +83,6 @@ public class TryImageConnection : MonoBehaviour
     {
         ButtonActions.Instance.QuestDone();
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
-        //ToastMessage.ShowToast("�̹����� ���ε��߾��");
         CameraFeed.Instance.CameraOff();
         ButtonActions.Instance.StartCoroutine(nameof(ButtonActions.Instance.QuestDone));
     }
@@ -214,12 +210,12 @@ public class TryHomeConnection : ConnectionStratage
             DataManager.instance.SetHometourPlaceList(response.data.tourPlace);
             DataManager.instance.requestSuccess = true;
 
-            ToastMessage.ShowToast("�ҷ����⿡ �����߾��");
         }
         else
         {
             Debug.Log(result.error);
-            ToastMessage.ShowToast("������ ��ġ�� �� �����߾��. ���� �ٽ� ������ �ּ���.");
+            ToastMessage.ShowToast("지도를 펼치는 데 실패했어요. 앱을 다시 실행해 주세요.");
+            Application.Quit();
             //KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
             //�� ���� �ڵ� �߰�
 
@@ -462,7 +458,7 @@ public class TryConfirmConnection : ConnectionStratage
         {
             //ToastMessage.ShowToast("��ſ� �����߾��");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
-            KJY_ConnectionTMP.instance.SetCanvasText("��� ���ǿ� �����߾��.\n �ٽ� �õ��� �ּ���.");
+            KJY_ConnectionTMP.instance.SetCanvasText("약관 동의에 실패했어요.\n 다시 시도해 주세요.");
             KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }
@@ -538,7 +534,7 @@ public class TryDeleteConnection : ConnectionStratage
         {
             //ToastMessage.ShowToast("���� ������ �����߾�� �ٽ� �õ��� �ּ���");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
-            KJY_ConnectionTMP.instance.SetCanvasText("���� ������ �����߾��.\n �ٽ� �õ��� �ּ���.");
+            KJY_ConnectionTMP.instance.SetCanvasText("계정 삭제에 실패했어요.\n 다시 시도해 주세요.");
             KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
     }

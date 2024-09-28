@@ -38,13 +38,11 @@ public class KJY_LoginManager : MonoBehaviour
     [SerializeField] private ScrollRect confirmScrollViewtest;
     [SerializeField] private Button confirmBtn;
     [SerializeField] private Image confirmBtnSprite;
-    [SerializeField] private Sprite confimrBtnClickSpirte;
     private bool isConfirmView = false;
 
     [Header("Authorization")]
     [SerializeField] private GameObject authorizationObject;
     [SerializeField] private GameObject authorizationStartBtn;
-    [SerializeField] private Sprite authorizationStartBtnClickSprite;
     [SerializeField] private GameObject Popup;
 
     [Header("LoginSuccess")]
@@ -54,7 +52,6 @@ public class KJY_LoginManager : MonoBehaviour
     [SerializeField] private Image loginImage;
     [SerializeField] private RectTransform spotPosition;
     [SerializeField] private GameObject CustomerLoginBtn;
-    [SerializeField] private Sprite CustomerLoginBtnClickSprite;
 
     [Header("Editor")]
     [SerializeField] private GameObject editorButton;
@@ -62,7 +59,7 @@ public class KJY_LoginManager : MonoBehaviour
 
     public authState state = authState.None;
     private bool isLogin = false;
-
+    private PermissionCallbacks callbacks;
 
     private void Awake()
     {
@@ -180,7 +177,6 @@ public class KJY_LoginManager : MonoBehaviour
 
     public void OnClickConfirmButton()
     {
-        confirmBtn.GetComponent<Image>().sprite = confimrBtnClickSpirte; 
         confrimObject.SetActive(false);
         authorizationObject.SetActive(true);
         isConfirmView = false;
@@ -188,8 +184,8 @@ public class KJY_LoginManager : MonoBehaviour
 
     public void OnClickAuthorizationButton()
     {
-        authorizationStartBtn.GetComponent<Image>().sprite = authorizationStartBtnClickSprite;
         AuthorizationGPS();
+        Debug.Log("start_Gps");
     }
 
     public void AuthorizationGPS() //GPS 권한 허락받는 함수
@@ -198,13 +194,17 @@ public class KJY_LoginManager : MonoBehaviour
         {
             state = authState.GPS;
             AuthorizationCamera();
+            Debug.Log("permission_Gps");
         }
         else
         {
-            PermissionCallbacks callbacks = new();
-            callbacks.PermissionGranted += PermissionGrantedCallback;
-            callbacks.PermissionDenied += PermissionDeniedCallback;
+            if (callbacks == null)
+            {
+                PermissionCallbacks callbacks = new();
+                callbacks.PermissionGranted += PermissionGrantedCallback;
+                callbacks.PermissionDenied += PermissionDeniedCallback;
 
+            }
             Permission.RequestUserPermission(Permission.FineLocation, callbacks);
         }
     }
@@ -218,9 +218,12 @@ public class KJY_LoginManager : MonoBehaviour
         }
         else
         {
-            PermissionCallbacks callbacks = new();
-            callbacks.PermissionGranted += PermissionGrantedCallback;
-            callbacks.PermissionDenied += PermissionDeniedCallback;
+            if (callbacks == null)
+            {
+                PermissionCallbacks callbacks = new();
+                callbacks.PermissionGranted += PermissionGrantedCallback;
+                callbacks.PermissionDenied += PermissionDeniedCallback;
+            }
 
             Permission.RequestUserPermission(Permission.Camera, callbacks);
         }
@@ -252,9 +255,12 @@ public class KJY_LoginManager : MonoBehaviour
             }
             else
             {
-                PermissionCallbacks callbacks = new();
-                callbacks.PermissionGranted += PermissionGrantedCallback;
-                callbacks.PermissionDenied += PermissionDeniedCallback;
+                if (callbacks == null)
+                {
+                    PermissionCallbacks callbacks = new();
+                    callbacks.PermissionGranted += PermissionGrantedCallback;
+                    callbacks.PermissionDenied += PermissionDeniedCallback;
+                }
 
                 Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS", callbacks);
             }
@@ -323,6 +329,7 @@ public class KJY_LoginManager : MonoBehaviour
 
     private void PermissionDeniedCallback(string permissionName)
     {
+        Debug.Log("permissionName");
         OnPopUp();
     }
 
@@ -337,14 +344,21 @@ public class KJY_LoginManager : MonoBehaviour
         if (state == authState.None)
         {
             AuthorizationGPS();
+            Debug.Log("None");
         }
         else if (state == authState.GPS)
         {
             AuthorizationCamera();
+            Debug.Log("GPS");
         }
         else if (state == authState.Camera)
         {
             AuthorizationAlram();
+            Debug.Log("Camera");
+        }
+        else
+        {
+            Debug.Log("here");
         }
     }
     #endregion
@@ -392,7 +406,6 @@ public class KJY_LoginManager : MonoBehaviour
 
     public void ClickLoginButton()
     {
-        CustomerLoginBtn.GetComponent<Image>().sprite = CustomerLoginBtnClickSprite;
         SceneMove();
     }
 

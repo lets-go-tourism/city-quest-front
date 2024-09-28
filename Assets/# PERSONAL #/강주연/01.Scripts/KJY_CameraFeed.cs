@@ -37,9 +37,6 @@ public class CameraFeed : MonoBehaviour
     [SerializeField] private GameObject checkObject;
     [SerializeField] private RectTransform checkRect;
     [SerializeField] private Canvas camCanvas;
-    [SerializeField] private Image switchBtnImage;
-    [SerializeField] private Sprite frontBtnImage;
-    [SerializeField] private Sprite backBtnImage;
 
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
@@ -128,14 +125,6 @@ public class CameraFeed : MonoBehaviour
     {
         StartCoroutine(DestroyWebCamTextureCoroutine());
         useFrontCamera = !useFrontCamera;
-        if (useFrontCamera)
-        {
-            switchBtnImage.sprite = backBtnImage;
-        }
-        else
-        {
-            switchBtnImage.sprite = frontBtnImage;
-        }
         SetWebCam();
     }
 

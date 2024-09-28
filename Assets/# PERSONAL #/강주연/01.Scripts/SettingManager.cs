@@ -24,7 +24,6 @@ public class SettingManager : MonoBehaviour
     [SerializeField] private GameObject logOutBtn;
     [SerializeField] private GameObject logoutPopUp;
     [SerializeField] private GameObject deletePopUp;
-    [SerializeField] private Sprite logOutButtonClick;
 
 
     [Header("BackGroundAudio")]
@@ -60,7 +59,6 @@ public class SettingManager : MonoBehaviour
         {
             File.Delete(DataManager.instance.GetPathData());
         }
-        logOutBtn.GetComponent<Image>().sprite = logOutButtonClick;
         logoutPopUp.SetActive(true);
     }
 
