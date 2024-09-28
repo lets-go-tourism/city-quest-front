@@ -8,8 +8,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using static UnityEngine.Application;
-using static UnityEngine.Rendering.DebugUI.MessageBox;
 
 public class LoginResponse
 {
@@ -31,25 +29,22 @@ public class loginTest : MonoBehaviour
     public List<string> extractedValues = new List<string>();
     public LoginResponse loginData;
     public string editorNewUser;
+    private int width = Screen.width;
+    private int height = Screen.height;
 
     public void ShowUrl()
     {
-        //#if UNITY_ANDROID && !UNITY_EDITOR
+        #if UNITY_ANDROID && !UNITY_EDITOR
         GpmWebView.ShowUrl(
             "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao",
             new GpmWebViewRequest.Configuration()
             {
                 style = GpmWebViewStyle.POPUP,
-                size = new GpmWebViewRequest.Size
-                {
-                    width = Screen.width, 
-                    height = Screen.height
-                },
                 isClearCookie = true,
                 isClearCache = true,
+                title = " ",
                 isNavigationBarVisible = true,
                 navigationBarColor = "#FFC094",
-                title = "Login",
                 isBackButtonVisible = true,
                 isForwardButtonVisible = true,
                 isCloseButtonVisible = true,
@@ -58,10 +53,10 @@ public class loginTest : MonoBehaviour
              OnCallback,
          new List<string>(),  // ºó ½ºÅ´ ¸®½ºÆ® Àü´Þ
          new List<string>()) ;
-//#elif UNITY_EDITOR
-//        Application.OpenURL("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao");
-//        KJY_LoginManager.instance.EditorButtonOn();
-//#endif
+#elif UNITY_EDITOR
+        Application.OpenURL("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao");
+        KJY_LoginManager.instance.EditorButtonOn();
+#endif
     }
 
     private void OnCallback(GpmWebViewCallback.CallbackType callbackType, string data, GpmWebViewError error)
@@ -76,6 +71,12 @@ public class loginTest : MonoBehaviour
 
         switch (callbackType)
         {
+            case GpmWebViewCallback.CallbackType.Open:
+                {
+                    GpmWebView.SetPosition(0, 0);
+                    GpmWebView.SetSize(width, height);
+                }
+                break;
             case GpmWebViewCallback.CallbackType.PageLoad:
                 {
                         string script = @"

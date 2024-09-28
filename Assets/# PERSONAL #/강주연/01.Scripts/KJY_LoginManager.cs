@@ -59,7 +59,8 @@ public class KJY_LoginManager : MonoBehaviour
 
     public authState state = authState.None;
     private bool isLogin = false;
-    private PermissionCallbacks callbacks;
+    private int count = 0;
+    //private PermissionCallbacks callbacks;
 
     private void Awake()
     {
@@ -185,7 +186,6 @@ public class KJY_LoginManager : MonoBehaviour
     public void OnClickAuthorizationButton()
     {
         AuthorizationGPS();
-        Debug.Log("start_Gps");
     }
 
     public void AuthorizationGPS() //GPS 권한 허락받는 함수
@@ -194,17 +194,13 @@ public class KJY_LoginManager : MonoBehaviour
         {
             state = authState.GPS;
             AuthorizationCamera();
-            Debug.Log("permission_Gps");
         }
         else
         {
-            if (callbacks == null)
-            {
-                PermissionCallbacks callbacks = new();
-                callbacks.PermissionGranted += PermissionGrantedCallback;
-                callbacks.PermissionDenied += PermissionDeniedCallback;
+            PermissionCallbacks callbacks = new();
+            callbacks.PermissionGranted += PermissionGrantedCallback;
+            callbacks.PermissionDenied += PermissionDeniedCallback;
 
-            }
             Permission.RequestUserPermission(Permission.FineLocation, callbacks);
         }
     }
@@ -218,12 +214,9 @@ public class KJY_LoginManager : MonoBehaviour
         }
         else
         {
-            if (callbacks == null)
-            {
-                PermissionCallbacks callbacks = new();
-                callbacks.PermissionGranted += PermissionGrantedCallback;
-                callbacks.PermissionDenied += PermissionDeniedCallback;
-            }
+            PermissionCallbacks callbacks = new();
+            callbacks.PermissionGranted += PermissionGrantedCallback;
+            callbacks.PermissionDenied += PermissionDeniedCallback;
 
             Permission.RequestUserPermission(Permission.Camera, callbacks);
         }
@@ -255,12 +248,9 @@ public class KJY_LoginManager : MonoBehaviour
             }
             else
             {
-                if (callbacks == null)
-                {
-                    PermissionCallbacks callbacks = new();
-                    callbacks.PermissionGranted += PermissionGrantedCallback;
-                    callbacks.PermissionDenied += PermissionDeniedCallback;
-                }
+                PermissionCallbacks callbacks = new();
+                callbacks.PermissionGranted += PermissionGrantedCallback;
+                callbacks.PermissionDenied += PermissionDeniedCallback;
 
                 Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS", callbacks);
             }
@@ -297,17 +287,20 @@ public class KJY_LoginManager : MonoBehaviour
     {
         if (state == authState.None)
         {
+            count = 0;
             DataManager.instance.JsonSave();
             state = authState.GPS;
             AuthorizationCamera();
         }
         else if (state == authState.GPS)
         {
+            count = 0;
             state = authState.Camera;
             AuthorizationAlram();
         }
         else if (state == authState.Camera)
         {
+            count = 0;
             if (isLogin == false)
             {
                 DataManager.instance.JsonSave();
@@ -329,7 +322,7 @@ public class KJY_LoginManager : MonoBehaviour
 
     private void PermissionDeniedCallback(string permissionName)
     {
-        Debug.Log("permissionName");
+        count++;
         OnPopUp();
     }
 
@@ -341,25 +334,40 @@ public class KJY_LoginManager : MonoBehaviour
     public void ClickPopUp()
     {
         Popup.SetActive(false);
-        if (state == authState.None)
+
+        if (count >= 2)
         {
-            AuthorizationGPS();
-            Debug.Log("None");
-        }
-        else if (state == authState.GPS)
-        {
-            AuthorizationCamera();
-            Debug.Log("GPS");
-        }
-        else if (state == authState.Camera)
-        {
-            AuthorizationAlram();
-            Debug.Log("Camera");
+            using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            using (AndroidJavaObject currentActivityObject = unityClass.GetStatic<AndroidJavaObject>("currentActivity"))
+            {
+                string packageName = currentActivityObject.Call<string>("getPackageName");
+
+                using (var uriClass = new AndroidJavaClass("android.net.Uri"))
+                using (AndroidJavaObject uriObject = uriClass.CallStatic<AndroidJavaObject>("fromParts", "package", packageName, null))
+                using (var intentObject = new AndroidJavaObject("android.content.Intent", "android.settings.APPLICATION_DETAILS_SETTINGS", uriObject))
+                {
+                    intentObject.Call<AndroidJavaObject>("addCategory", "android.intent.category.DEFAULT");
+                    intentObject.Call<AndroidJavaObject>("setFlags", 0x10000000);
+                    currentActivityObject.Call("startActivity", intentObject);
+                }
+            }
         }
         else
         {
-            Debug.Log("here");
+            if (state == authState.None)
+            {
+                AuthorizationGPS();
+            }
+            else if (state == authState.GPS)
+            {
+                AuthorizationCamera();
+            }
+            else if (state == authState.Camera)
+            {
+                AuthorizationAlram();
+            }
         }
+
     }
     #endregion
 
