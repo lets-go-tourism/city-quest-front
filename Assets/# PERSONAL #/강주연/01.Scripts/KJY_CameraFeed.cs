@@ -108,7 +108,6 @@ public class CameraFeed : MonoBehaviour
 
         if (isTutorial)
         {
-            tutorialImage.sprite = tutorialImage_notCrop;
             TutorialStart();
         }
         else
@@ -408,6 +407,14 @@ public class CameraFeed : MonoBehaviour
     #region Tutoral
     public void TutorialStart()
     {
+        if (camCanvas.enabled == false)
+        {
+            camCanvas.enabled = true;
+            checkObject.SetActive(false);
+        }
+
+        tutorialImage.sprite = tutorialImage_notCrop;
+
         tutorialObject.SetActive(true);
         animator.enabled = true;
         for (int  i = 0; i < buttonList.Count; i++)

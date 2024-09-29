@@ -53,6 +53,8 @@ MonoBehaviour:
   requestHeaderHttp: 0
   questNoPicture: 0
   failCanvas: {fileID: 4522737586147991429}
+  errorText: {fileID: 2132169042059151647}
+  isQuest: 0
 --- !u!114 &8539136864597217395
 MonoBehaviour:
   m_ObjectHideFlags: 0

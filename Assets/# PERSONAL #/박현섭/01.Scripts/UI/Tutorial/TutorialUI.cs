@@ -213,5 +213,6 @@ public class TutorialUI : MonoBehaviour
     private void StartTutorial5()
     {
         gameObject.SetActive(false);
+        CameraFeed.Instance.TutorialStart();
     }
 }
