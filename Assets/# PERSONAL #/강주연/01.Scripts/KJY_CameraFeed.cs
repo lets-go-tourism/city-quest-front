@@ -53,6 +53,7 @@ public class CameraFeed : MonoBehaviour
     [SerializeField] private Sprite tutorialImage_notCrop;
     [SerializeField] private Sprite tutorialImage_crop;
     [SerializeField] private Image tutorialImage;
+    [SerializeField] private Image tutorialImage_2;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject tutorialObject;
     [SerializeField] private GameObject shutter_Dialog;
@@ -335,7 +336,7 @@ public class CameraFeed : MonoBehaviour
     {
         if (isTutorial)
         {
-             Sprite sprite = tutorialImage.sprite;
+             Sprite sprite = tutorialImage_2.sprite;
              Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
              Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
                                                           (int)sprite.textureRect.y,
@@ -432,10 +433,11 @@ public class CameraFeed : MonoBehaviour
     private IEnumerator Shutter()
     {
         shutter_Dialog.SetActive(false);
-        yield return tutorialImage.DOFade(0, 0.5f);
-        tutorialImage.rectTransform.sizeDelta = new Vector2(1081, 1081);
-        tutorialImage.sprite = tutorialImage_crop;
-        yield return tutorialImage.DOFade(1, 1f);
+        tutorialImage_2.enabled = true;
+        yield return tutorialImage_2.DOFade(0, 0.5f);
+        //tutorialImage.rectTransform.sizeDelta = new Vector2(1081, 1081);
+        //tutorialImage.sprite = tutorialImage_crop;
+        yield return tutorialImage_2.DOFade(1, 1f);
         yield return new WaitForSeconds(1);
         photoUse_Dialog.SetActive(true);
     }
