@@ -336,7 +336,7 @@ public class CameraFeed : MonoBehaviour
     {
         if (isTutorial)
         {
-             Sprite sprite = tutorialImage_2.sprite;
+             Sprite sprite = tutorialImage_crop;
              Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
              Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
                                                           (int)sprite.textureRect.y,
@@ -345,8 +345,8 @@ public class CameraFeed : MonoBehaviour
              newText.SetPixels(newColors);
              newText.Apply();
 
+            TutorialFinish();
             KJY_ConnectionTMP.instance.OnClickTest(newText);
-             TutorialFinish();
         }
         else
         {
@@ -414,6 +414,7 @@ public class CameraFeed : MonoBehaviour
             checkObject.SetActive(false);
         }
 
+        animator.Rebind();
         tutorialImage.sprite = tutorialImage_notCrop;
 
         tutorialObject.SetActive(true);
@@ -432,6 +433,7 @@ public class CameraFeed : MonoBehaviour
 
     private IEnumerator Shutter()
     {
+        tutorialImage.enabled = false;
         shutter_Dialog.SetActive(false);
         tutorialImage_2.enabled = true;
         yield return tutorialImage_2.DOFade(0, 0.5f);
@@ -447,6 +449,7 @@ public class CameraFeed : MonoBehaviour
         tutorialObject.SetActive(false);
         animator.enabled = false;
         photoUse_Dialog.SetActive(false);
+        CameraOff();
 
         for (int i = 0; i < buttonList.Count; i++)
         {

@@ -281,6 +281,14 @@ public class tmpTouch : MonoBehaviour
                         // 프랍정보를 받아옴
                         Prop prop = hit.collider.GetComponent<Prop>();
 
+                        // 튜토리얼 프랍일경우 바로 연다 
+
+                        QuestData questData = new QuestData();
+
+                        //DataManager.instance.SetQuestInfo();
+
+                        // SettingPropInfo.instance.PropInfoSetting();
+
                         // 프랍정보 중 propNo 을 서버에 보냄
                         KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
 
