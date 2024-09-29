@@ -34,7 +34,7 @@ public class loginTest : MonoBehaviour
 
     public void ShowUrl()
     {
-        #if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
         GpmWebView.ShowUrl(
             "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4d8289f86a3c20f5fdbb250e628d2c75&redirect_uri=https://letsgotour.store/oauth2/kakao",
             new GpmWebViewRequest.Configuration()
@@ -44,7 +44,7 @@ public class loginTest : MonoBehaviour
                 isClearCache = true,
                 title = " ",
                 isNavigationBarVisible = true,
-                navigationBarColor = "#FFC094",
+                navigationBarColor = "#FFE19F",
                 isBackButtonVisible = true,
                 isForwardButtonVisible = true,
                 isCloseButtonVisible = true,
