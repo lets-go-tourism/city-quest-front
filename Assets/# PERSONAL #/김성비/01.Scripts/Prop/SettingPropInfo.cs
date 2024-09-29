@@ -46,6 +46,18 @@ public class SettingPropInfo : MonoBehaviour
         }
     }
 
+    public void TutorialPopUpSetting()
+    {
+        StopCoroutine(SettingNO());
+        StartCoroutine(SettingYES());
+    }
+
+    public void TutorialPopUpSetting2()
+    {
+        StopCoroutine(SettingYES());
+        StartCoroutine(SettingNO());
+    }
+
 
     #region 미탐험 장소 팝업창 세팅
     IEnumerator SettingNO()
