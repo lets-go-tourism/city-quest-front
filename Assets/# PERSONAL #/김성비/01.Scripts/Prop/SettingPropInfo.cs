@@ -50,6 +50,7 @@ public class SettingPropInfo : MonoBehaviour
     }
 
 
+
     #region 미탐험 장소 팝업창 세팅
     IEnumerator SettingNO()
     {
@@ -194,17 +195,17 @@ public class SettingPropInfo : MonoBehaviour
             {
                 if (raw.index == 4) // 퀘스트 사진
                 {
-                    SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 840, 840), new Vector2(0.5f, 0.5f));
+                    SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 686, 686), new Vector2(0.5f, 0.5f));
                 }
                 else if(raw.index == 5) // 장소사진
                 {
-                    SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 840, 560), new Vector2(0.5f, 0.5f));
+                    SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 700, 450), new Vector2(0.5f, 0.5f));
                 }
             }
             // 미탐험
             else if (raw.type == "no")   
             {
-                SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 840, 560), new Vector2(0.5f, 0.5f));
+                SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 700, 450), new Vector2(0.5f, 0.5f));
             }
         }
     }

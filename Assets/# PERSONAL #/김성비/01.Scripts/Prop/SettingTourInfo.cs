@@ -69,7 +69,7 @@ public class SettingTourInfo : MonoBehaviour
         contents[7].gameObject.SetActive(true);
 
         // 스크롤뷰 크기
-        float scrollY = 720f + contentY - 60f;
+        float scrollY = 720f + contentY - 54f;
         if(scrollY > 1608)
         {
             scrollY = 1608f;
