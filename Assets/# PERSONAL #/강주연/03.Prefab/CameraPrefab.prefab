@@ -1145,7 +1145,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c26f8662766c3514fb99e75168c7a734, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eec3e4ac7e14d6f4e9b636f4f1101bf2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1321,10 +1321,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3145608027394403852}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -307.5, y: 561}
-  m_SizeDelta: {x: 525, y: 240}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 232.5, y: -609}
+  m_SizeDelta: {x: -555, y: -2100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7412606030437698494
 CanvasRenderer:
@@ -1354,7 +1354,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 32ed91784959021469fda3e6111b28d5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 88c52d49fcb11704bafd952218e02784, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2124,7 +2124,7 @@ MonoBehaviour:
   cameraCanvas: {fileID: 9204959085714788936}
   cam: {fileID: 0}
   referenceResolution: {x: 1080, y: 2340}
-  isTutorial: 1
+  isTutorial: 0
   tutorialImage_notCrop: {fileID: 21300000, guid: c795319b461f9484f8c5f5b506f72feb,
     type: 3}
   tutorialImage_crop: {fileID: 21300000, guid: 2d9a93eb5f43b754cac0d493bb8921a5, type: 3}
