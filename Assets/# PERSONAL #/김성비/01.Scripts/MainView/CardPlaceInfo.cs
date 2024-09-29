@@ -108,7 +108,7 @@ public class CardPlaceInfo : MonoBehaviour
             info[2].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight);
         }
 
-        info[2].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f));
+        info[2].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f), 100, 0, SpriteMeshType.FullRect);
     }
 
     public void SettingPlaceType(bool reveal)
