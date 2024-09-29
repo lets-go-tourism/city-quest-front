@@ -35,9 +35,9 @@ public class MapUIController : MonoBehaviour
             return;
 
         time = 0;
-        float dist = (Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height + Screen.height / 5, Camera.main.transform.position.y)) - new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z)).sqrMagnitude;
 
         if (uiActiveUpdateDelegate != null)
-            uiActiveUpdateDelegate.Invoke(dist);
+            uiActiveUpdateDelegate.Invoke(
+                (Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height + Screen.height / 5, Camera.main.transform.position.y)) - new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z)).sqrMagnitude);
     }
 }
