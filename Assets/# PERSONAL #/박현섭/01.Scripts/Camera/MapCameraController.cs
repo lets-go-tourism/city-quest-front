@@ -69,6 +69,7 @@ public class MapCameraController : MonoBehaviour
     // 터치 이동이 아닌 이동 변수들
     private Vector3 m_TargetPosition;
     public bool m_Moving { get; private set; } = false;
+    public bool m_IsMoving { get; private set; } = false;
     [SerializeField] private float m_MoveSpeed = 1;
 
     // 사운드 관련
@@ -77,10 +78,11 @@ public class MapCameraController : MonoBehaviour
 
     // 화면의 중앙이 어디인지
     private float value = 0.7f;
-    public bool isBottom = false;
+    [HideInInspector] public bool isBottom;
 
     private void Start()
     {
+        isBottom = true;
         m_AudioSource = GetComponent<AudioSource>();
     }
 
@@ -100,12 +102,14 @@ public class MapCameraController : MonoBehaviour
         if (Input.touchCount < 1)
         {
             _initTouch = true;
+            m_IsMoving = false;
         }
 
         if (_initTouch == false)
         {
             Panning();
             Pinching();
+            m_IsMoving = true;
         }
         else
         {
@@ -339,7 +343,7 @@ public class MapCameraController : MonoBehaviour
 
         _panVelocity = Vector2.zero;
 
-        Vector3 targetPos = m_TargetPosition - (isBottom ? _cam.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height * 0.7f, _cam.transform.position.y)) - _cam.transform.position : Vector3.zero);
+        Vector3 targetPos = m_TargetPosition - (isBottom ? _cam.ScreenToWorldPoint(new Vector3(Screen.width / 2, (Screen.height - 948) / 2 + 948, _cam.transform.position.y)) - _cam.transform.position : Vector3.zero);
         if (isBottom)
         {
             targetPos -= new Vector3(0, targetPos.y - _cam.transform.position.y, 0);

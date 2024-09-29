@@ -38,13 +38,11 @@ public class KJY_LoginManager : MonoBehaviour
     [SerializeField] private ScrollRect confirmScrollViewtest;
     [SerializeField] private Button confirmBtn;
     [SerializeField] private Image confirmBtnSprite;
-    [SerializeField] private Sprite confimrBtnClickSpirte;
     private bool isConfirmView = false;
 
     [Header("Authorization")]
     [SerializeField] private GameObject authorizationObject;
     [SerializeField] private GameObject authorizationStartBtn;
-    [SerializeField] private Sprite authorizationStartBtnClickSprite;
     [SerializeField] private GameObject Popup;
 
     [Header("LoginSuccess")]
@@ -54,7 +52,6 @@ public class KJY_LoginManager : MonoBehaviour
     [SerializeField] private Image loginImage;
     [SerializeField] private RectTransform spotPosition;
     [SerializeField] private GameObject CustomerLoginBtn;
-    [SerializeField] private Sprite CustomerLoginBtnClickSprite;
 
     [Header("Editor")]
     [SerializeField] private GameObject editorButton;
@@ -62,7 +59,8 @@ public class KJY_LoginManager : MonoBehaviour
 
     public authState state = authState.None;
     private bool isLogin = false;
-
+    private int count = 0;
+    //private PermissionCallbacks callbacks;
 
     private void Awake()
     {
@@ -180,7 +178,6 @@ public class KJY_LoginManager : MonoBehaviour
 
     public void OnClickConfirmButton()
     {
-        confirmBtn.GetComponent<Image>().sprite = confimrBtnClickSpirte; 
         confrimObject.SetActive(false);
         authorizationObject.SetActive(true);
         isConfirmView = false;
@@ -188,7 +185,6 @@ public class KJY_LoginManager : MonoBehaviour
 
     public void OnClickAuthorizationButton()
     {
-        authorizationStartBtn.GetComponent<Image>().sprite = authorizationStartBtnClickSprite;
         AuthorizationGPS();
     }
 
@@ -291,17 +287,20 @@ public class KJY_LoginManager : MonoBehaviour
     {
         if (state == authState.None)
         {
+            count = 0;
             DataManager.instance.JsonSave();
             state = authState.GPS;
             AuthorizationCamera();
         }
         else if (state == authState.GPS)
         {
+            count = 0;
             state = authState.Camera;
             AuthorizationAlram();
         }
         else if (state == authState.Camera)
         {
+            count = 0;
             if (isLogin == false)
             {
                 DataManager.instance.JsonSave();
@@ -323,6 +322,7 @@ public class KJY_LoginManager : MonoBehaviour
 
     private void PermissionDeniedCallback(string permissionName)
     {
+        count++;
         OnPopUp();
     }
 
@@ -334,18 +334,40 @@ public class KJY_LoginManager : MonoBehaviour
     public void ClickPopUp()
     {
         Popup.SetActive(false);
-        if (state == authState.None)
+
+        if (count >= 2)
         {
-            AuthorizationGPS();
+            using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            using (AndroidJavaObject currentActivityObject = unityClass.GetStatic<AndroidJavaObject>("currentActivity"))
+            {
+                string packageName = currentActivityObject.Call<string>("getPackageName");
+
+                using (var uriClass = new AndroidJavaClass("android.net.Uri"))
+                using (AndroidJavaObject uriObject = uriClass.CallStatic<AndroidJavaObject>("fromParts", "package", packageName, null))
+                using (var intentObject = new AndroidJavaObject("android.content.Intent", "android.settings.APPLICATION_DETAILS_SETTINGS", uriObject))
+                {
+                    intentObject.Call<AndroidJavaObject>("addCategory", "android.intent.category.DEFAULT");
+                    intentObject.Call<AndroidJavaObject>("setFlags", 0x10000000);
+                    currentActivityObject.Call("startActivity", intentObject);
+                }
+            }
         }
-        else if (state == authState.GPS)
+        else
         {
-            AuthorizationCamera();
+            if (state == authState.None)
+            {
+                AuthorizationGPS();
+            }
+            else if (state == authState.GPS)
+            {
+                AuthorizationCamera();
+            }
+            else if (state == authState.Camera)
+            {
+                AuthorizationAlram();
+            }
         }
-        else if (state == authState.Camera)
-        {
-            AuthorizationAlram();
-        }
+
     }
     #endregion
 
@@ -392,7 +414,6 @@ public class KJY_LoginManager : MonoBehaviour
 
     public void ClickLoginButton()
     {
-        CustomerLoginBtn.GetComponent<Image>().sprite = CustomerLoginBtnClickSprite;
         SceneMove();
     }
 

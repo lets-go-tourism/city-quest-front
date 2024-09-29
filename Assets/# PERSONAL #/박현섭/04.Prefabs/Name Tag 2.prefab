@@ -157,8 +157,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uD654\uC131 \uC5ED\uC0AC \uBC15\uBB3C\uAD00"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e9bd3aea8a917f74db1503c2fc5ac821, type: 2}
-  m_sharedMaterial: {fileID: 3380897955138165236, guid: e9bd3aea8a917f74db1503c2fc5ac821,
+  m_fontAsset: {fileID: 11400000, guid: ea60086f6c477ad4c94fb9a28a905804, type: 2}
+  m_sharedMaterial: {fileID: -708490878408648110, guid: ea60086f6c477ad4c94fb9a28a905804,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
