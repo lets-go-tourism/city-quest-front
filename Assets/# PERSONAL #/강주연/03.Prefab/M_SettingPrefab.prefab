@@ -352,6 +352,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: aa3e520a6df56684fac78b91ee66990a, type: 3}
   - {fileID: 8300000, guid: db48eac9e03932b4dbad5c672ee3a0c6, type: 3}
   - {fileID: 8300000, guid: f0cc1e64ae0e57d46af705bb9df68c16, type: 3}
+  cameraClip: {fileID: 8300000, guid: c70f181d8e438644eb183ba11f71d2ad, type: 3}
+  PopUpon: {fileID: 0}
+  PopUpDown: {fileID: 0}
 --- !u!1 &312317752129128171
 GameObject:
   m_ObjectHideFlags: 0
@@ -5126,9 +5129,9 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 0ae8ab34f01101447adbf2496cfc41e5,
       type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 0fda7d5891e835047964fc8f8bc57f62, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: b021c74a92598b54cbfce1860edd789c, type: 3}
     m_SelectedSprite: {fileID: 21300000, guid: 0ae8ab34f01101447adbf2496cfc41e5, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 0fda7d5891e835047964fc8f8bc57f62, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: b021c74a92598b54cbfce1860edd789c, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted

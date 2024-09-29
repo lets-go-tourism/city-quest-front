@@ -61,7 +61,12 @@ public class BottomSheetManager : MonoBehaviour
 
         print("검은 화면 끄기");
         // 검은 화면 끄기   ====================================== 스켈레톤 UI 로 대체하기 ======================================
+        
         MainView_UI.instance.BackgroundDarkDisable();
+
+        //KJY추가 
+        LoadingTest loading = GameObject.FindFirstObjectByType<LoadingTest>();
+        loading.connectionFinish = true;
     }
 
     // 장소 바텀시트

@@ -110,6 +110,8 @@ public class TutorialUI : MonoBehaviour
 
     private IEnumerator Tutorial1_1()
     {
+        //KJY 추가
+        CameraFeed.Instance.isTutorial = true;
         // 터치 막아버리고 정지영 커피 로스터즈로 카메라 이동
         _invisibleNonTouch.enabled = true;
         Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[5]];
@@ -350,6 +352,7 @@ public class TutorialUI : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         _masking2_4.transform.GetChild(0).GetComponent<Image>().enabled = true;
         CameraFeed.Instance.isTutorial = false;
+        DataManager.instance.SaveTutorialInfo();
     }
 
     private void EndTutorial2()

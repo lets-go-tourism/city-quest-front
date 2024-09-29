@@ -14106,6 +14106,7 @@ MonoBehaviour:
   secondaryWidth: 12
   tertiaryWidth: 10
   residentialWidth: 9
+  pedestrianWidth: 5
   wayFloatingOffsetY: 1
 --- !u!114 &199349312
 MonoBehaviour:
@@ -137457,6 +137458,7 @@ GameObject:
   - component: {fileID: 2017078496}
   - component: {fileID: 2017078497}
   - component: {fileID: 2017078498}
+  - component: {fileID: 2017078499}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -137700,6 +137702,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &2017078499
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017078492}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 35456c7e8bf1c7e4c84c21ffe49f810c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2026126752
 GameObject:
   m_ObjectHideFlags: 0
@@ -144841,7 +144864,7 @@ PrefabInstance:
     - target: {fileID: 568086294342032689, guid: 8162a7b1b3fc14747b96cc01c3eb9b89,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -528
+      value: -423
       objectReference: {fileID: 0}
     - target: {fileID: 638552635835888975, guid: 8162a7b1b3fc14747b96cc01c3eb9b89,
         type: 3}
@@ -145081,7 +145104,7 @@ PrefabInstance:
     - target: {fileID: 6768165155657303227, guid: 8162a7b1b3fc14747b96cc01c3eb9b89,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -366
+      value: -315
       objectReference: {fileID: 0}
     - target: {fileID: 7283683740811256762, guid: 8162a7b1b3fc14747b96cc01c3eb9b89,
         type: 3}
@@ -145191,7 +145214,7 @@ PrefabInstance:
     - target: {fileID: 8160144076711343370, guid: 8162a7b1b3fc14747b96cc01c3eb9b89,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -618
+      value: -516
       objectReference: {fileID: 0}
     - target: {fileID: 8992355444831238071, guid: 8162a7b1b3fc14747b96cc01c3eb9b89,
         type: 3}
@@ -145211,7 +145234,7 @@ PrefabInstance:
     - target: {fileID: 8992355444831238071, guid: 8162a7b1b3fc14747b96cc01c3eb9b89,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -954
+      value: -618
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

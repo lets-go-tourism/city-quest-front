@@ -36,6 +36,9 @@ public class SettingManager : MonoBehaviour
     public AudioClip popUpTouchClip;
     public AudioClip[] mapMoveTouch_ShortClip;
     public AudioClip[] mapMoveTouch_LongClip;
+    public AudioClip cameraClip;
+    public AudioClip PopUpon;
+    public AudioClip PopUpDown;
     private int shortClipCount;
     private int LongClipCount;
 
@@ -168,6 +171,30 @@ public class SettingManager : MonoBehaviour
             LongClipCount = 0;
         }
         effectSource.PlayOneShot(mapMoveTouch_LongClip[LongClipCount]);
+        effectSource.volume = 1f;
+    }
+
+    public void EffectSound_Camera()
+    {
+        if (!isEffectSound)
+            return;
+        effectSource.PlayOneShot(cameraClip);
+        effectSource.volume = 1f;
+    }
+
+    public void EffectSound_PopUp()
+    {
+        if (!isEffectSound)
+            return;
+        effectSource.PlayOneShot(PopUpon);
+        effectSource.volume = 1f;
+    }
+
+    public void EffectSound_PopDown()
+    {
+        if (!isEffectSound)
+            return;
+        effectSource.PlayOneShot(PopUpDown);
         effectSource.volume = 1f;
     }
 }
