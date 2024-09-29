@@ -2171,11 +2171,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConnectionManager
       objectReference: {fileID: 0}
-    - target: {fileID: 2806690910082374881, guid: 8b292b34943c55b4ba68b2bbd075635f,
-        type: 3}
-      propertyPath: connectionFailUI
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4774565985039275713, guid: 8b292b34943c55b4ba68b2bbd075635f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3242,12 +3237,8 @@ MonoBehaviour:
   confirmScrollViewtest: {fileID: 1339242235}
   confirmBtn: {fileID: 663263781}
   confirmBtnSprite: {fileID: 663263782}
-  confimrBtnClickSpirte: {fileID: 21300000, guid: fe6d3adae649c894aae16bb7b20db279,
-    type: 3}
   authorizationObject: {fileID: 1081995468}
   authorizationStartBtn: {fileID: 1206062602}
-  authorizationStartBtnClickSprite: {fileID: 21300000, guid: d6751d62aa78b7943ad1b57e32102c49,
-    type: 3}
   Popup: {fileID: 139823315}
   loginText: {fileID: 443279060}
   CustomerLoginUI: {fileID: 1846405628}
@@ -3255,8 +3246,6 @@ MonoBehaviour:
   loginImage: {fileID: 9927889}
   spotPosition: {fileID: 473165692}
   CustomerLoginBtn: {fileID: 329036135}
-  CustomerLoginBtnClickSprite: {fileID: 21300000, guid: efb5043d875e68e49bca68c7eb612c51,
-    type: 3}
   editorButton: {fileID: 1603019033}
   loginEditorData:
   - OK
