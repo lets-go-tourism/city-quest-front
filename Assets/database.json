@@ -1,7 +1,7 @@
 {
-    "timeStamp": "2024-09-27 오전 12:05:41",
+    "timeStamp": "2024-09-29 오후 2:20:24",
     "status": "OK",
-    "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIzNCIsImlhdCI6MTcyNzM2MDk0MCwiZXhwIjoxODEzNzYwOTQwfQ.IRpD6r8KS4r94Vi96C-CCxbeJ3EvHWMYlQkOOyx5SZfCFC8dk03B0Jjph3jSqQoK",
-    "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3MjczNjA5NDAsImV4cCI6MTgxMzc2MDk0MH0.HvrNUKBWlkdp1OKbUl7-6VFzbj-Q3wAGdfc7stY5ykrDpQsP-wZy_CE1WcXEE9kZ",
+    "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIzNiIsImlhdCI6MTcyNzU4NzExNiwiZXhwIjoxODEzOTg3MTE2fQ.M8jv92P7eiwDkdQfu-2T3ussc2Rsw9Stmn0TeiHRTdupwGRj8KWiRMI_JaHelE5J",
+    "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3Mjc1ODcxMTYsImV4cCI6MTgxMzk4NzExNn0.f2jeS4HC-ZwE0GXuaOyf1A558M-FFArr2kPGTpV99yrWyXedwsE6aDVbGx_NtObN",
     "agreed": false
 }
