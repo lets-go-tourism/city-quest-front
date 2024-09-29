@@ -411,6 +411,7 @@ public class CameraFeed : MonoBehaviour
     {
         TutorialUI.Instance.EndTutorial1();
 
+        isTutorial = true;
         animator.Rebind();
         tutorialImage_2.enabled = false;
         tutorialImage.enabled = true;
