@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 
 public class MapCameraController : MonoBehaviour
@@ -80,14 +81,23 @@ public class MapCameraController : MonoBehaviour
     private float value = 0.7f;
     [HideInInspector] public bool isBottom;
 
+    private float bottomHeight = 948;
+
+    private const int cameraHeight = 800;
+    private const float onePixelZOffset = 0.34f;
+
     private void Start()
     {
         isBottom = true;
         m_AudioSource = GetComponent<AudioSource>();
+
+        bottomHeight = 948 * BottomSheetMovement.instance.transform.parent.GetComponent<Canvas>().scaleFactor;
     }
 
     private void Update()
     {
+        bottomHeight = 948 * BottomSheetMovement.instance.transform.parent.GetComponent<Canvas>().scaleFactor;
+
         if (coolTime > 0)
             coolTime -= Time.deltaTime;
         else
@@ -343,11 +353,7 @@ public class MapCameraController : MonoBehaviour
 
         _panVelocity = Vector2.zero;
 
-        Vector3 targetPos = m_TargetPosition - (isBottom ? _cam.ScreenToWorldPoint(new Vector3(Screen.width / 2, (Screen.height - 948) / 2 + 948, _cam.transform.position.y)) - _cam.transform.position : Vector3.zero);
-        if (isBottom)
-        {
-            targetPos -= new Vector3(0, targetPos.y - _cam.transform.position.y, 0);
-        }
+        Vector3 targetPos = isBottom ? m_TargetPosition - new Vector3(0, 0, (Screen.height / 2 - (Screen.height - bottomHeight) / 2) * onePixelZOffset * cameraHeight / transform.position.y)  : m_TargetPosition;
 
         transform.position = 
             // 러프 해서
