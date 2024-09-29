@@ -409,11 +409,7 @@ public class CameraFeed : MonoBehaviour
     #region Tutoral
     public void TutorialStart()
     {
-        if (camCanvas.enabled == false)
-        {
-            camCanvas.enabled = true;
-            checkObject.SetActive(false);
-        }
+        TutorialUI.Instance.EndTutorial1();
 
         animator.Rebind();
         tutorialImage_2.enabled = false;

@@ -57,6 +57,16 @@ public class TutorialUI : MonoBehaviour
         _backgroundDark.enabled = false;
     }
 
+    public void OnNonTouch()
+    {
+        _invisibleNonTouch.enabled = true;
+    }
+
+    public void OffNonTouch()
+    {
+        _invisibleNonTouch.enabled = false;
+    }
+
     public void OnTutorialYesOrNoMsg()
     {
         _tutorialSelectMsg.SetActive(true);
@@ -205,19 +215,18 @@ public class TutorialUI : MonoBehaviour
         // 연속 터치 방지
         yield return new WaitForSeconds(0.1f);
 
-        _tutorialBtn.rectTransform.anchoredPosition = new Vector3(540, 436, 0);
-        _tutorialBtn.rectTransform.sizeDelta = new Vector2(1000, 400);
-        _tutorialBtn.enabled = true;
-        _tutorialBtn.GetComponent<Button>().onClick.AddListener(EndTutorial1);
+        //_tutorialBtn.rectTransform.anchoredPosition = new Vector3(540, 436, 0);
+        //_tutorialBtn.rectTransform.sizeDelta = new Vector2(1000, 400);
+        //_tutorialBtn.enabled = true;
+        //_tutorialBtn.GetComponent<Button>().onClick.AddListener(EndTutorial1);
     }
 
-    private void EndTutorial1()
+    public void EndTutorial1()
     {
         gameObject.SetActive(false);
-        CameraFeed.Instance.TutorialStart();
     }
 
-    private void StartTutorial2_1()
+    public void StartTutorial2_1()
     {
 
     }
@@ -249,6 +258,6 @@ public class TutorialUI : MonoBehaviour
 
     private void EndTutorial2()
     {
-
+        CameraFeed.Instance.isTutorial = false;
     }
 }

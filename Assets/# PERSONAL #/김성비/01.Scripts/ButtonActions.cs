@@ -36,10 +36,14 @@ public class ButtonActions : MonoBehaviour
         yield return PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
 
         // 구름 걷히는 연출함수 호출
+
         PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture].status = true;
         PropsController.Instance.PropDic[KJY_ConnectionTMP.instance.questNoPicture].status = true;
 
-        CloudContainer.Instance.RemoveTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture]]);
+        Prop targetProp = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture]];
+
+        CloudContainer.Instance.RemoveTarget(targetProp);
+        TutorialObj.instance.Cloud.StartSetting(targetProp);
 
         // 바텀시트 태그 수정하기
         for (int i = 0; i < BottomSheetManager.instance.contentPlace.childCount; i++)
@@ -57,6 +61,22 @@ public class ButtonActions : MonoBehaviour
 
         BottomSheetManager.instance.SortingAll(true);
         MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
+
+        TutorialUI.Instance.OnNonTouch();
+        yield return null;
+        yield return new WaitForSeconds(TutorialObj.instance.Cloud.GetAnimTime());
+
+        if (CameraFeed.Instance.isTutorial)
+        {
+            yield return new WaitForSeconds(1.5f);
+            TutorialUI.Instance.OffNonTouch();
+            TutorialUI.Instance.StartTutorial2_1();
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.2f);  
+            TutorialUI.Instance.OffNonTouch();
+        }
     }
 
     IEnumerator ChangeSprite()

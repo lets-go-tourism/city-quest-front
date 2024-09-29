@@ -81,7 +81,6 @@ public class TryImageConnection : MonoBehaviour
 
     private void Complete(DownloadHandler result)
     {
-        ButtonActions.Instance.QuestDone();
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
         CameraFeed.Instance.CameraOff();
         ButtonActions.Instance.StartCoroutine(nameof(ButtonActions.Instance.QuestDone));
