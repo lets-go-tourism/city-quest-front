@@ -29,15 +29,31 @@ public class NameTagContainer : MonoBehaviour
             TourNameTagArr[i] = transform.GetChild(0).GetChild(i).GetComponent<TourNameTagUI>();
             _tourNameTagCount++;
         }
-    }
 
-    public bool collision = false;
+        prevHeight = Screen.height;
+        prevWidth = Screen.width;
+
+        transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(prevWidth, prevHeight);
+        transform.GetChild(1).GetComponent<RectTransform>().sizeDelta = new Vector2(prevWidth, prevHeight);
+    }
 
     private float time = 0;
 
+    private float prevWidth = 0;
+    private float prevHeight = 0;
 
     private void Update()
     {
+        // 해상도가 바뀔경우 자식 0번 1번의 width height도 바꾼다
+        if (prevHeight != Screen.height || prevWidth != Screen.width)
+        {
+            prevWidth = Screen.width;
+            prevHeight = Screen.height;
+
+            transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(prevWidth, prevHeight);
+            transform.GetChild(1).GetComponent<RectTransform>().sizeDelta = new Vector2(prevWidth, prevHeight);
+        }
+
         if (MapCameraController.Instance.m_IsMoving == false)
             return;
 

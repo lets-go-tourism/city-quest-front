@@ -344,6 +344,7 @@ public class CameraFeed : MonoBehaviour
                                                           (int)sprite.textureRect.height);
              newText.SetPixels(newColors);
              newText.Apply();
+            KJY_ConnectionTMP.instance.questNoPicture = 5;
 
             TutorialFinish();
             KJY_ConnectionTMP.instance.OnClickTest(newText);
@@ -415,7 +416,8 @@ public class CameraFeed : MonoBehaviour
         }
 
         animator.Rebind();
-        tutorialImage.sprite = tutorialImage_notCrop;
+        tutorialImage_2.enabled = false;
+        tutorialImage.enabled = true;
 
         tutorialObject.SetActive(true);
         animator.enabled = true;
