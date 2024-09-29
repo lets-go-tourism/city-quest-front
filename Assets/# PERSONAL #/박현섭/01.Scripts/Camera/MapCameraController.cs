@@ -69,8 +69,35 @@ public class MapCameraController : MonoBehaviour
 
     // 터치 이동이 아닌 이동 변수들
     private Vector3 m_TargetPosition;
-    public bool m_Moving { get; private set; } = false;
-    public bool m_IsMoving { get; private set; } = false;
+    public bool m_Moving { get { return moving; } 
+        private set
+        {
+            if(moving == value) return;
+
+            moving = value;
+            if(moving == false)
+            {
+                //BottomSheetManager.instance.SortingPlaceCards();
+                //BottomSheetManager.instance.SortingTourCards();
+            }
+        } 
+    }
+    private bool moving = false;
+    public bool m_IsMoving { get { return isMoving; }
+        private set 
+        {
+            if(isMoving == value) return;
+
+            isMoving = value;
+            if (isMoving == false)
+            {
+                //BottomSheetManager.instance.SortingPlaceCards();
+                //BottomSheetManager.instance.SortingTourCards();
+            }
+        }
+    }
+    private bool isMoving = false;
+
     [SerializeField] private float m_MoveSpeed = 1;
 
     // 사운드 관련

@@ -195,7 +195,7 @@ public class BottomSheetManager : MonoBehaviour
 
         MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
     }
-    void SortingTourCards()
+    public void SortingTourCards()
     {
         DataManager.instance.SortTourList();
 
