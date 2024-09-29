@@ -101,17 +101,17 @@ public class SettingManager : MonoBehaviour
 
     public void BackGroundSound_Original()
     {
-        bgSource.volume = 0.5f;
+        bgSource.volume = 0.8f;
     }
 
     public void BackGroundSound_InProp()
     {
-        bgSource.volume = 0.3f;
+        bgSource.volume = 0.6f;
     }
 
     public void BackGroundSound_InSetting()
     {
-        bgSource.volume = 0.1f;
+        bgSource.volume = 0.3f;
     }
 
 
