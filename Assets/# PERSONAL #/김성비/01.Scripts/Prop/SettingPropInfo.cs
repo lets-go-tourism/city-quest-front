@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
-using TriangleNet.Geometry;
+using Unity.VisualScripting;
+using UnityEngine.Rendering;
 
 public class SettingPropInfo : MonoBehaviour
 {
@@ -13,11 +14,13 @@ public class SettingPropInfo : MonoBehaviour
     {
         public string url;
         public int index;
+        public string type;
 
-        public Parameters(string url, int index)
+        public Parameters(string url, int index, string type)
         {
             this.url = url;
             this.index = index;
+            this.type = type;
         }
     }
 
@@ -62,10 +65,9 @@ public class SettingPropInfo : MonoBehaviour
 
     IEnumerator NOInfoSetting()
     {
-        // 3D 모델링
+        // 3D 모델링, 그림자
         PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
-        // 그림자
-        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
+        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1, true);
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         // 거리
@@ -77,7 +79,7 @@ public class SettingPropInfo : MonoBehaviour
         // 장소 사진
         if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
         {
-            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4);
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4, "no");
             yield return StartCoroutine(nameof(GetTexture), parameters);
         }
         // 퀘스트
@@ -108,10 +110,10 @@ public class SettingPropInfo : MonoBehaviour
 
     IEnumerator YESInfoSetting()
     {
-        // 3D 모델링
+        // 3D 모델링, 그림자
         PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
-        // 그림자
-        PropModeling.instance.CloudsOff();
+        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1,  false);
+
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         // 방문일자
@@ -123,13 +125,13 @@ public class SettingPropInfo : MonoBehaviour
         // 퀘스트 사진
         if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
         {
-            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4);
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4, "yes");
             yield return StartCoroutine(GetTexture(parameters));
         }
         // 장소 사진
         if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
         {
-            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5);
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
             yield return StartCoroutine(GetTexture(parameters));
         }
 
@@ -183,9 +185,27 @@ public class SettingPropInfo : MonoBehaviour
         }
         else
         {
-            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            //Texture2D myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Texture2D myTexture = DownloadHandlerTexture.GetContent(www);
 
-            SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<RawImage>().texture = myTexture;
+
+            // 탐험 완
+            if (raw.type == "yes")   
+            {
+                if (raw.index == 4) // 퀘스트 사진
+                {
+                    SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 840, 840), new Vector2(0.5f, 0.5f));
+                }
+                else if(raw.index == 5) // 장소사진
+                {
+                    SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 840, 560), new Vector2(0.5f, 0.5f));
+                }
+            }
+            // 미탐험
+            else if (raw.type == "no")   
+            {
+                SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 840, 560), new Vector2(0.5f, 0.5f));
+            }
         }
     }
 }

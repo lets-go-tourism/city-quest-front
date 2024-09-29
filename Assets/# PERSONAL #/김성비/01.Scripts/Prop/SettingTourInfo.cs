@@ -20,7 +20,8 @@ public class SettingTourInfo : MonoBehaviour
     public void TourInfoSetting(ServerTourInfo info)
     {
         // 이미지
-        contents[0].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TourSprites/" + info.contenttypeid);
+        SettingBGColor(int.Parse(info.contenttypeid));
+        contents[0].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TourSprites/" + info.contenttypeid);
         // 이름
         contents[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = info.title.ToString();
         // 거리
@@ -97,6 +98,20 @@ public class SettingTourInfo : MonoBehaviour
     //}
 
     #region 변환
+    // 아이콘 배경색 변환
+    void SettingBGColor(int num)
+    {
+        if(num == 12)      { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.674f, 0.78f, 0.145f, 1f); }
+        else if(num == 14) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.403f, 0.772f, 0.956f, 1f); }
+        else if(num == 15) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.87f, 0.513f, 0.839f, 1f); }
+        else if(num == 25) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(1f, 0.784f, 0.13f, 1f); }
+        else if(num == 28) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.478f, 0.549f, 1f, 1f); }
+        else if(num == 32) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.6f, 0.478f, 0.86f, 1f); }
+        else if(num == 38) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.21f, 0.796f, 0.698f, 1f); }
+        else if(num == 39) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.945f, 0.509f, 0.576f, 1f); }
+        
+    }
+
     // 거리 변환
     string ConvertDistance(double distance)
     {
