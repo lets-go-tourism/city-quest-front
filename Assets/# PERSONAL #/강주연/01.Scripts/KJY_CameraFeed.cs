@@ -67,10 +67,6 @@ public class CameraFeed : MonoBehaviour
         originalCapRect = captureRect.localPosition;
         originalCheckRect = checkRect.localPosition;
         LoginResponse loginData = DataManager.instance.GetLoginData();
-        if (loginData.data.agreed == false)
-        {
-            isTutorial = true;
-        }
     }
 
     public void SetWebCam()
