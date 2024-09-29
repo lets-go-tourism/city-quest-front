@@ -153,12 +153,13 @@ public class BottomSheetManager : MonoBehaviour
         double a = 1000;
         if (tmp > a)
         {
-            double calcultate = Math.Round(tmp / a, 1);
-            result = calcultate.ToString() + "km";
+            double calculate = Math.Round(tmp / a, 1);
+            result = calculate.ToString() + "km";
         }
         else
         {
-            result = tmp.ToString() + "m";
+            double calculate = Math.Floor(tmp * 10f) / 10f;
+            result = calculate.ToString() + "m";
         }
 
         return result;

@@ -62,7 +62,7 @@ public class ButtonActions : MonoBehaviour
     IEnumerator ChangeSprite()
     {
         float t = 0;
-        float d = 1f;
+        float d = 0.7f;
 
         Image image = content.GetChild(6).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>();
 
@@ -74,6 +74,8 @@ public class ButtonActions : MonoBehaviour
         }
 
         image.fillAmount = 1f;
+
+        yield return new WaitForSeconds(0.3f);
     }
 
     // 태그 스프라이트 및 내용 바꾸기
@@ -81,19 +83,45 @@ public class ButtonActions : MonoBehaviour
     {
         if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
         {
+            // 렉트트랜스폼
+            RectTransform rtPlace = Props_UI.instance.tags[0].GetComponent<RectTransform>();
+            RectTransform rtTour = Props_UI.instance.tags[1].GetComponent<RectTransform>();
+
             // 장소 탭 보기
             if (num == 0)
             {
+                // 위치
+                rtPlace.anchoredPosition = new Vector2(267, 3);
+                rtTour.anchoredPosition = new Vector2(-270, 0);
+
+                // 사이즈
+                rtPlace.sizeDelta = new Vector2(549, 126);
+                rtTour.sizeDelta = new Vector2(537, 120);
+
+                // 스프라이트
                 Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
                 Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
+
+                // 활성화
                 BS_Place.gameObject.SetActive(true);
             }
 
             // 관광정보 탭 보기
             if (num == 1)
             {
+                // 위치
+                rtPlace.anchoredPosition = new Vector2(270, 0);
+                rtTour.anchoredPosition = new Vector2(-267, 3);
+
+                // 사이즈
+                rtPlace.sizeDelta = new Vector2(537, 120);
+                rtTour.sizeDelta = new Vector2(549, 126);
+
+                // 스프라이트
                 Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
                 Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
+
+                // 비활성화
                 BS_Place.gameObject.SetActive(false);
             }
 

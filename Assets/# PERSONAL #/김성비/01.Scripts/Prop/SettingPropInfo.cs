@@ -4,10 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
-using Unity.VisualScripting;
-using UnityEngine.Rendering;
-using Mono.Cecil;
-using UnityEditor;
 
 public class SettingPropInfo : MonoBehaviour
 {
