@@ -64,6 +64,7 @@ public class SettingTourInfo : MonoBehaviour
         // parent 
         contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY + 36);
         // 관광정보 이미지 크기
+        contents[8].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY);
         contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY);
         // 이미지 활성화
         contents[7].gameObject.SetActive(true);

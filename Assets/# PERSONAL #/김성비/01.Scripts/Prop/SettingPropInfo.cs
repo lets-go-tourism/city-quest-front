@@ -6,6 +6,8 @@ using System.Collections;
 using UnityEngine.Networking;
 using Unity.VisualScripting;
 using UnityEngine.Rendering;
+using Mono.Cecil;
+using UnityEditor;
 
 public class SettingPropInfo : MonoBehaviour
 {
@@ -49,19 +51,21 @@ public class SettingPropInfo : MonoBehaviour
         }
     }
 
-    public void TutorialPopUpSetting()
+    #region 튜토리얼
+    public bool tutorial;   // 튜토리얼 끝나고 SettingPropInfo.instance.tutorial = false; 해주기!!
+    public void TutorialPopUpSettingNO() // 미탐험
     {
-        StopCoroutine(SettingNO());
-        StartCoroutine(SettingYES());
-    }
-
-    public void TutorialPopUpSetting2()
-    {
+        tutorial = true;
         StopCoroutine(SettingYES());
         StartCoroutine(SettingNO());
     }
 
-
+    public void TutorialPopUpSettingYES() // 탐험
+    {
+        StopCoroutine(SettingNO());
+        StartCoroutine(SettingYES());
+    }
+    #endregion
 
     #region 미탐험 장소 팝업창 세팅
     IEnumerator SettingNO()
@@ -90,10 +94,18 @@ public class SettingPropInfo : MonoBehaviour
         // 카카오지도 URL
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 장소 사진
-        if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+        if (tutorial) // 튜토리얼 
         {
-            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4, "no");
-            yield return StartCoroutine(nameof(GetTexture), parameters);
+            SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
+        }
+
+        else // 실제
+        {
+            if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+            {
+                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4, "no");
+                yield return StartCoroutine(nameof(GetTexture), parameters);
+            }
         }
         // 퀘스트
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
@@ -125,27 +137,39 @@ public class SettingPropInfo : MonoBehaviour
     {
         // 3D 모델링, 그림자
         PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
-        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1,  false);
+        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1, false);
 
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         // 방문일자
-        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DateTime.Parse(DataManager.instance.GetQuestInfo().date).ToString("MM월 dd일"); 
+        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = DateTime.Parse(DataManager.instance.GetQuestInfo().date).ToString("MM월 dd일") + " 방문";
         // 장소명
         SettingPropContent.instance.content[3].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().addr;
         // 카카오지도
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
-        // 퀘스트 사진
-        if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
-        {
-            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4, "yes");
-            yield return StartCoroutine(GetTexture(parameters));
+        // 사진
+        if (tutorial) // 튜토리얼
+        {   
+            // 퀘스트사진
+            SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Crop");
+            // 장소사진
+            SettingPropContent.instance.content[5].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
         }
-        // 장소 사진
-        if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+        else // 실제
         {
-            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
-            yield return StartCoroutine(GetTexture(parameters));
+            // 퀘스트 사진
+            if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
+            {
+                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4, "yes");
+                yield return StartCoroutine(GetTexture(parameters));
+            }
+
+            // 장소 사진
+            if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+            {
+                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
+                yield return StartCoroutine(GetTexture(parameters));
+            }
         }
 
         //StartCoroutine(nameof(UpdateDistance));
@@ -171,11 +195,11 @@ public class SettingPropInfo : MonoBehaviour
         string result = string.Empty;
 
         double tmp = distance;
-        
+
         if (tmp < 1)
         {
             tmp = distance * 100;
-            result = (int)tmp  + "m";
+            result = (int)tmp + "m";
         }
         else
         {
@@ -203,21 +227,21 @@ public class SettingPropInfo : MonoBehaviour
 
 
             // 탐험 완
-            if (raw.type == "yes")   
+            if (raw.type == "yes")
             {
                 if (raw.index == 4) // 퀘스트 사진
                 {
-                    SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 686, 686), new Vector2(0.5f, 0.5f));
+                    SettingPropContent.instance.content[raw.index].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 686, 686), new Vector2(0.5f, 0.5f));
                 }
-                else if(raw.index == 5) // 장소사진
+                else if (raw.index == 5) // 장소사진
                 {
-                    SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 700, 450), new Vector2(0.5f, 0.5f));
+                    SettingPropContent.instance.content[raw.index].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 700, 450), new Vector2(0.5f, 0.5f));
                 }
             }
             // 미탐험
-            else if (raw.type == "no")   
+            else if (raw.type == "no")
             {
-                SettingPropContent.instance.content[raw.index].GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 700, 450), new Vector2(0.5f, 0.5f));
+                SettingPropContent.instance.content[raw.index].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 700, 450), new Vector2(0.5f, 0.5f));
             }
         }
     }
