@@ -149,7 +149,11 @@ public class CardTourInfo : MonoBehaviour
             }
             transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
 
-            MapCameraController.Instance.StartCameraMoveToTarget(TourDataController.Instance.TourInfoWordList[ServerTourInfo].transform.position);
+
+            TourData targetTour = TourDataController.Instance.TourInfoWordList[ServerTourInfo];
+            MapCameraController.Instance.StartCameraMoveToTarget(targetTour.transform.position);
+
+            PropsController.Instance.TintTourData = targetTour;
         }
 
         // 선택 -> 미선택

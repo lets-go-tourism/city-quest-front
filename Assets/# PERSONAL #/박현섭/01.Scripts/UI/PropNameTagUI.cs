@@ -14,6 +14,9 @@ public class PropNameTagUI : MonoBehaviour
     private Image myImage;
     private TextMeshProUGUI myText;
 
+    [SerializeField] private Color originColor;
+    [SerializeField] private Color tintColor;
+
     private void Awake()
     {
         myImage = GetComponent<Image>();
@@ -25,7 +28,19 @@ public class PropNameTagUI : MonoBehaviour
     public void Init(Prop target)
     {
         this.TargetProp = target;
+        this.TargetProp.NameTag = this;
+
         enabled = true;
+    }
+
+    public void TintColor()
+    {
+        myImage.color = tintColor;
+    }
+
+    public void OriginColor()
+    {
+        myImage.color = originColor;
     }
 
     private void OnEnable()
@@ -56,13 +71,18 @@ public class PropNameTagUI : MonoBehaviour
 
         Vector2 rectSize = rectTrf.sizeDelta;
         rectSize.x = textRectSize.x;
-        rectTrf.sizeDelta = rectSize + new Vector2(48, 0);
+        rectTrf.sizeDelta = rectSize + new Vector2(32, 0);
 
         tmpText.overflowMode = TextOverflowModes.Ellipsis;
     }
 
     private void Update()
     {
+        if (PropsController.Instance.TintProp != null && TargetProp == PropsController.Instance.TintProp)
+            myImage.color = tintColor;
+        else
+            myImage.color = originColor;
+
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(TargetProp.transform.position + new Vector3(0, 0, TargetProp.OffsetY));
         rectTransform.anchoredPosition = screenPoint;
     }

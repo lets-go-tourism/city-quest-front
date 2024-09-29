@@ -143,7 +143,11 @@ public class CardPlaceInfo : MonoBehaviour
             transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
 
             // 화면 이동
-            MapCameraController.Instance.StartCameraMoveToTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[this.ServerAdventurePlace].PropObj.transform.TransformPoint(PropsController.Instance.ServerAdventurePlaceWorldDic[this.ServerAdventurePlace].GetBoundsCenter()));
+            Prop targetProp = PropsController.Instance.ServerAdventurePlaceWorldDic[this.ServerAdventurePlace];
+            MapCameraController.Instance.StartCameraMoveToTarget(targetProp.PropObj.transform.TransformPoint(targetProp.GetBoundsCenter()));
+
+            // 네임태크 틴트
+            PropsController.Instance.TintProp = targetProp;
         }
 
         // 선택 -> 미선택

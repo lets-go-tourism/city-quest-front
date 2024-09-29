@@ -25,6 +25,30 @@ public class PropsController : MonoBehaviour
     public Dictionary<long, GameObject> PropMeshDic { get; private set; } = new Dictionary<long, GameObject>();
     public Dictionary<long, Material> PropMaterial { get; private set; } = new Dictionary<long, Material>();
 
+    public Prop TintProp { get { return tintProp; } set 
+        { 
+            tintProp = value;
+            tintTourData = null;
+        } 
+    }
+    private Prop tintProp;
+    private Prop 몰루프랍;
+    public TourData TintTourData { get { return tintTourData; } set 
+        {
+            tintTourData = value;
+            tintProp = null;
+            StartCoroutine(nameof(SetTintTourData));
+        } 
+    }
+
+    private TourData tintTourData;
+    private TourData 몰루투어데이터;
+
+    private IEnumerator SetTintTourData()
+    {
+        yield return null;
+        MapUIController.Instance.NameTagContainer.CollisionUpdate();
+    }
 
     private IEnumerator Start()
     {

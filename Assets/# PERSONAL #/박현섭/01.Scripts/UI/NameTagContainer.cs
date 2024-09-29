@@ -114,7 +114,7 @@ public class NameTagContainer : MonoBehaviour
         }
     }
 
-    private void CollisionUpdate()
+    public void CollisionUpdate()
     {
         for (int i = 0; i < _tourNameTagCount; i++)
         {
@@ -180,7 +180,12 @@ public class NameTagContainer : MonoBehaviour
 
             //print(TourNameTagArr[i].TargetTour.ServerTourInfo.title + "¿Í " + TourNameTagArr[index].TargetTour.ServerTourInfo.title + "°¡ °ãÄ£´Ù");
 
-            if (rect2SizeDelta.x > rect1SizeDelta.x)
+
+            if(PropsController.Instance.TintTourData == TourNameTagArr[index].TargetTour)          
+                TourNameTagArr[i].Visible = false;
+            else if(PropsController.Instance.TintTourData == TourNameTagArr[i].TargetTour)
+                TourNameTagArr[index].Visible = false;
+            else if (rect2SizeDelta.x > rect1SizeDelta.x)
                 TourNameTagArr[index].Visible = false;
             else
                 TourNameTagArr[i].Visible = false;

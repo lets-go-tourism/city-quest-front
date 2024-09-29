@@ -17,6 +17,9 @@ public class TourNameTagUI : MonoBehaviour
     private Image myImage;
     private TextMeshProUGUI myText;
 
+    [SerializeField] private Color originColor;
+    [SerializeField] private Color tintColor;
+
     public bool Visible { get { return visible; } set
         {
             if (visible == value)
@@ -83,6 +86,14 @@ public class TourNameTagUI : MonoBehaviour
 
     private void Update()
     {
+        if (Visible)
+        {
+            if (PropsController.Instance.TintTourData != null && TargetTour == PropsController.Instance.TintTourData)
+                myImage.color = tintColor;
+            else
+                myImage.color = originColor;
+        }
+
         RectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(TargetTour.transform.position + new Vector3(0, 0, _offsetY * Camera.main.transform.position.y / 500));
     }
 

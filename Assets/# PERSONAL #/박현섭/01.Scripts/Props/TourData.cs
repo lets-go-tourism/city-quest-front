@@ -31,6 +31,8 @@ public class TourData : MonoBehaviour
 
     private bool tourDataActive = false;
 
+    public bool Tint { get; set; } = false;
+
     private void Start()
     {
         MapUIController.Instance.uiActiveUpdateDelegate += CheckDist;

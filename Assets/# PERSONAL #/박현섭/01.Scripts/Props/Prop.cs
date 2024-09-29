@@ -19,6 +19,10 @@ public class Prop : MonoBehaviour
 
     private MeshFilter propObjMeshFileter;
 
+    public PropNameTagUI NameTag { get; set; }
+
+    public bool Tint { get; private set; }
+
     public bool PropActive { get { return propActive; } 
         private set 
         {
@@ -55,6 +59,18 @@ public class Prop : MonoBehaviour
         this.PropData = propData;
         this.HomeAdventurePlaceData = homeAdventurePlace;
         this.propGO = Instantiate(propGO, transform);
+    }
+
+    public void TintNameTag()
+    {
+        Tint = true;
+        NameTag.TintColor();
+    }
+
+    public void UnTintNameTag()
+    {
+        Tint = false;
+        NameTag.OriginColor();
     }
 
     private void Start()
