@@ -60,14 +60,12 @@ public class BottomSheetManager : MonoBehaviour
         print("관광정보 바텀시트");
 
         // 검은 화면 끄기   ====================================== 스켈레톤 UI 로 대체하기 ======================================
-        
         MainView_UI.instance.BackgroundDarkDisable();
+        print("검은 화면 끄기");
 
         //KJY추가 
         LoadingTest loading = GameObject.FindFirstObjectByType<LoadingTest>();
         loading.connectionFinish = true;
-
-        print("검은 화면 끄기");
     }
 
     // 장소 바텀시트
@@ -117,6 +115,11 @@ public class BottomSheetManager : MonoBehaviour
         {
             int end = Mathf.Min(count + 25, tourList.Count);
 
+            if(end == 125)
+            {
+                end = tourList.Count;
+            }
+
             for (int i = count; i < end; i++)
             {
                 cardTourInfo = contentTour.GetChild(i).GetComponent<CardTourInfo>();    //tourGOList[i].GetComponent<CardTourInfo>();
@@ -145,11 +148,6 @@ public class BottomSheetManager : MonoBehaviour
             if (count <= 100)
             {
                 yield return new WaitForSeconds(1);
-
-                if(count == 100)
-                {
-                    count = 130;
-                }
             }
         }
     }
@@ -198,22 +196,28 @@ public class BottomSheetManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
+            SortingPlaceCards();
             SortingTourCards();
         }
     }
 
     #region 바텀시트 재정렬
+
+    private int placeCount = 0;
+
     public void SortingPlaceCards()
     {
         DataManager.instance.SortPropAdventureList();
         propList = DataManager.instance.GetHomePropsList();
-        placeList = DataManager.instance.GetHomeAdventurePlacesList();
+        //placeList = DataManager.instance.GetHomeAdventurePlacesList();
+
+        placeCount = contentPlace.childCount;
 
         for (int i = 0; i < propList.Count; i++)
         {
-            for (int j = 0; j < contentPlace.childCount; j++)
+            for (int j = 0; j < placeCount; j++)
             {
                 if (propList[i].propNo != contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().ServerProp.propNo)
                 {
@@ -225,20 +229,26 @@ public class BottomSheetManager : MonoBehaviour
 
                     TextMeshProUGUI ditance = contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().info[1].GetComponent<TextMeshProUGUI>();
                     ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
+                    placeCount--;
+                    break;
                 }
             }
         }
 
         MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
     }
+
+    private int tourCount = 0;
+
     public void SortingTourCards()
     {
         DataManager.instance.SortTourList();
         tourList = DataManager.instance.GetHometourPlacesList();
+        tourCount = contentTour.childCount;
 
         for (int i = 0; i < tourList.Count; i++)
         {
-            for (int j = 0; j < contentPlace.childCount; j++)
+            for (int j = 0; j < tourCount; j++)
             {
                 if (tourList[i].idx != contentTour.GetChild(j).GetComponent<CardTourInfo>().ServerTourInfo.idx)
                 {
@@ -247,18 +257,22 @@ public class BottomSheetManager : MonoBehaviour
                 else
                 {
                     contentTour.GetChild(j).SetAsLastSibling();
-
                     TextMeshProUGUI ditance = contentTour.GetChild(j).GetComponent<CardTourInfo>().info[1].GetComponent<TextMeshProUGUI>();
                     ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
+                    tourCount--;
+                    break;
                 }
             }
         }
 
         MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
+        //StartCoroutine(nameof(SortingTourCardsCor));
     }
 
-
-
+    private IEnumerator SortingTourCardsCor()
+    {
+        yield return null;
+    }
     #endregion
 
     #region 태그 및 필터 관리

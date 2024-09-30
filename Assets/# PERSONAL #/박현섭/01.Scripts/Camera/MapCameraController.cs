@@ -77,8 +77,8 @@ public class MapCameraController : MonoBehaviour
             moving = value;
             if(moving == false)
             {
-                //BottomSheetManager.instance.SortingPlaceCards();
-                //BottomSheetManager.instance.SortingTourCards();
+                BottomSheetManager.instance.SortingPlaceCards();
+                BottomSheetManager.instance.SortingTourCards();
             }
         } 
     }
@@ -91,8 +91,8 @@ public class MapCameraController : MonoBehaviour
             isMoving = value;
             if (isMoving == false)
             {
-                //BottomSheetManager.instance.SortingPlaceCards();
-                //BottomSheetManager.instance.SortingTourCards();
+                BottomSheetManager.instance.SortingPlaceCards();
+                BottomSheetManager.instance.SortingTourCards();
             }
         }
     }
@@ -371,6 +371,12 @@ public class MapCameraController : MonoBehaviour
         }
 
         transform.position = new Vector3(xCord, transform.position.y, zCord);
+    }
+
+
+    public Vector3 GetScreenCenter()
+    {
+         return new Vector3(Screen.width / 2, isBottom ? Screen.height / 2 + ((Screen.height / 2 - (Screen.height - bottomHeight) / 2)) :  Screen.height / 2, transform.position.y);
     }
 
     public void CameraMoveToTarget()

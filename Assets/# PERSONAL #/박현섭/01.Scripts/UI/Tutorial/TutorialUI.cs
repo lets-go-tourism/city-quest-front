@@ -19,6 +19,7 @@ public class TutorialUI : MonoBehaviour
 
     [SerializeField] private Image _backgroundDark;
     [SerializeField] private GameObject _tutorialSelectMsg;
+    [SerializeField] private GameObject tutorialEndMsg;
     [SerializeField] private Image _invisibleNonTouch;
 
     [SerializeField] private Image _tutorialBtn;
@@ -40,6 +41,7 @@ public class TutorialUI : MonoBehaviour
     {
         _backgroundDark.enabled = true;
         _tutorialSelectMsg.SetActive(false);
+        tutorialEndMsg.SetActive(false);
         _invisibleNonTouch.enabled = false;
         _tutorialBtn.enabled = false;
 
@@ -364,11 +366,24 @@ public class TutorialUI : MonoBehaviour
         // ÆË¾÷ Ã¢ ²ô±â
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
         Props_UI.instance.ResetScollView();
-
-
         _masking2_4.SetActive(false);
-        OffNonTouch();
 
+        StartCoroutine(nameof(TutorialEnd));
+    }
+
+    private IEnumerator TutorialEnd()
+    {
+        yield return new WaitForSeconds(1.5f);
+        OffNonTouch();
+        OnBackgroundDark();
+        tutorialEndMsg.SetActive(true);
+        tutorialEndMsg.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(RealEndTutorial);
+    }
+
+    private void RealEndTutorial()
+    {
+        OffBackgroundDark();
+        tutorialEndMsg.SetActive(false);
         CameraFeed.Instance.isTutorial = false;
         DataManager.instance.SaveTutorialInfo();
     }
