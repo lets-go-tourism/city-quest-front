@@ -133,8 +133,11 @@ public class CardPlaceInfo : MonoBehaviour
         if (!selected)
         {
             Selected(true);
-
             // 나머지 미선택
+            for (int j = 0; j < BottomSheetManager.instance.contentTour.childCount; j++)
+            {
+                BottomSheetManager.instance.contentTour.GetChild(j).GetChild(0).GetComponent<Image>().sprite = BottomSheetManager.instance.contentTour.GetChild(j).GetComponent<SpritesHolder>().sprites[0];
+            }
             for (int i = 0; i < BottomSheetManager.instance.contentPlace.childCount; i++)
             {
                 BottomSheetManager.instance.contentPlace.GetChild(i).GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];

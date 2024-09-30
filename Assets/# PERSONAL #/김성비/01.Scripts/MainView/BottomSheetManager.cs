@@ -9,12 +9,12 @@ public class BottomSheetManager : MonoBehaviour
 {
     #region 변수
     // 장소
-    public GameObject cardPlace;
-    public Transform contentPlace;
+    public GameObject cardPlace;    // 프랍
+    public Transform contentPlace;  // 컨텐트
 
     // 관광정보
-    public GameObject cardTour;
-    public Transform contentTour;
+    public GameObject cardTour;     // 프랍
+    public Transform contentTour;   // 컨텐트
 
     // 리스트
     List<ServerProp> propList;
@@ -52,16 +52,16 @@ public class BottomSheetManager : MonoBehaviour
         tourList = DataManager.instance.GetHometourPlacesList();
 
         // 장소 바텀시트
-        print("장소 바텀시트");
         yield return StartCoroutine(GenPlace());
+        print("장소 바텀시트");
 
         // 관광정보 바텀시트
-        print("관광정보 바텀시트");
         yield return StartCoroutine(GenTour());
+        print("관광정보 바텀시트");
 
-        print("검은 화면 끄기");
         // 검은 화면 끄기   ====================================== 스켈레톤 UI 로 대체하기 ======================================
         MainView_UI.instance.BackgroundDarkDisable();
+        print("검은 화면 끄기");
     }
 
     // 장소 바텀시트
@@ -80,16 +80,14 @@ public class BottomSheetManager : MonoBehaviour
     // 관광정보 바텀시트
     IEnumerator GenTour()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < tourList.Count; i++)
         {
             Instantiate(cardTour, contentTour);
         }
 
         yield return StartCoroutine(nameof(settingTourCard));
     }
-    #endregion
 
-    #region 바텀시트 정보
     public void SettingPlaceCard()
     {
         for (int i = 0; i < placeList.Count; i++)
@@ -109,9 +107,9 @@ public class BottomSheetManager : MonoBehaviour
     {
         int count = 0;
 
-        while (count < 100)
+        while (count < tourList.Count)
         {
-            int end = Mathf.Min(count + 20, 100);
+            int end = Mathf.Min(count + 25, tourList.Count);
 
             for (int i = count; i < end; i++)
             {
@@ -135,12 +133,18 @@ public class BottomSheetManager : MonoBehaviour
 
                 //cardTourInfo.StartCoroutine(nameof(cardTourInfo.Start2));
             }
-            if (count < 100)
-            {
-                count += 20;
-            }
 
-            yield return new WaitForSeconds(1);
+            count = end;
+
+            if (count <= 100)
+            {
+                yield return new WaitForSeconds(1);
+
+                if(count == 100)
+                {
+                    count = 130;
+                }
+            }
         }
     }
 
@@ -186,23 +190,69 @@ public class BottomSheetManager : MonoBehaviour
     }
     #endregion
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            SortingTourCards();
+        }
+    }
+
     #region 바텀시트 재정렬
     public void SortingPlaceCards()
     {
         DataManager.instance.SortPropAdventureList();
+        propList = DataManager.instance.GetHomePropsList();
+        placeList = DataManager.instance.GetHomeAdventurePlacesList();
 
-        SettingPlaceCard();
+        for (int i = 0; i < propList.Count; i++)
+        {
+            for (int j = 0; j < contentPlace.childCount; j++)
+            {
+                if (propList[i].propNo != contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().ServerProp.propNo)
+                {
+                    continue;
+                }
+                else
+                {
+                    contentPlace.GetChild(j).SetAsLastSibling();
+
+                    TextMeshProUGUI ditance = contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().info[1].GetComponent<TextMeshProUGUI>();
+                    ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
+                }
+            }
+        }
 
         MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
     }
     void SortingTourCards()
     {
         DataManager.instance.SortTourList();
+        tourList = DataManager.instance.GetHometourPlacesList();
 
-        StartCoroutine(nameof(settingTourCard));
+        for (int i = 0; i < tourList.Count; i++)
+        {
+            for (int j = 0; j < contentPlace.childCount; j++)
+            {
+                if (tourList[i].idx != contentTour.GetChild(j).GetComponent<CardTourInfo>().ServerTourInfo.idx)
+                {
+                    continue;
+                }
+                else
+                {
+                    contentTour.GetChild(j).SetAsLastSibling();
+
+                    TextMeshProUGUI ditance = contentTour.GetChild(j).GetComponent<CardTourInfo>().info[1].GetComponent<TextMeshProUGUI>();
+                    ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
+                }
+            }
+        }
 
         MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
     }
+
+
+
     #endregion
 
     #region 태그 및 필터 관리
