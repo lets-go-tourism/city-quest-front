@@ -83,7 +83,7 @@ public class PropNameTagUI : MonoBehaviour
         else
             myImage.color = originColor;
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(TargetProp.transform.position + new Vector3(0, 0, TargetProp.OffsetY));
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(TargetProp.PropObj.transform.TransformPoint(TargetProp.GetBoundsCenter()) + new Vector3(0, 0, -50));
         rectTransform.anchoredPosition = screenPoint;
     }
 

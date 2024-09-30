@@ -135,7 +135,7 @@ public class MapReader : MonoBehaviour
         {
             foreach (OsmWay anotherWay in ways)
             {
-                if (way == anotherWay)
+                if (way == anotherWay || way.NodeIDs.Count < 1)
                     continue;
 
                 for (int i = 0; i < anotherWay.NodeIDs.Count; i++)

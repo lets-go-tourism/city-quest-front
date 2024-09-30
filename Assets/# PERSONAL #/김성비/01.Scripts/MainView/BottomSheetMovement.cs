@@ -45,6 +45,7 @@ public class BottomSheetMovement : MonoBehaviour
         if (state == State.DOWN)
         {
             state = State.UP;
+            transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1080, 150);
             MapCameraController.Instance.isBottom = true;
         }
 
@@ -60,6 +61,7 @@ public class BottomSheetMovement : MonoBehaviour
         if (state == State.UP)
         {
             state = State.DOWN;
+            transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(1080, 300);
             MapCameraController.Instance.isBottom = false;
         }
 

@@ -62,14 +62,12 @@ public class ButtonActions : MonoBehaviour
         BottomSheetManager.instance.SortingAll(true);
         MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
 
-        TutorialUI.Instance.OnNonTouch();
         yield return null;
         yield return new WaitForSeconds(TutorialObj.instance.Cloud.GetAnimTime());
 
         if (CameraFeed.Instance.isTutorial)
         {
             yield return new WaitForSeconds(1.5f);
-            TutorialUI.Instance.OffNonTouch();
             TutorialUI.Instance.StartTutorial2_1();
         }
         else
