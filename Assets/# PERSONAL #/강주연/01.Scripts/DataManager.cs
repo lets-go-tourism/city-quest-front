@@ -18,6 +18,7 @@ public class DataManager : MonoBehaviour
     private List<ServerAdventurePlace> adventurePlacesList;
 
     [Header("tourPlaceList")]
+    [SerializeField]
     private List<ServerTourInfo> tourPlacesList;
     //private Dictionary<long, ServerTourInfo> tourPlaceDiction;
 
