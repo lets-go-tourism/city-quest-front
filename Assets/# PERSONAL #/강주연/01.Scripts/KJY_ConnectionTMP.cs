@@ -522,6 +522,7 @@ public class TryDeleteConnection : ConnectionStratage
         {
             //ù�����ε��ư��� ��ū ���ϵ� ���ֹ����� DataManager�� ���� �ٽ��ϰ��ؾ���
             SettingManager.instance.DeletePopUp();
+            DataManager.instance.clearTutorial = false;
         }
         else
         {
