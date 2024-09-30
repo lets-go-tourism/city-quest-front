@@ -44,6 +44,8 @@ public class TutorialUI : MonoBehaviour
         else
             _backgroundDark.enabled = true;
 
+        print("아오 시발 왜 안대는데 AAAAAAAAAAAAAAAA" + DataManager.instance.clearTutorial);
+
         _tutorialSelectMsg.SetActive(false);
         tutorialEndMsg.SetActive(false);
         _invisibleNonTouch.enabled = false;
