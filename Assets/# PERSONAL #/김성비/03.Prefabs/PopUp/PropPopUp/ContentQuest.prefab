@@ -320,9 +320,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: da40f9d39e3805641a15ae11156de3fc, type: 3}
+  - {fileID: 21300000, guid: 43025eaee68f2cf40bb99eb892ac4333, type: 3}
   - {fileID: 21300000, guid: 594d54771aed41a45af624275c2f280c, type: 3}
-  - {fileID: 21300000, guid: 3456a2778d23bfe4ea9b3ebf72a57ad6, type: 3}
+  - {fileID: 21300000, guid: 03d4ded1c79b9c2459927b9e348c5dc6, type: 3}
 --- !u!1 &4032252748410694245
 GameObject:
   m_ObjectHideFlags: 0
