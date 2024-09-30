@@ -280,7 +280,7 @@ public class BottomSheetManager : MonoBehaviour
     public void SortingAll(bool place)
     {
         MainView_UI.instance.BSGuideUI.enabled = false;
-
+        
         if (place)
         {
             for (int i = 0; i < contentPlace.childCount; i++)
