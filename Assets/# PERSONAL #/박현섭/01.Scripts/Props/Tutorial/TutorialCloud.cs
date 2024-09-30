@@ -12,6 +12,7 @@ public class TutorialCloud : MonoBehaviour
     {
         meshRenderer = GetComponent<MeshRenderer>();
         animator = GetComponent<Animator>();
+        animator.enabled = false;
         meshRenderer.enabled = false;
         enabled = false;
     }
@@ -21,18 +22,11 @@ public class TutorialCloud : MonoBehaviour
         this.TargetProp = target;
         meshRenderer.enabled = true;
         transform.position = TargetProp.PropObj.transform.TransformPoint(TargetProp.GetBoundsCenter());
-        animator.enabled = true;
         enabled = true;
     }
 
     private float time = 0;
-    private float waitTime = 0;
-
-    private void OnEnable()
-    {
-        time = 0;
-        waitTime = GetAnimTime();
-    }
+    private float waitTime = 4;
 
     public float GetAnimTime()
     {
@@ -41,11 +35,13 @@ public class TutorialCloud : MonoBehaviour
 
     private void Update()
     {
-        time += waitTime;
+        time += Time.deltaTime;
 
         if (time > waitTime)
+        {
+            time = 0;
             enabled = false;
-
+        }
         transform.position = TargetProp.PropObj.transform.TransformPoint(TargetProp.GetBoundsCenter());
     }
 
