@@ -132,7 +132,7 @@ public class TutorialUI : MonoBehaviour
 
         // 터치 막아버리고 정지영 커피 로스터즈로 카메라 이동
         OnNonTouch();
-        Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[5]];
+        Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[3]];
         MapCameraController.Instance.StartCameraMoveToTarget(prop.PropObj.transform.TransformPoint(prop.GetBoundsCenter()));
         PropsController.Instance.TintProp = prop;
 
@@ -169,7 +169,7 @@ public class TutorialUI : MonoBehaviour
         //_roundMasking.SetActive(false);
 
         // 통신
-        KJY_ConnectionTMP.instance.OnConnectionQuest(5);
+        KJY_ConnectionTMP.instance.OnConnectionQuest(3);
 
         // 뒤에 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
@@ -269,7 +269,7 @@ public class TutorialUI : MonoBehaviour
     private IEnumerator Tutorial2_1() 
     {
         //canvas.enabled = true;
-        Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[5]];
+        Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[3]];
 
         // 첫번째 마스킹 키고
         _masking2_1.SetActive(true);
@@ -296,7 +296,7 @@ public class TutorialUI : MonoBehaviour
         _masking2_1.SetActive(false);
 
         // 통신
-        KJY_ConnectionTMP.instance.OnConnectionQuest(5);
+        KJY_ConnectionTMP.instance.OnConnectionQuest(3);
 
         // 뒤에 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
