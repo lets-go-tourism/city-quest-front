@@ -123,8 +123,6 @@ public class CameraFeed : MonoBehaviour
 
     public void SwitchCamera()
     {
-        SettingManager.instance.EffectSound_ButtonTouch();
-
         StartCoroutine(DestroyWebCamTextureCoroutine());
         useFrontCamera = !useFrontCamera;
         SetWebCam();
