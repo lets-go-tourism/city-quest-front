@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
     private LoginResponse loginData;
 
     [Header("tutorial")]
-    private bool clearTutorial = false;
+    public bool clearTutorial = false;
 
     [HideInInspector]
     public bool requestSuccess = false;

@@ -276,6 +276,9 @@ public class tmpTouch : MonoBehaviour
 
                     if (hitLayer == LayerMask.NameToLayer("Prop"))
                     {
+                        //KJY 추가
+                        SettingManager.instance.EffectSound_PopUpTouch();
+                        
                         //DataManager.instance.requestSuccess = false;
 
                         // 프랍정보를 받아옴
@@ -301,6 +304,9 @@ public class tmpTouch : MonoBehaviour
                     else if (hitLayer == LayerMask.NameToLayer("Tour"))
                     {
                         //DataManager.instance.requestSuccess = false;
+
+                        //KJY추가
+                        SettingManager.instance.EffectSound_ButtonTouch();
 
                         Props_UI.instance.canvasTour.enabled = true;
 

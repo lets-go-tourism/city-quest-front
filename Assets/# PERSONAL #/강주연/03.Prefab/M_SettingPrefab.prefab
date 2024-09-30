@@ -324,8 +324,9 @@ MonoBehaviour:
   deletePopUp: {fileID: 1577110440450400130}
   audioSource: {fileID: 1802930029796509602}
   effectSource: {fileID: 549729011495677270}
-  buttonTouchClip: {fileID: 8300000, guid: 6e27793c8c4aa0449acc5a201200098c, type: 3}
+  buttonTouchClip: {fileID: 8300000, guid: a5318ea5f6cc39b4a9ac5c689af58ea4, type: 3}
   popUpTouchClip: {fileID: 8300000, guid: 76a32b9c7f22dda488ef4b71f7cd2c54, type: 3}
+  tourTouchClip: {fileID: 0}
   mapMoveTouch_ShortClip:
   - {fileID: 8300000, guid: 43e09205247d5164693f330bbf7d2f34, type: 3}
   - {fileID: 8300000, guid: 3da82aef5943c49489588ed4a7d33436, type: 3}
@@ -353,8 +354,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: db48eac9e03932b4dbad5c672ee3a0c6, type: 3}
   - {fileID: 8300000, guid: f0cc1e64ae0e57d46af705bb9df68c16, type: 3}
   cameraClip: {fileID: 8300000, guid: c70f181d8e438644eb183ba11f71d2ad, type: 3}
-  PopUpon: {fileID: 0}
-  PopUpDown: {fileID: 0}
+  PopUpon: {fileID: 8300000, guid: c5c9a8317cd8e32448b89c61bde8a6e3, type: 3}
+  PopUpDown: {fileID: 8300000, guid: 877aae211c3496b4c8563d3cd1a9972c, type: 3}
+  cameraButton: {fileID: 8300000, guid: 21494915f5efa134ca560ffe68572c17, type: 3}
+  cloudEffect: {fileID: 8300000, guid: e42ce7fd216c7ea40a8452db12c8cb01, type: 3}
+  errorSound: {fileID: 8300000, guid: c5328f5e9f4b1f54b952ab24e647cad1, type: 3}
 --- !u!1 &312317752129128171
 GameObject:
   m_ObjectHideFlags: 0

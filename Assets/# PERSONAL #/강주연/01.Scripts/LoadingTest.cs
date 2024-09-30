@@ -30,7 +30,7 @@ public class LoadingTest : MonoBehaviour
         if (count == loadingImage.Count)
         {
             count = 0;
-            if (textCount % 5 == 0)
+            if (textCount % 4 == 0)
             {
                 TextChange();
             }

@@ -34,11 +34,16 @@ public class SettingManager : MonoBehaviour
     public AudioSource effectSource;
     public AudioClip buttonTouchClip;
     public AudioClip popUpTouchClip;
+    public AudioClip tourTouchClip;
     public AudioClip[] mapMoveTouch_ShortClip;
     public AudioClip[] mapMoveTouch_LongClip;
     public AudioClip cameraClip;
     public AudioClip PopUpon;
     public AudioClip PopUpDown;
+    public AudioClip cameraButton;
+    public AudioClip cloudEffect;
+    public AudioClip errorSound;
+
     private int shortClipCount;
     private int LongClipCount;
 
@@ -109,12 +114,12 @@ public class SettingManager : MonoBehaviour
 
     public void BackGroundSound_InProp()
     {
-        bgSource.volume = 0.6f;
+        bgSource.volume = 0.5f;
     }
 
     public void BackGroundSound_InSetting()
     {
-        bgSource.volume = 0.3f;
+        bgSource.volume = 0.2f;
     }
 
 
@@ -197,4 +202,59 @@ public class SettingManager : MonoBehaviour
         effectSource.PlayOneShot(PopUpDown);
         effectSource.volume = 1f;
     }
+
+    public void EffectSound_CameraButton()
+    {
+        if (!isEffectSound)
+            return;
+        effectSource.PlayOneShot(PopUpDown);
+        effectSource.volume = 0.5f;
+    }
+
+    public void EffectSound_TourButton()
+    {
+        if (!isEffectSound)
+            return;
+        effectSource.PlayOneShot(tourTouchClip);
+        effectSource.volume = 1f;
+    }
+
+    public void EffectSound_CloudEffect()
+    {
+        if (!isEffectSound)
+            return;
+        effectSource.PlayOneShot(cloudEffect);
+        effectSource.volume = 1f;
+    }
+
+    public void EffectSound_ErrorEffect()
+    {
+        if (!isEffectSound)
+            return;
+        effectSource.PlayOneShot(errorSound);
+        effectSource.volume = 1f;
+    }
+
+    public void BackGrorundSound_Change(float targetVolume, float duration)
+    {
+        if (!isSound)
+            return;
+        StartCoroutine(ChangeVolume(targetVolume, duration));
+    }
+
+    private IEnumerator ChangeVolume(float targetVolume, float duration)
+    {
+        float startVolume = bgSource.volume;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            timeElapsed += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, targetVolume, timeElapsed / duration);
+            yield return null;  
+        }
+
+        audioSource.volume = targetVolume;
+    }
+
 }

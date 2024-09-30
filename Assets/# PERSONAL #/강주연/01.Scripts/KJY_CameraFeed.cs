@@ -72,6 +72,10 @@ public class CameraFeed : MonoBehaviour
 
     public void SetWebCam()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
+        SettingManager.instance.BackGrorundSound_Change(0, 3);
+
+
         if (camCanvas.enabled == false)
         {
             camCanvas.enabled = true;
@@ -119,6 +123,8 @@ public class CameraFeed : MonoBehaviour
 
     public void SwitchCamera()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         StartCoroutine(DestroyWebCamTextureCoroutine());
         useFrontCamera = !useFrontCamera;
         SetWebCam();
@@ -251,6 +257,8 @@ public class CameraFeed : MonoBehaviour
 
     public void CapturePhoto()
     {
+        SettingManager.instance.EffectSound_Camera();
+
         if (isTutorial)
         {
             captureObject.SetActive(false);
@@ -323,6 +331,8 @@ public class CameraFeed : MonoBehaviour
 
     public void RotatePhoto()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         Texture2D currentPhoto = webCamRawImage.texture as Texture2D;
 
         if (currentPhoto != null)
@@ -334,6 +344,8 @@ public class CameraFeed : MonoBehaviour
 
     public void UploadImage()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         if (isTutorial)
         {
              Sprite sprite = tutorialImage_crop;
@@ -377,6 +389,8 @@ public class CameraFeed : MonoBehaviour
 
     public void CameraOff()
     {
+        SettingManager.instance.BackGrorundSound_Change(0.5f, 3);
+
         if (webCamTexture != null)
         {
             webCamTexture.Stop(); 

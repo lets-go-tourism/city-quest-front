@@ -120,6 +120,9 @@ public class TutorialPopUp : MonoBehaviour
 
     private IEnumerator OnClickClose()
     {
+        //KJY Ãß°¡
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         TutorialUI.Instance.OnNonTouch();
         TutorialUI.Instance.OffBackgroundDark();
         yield return new WaitForSeconds(1);
