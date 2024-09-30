@@ -98,6 +98,9 @@ public class TutorialPopUp : MonoBehaviour
 
     private IEnumerator OnClickClose()
     {
+        //KJY Ãß°¡
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         TutorialUI.Instance.OnNonTouch();
         yield return new WaitForSeconds(1);
         TutorialUI.Instance.OffNonTouch();

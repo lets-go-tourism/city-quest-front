@@ -302,7 +302,6 @@ public class TryQuestConnection : ConnectionStratage
         }
         else
         {
-            //ToastMessage.ShowToast("���� �����͸� �ҷ����� ���߾�� �ٽ� �õ��� �ּ���");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
             //KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
@@ -673,11 +672,13 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
     public void FailConnectionCanvasOn()
     {
+        SettingManager.instance.EffectSound_ErrorEffect();
         failCanvas.enabled = true;
     }
 
     public void FailConnectionCanvasOff()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
         failCanvas.enabled = false;
     }
 

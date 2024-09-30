@@ -98,6 +98,9 @@ public class TutorialUI : MonoBehaviour
         _backgroundDark.enabled = false;
         _tutorialSelectMsg.SetActive(false);
 
+        //KJY 추가
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         // 튜토리얼 시작
         StartCoroutine(nameof(Tutorial1_1));
     }
@@ -107,6 +110,9 @@ public class TutorialUI : MonoBehaviour
         _backgroundDark.enabled = false;
         _tutorialSelectMsg.SetActive(false);
 
+        //KJY 추가
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         CameraFeed.Instance.isTutorial = false;
         DataManager.instance.SaveTutorialInfo();
     }
@@ -115,6 +121,7 @@ public class TutorialUI : MonoBehaviour
     {
         //KJY 추가
         CameraFeed.Instance.isTutorial = true;
+
         // 터치 막아버리고 정지영 커피 로스터즈로 카메라 이동
         OnNonTouch();
         Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[5]];
