@@ -1,8 +1,8 @@
 {
-    "timeStamp": "2024-09-30 오후 1:12:31",
+    "timeStamp": "2024-09-30 오후 1:22:02",
     "status": "OK",
-    "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI1MiIsImlhdCI6MTcyNzY2MzQ2MCwiZXhwIjoxODE0MDYzNDYwfQ.saJdeYEk6zKCxgGvVd1auARLuRt8IG9mdSBoNTZEF0Jn_MwQkE6t0nNbc0NothYW",
-    "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3Mjc2NjM0NjAsImV4cCI6MTgxNDA2MzQ2MH0.aTyhEArn2rR2k8VJHTbtmAR-EHPokFOs3deR_OjYV9JF7Ow-SZskOgYgGhJpQngg",
-    "agreed": false,
+    "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI1NiIsImlhdCI6MTcyNzY3MDEwOCwiZXhwIjoxODE0MDcwMTA4fQ.hl7Zr2O--AH-goLCaz0THKDBPdD-QpmMUWD-q-fW5VjUwqQLWkvE7mYNgeer6aIf",
+    "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3Mjc2NzAxMDgsImV4cCI6MTgxNDA3MDEwOH0.UxPJIIN_xgqhQ_DpB9XXUvjxvg1gYaMiw_X5RJUJqznuNGQatFz2mfCL8JpdCyyb",
+    "agreed": true,
     "isClearTutorial": true
 }
