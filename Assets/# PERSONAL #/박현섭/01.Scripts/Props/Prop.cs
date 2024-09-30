@@ -77,7 +77,11 @@ public class Prop : MonoBehaviour
     {
         //print(PropData.name + " 의 상태는" + PropData.status);
 
-        propObjMeshFileter = propGO.GetComponent<MeshFilter>();
+        if (propGO.GetComponent<MeshFilter>() != null)
+            propObjMeshFileter = propGO.GetComponent<MeshFilter>();
+        else
+            propObjMeshFileter = propGO.transform.GetChild(8).GetComponent<MeshFilter>();
+
         propGO.SetActive(false);
         originPos = transform.position;
 

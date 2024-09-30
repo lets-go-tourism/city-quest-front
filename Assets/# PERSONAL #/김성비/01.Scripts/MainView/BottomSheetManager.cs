@@ -204,15 +204,20 @@ public class BottomSheetManager : MonoBehaviour
     }
 
     #region 바텀시트 재정렬
+
+    private int placeCount = 0;
+
     public void SortingPlaceCards()
     {
         DataManager.instance.SortPropAdventureList();
         propList = DataManager.instance.GetHomePropsList();
-        placeList = DataManager.instance.GetHomeAdventurePlacesList();
+        //placeList = DataManager.instance.GetHomeAdventurePlacesList();
+
+        placeCount = contentPlace.childCount;
 
         for (int i = 0; i < propList.Count; i++)
         {
-            for (int j = 0; j < contentPlace.childCount; j++)
+            for (int j = 0; j < placeCount; j++)
             {
                 if (propList[i].propNo != contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().ServerProp.propNo)
                 {
@@ -224,20 +229,26 @@ public class BottomSheetManager : MonoBehaviour
 
                     TextMeshProUGUI ditance = contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().info[1].GetComponent<TextMeshProUGUI>();
                     ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
+                    placeCount--;
+                    break;
                 }
             }
         }
 
         MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
     }
-   public void SortingTourCards()
+
+    private int tourCount = 0;
+
+    public void SortingTourCards()
     {
         DataManager.instance.SortTourList();
         tourList = DataManager.instance.GetHometourPlacesList();
+        tourCount = contentTour.childCount;
 
         for (int i = 0; i < tourList.Count; i++)
         {
-            for (int j = 0; j < contentTour.childCount; j++)
+            for (int j = 0; j < tourCount; j++)
             {
                 if (tourList[i].idx != contentTour.GetChild(j).GetComponent<CardTourInfo>().ServerTourInfo.idx)
                 {
@@ -248,11 +259,19 @@ public class BottomSheetManager : MonoBehaviour
                     contentTour.GetChild(j).SetAsLastSibling();
                     TextMeshProUGUI ditance = contentTour.GetChild(j).GetComponent<CardTourInfo>().info[1].GetComponent<TextMeshProUGUI>();
                     ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
+                    tourCount--;
+                    break;
                 }
             }
         }
 
         MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
+        //StartCoroutine(nameof(SortingTourCardsCor));
+    }
+
+    private IEnumerator SortingTourCardsCor()
+    {
+        yield return null;
     }
     #endregion
 
