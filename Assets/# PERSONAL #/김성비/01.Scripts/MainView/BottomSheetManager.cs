@@ -60,14 +60,12 @@ public class BottomSheetManager : MonoBehaviour
         print("관광정보 바텀시트");
 
         // 검은 화면 끄기   ====================================== 스켈레톤 UI 로 대체하기 ======================================
-        
         MainView_UI.instance.BackgroundDarkDisable();
+        print("검은 화면 끄기");
 
         //KJY추가 
         LoadingTest loading = GameObject.FindFirstObjectByType<LoadingTest>();
         loading.connectionFinish = true;
-
-        print("검은 화면 끄기");
     }
 
     // 장소 바텀시트
@@ -231,7 +229,7 @@ public class BottomSheetManager : MonoBehaviour
 
         MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
     }
-    public void SortingTourCards()
+   public void SortingTourCards()
     {
         DataManager.instance.SortTourList();
         tourList = DataManager.instance.GetHometourPlacesList();
@@ -247,7 +245,7 @@ public class BottomSheetManager : MonoBehaviour
                 else
                 {
                     contentTour.GetChild(j).SetAsLastSibling();
-
+                    print(contentTour.GetChild(j).GetComponent<CardTourInfo>().name);
                     TextMeshProUGUI ditance = contentTour.GetChild(j).GetComponent<CardTourInfo>().info[1].GetComponent<TextMeshProUGUI>();
                     ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
                 }
