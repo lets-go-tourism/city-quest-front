@@ -35,6 +35,12 @@ public class TutorialPopUp : MonoBehaviour
 
     private void Start()
     {
+        if (DataManager.instance.clearTutorial)
+        {
+            this.gameObject.SetActive(false);
+            return;
+        }
+
         _dotOne.sprite = _activeDotSprite;
         _endButton.GetComponent<Image>().enabled = false;
         _background.GetComponent<Button>().onClick.AddListener(OnClickPopUp);
@@ -44,7 +50,7 @@ public class TutorialPopUp : MonoBehaviour
 
         _screenshotImage = _picture.transform.GetChild(0).GetComponent<Image>();
     }
-    //-50
+
     private void OnClickPopUp()
     {
         if (_coolDown)
@@ -120,9 +126,6 @@ public class TutorialPopUp : MonoBehaviour
 
     private IEnumerator OnClickClose()
     {
-        //KJY Ãß°¡
-        SettingManager.instance.EffectSound_ButtonTouch();
-
         TutorialUI.Instance.OnNonTouch();
         TutorialUI.Instance.OffBackgroundDark();
         yield return new WaitForSeconds(1);

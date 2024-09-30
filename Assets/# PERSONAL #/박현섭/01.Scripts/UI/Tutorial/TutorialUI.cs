@@ -39,7 +39,11 @@ public class TutorialUI : MonoBehaviour
 
     private void Start()
     {
-        _backgroundDark.enabled = true;
+        if(DataManager.instance.clearTutorial)
+            _backgroundDark.enabled = false;
+        else
+            _backgroundDark.enabled = true;
+
         _tutorialSelectMsg.SetActive(false);
         tutorialEndMsg.SetActive(false);
         _invisibleNonTouch.enabled = false;
