@@ -84,6 +84,11 @@ public class TryImageConnection : MonoBehaviour
         ImageResponse response = JsonUtility.FromJson<ImageResponse>(result.text);
         CameraFeed.Instance.CameraOff();
         ButtonActions.Instance.StartCoroutine(nameof(ButtonActions.Instance.QuestDone));
+        if(CameraFeed.Instance.isTutorial == true)
+        {
+            //이거 꼭 빼라
+            DataManager.instance.SaveTutorialInfo();
+        }
     }
 }
 #endregion
