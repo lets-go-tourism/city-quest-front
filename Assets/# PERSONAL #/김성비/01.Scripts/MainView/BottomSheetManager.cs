@@ -115,6 +115,11 @@ public class BottomSheetManager : MonoBehaviour
         {
             int end = Mathf.Min(count + 25, tourList.Count);
 
+            if(end == 125)
+            {
+                end = tourList.Count;
+            }
+
             for (int i = count; i < end; i++)
             {
                 cardTourInfo = contentTour.GetChild(i).GetComponent<CardTourInfo>();    //tourGOList[i].GetComponent<CardTourInfo>();
@@ -143,11 +148,6 @@ public class BottomSheetManager : MonoBehaviour
             if (count <= 100)
             {
                 yield return new WaitForSeconds(1);
-
-                if(count == 100)
-                {
-                    count = 130;
-                }
             }
         }
     }
@@ -196,8 +196,9 @@ public class BottomSheetManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
+            SortingPlaceCards();
             SortingTourCards();
         }
     }
@@ -236,7 +237,7 @@ public class BottomSheetManager : MonoBehaviour
 
         for (int i = 0; i < tourList.Count; i++)
         {
-            for (int j = 0; j < contentPlace.childCount; j++)
+            for (int j = 0; j < contentTour.childCount; j++)
             {
                 if (tourList[i].idx != contentTour.GetChild(j).GetComponent<CardTourInfo>().ServerTourInfo.idx)
                 {
@@ -245,7 +246,6 @@ public class BottomSheetManager : MonoBehaviour
                 else
                 {
                     contentTour.GetChild(j).SetAsLastSibling();
-                    print(contentTour.GetChild(j).GetComponent<CardTourInfo>().name);
                     TextMeshProUGUI ditance = contentTour.GetChild(j).GetComponent<CardTourInfo>().info[1].GetComponent<TextMeshProUGUI>();
                     ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
                 }
@@ -254,9 +254,6 @@ public class BottomSheetManager : MonoBehaviour
 
         MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
     }
-
-
-
     #endregion
 
     #region 태그 및 필터 관리
