@@ -356,7 +356,7 @@ public class CameraFeed : MonoBehaviour
                                                           (int)sprite.textureRect.height);
              newText.SetPixels(newColors);
              newText.Apply();
-            KJY_ConnectionTMP.instance.questNoPicture = 5;
+            KJY_ConnectionTMP.instance.questNoPicture = 3;
 
             TutorialFinish();
             KJY_ConnectionTMP.instance.OnClickTest(newText);
@@ -389,7 +389,7 @@ public class CameraFeed : MonoBehaviour
 
     public void CameraOff()
     {
-        SettingManager.instance.BackGrorundSound_Change(0.5f, 3);
+        SettingManager.instance.BackGrorundSound_Change(0.4f, 3);
 
         if (webCamTexture != null)
         {
