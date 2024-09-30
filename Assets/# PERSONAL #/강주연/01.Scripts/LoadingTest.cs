@@ -51,6 +51,10 @@ public class LoadingTest : MonoBehaviour
         else
         {
             LoadingCanvasOff();
+            yield return null;
+
+            MapUIController.Instance.NameTagContainer.CollisionUpdate();
+
             yield break;
         }
     }

@@ -93,6 +93,14 @@ public class TutorialPopUp : MonoBehaviour
     private void OnClickCloseBtn()
     {
         _background.gameObject.SetActive(false);
+        StartCoroutine(nameof(OnClickClose));
+    }
+
+    private IEnumerator OnClickClose()
+    {
+        TutorialUI.Instance.OnNonTouch();
+        yield return new WaitForSeconds(1);
+        TutorialUI.Instance.OffNonTouch();
         TutorialUI.Instance.OnTutorialYesOrNoMsg();
     }
 

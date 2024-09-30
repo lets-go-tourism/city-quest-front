@@ -51,6 +51,9 @@ public class RoadMaker : MonoBehaviour
 
         foreach (var way in map.ways.FindAll((w) => { return w.IsRoad; }))
         {
+            if (way.NodeIDs.Count < 1)
+                continue;
+
             CreateObject(way, roadMaterial, way.Name);
         }
     }

@@ -106,6 +106,9 @@ public class TutorialUI : MonoBehaviour
     {
         _backgroundDark.enabled = false;
         _tutorialSelectMsg.SetActive(false);
+
+        CameraFeed.Instance.isTutorial = false;
+        DataManager.instance.SaveTutorialInfo();
     }
 
     private IEnumerator Tutorial1_1()
@@ -113,7 +116,7 @@ public class TutorialUI : MonoBehaviour
         //KJY 추가
         CameraFeed.Instance.isTutorial = true;
         // 터치 막아버리고 정지영 커피 로스터즈로 카메라 이동
-        _invisibleNonTouch.enabled = true;
+        OnNonTouch();
         Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[5]];
         MapCameraController.Instance.StartCameraMoveToTarget(prop.PropObj.transform.TransformPoint(prop.GetBoundsCenter()));
         PropsController.Instance.TintProp = prop;
@@ -125,9 +128,6 @@ public class TutorialUI : MonoBehaviour
 
             yield return null;
         }
-
-        // 터치 다시 키고
-        _invisibleNonTouch.enabled = false;
 
         // 첫번째 마스킹 키고
         _masking1_1.SetActive(true);
@@ -241,7 +241,7 @@ public class TutorialUI : MonoBehaviour
 
     public void EndTutorial1()
     {
-        canvas.enabled = false;
+        _tutorialBtn.GetComponent<Button>().onClick.RemoveAllListeners();
         _masking1_4.SetActive(false);
     }
 
@@ -253,7 +253,7 @@ public class TutorialUI : MonoBehaviour
 
     private IEnumerator Tutorial2_1() 
     {
-        canvas.enabled = true;
+        //canvas.enabled = true;
         Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[5]];
 
         // 첫번째 마스킹 키고
@@ -275,6 +275,7 @@ public class TutorialUI : MonoBehaviour
     private void StartTutorial2_2()
     {
         _tutorialBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+
         // 버튼 비활성화하고
         _tutorialBtn.enabled = false;
         _masking2_1.SetActive(false);
@@ -351,12 +352,24 @@ public class TutorialUI : MonoBehaviour
         // 말풍선 늦게 키기
         yield return new WaitForSeconds(0.5f);
         _masking2_4.transform.GetChild(0).GetComponent<Image>().enabled = true;
-        CameraFeed.Instance.isTutorial = false;
-        DataManager.instance.SaveTutorialInfo();
+
+        _tutorialBtn.rectTransform.anchoredPosition = new Vector3(913, 1958, 0);
+        _tutorialBtn.rectTransform.sizeDelta = new Vector2(200, 200);
+        _tutorialBtn.enabled = true;
+        _tutorialBtn.GetComponent<Button>().onClick.AddListener(EndTutorial2);
     }
 
     private void EndTutorial2()
     {
+        // 팝업 창 끄기
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
+        Props_UI.instance.ResetScollView();
+
+
+        _masking2_4.SetActive(false);
+        OffNonTouch();
+
         CameraFeed.Instance.isTutorial = false;
+        DataManager.instance.SaveTutorialInfo();
     }
 }

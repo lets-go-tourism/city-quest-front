@@ -7,7 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class NameTagContainer : MonoBehaviour
 {
     public PropNameTagUI[] PropNameTagArr { get; private set; } = new PropNameTagUI[31];
-    public TourNameTagUI[] TourNameTagArr { get; private set; } = new TourNameTagUI[80];
+    public TourNameTagUI[] TourNameTagArr { get; private set; } = new TourNameTagUI[150];
 
     private int _propNameTagCount = 0;
     private int _tourNameTagCount = 0;

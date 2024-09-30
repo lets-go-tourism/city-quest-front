@@ -22,10 +22,16 @@ public class EnvironmentMaker : MonoBehaviour
 
         foreach (var way in map.ways.FindAll((w) => { return w.IsWater; }))
         {
+            if (way.NodeIDs.Count < 1)
+                continue;
+
             CreateObject(way, waterMaterial, way.Name);
         }
         foreach (var way in map.ways.FindAll((w)=> { return w.IsForest; }))
         {
+            if (way.NodeIDs.Count < 1)
+                continue;
+
             CreateObject(way, forestMaterial, way.Name);
         }
     }

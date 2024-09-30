@@ -348,6 +348,7 @@ public class CameraFeed : MonoBehaviour
 
             TutorialFinish();
             KJY_ConnectionTMP.instance.OnClickTest(newText);
+            TutorialUI.Instance.OnNonTouch();
         }
         else
         {
@@ -370,6 +371,7 @@ public class CameraFeed : MonoBehaviour
             RenderTexture.active = currentRenderTexture;
 
             KJY_ConnectionTMP.instance.OnClickTest(texture2D);
+            TutorialUI.Instance.OnNonTouch();
         }
     }
 
