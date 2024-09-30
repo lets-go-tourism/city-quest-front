@@ -30,6 +30,8 @@ public class DataManager : MonoBehaviour
     [Header("LoginData")]
     private LoginResponse loginData;
 
+    [Header("tutorial")]
+    private bool clearTutorial = false;
 
     [HideInInspector]
     public bool requestSuccess = false;
@@ -59,6 +61,7 @@ public class DataManager : MonoBehaviour
         public string accessToken;
         public string refreshToken;
         public bool agreed;
+        public bool isClearTutorial;
     }
 
     private void Awake()
@@ -111,6 +114,7 @@ public class DataManager : MonoBehaviour
                 loginResponse.data.accessToken = saveData.accessToken;
                 loginResponse.data.refreshToken = saveData.refreshToken;
                 loginResponse.data.agreed = saveData.agreed;
+                clearTutorial = saveData.isClearTutorial;
 
                 SetLoginData(loginResponse);
             }
@@ -125,10 +129,18 @@ public class DataManager : MonoBehaviour
         save.accessToken = loginData.data.accessToken;
         save.refreshToken = loginData.data.refreshToken;
         save.agreed = loginData.data.agreed;
+        save.isClearTutorial = clearTutorial;
 
         string json = JsonUtility.ToJson(save, true); // JSON 형식으로 변환
         File.WriteAllText(path, json); // 파일로 저장
         Debug.Log(json);
+    }
+
+    //튜토리얼 정보
+    public void SaveTutorialInfo()
+    {
+        clearTutorial = true;
+        JsonSave();
     }
 
     //프랍리스트 설정하는 함수

@@ -208,19 +208,14 @@ public class TryHomeConnection : ConnectionStratage
             DataManager.instance.SetHomeAdventurePlaceList(response.data.adventurePlace);
             DataManager.instance.SetHometourPlaceList(response.data.tourPlace);
             DataManager.instance.requestSuccess = true;
-
         }
         else
         {
             Debug.Log(result.error);
             ToastMessage.ShowToast("지도를 펼치는 데 실패했어요. 앱을 다시 실행해 주세요.");
             Application.Quit();
-            //KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
-            //�� ���� �ڵ� �߰�
-
         }
     }
-
 }
 #endregion
 
