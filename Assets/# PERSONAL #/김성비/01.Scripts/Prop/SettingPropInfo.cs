@@ -145,7 +145,7 @@ public class SettingPropInfo : MonoBehaviour
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 사진
         if (tutorial) // 튜토리얼
-        {   
+        {
             // 퀘스트사진
             SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Crop");
             // 장소사진
@@ -209,7 +209,6 @@ public class SettingPropInfo : MonoBehaviour
     // 이미지 불러오기
     public IEnumerator GetTexture(Parameters raw)
     {
-
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(raw.url);
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
@@ -221,23 +220,29 @@ public class SettingPropInfo : MonoBehaviour
             //Texture2D myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
             Texture2D myTexture = DownloadHandlerTexture.GetContent(www);
 
+           int originW = myTexture.width;
+           int originH = myTexture.height;
 
             // 탐험 완
             if (raw.type == "yes")
             {
                 if (raw.index == 4) // 퀘스트 사진
                 {
-                    SettingPropContent.instance.content[raw.index].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 686, 686), new Vector2(0.5f, 0.5f));
+                    //FinalScale(686, 686);
+
+                    SettingPropContent.instance.content[raw.index].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, originW, originH), new Vector2(0.5f, 0.5f));
                 }
                 else if (raw.index == 5) // 장소사진
                 {
-                    SettingPropContent.instance.content[raw.index].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 700, 450), new Vector2(0.5f, 0.5f));
+                    //FinalScale(700, 450);
+
+                    SettingPropContent.instance.content[raw.index].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, originW, originH), new Vector2(0.5f, 0.5f));
                 }
             }
             // 미탐험
             else if (raw.type == "no")
             {
-                SettingPropContent.instance.content[raw.index].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, 700, 450), new Vector2(0.5f, 0.5f));
+                SettingPropContent.instance.content[raw.index].GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite = Sprite.Create(myTexture, new Rect(0, 0, originW, originH), new Vector2(0.5f, 0.5f));
             }
         }
     }
