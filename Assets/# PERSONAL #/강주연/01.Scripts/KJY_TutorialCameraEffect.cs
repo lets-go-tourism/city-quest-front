@@ -24,8 +24,6 @@ public class KJY_TutorialCameraEffect : MonoBehaviour
     public void Test()
     {
         firstTr = cam.transform;
-        Debug.Log(firstTr.transform.position);
-        Debug.Log(firstTr.transform.rotation);
         Vector3 target = target_pos.transform.position - cam.transform.position;
         StartCoroutine(RotateVectorCoroutine(target, cam.transform, true));
         StartCoroutine(AdjustCameraFOV(targetPov, 2f));
@@ -47,7 +45,6 @@ public class KJY_TutorialCameraEffect : MonoBehaviour
 
             if (AreQuaternionsSimilar(tr.transform.rotation, Quaternion.LookRotation(target)))
             {
-                Debug.Log("stop_rotation");
                 yield break; 
             }
 
@@ -70,7 +67,6 @@ public class KJY_TutorialCameraEffect : MonoBehaviour
             cam.transform.position = Vector3.Lerp(cam.transform.position, target, Time.deltaTime * move_speed);
             if (Vector3.Distance(cam.transform.position, target) < camera_distance)
             {
-                Debug.Log("stop_dis");
                 break;
             }
             yield return null;
