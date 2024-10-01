@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,17 +15,19 @@ public class CloseButton : MonoBehaviour
 
     void ClosePopUp(string name)
     {
-        if (name == "prop" && PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
+        if (!PopUpMovement.instance.cancel)
         {
-            PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
-            Props_UI.instance.ResetScollView();
-            //SettingPropInfo.instance.StopCoroutine(nameof(SettingTourInfo.instance.UpdateDistance));
-        }
-        else if(name =="tour" && PopUpMovement.instance.tourState == PopUpMovement.TourState.UP)
-        {
-            PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
-            Props_UI.instance.ResetScollView();
-            //SettingTourInfo.instance.StopCoroutine(nameof(SettingTourInfo.instance.UpdateDistance));
+            if (name == "prop" && PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
+            {
+                PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
+                Props_UI.instance.ResetScollView();
+            }
+
+            else if (name == "tour" && PopUpMovement.instance.tourState == PopUpMovement.TourState.UP)
+            {
+                PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
+                Props_UI.instance.ResetScollView();
+            }
         }
     }
 }

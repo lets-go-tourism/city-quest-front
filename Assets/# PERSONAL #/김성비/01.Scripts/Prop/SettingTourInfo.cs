@@ -68,7 +68,7 @@ public class SettingTourInfo : MonoBehaviour
 
         // 스크롤뷰 크기
         float scrollY = 720f + contentY - 54f;
-        if(scrollY > 1500)
+        if (scrollY > 1500)
         {
             scrollY = 1500f;
         }
@@ -99,15 +99,15 @@ public class SettingTourInfo : MonoBehaviour
     // 아이콘 배경색 변환
     void SettingBGColor(int num)
     {
-        if(num == 12)      { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.674f, 0.78f, 0.145f, 1f); }
-        else if(num == 14) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.403f, 0.772f, 0.956f, 1f); }
-        else if(num == 15) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.87f, 0.513f, 0.839f, 1f); }
-        else if(num == 25) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(1f, 0.784f, 0.13f, 1f); }
-        else if(num == 28) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.478f, 0.549f, 1f, 1f); }
-        else if(num == 32) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.6f, 0.478f, 0.86f, 1f); }
-        else if(num == 38) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.21f, 0.796f, 0.698f, 1f); }
-        else if(num == 39) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.945f, 0.509f, 0.576f, 1f); }
-        
+        if (num == 12) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.674f, 0.78f, 0.145f, 1f); }
+        else if (num == 14) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.403f, 0.772f, 0.956f, 1f); }
+        else if (num == 15) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.87f, 0.513f, 0.839f, 1f); }
+        else if (num == 25) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(1f, 0.784f, 0.13f, 1f); }
+        else if (num == 28) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.478f, 0.549f, 1f, 1f); }
+        else if (num == 32) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.6f, 0.478f, 0.86f, 1f); }
+        else if (num == 38) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.21f, 0.796f, 0.698f, 1f); }
+        else if (num == 39) { contents[0].GetChild(0).GetComponent<Image>().color = new Color(0.945f, 0.509f, 0.576f, 1f); }
+
     }
 
     // 거리 변환
@@ -157,10 +157,13 @@ public class SettingTourInfo : MonoBehaviour
         TourInfoSetting(tourInfo);
 
         // 팝업창 UI 활성화
-        yield return new WaitForSeconds(0.5f);
-        PopUpMovement.instance.skTour.anchoredPosition = new Vector2(0, -2500);
-        PopUpMovement.instance.skeleton = false;
-        PopUpMovement.instance.rtTour.anchoredPosition = new Vector2(0, 0);
+        if (!PopUpMovement.instance.cancel)
+        {
+            yield return new WaitForSeconds(0.5f);
+            PopUpMovement.instance.skTour.anchoredPosition = new Vector2(0, -2500);
+            PopUpMovement.instance.skeleton = false;
+            PopUpMovement.instance.rtTour.anchoredPosition = new Vector2(0, 0);
+        }
         //print(PopUpMovement.instance.skTour.anchoredPosition);
     }
 
@@ -189,7 +192,7 @@ public class SettingTourInfo : MonoBehaviour
 
         //// RectTransform의 사이즈 조정
         //contents[7].gameObject.SetActive(false);                                        // 이미지 비활성화
-        
+
         //if (contents[7].GetComponent<RectTransform>() != null)
         //{
         //    contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight);

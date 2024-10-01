@@ -70,9 +70,12 @@ public class SettingPropInfo : MonoBehaviour
         // 정보값 적용
         yield return StartCoroutine(nameof(NOInfoSetting));
 
-        PopUpMovement.instance.skeleton = false;
-        PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
-        PopUpMovement.instance.skPlaceUN.anchoredPosition = new Vector2(0, -2600);
+        if (!PopUpMovement.instance.cancel)
+        {
+            PopUpMovement.instance.skeleton = false;
+            PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
+            PopUpMovement.instance.skPlaceUN.anchoredPosition = new Vector2(0, -2600);
+        }
     }
 
     IEnumerator NOInfoSetting()
@@ -124,10 +127,12 @@ public class SettingPropInfo : MonoBehaviour
         // 정보값 적용
         yield return StartCoroutine(nameof(YESInfoSetting));
 
-
-        PopUpMovement.instance.skeleton = false;
-        PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
-        PopUpMovement.instance.skPlaceAD.anchoredPosition = new Vector2(0, -2600);
+        if (!PopUpMovement.instance.cancel)
+        {
+            PopUpMovement.instance.skeleton = false;
+            PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
+            PopUpMovement.instance.skPlaceAD.anchoredPosition = new Vector2(0, -2600);
+        }
     }
 
     IEnumerator YESInfoSetting()
