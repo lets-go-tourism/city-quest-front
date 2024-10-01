@@ -42,7 +42,6 @@ public class TryImageConnection : MonoBehaviour
         this.data = setting.data;
         this.questNo = setting.questNo;
 
-        Debug.Log(url);
         SendImage();
     }
 
@@ -62,7 +61,6 @@ public class TryImageConnection : MonoBehaviour
             login = DataManager.instance.GetLoginData();
 
             www.SetRequestHeader("Authorization", login.data.accessToken);
-            print(login.data.accessToken);
 
             yield return www.SendWebRequest();
 
@@ -74,7 +72,6 @@ public class TryImageConnection : MonoBehaviour
             }
             else
             {
-                //Debug.Log("Image upload complete!");
                 Complete(www.downloadHandler);
             }
         }
@@ -211,7 +208,6 @@ public class TryHomeConnection : ConnectionStratage
         }
         else
         {
-            Debug.Log(result.error);
             ToastMessage.ShowToast("지도를 펼치는 데 실패했어요. 앱을 다시 실행해 주세요.");
             Application.Quit();
         }
@@ -279,7 +275,6 @@ public class TryQuestConnection : ConnectionStratage
     {
         HttpRequester request = new HttpRequester();
 
-        Debug.Log(this.url);
         request.Setting(RequestType.GET, this.url);
         request.body = jsonData;
         request.complete = Complete;
@@ -298,8 +293,6 @@ public class TryQuestConnection : ConnectionStratage
         {
             KJY_ConnectionTMP.instance.isQuest = false;
             DataManager.instance.SetQuestInfo(response.data);
-            Debug.Log(response.data);
-            // �����ϸ� ����
         }
         else
         {
@@ -428,7 +421,6 @@ public class TryConfirmConnection : ConnectionStratage
     {
         HttpRequester request = new HttpRequester();
 
-        Debug.Log(this.url);
         request.Setting(RequestType.POST, this.url);
         request.body = jsonData;
         request.complete = Complete;
@@ -445,13 +437,10 @@ public class TryConfirmConnection : ConnectionStratage
 
         if (response.status == "OK")
         {
-            //UI�Ѿ�°� ȣ�����ֱ�
             KJY_LoginManager.instance.OnClickConfirmButton();
         }
         else
         {
-            //ToastMessage.ShowToast("��ſ� �����߾��");
-            //KJY_ConnectionTMP.instance.OnConnectionFailUI();
             KJY_ConnectionTMP.instance.SetCanvasText("약관 동의에 실패했어요.\n 다시 시도해 주세요.");
             KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
@@ -504,7 +493,6 @@ public class TryDeleteConnection : ConnectionStratage
         HttpRequester request = new HttpRequester();
 
 
-        Debug.Log(this.url);
         request.Setting(RequestType.POST, this.url);
         request.body = jsonData;
         request.complete = Complete;
@@ -521,14 +509,11 @@ public class TryDeleteConnection : ConnectionStratage
 
         if (response.status == "OK")
         {
-            //ù�����ε��ư��� ��ū ���ϵ� ���ֹ����� DataManager�� ���� �ٽ��ϰ��ؾ���
             SettingManager.instance.DeletePopUp();
             DataManager.instance.clearTutorial = false;
         }
         else
         {
-            //ToastMessage.ShowToast("���� ������ �����߾�� �ٽ� �õ��� �ּ���");
-            //KJY_ConnectionTMP.instance.OnConnectionFailUI();
             KJY_ConnectionTMP.instance.SetCanvasText("계정 삭제에 실패했어요.\n 다시 시도해 주세요.");
             KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
@@ -596,7 +581,6 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
         };
 
-        Debug.Log(setting.url);
         isQuest = false;
         TryImageConnection tryImageConnection = gameObject.AddComponent<TryImageConnection>();
         tryImageConnection.Initialize(setting);
@@ -717,17 +701,20 @@ public class KJY_ConnectionTMP : MonoBehaviour
     
     private double Distance_Gara()
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
         List<ServerProp> prop = DataManager.instance.GetHomePropsList();
         LocationInfo info = DataManager.instance.GetGPSInfo();
 
-        double tmp = GPS.Instance.Distance(prop[2].latitude, info.latitude, prop[2].longitude, info.longitude, 'K');
-        //double a = 1000;
-        //if (tmp > a)
-        //{
-        //    tmp = Math.Round(tmp / a, 1);
-        //}
+        double tmp = GPS.Instance.Distance(prop[0].latitude, prop[0].longitude, info.latitude, info.longitude, 'K');
         
         return tmp;
+#elif UNITY_EDITOR
+        List<ServerProp> prop = DataManager.instance.GetHomePropsList();
+
+        double tmp = GPS.Instance.Distance(prop[0].latitude, prop[0].longitude, 0, 0, 'K');
+
+        return tmp;
+#endif
     }
 
 }

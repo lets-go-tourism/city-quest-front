@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class BottomSheetManager : MonoBehaviour
 {
@@ -194,21 +195,20 @@ public class BottomSheetManager : MonoBehaviour
     }
     #endregion
 
-    private void Update()
+    #region 바텀시트 재정렬
+
+    public void OnSkeleton()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            skeleton = true;
-            StartCoroutine(BSSkeleton());
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            skeleton = false;
-        }
+        skeleton = true;
+        StartCoroutine(BSSkeleton());
     }
 
-    #region 바텀시트 재정렬
-    public IEnumerator BSSkeleton()
+    public void OffSkeleton()
+    {
+        skeleton = false;
+    }
+
+    private IEnumerator BSSkeleton()
     {
         float t;
         float d = 0.3f;
@@ -260,6 +260,8 @@ public class BottomSheetManager : MonoBehaviour
 
     public void SortingPlaceCards()
     {
+        StartCoroutine(nameof(SkeletonCor));
+
         DataManager.instance.SortPropAdventureList();
         propList = DataManager.instance.GetHomePropsList();
         //placeList = DataManager.instance.GetHomeAdventurePlacesList();
@@ -293,6 +295,8 @@ public class BottomSheetManager : MonoBehaviour
 
     public void SortingTourCards()
     {
+        StartCoroutine(nameof(SkeletonCor));
+
         DataManager.instance.SortTourList();
         tourList = DataManager.instance.GetHometourPlacesList();
         tourCount = contentTour.childCount;
@@ -320,9 +324,11 @@ public class BottomSheetManager : MonoBehaviour
         //StartCoroutine(nameof(SortingTourCardsCor));
     }
 
-    private IEnumerator SortingTourCardsCor()
+    private IEnumerator SkeletonCor()
     {
-        yield return null;
+        OnSkeleton();
+        yield return new WaitForSeconds(1);
+        OffSkeleton();
     }
     #endregion
 

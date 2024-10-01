@@ -302,10 +302,7 @@ public class DataManager : MonoBehaviour
 
     public void SortPropAdventureList()
     {
-        Vector3 screenCenter = MapCameraController.Instance.GetScreenCenter();
-
-        Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
-
+        Vector3 worldCenter = MapCameraController.Instance.GetTargetCenter();
 
         var tmpList = new List<(ServerProp Prop, ServerAdventurePlace Adventure)>();
         
@@ -324,9 +321,7 @@ public class DataManager : MonoBehaviour
 
     public void SortTourList()
     {
-        Vector3 screenCenter = MapCameraController.Instance.GetScreenCenter();
-
-        Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
+        Vector3 worldCenter = MapCameraController.Instance.GetTargetCenter();
 
         tourPlacesList = tourPlacesList
             .OrderBy(place => Vector3.Distance(worldCenter, place.position))

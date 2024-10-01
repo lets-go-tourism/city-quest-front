@@ -54,6 +54,11 @@ public class Prop : MonoBehaviour
         return propObjMeshFileter.mesh.bounds.center;
     }
 
+    public Vector3 GetBoundsGround()
+    {
+        return propObjMeshFileter.mesh.bounds.center - new Vector3(0, propObjMeshFileter.mesh.bounds.extents.y / 2, 0);
+    }
+
     public void Init(ServerProp propData, ServerAdventurePlace homeAdventurePlace, GameObject propGO)
     {
         this.PropData = propData;

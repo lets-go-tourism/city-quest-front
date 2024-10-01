@@ -73,7 +73,7 @@ public class CameraFeed : MonoBehaviour
     public void SetWebCam()
     {
         SettingManager.instance.EffectSound_ButtonTouch();
-        SettingManager.instance.BackGrorundSound_Change(0, 3);
+        SettingManager.instance.BackGrorundSound_Change(0, 2);
 
 
         if (camCanvas.enabled == false)
@@ -387,7 +387,7 @@ public class CameraFeed : MonoBehaviour
 
     public void CameraOff()
     {
-        SettingManager.instance.BackGrorundSound_Change(0.4f, 3);
+        SettingManager.instance.BackGrorundSound_Change(0.4f, 2);
 
         if (webCamTexture != null)
         {
