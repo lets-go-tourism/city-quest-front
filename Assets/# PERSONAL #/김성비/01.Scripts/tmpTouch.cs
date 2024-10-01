@@ -266,7 +266,7 @@ public class tmpTouch : MonoBehaviour
             }
             else if (touch.phase == TouchPhase.Moved)
             {
-                if ((startPosition - touch.position).sqrMagnitude > 15f)
+                if ((startPosition - touch.position).sqrMagnitude > 20f)
                     click = false;
             }
             else if (touch.phase == TouchPhase.Ended && click)
