@@ -311,7 +311,7 @@ public class tmpTouch : MonoBehaviour
 
                         // �������� �� propNo �� ������ ����
                         KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
-
+                        
                         HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); };
                         //HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
                     }

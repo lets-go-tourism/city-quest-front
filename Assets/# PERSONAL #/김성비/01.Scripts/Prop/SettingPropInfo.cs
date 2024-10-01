@@ -34,7 +34,7 @@ public class SettingPropInfo : MonoBehaviour
     public void PropInfoSetting()
     {
         //MainView_UI.instance.BackgroundDarkEnable();
-
+        print("kdjflskflsdkjflskdj");
         if (DataManager.instance.GetQuestInfo().status)
         {
             StopCoroutine(SettingNO());
