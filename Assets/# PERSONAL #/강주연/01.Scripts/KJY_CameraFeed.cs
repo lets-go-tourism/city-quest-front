@@ -72,6 +72,10 @@ public class CameraFeed : MonoBehaviour
 
     public void SetWebCam()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
+        SettingManager.instance.BackGrorundSound_Change(0, 3);
+
+
         if (camCanvas.enabled == false)
         {
             camCanvas.enabled = true;
@@ -251,6 +255,8 @@ public class CameraFeed : MonoBehaviour
 
     public void CapturePhoto()
     {
+        SettingManager.instance.EffectSound_Camera();
+
         if (isTutorial)
         {
             captureObject.SetActive(false);
@@ -323,6 +329,8 @@ public class CameraFeed : MonoBehaviour
 
     public void RotatePhoto()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         Texture2D currentPhoto = webCamRawImage.texture as Texture2D;
 
         if (currentPhoto != null)
@@ -334,20 +342,22 @@ public class CameraFeed : MonoBehaviour
 
     public void UploadImage()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         if (isTutorial)
         {
-             Sprite sprite = tutorialImage_crop;
-             Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
-             Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
-                                                          (int)sprite.textureRect.y,
-                                                          (int)sprite.textureRect.width,
-                                                          (int)sprite.textureRect.height);
-             newText.SetPixels(newColors);
-             newText.Apply();
-            KJY_ConnectionTMP.instance.questNoPicture = 5;
+            // Sprite sprite = tutorialImage_crop;
+            // Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+            // Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
+            //                                              (int)sprite.textureRect.y,
+            //                                              (int)sprite.textureRect.width,
+            //                                              (int)sprite.textureRect.height);
+            // newText.SetPixels(newColors);
+            // newText.Apply();
+            //KJY_ConnectionTMP.instance.OnClickTest(newText);
 
+            KJY_ConnectionTMP.instance.questNoPicture = 3;
             TutorialFinish();
-            KJY_ConnectionTMP.instance.OnClickTest(newText);
             TutorialUI.Instance.OnNonTouch();
         }
         else
@@ -377,6 +387,8 @@ public class CameraFeed : MonoBehaviour
 
     public void CameraOff()
     {
+        SettingManager.instance.BackGrorundSound_Change(0.4f, 3);
+
         if (webCamTexture != null)
         {
             webCamTexture.Stop(); 
@@ -450,6 +462,7 @@ public class CameraFeed : MonoBehaviour
         animator.enabled = false;
         photoUse_Dialog.SetActive(false);
         CameraOff();
+        ButtonActions.Instance.StartCoroutine(nameof(ButtonActions.Instance.QuestDone));
 
         for (int i = 0; i < buttonList.Count; i++)
         {

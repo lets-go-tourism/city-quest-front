@@ -19,6 +19,7 @@ public class TutorialUI : MonoBehaviour
 
     [SerializeField] private Image _backgroundDark;
     [SerializeField] private GameObject _tutorialSelectMsg;
+    [SerializeField] private GameObject tutorialEndMsg;
     [SerializeField] private Image _invisibleNonTouch;
 
     [SerializeField] private Image _tutorialBtn;
@@ -38,8 +39,13 @@ public class TutorialUI : MonoBehaviour
 
     private void Start()
     {
+
         _backgroundDark.enabled = true;
+
+        print("아오 시발 왜 안대는데 AAAAAAAAAAAAAAAA" + DataManager.instance.clearTutorial);
+
         _tutorialSelectMsg.SetActive(false);
+        tutorialEndMsg.SetActive(false);
         _invisibleNonTouch.enabled = false;
         _tutorialBtn.enabled = false;
 
@@ -98,6 +104,9 @@ public class TutorialUI : MonoBehaviour
         _backgroundDark.enabled = false;
         _tutorialSelectMsg.SetActive(false);
 
+        //KJY 추가
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         // 튜토리얼 시작
         StartCoroutine(nameof(Tutorial1_1));
     }
@@ -107,6 +116,9 @@ public class TutorialUI : MonoBehaviour
         _backgroundDark.enabled = false;
         _tutorialSelectMsg.SetActive(false);
 
+        //KJY 추가
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         CameraFeed.Instance.isTutorial = false;
         DataManager.instance.SaveTutorialInfo();
     }
@@ -115,9 +127,10 @@ public class TutorialUI : MonoBehaviour
     {
         //KJY 추가
         CameraFeed.Instance.isTutorial = true;
+
         // 터치 막아버리고 정지영 커피 로스터즈로 카메라 이동
         OnNonTouch();
-        Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[5]];
+        Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[3]];
         MapCameraController.Instance.StartCameraMoveToTarget(prop.PropObj.transform.TransformPoint(prop.GetBoundsCenter()));
         PropsController.Instance.TintProp = prop;
 
@@ -153,14 +166,15 @@ public class TutorialUI : MonoBehaviour
         _masking1_1.SetActive(false);
         //_roundMasking.SetActive(false);
 
+        HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); StartCoroutine(nameof(Tutorial1_2)); };
+        HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
+
         // 통신
-        KJY_ConnectionTMP.instance.OnConnectionQuest(5);
+        KJY_ConnectionTMP.instance.OnConnectionQuest(3);
 
         // 뒤에 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
 
-        HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); StartCoroutine(nameof(Tutorial1_2)); };
-        HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
     }
 
     private IEnumerator Tutorial1_2() 
@@ -254,7 +268,7 @@ public class TutorialUI : MonoBehaviour
     private IEnumerator Tutorial2_1() 
     {
         //canvas.enabled = true;
-        Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[5]];
+        Prop prop = PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[3]];
 
         // 첫번째 마스킹 키고
         _masking2_1.SetActive(true);
@@ -281,7 +295,7 @@ public class TutorialUI : MonoBehaviour
         _masking2_1.SetActive(false);
 
         // 통신
-        KJY_ConnectionTMP.instance.OnConnectionQuest(5);
+        KJY_ConnectionTMP.instance.OnConnectionQuest(3);
 
         // 뒤에 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
@@ -364,12 +378,26 @@ public class TutorialUI : MonoBehaviour
         // 팝업 창 끄기
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
         Props_UI.instance.ResetScollView();
-
-
         _masking2_4.SetActive(false);
-        OffNonTouch();
+        _tutorialBtn.enabled = false;
+        _tutorialBtn.GetComponent<Button>().onClick.RemoveAllListeners();
 
-        CameraFeed.Instance.isTutorial = false;
+        StartCoroutine(nameof(TutorialEnd));
+    }
+
+    private IEnumerator TutorialEnd()
+    {
+        yield return new WaitForSeconds(1.5f);
+        OffNonTouch();
+        OnBackgroundDark();
+        tutorialEndMsg.SetActive(true);
+        tutorialEndMsg.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(RealEndTutorial);
+    }
+
+    private void RealEndTutorial()
+    {
+        OffBackgroundDark();
+        tutorialEndMsg.SetActive(false);
         DataManager.instance.SaveTutorialInfo();
     }
 }

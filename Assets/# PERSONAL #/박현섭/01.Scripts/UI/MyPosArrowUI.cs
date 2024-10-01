@@ -65,6 +65,9 @@ public class MyPosArrowUI : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        //KJY Ãß°¡
+        SettingManager.instance.EffectSound_ButtonTouch();
+
         MapCameraController.Instance.StartCameraMoveToTarget(GPS.Instance.GetUserWorldPosition());
     }
 }

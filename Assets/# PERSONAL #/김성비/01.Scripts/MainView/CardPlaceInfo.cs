@@ -128,6 +128,8 @@ public class CardPlaceInfo : MonoBehaviour
 
     public void SendPlaceInfo()
     {
+        //KJY추가
+        SettingManager.instance.EffectSound_ButtonTouch();
         // 미선택 -> 선택
         if (state == State.UnSelected)
         {

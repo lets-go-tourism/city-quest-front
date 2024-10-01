@@ -324,8 +324,9 @@ MonoBehaviour:
   deletePopUp: {fileID: 1577110440450400130}
   audioSource: {fileID: 1802930029796509602}
   effectSource: {fileID: 549729011495677270}
-  buttonTouchClip: {fileID: 8300000, guid: 6e27793c8c4aa0449acc5a201200098c, type: 3}
+  buttonTouchClip: {fileID: 8300000, guid: a5318ea5f6cc39b4a9ac5c689af58ea4, type: 3}
   popUpTouchClip: {fileID: 8300000, guid: 76a32b9c7f22dda488ef4b71f7cd2c54, type: 3}
+  tourTouchClip: {fileID: 0}
   mapMoveTouch_ShortClip:
   - {fileID: 8300000, guid: 43e09205247d5164693f330bbf7d2f34, type: 3}
   - {fileID: 8300000, guid: 3da82aef5943c49489588ed4a7d33436, type: 3}
@@ -353,8 +354,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: db48eac9e03932b4dbad5c672ee3a0c6, type: 3}
   - {fileID: 8300000, guid: f0cc1e64ae0e57d46af705bb9df68c16, type: 3}
   cameraClip: {fileID: 8300000, guid: c70f181d8e438644eb183ba11f71d2ad, type: 3}
-  PopUpon: {fileID: 0}
-  PopUpDown: {fileID: 0}
+  PopUpon: {fileID: 8300000, guid: c5c9a8317cd8e32448b89c61bde8a6e3, type: 3}
+  PopUpDown: {fileID: 8300000, guid: 877aae211c3496b4c8563d3cd1a9972c, type: 3}
+  cameraButton: {fileID: 8300000, guid: 21494915f5efa134ca560ffe68572c17, type: 3}
+  cloudEffect: {fileID: 8300000, guid: e42ce7fd216c7ea40a8452db12c8cb01, type: 3}
+  errorSound: {fileID: 8300000, guid: c5328f5e9f4b1f54b952ab24e647cad1, type: 3}
 --- !u!1 &312317752129128171
 GameObject:
   m_ObjectHideFlags: 0
@@ -2221,7 +2225,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 174, y: 90}
-  m_SizeDelta: {x: 348, y: 180}
+  m_SizeDelta: {x: 349, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4769521582466682016
 CanvasRenderer:
@@ -2366,7 +2370,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -172.5, y: -118.5}
-  m_SizeDelta: {x: 345, y: 181}
+  m_SizeDelta: {x: 346, y: 181}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3706349134308723391
 CanvasRenderer:
@@ -2592,7 +2596,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2776,10 +2780,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3076,7 +3080,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -174, y: 90}
-  m_SizeDelta: {x: 348, y: 180}
+  m_SizeDelta: {x: 349, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1496210714304648640
 CanvasRenderer:
@@ -3807,7 +3811,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 172.5, y: -118.5}
-  m_SizeDelta: {x: 345, y: 181}
+  m_SizeDelta: {x: 346, y: 181}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &851656248885866833
 CanvasRenderer:
@@ -4035,7 +4039,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 71ae987502a628244b0e27fe26584072, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4617,7 +4621,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_fontColor: {r: 0.18431373, g: 0.11372549, b: 0.023529412, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4962,7 +4966,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_fontColor: {r: 0.18431373, g: 0.11372549, b: 0.023529412, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5531,7 +5535,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_fontColor: {r: 0.18431373, g: 0.11372549, b: 0.023529412, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

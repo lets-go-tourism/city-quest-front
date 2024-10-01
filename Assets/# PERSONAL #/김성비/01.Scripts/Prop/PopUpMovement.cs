@@ -40,6 +40,9 @@ public class PopUpMovement : MonoBehaviour
 
     public IEnumerator MoveUP(bool place)
     {
+        //KJY 추가
+        SettingManager.instance.BackGroundSound_InProp();
+
         if (place)
         {
             if (adventured)
@@ -76,6 +79,10 @@ public class PopUpMovement : MonoBehaviour
     public IEnumerator MoveDOWN(bool place)
     {
         Props_UI.instance.ResetScollView();
+
+        //KJY 추가
+        SettingManager.instance.EffectSound_PopDown();
+        SettingManager.instance.BackGroundSound_Original();
 
         if (place)
         {

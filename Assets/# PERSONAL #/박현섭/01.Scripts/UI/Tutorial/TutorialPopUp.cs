@@ -9,6 +9,7 @@ public class TutorialPopUp : MonoBehaviour
     [SerializeField] private Image _background;
 
     [SerializeField] private Image _picture;
+    [SerializeField] private Image _screenshotImage;
 
     [SerializeField] private Image _dotOne;
     [SerializeField] private Image _dotTwo;
@@ -26,6 +27,10 @@ public class TutorialPopUp : MonoBehaviour
     [SerializeField] private Sprite _activeDotSprite;
     [SerializeField] private Sprite _deActiveDotSprite;
 
+    [SerializeField] private Sprite indicatorSprite;
+    [SerializeField] private Sprite bottomSheetSprite;
+    [SerializeField] private Sprite wantPosSprite;
+
     private int _count = 0;
 
     private void Start()
@@ -36,6 +41,8 @@ public class TutorialPopUp : MonoBehaviour
 
         _closeButton.onClick.AddListener(OnClickCloseBtn);
         _endButton.onClick.AddListener(OnClickCloseBtn);
+
+        _screenshotImage = _picture.transform.GetChild(0).GetComponent<Image>();
     }
 
     private void OnClickPopUp()
@@ -50,9 +57,12 @@ public class TutorialPopUp : MonoBehaviour
                 _dotOne.sprite = _deActiveDotSprite;
                 _dotTwo.sprite = _activeDotSprite;
 
-                _taillineText.text = "화면에서 내 위치가 보이지 않을 때는 내가 있는 방향이 화살표로 표시돼요. 화살표를 누르면 지도 상의 내 위치로 이동할 수 있어요.";
+                _taillineText.text = "화면에서 내 위치가 보이지 않을 때는 내가 있는 방향이 화살표로 표시돼요. 화살표를 누르면\n지도 상의 내 위치로 이동할 수 있어요.";
 
                 _picture.rectTransform.sizeDelta = new Vector2(720, 420);
+
+                _screenshotImage.sprite = indicatorSprite;
+                _screenshotImage.rectTransform.anchoredPosition = new Vector2(-54, -9);
 
                 _coolDown = true;
                 break;
@@ -65,6 +75,10 @@ public class TutorialPopUp : MonoBehaviour
 
                 _picture.rectTransform.sizeDelta = new Vector2(720, 558);
 
+                _screenshotImage.sprite = bottomSheetSprite;
+                _screenshotImage.rectTransform.localScale = Vector3.one * 0.7f;
+                _screenshotImage.rectTransform.anchoredPosition = new Vector2(-14, 379);
+
                 _coolDown = true;
                 break;
             case 2:
@@ -73,6 +87,11 @@ public class TutorialPopUp : MonoBehaviour
                 _dotFour.sprite = _activeDotSprite;
 
                 _taillineText.text = "필터 버튼을 누르면 보고 싶은 종류의 항목만 골라 볼 수 있어요.";
+
+                _screenshotImage.sprite = bottomSheetSprite;
+
+                _screenshotImage.rectTransform.localScale = Vector3.one;
+                _screenshotImage.rectTransform.anchoredPosition = new Vector2(154, 437);
 
                 _coolDown = true;
                 break;
@@ -86,6 +105,9 @@ public class TutorialPopUp : MonoBehaviour
                 _taillineText.text = "바텀 시트에서 원하는 항목을 누르면 지도에서 해당 위치를 볼 수 있어요.";
 
                 _background.rectTransform.sizeDelta = new Vector2(852, 1266);
+
+                _screenshotImage.sprite = wantPosSprite;
+                _screenshotImage.rectTransform.anchoredPosition = new Vector2(3, -268);
                 break;
         }
     }
@@ -99,8 +121,10 @@ public class TutorialPopUp : MonoBehaviour
     private IEnumerator OnClickClose()
     {
         TutorialUI.Instance.OnNonTouch();
+        TutorialUI.Instance.OffBackgroundDark();
         yield return new WaitForSeconds(1);
         TutorialUI.Instance.OffNonTouch();
+        TutorialUI.Instance.OnBackgroundDark();
         TutorialUI.Instance.OnTutorialYesOrNoMsg();
     }
 

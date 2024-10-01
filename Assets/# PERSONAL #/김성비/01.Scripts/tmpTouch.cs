@@ -6,17 +6,6 @@ using System.Collections.Generic;
 
 public class tmpTouch : MonoBehaviour
 {
-    /// <summary>
-    /// ¸ñÇ¥ : Áöµµ À§ÀÇ ÇÁ¶øÀ» ÅÍÄ¡ÇÏ¸é ÇØ´ç ÇÁ¶øÀÇ Á¤º¸¸¦ ¹Þ¾Æ¿Í UI·Î Ç¥ÇöÇÑ´Ù.
-    /// 1. ÇÁ¶øÀ» ÅÍÄ¡ÇÏ¸é
-    ///     1-1. ÇÁ¶ø ¿©ºÎ(layer)
-    ///          - »çÁø Á¤º¸
-    ///     1-2. ÇÁ¶øÀ» È¹µæ ¿©ºÎ
-    ///     1-3. ÇÁ¶øÀÇ ÀÌ¸§, ³­ÀÌµµ, ÇöÀç ³ª¿ÍÀÇ °Å¸® Á¤º¸
-    ///     1-4. Ãß°¡ Äù½ºÆ® ¿©ºÎ
-    ///     
-    /// 2. 1ÀÇ Á¤º¸¸¦ UI·Î Ç¥½ÃÇÑ´Ù.
-    /// </summary>
     public static tmpTouch instance;
 
     private void Awake()
@@ -43,6 +32,7 @@ public class tmpTouch : MonoBehaviour
     int layerProp, layerTour;
     Touch touch;
     public GraphicRaycaster raycaster;
+    public GraphicRaycaster raycaster2;
     PointerEventData point;
     SettingCanvasOnOff settingUI;
     bool follow;
@@ -75,15 +65,17 @@ public class tmpTouch : MonoBehaviour
         if (Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
-            point.position = touch.position;
-            List<RaycastResult> results = new List<RaycastResult>();
-            raycaster.Raycast(point, results);
+
             if (touch.phase == TouchPhase.Began)
             {
+                point.position = touch.position;
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster.Raycast(point, results);
                 foreach (RaycastResult r in results)
                 {
                     if (r.gameObject.CompareTag("BackgroundDark"))
                     {
+
                         follow = false;
                         break;
                     }
@@ -93,6 +85,15 @@ public class tmpTouch : MonoBehaviour
                         originPos = touch.position;
                         startBottomSheetHeight = MainView_UI.instance.bottomSheet.anchoredPosition.y;
                         follow = true;
+                    }
+                }
+                raycaster2.Raycast(point, results);
+                foreach(RaycastResult r in results)
+                {
+                    if(r.gameObject.CompareTag("BackgroundDark"))
+                    {
+                        follow = false;
+                        break;
                     }
                 }
             }
@@ -133,7 +134,7 @@ public class tmpTouch : MonoBehaviour
         }
     }
 
-    // ¹ÙÅÒ½ÃÆ® ÅÍÄ¡
+    // ï¿½ï¿½ï¿½Ò½ï¿½Æ® ï¿½ï¿½Ä¡
     //void RayBottomSheet()
     //{
     //    if (Input.touchCount > 0)
@@ -239,14 +240,14 @@ public class tmpTouch : MonoBehaviour
 
     private bool began = true;
 
-    // ¸ÞÀÎÈ­¸é ÇÁ¶ø ÅÍÄ¡
+    // ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
     private void RayTouch()
     {
         if (Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
 
-            // UI ¶Õ°í GameObject ÅÍÄ¡ Á¦ÇÑ
+            // UI ï¿½Õ°ï¿½ GameObject ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
             for (int i = 0; i < Input.touchCount; i++)
             {
                 if (EventSystem.current.IsPointerOverGameObject(i))
@@ -276,19 +277,22 @@ public class tmpTouch : MonoBehaviour
 
                     if (hitLayer == LayerMask.NameToLayer("Prop"))
                     {
+                        //KJY ï¿½ß°ï¿½
+                        SettingManager.instance.EffectSound_PopUpTouch();
+                        
                         //DataManager.instance.requestSuccess = false;
 
-                        // ÇÁ¶øÁ¤º¸¸¦ ¹Þ¾Æ¿È
+                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½
                         Prop prop = hit.collider.GetComponent<Prop>();
 
-                        // Æ©Åä¸®¾ó ÇÁ¶øÀÏ°æ¿ì ¹Ù·Î ¿¬´Ù 
+                        // Æ©ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ 
                         if (CameraFeed.Instance.isTutorial)
                         {
                             PopUpMovement.instance.adventured = true;
                             PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
                         }
 
-                        // ¾Æ´Ò ¶§
+                        // ï¿½Æ´ï¿½ ï¿½ï¿½
                         else
                         {
                             if (prop.PropData.status)
@@ -310,10 +314,8 @@ public class tmpTouch : MonoBehaviour
 
                         // SettingPropInfo.instance.PropInfoSetting();
 
-                        // ÇÁ¶øÁ¤º¸ Áß propNo À» ¼­¹ö¿¡ º¸³¿
+                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ propNo ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                         KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
-
-                        //MainView_UI.instance.BackgroundDarkEnable();
 
                         HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); };
                         //HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
@@ -321,9 +323,11 @@ public class tmpTouch : MonoBehaviour
 
                     else if (hitLayer == LayerMask.NameToLayer("Tour"))
                     {
-                        //DataManager.instance.requestSuccess = false;
+                        //KJYï¿½ß°ï¿½
+                        SettingManager.instance.EffectSound_ButtonTouch();
 
-                        // °ü±¤ Á¤º¸¸¦ ¹Þ¾Æ¿È
+                        Props_UI.instance.canvasTour.enabled = true;
+
                         TourData tourData = hit.collider.GetComponent<TourData>();
                         ServerTourInfo serverTourInfo = tourData.ServerTourInfo;
 
@@ -331,48 +335,46 @@ public class tmpTouch : MonoBehaviour
                         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), false);
 
                         SettingTourInfo.instance.StartCoroutine(nameof(SettingTourInfo.instance.GetTexture), serverTourInfo);
-
-                        // ÆË¾÷Ã¢¿¡ Á¤º¸ ¼¼ÆÃ
                     }
                 }
             }
         }
     }
 
-    // ¾Èµå·ÎÀÌµå µÚ·Î°¡±â
+    // ï¿½Èµï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ú·Î°ï¿½ï¿½ï¿½
     void BackTouch()
     {
         if (Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                // ¸ÞÀÎÈ­¸é
+                // ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½
                 if (state == State.Main)
                 {
-                    // ¾Û Á¾·á È®ÀÎ UI È°¼ºÈ­
-                    ToastMessage.ShowToast("'µÚ·Î' ¹öÆ°À» ÇÑ¹ø ´õ ´©¸£½Ã¸é Á¾·áµË´Ï´Ù.");
+                    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ UI È°ï¿½ï¿½È­
+                    ToastMessage.ShowToast("'ï¿½Ú·ï¿½' ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.");
                     StartCoroutine(nameof(ChangeState), State.Quit);
                 }
-                // Åä½ºÆ®¸Þ½ÃÁö
+                // ï¿½ä½ºÆ®ï¿½Þ½ï¿½ï¿½ï¿½
                 else if (state == State.Quit)
                 {
                     Quit();
                 }
-                // ¼³Á¤Ã¢
+                // ï¿½ï¿½ï¿½ï¿½Ã¢
                 else if (state == State.Setting)
                 {
                     settingUI.SettingCanvasOff();
                     StartCoroutine(nameof(ChangeState), State.Main);
                 }
-                // ÆË¾÷Ã¢
+                // ï¿½Ë¾ï¿½Ã¢
                 else if (state == State.Pop)
                 {
-                    // Å½Çè
+                    // Å½ï¿½ï¿½
                     if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
                     {
                         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
                     }
-                    // °ü±¤
+                    // ï¿½ï¿½ï¿½ï¿½
                     else if (PopUpMovement.instance.tourState == PopUpMovement.TourState.UP)
                     {
                         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
@@ -395,7 +397,7 @@ public class tmpTouch : MonoBehaviour
         }
     }
 
-    // ¾Û Á¾·á
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void Quit()
     {
 #if UNITY_EDITOR

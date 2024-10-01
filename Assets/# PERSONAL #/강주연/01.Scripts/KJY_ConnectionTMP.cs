@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -298,11 +299,11 @@ public class TryQuestConnection : ConnectionStratage
         {
             KJY_ConnectionTMP.instance.isQuest = false;
             DataManager.instance.SetQuestInfo(response.data);
+            Debug.Log(response.data);
             // �����ϸ� ����
         }
         else
         {
-            //ToastMessage.ShowToast("���� �����͸� �ҷ����� ���߾�� �ٽ� �õ��� �ּ���");
             //KJY_ConnectionTMP.instance.OnConnectionFailUI();
             //KJY_ConnectionTMP.instance.FailConnectionCanvasOn();
         }
@@ -523,6 +524,7 @@ public class TryDeleteConnection : ConnectionStratage
         {
             //ù�����ε��ư��� ��ū ���ϵ� ���ֹ����� DataManager�� ���� �ٽ��ϰ��ؾ���
             SettingManager.instance.DeletePopUp();
+            DataManager.instance.clearTutorial = false;
         }
         else
         {
@@ -622,21 +624,45 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
     public void OnConnectionQuest(int questNo) //����Ʈ �˾� ����ϴ� �Լ�
     {
+        if (CameraFeed.Instance.isTutorial == true)
+        {
+            QuestData questData = new QuestData();
+            questData.locationName = "정지영커피로스터즈";
+            questData.addr = "경기 수원시 팔달구 신풍로 42";
+            questData.kakaoMapUrl = "https://map.kakao.com/?q=%EC%A0%95%EC%A7%80%EC%98%81%EB%A1%9C%EC%8A%A4%ED%84%B0%EC%A6%88%20%ED%96%89%EA%B6%81%EB%B3%B8%EC%A0%90";
+            questData.imageUrl = "https://firebasestorage.googleapis.com/v0/b/letsgo-62943.appspot.com/o/5.png?alt=media&";
+            questData.propNo = 3;
+            questData.status = false;
+            questData.difficulty = "hard";
+            questData.questDesc = "음식 사진 찍기";
+            questData.distance = Distance_Gara();
+            questData.date = null;
+            questData.questImage = "null";
+            
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-        QuestSetting setting = new QuestSetting();
-        LocationInfo info = GPS.Instance.LocationInfo;
-        setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
-        TryQuestConnection questConnection = new TryQuestConnection(setting);
-        isQuest = true;
-#elif UNITY_EDITOR
-        QuestSetting setting = new QuestSetting();
-        float latitude = (float)37.566826;
-        float longitude = (float)126.9786567;
-        setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + longitude + "&lat=" + latitude;
-        TryQuestConnection questConnection = new TryQuestConnection(setting);
-        isQuest = true;
-#endif
+            DataManager.instance.SetQuestInfo(questData);
+
+            HttpManager.instance.successDelegate.Invoke();
+        }
+        else
+        {
+
+    #if UNITY_ANDROID && !UNITY_EDITOR
+            QuestSetting setting = new QuestSetting();
+            LocationInfo info = GPS.Instance.LocationInfo;
+            setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + info.longitude + "&lat=" + info.latitude;
+            TryQuestConnection questConnection = new TryQuestConnection(setting);
+            isQuest = true;
+    #elif UNITY_EDITOR
+            QuestSetting setting = new QuestSetting();
+            float latitude = (float)37.566826;
+            float longitude = (float)126.9786567;
+            setting.url = "https://letsgotour.store/api/v1/quest?questNo=" + questNo + "&lon=" + longitude + "&lat=" + latitude;
+            TryQuestConnection questConnection = new TryQuestConnection(setting);
+            isQuest = true;
+    #endif
+        }
+
     }
 
     public void OnConnectionConfirm()
@@ -673,11 +699,13 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
     public void FailConnectionCanvasOn()
     {
+        SettingManager.instance.EffectSound_ErrorEffect();
         failCanvas.enabled = true;
     }
 
     public void FailConnectionCanvasOff()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
         failCanvas.enabled = false;
     }
 
@@ -685,4 +713,20 @@ public class KJY_ConnectionTMP : MonoBehaviour
     {
         errorText.text = text;
     }
+    
+    private double Distance_Gara()
+    {
+        List<ServerProp> prop = DataManager.instance.GetHomePropsList();
+        LocationInfo info = DataManager.instance.GetGPSInfo();
+
+        double tmp = GPS.Instance.Distance(prop[2].latitude, info.latitude, prop[2].longitude, info.longitude, 'K');
+        //double a = 1000;
+        //if (tmp > a)
+        //{
+        //    tmp = Math.Round(tmp / a, 1);
+        //}
+        
+        return tmp;
+    }
+
 }

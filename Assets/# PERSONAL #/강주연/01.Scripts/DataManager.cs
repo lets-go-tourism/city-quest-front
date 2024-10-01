@@ -12,7 +12,6 @@ public class DataManager : MonoBehaviour
 
     [Header("PropDataList")]
     private List<ServerProp> propsList;
-    private Dictionary<long, ServerProp> propDiction;
 
     [Header("AdventurePlaceList")]
     private List<ServerAdventurePlace> adventurePlacesList;
@@ -32,7 +31,7 @@ public class DataManager : MonoBehaviour
     private LoginResponse loginData;
 
     [Header("tutorial")]
-    private bool clearTutorial = false;
+    public bool clearTutorial = false;
 
     [HideInInspector]
     public bool requestSuccess = false;
@@ -306,7 +305,8 @@ public class DataManager : MonoBehaviour
 
     public void SortPropAdventureList()
     {
-        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2);
+        Vector3 screenCenter = MapCameraController.Instance.GetScreenCenter();
+        print(screenCenter);
 
         Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
 
@@ -328,7 +328,7 @@ public class DataManager : MonoBehaviour
 
     public void SortTourList()
     {
-        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2);
+        Vector3 screenCenter = MapCameraController.Instance.GetScreenCenter();
 
         Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
 
