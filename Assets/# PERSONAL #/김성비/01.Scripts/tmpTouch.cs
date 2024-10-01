@@ -43,6 +43,7 @@ public class tmpTouch : MonoBehaviour
     int layerProp, layerTour;
     Touch touch;
     public GraphicRaycaster raycaster;
+    public GraphicRaycaster raycaster2;
     PointerEventData point;
     SettingCanvasOnOff settingUI;
     bool follow;
@@ -75,15 +76,16 @@ public class tmpTouch : MonoBehaviour
         if (Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
-            point.position = touch.position;
-            List<RaycastResult> results = new List<RaycastResult>();
-            raycaster.Raycast(point, results);
+
             if (touch.phase == TouchPhase.Began)
             {
+                point.position = touch.position;
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster.Raycast(point, results);
                 foreach (RaycastResult r in results)
                 {
                     if(r.gameObject.CompareTag("BackgroundDark"))
-                    {
+                    { 
                         follow = false;
                         break;
                     }
@@ -93,6 +95,15 @@ public class tmpTouch : MonoBehaviour
                         originPos = touch.position;
                         startBottomSheetHeight = MainView_UI.instance.bottomSheet.anchoredPosition.y;
                         follow = true;
+                    }
+                }
+                raycaster2.Raycast(point, results);
+                foreach(RaycastResult r in results)
+                {
+                    if(r.gameObject.CompareTag("BackgroundDark"))
+                    {
+                        follow = false;
+                        break;
                     }
                 }
             }
