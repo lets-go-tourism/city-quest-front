@@ -2111,7 +2111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requestedRatio: {x: 1, y: 1}
-  requestedFPS: 60
+  requestedFPS: 120
   webCamRawImage: {fileID: 4149400761784114469}
   webCam: {fileID: 1728856170370590933}
   webCamTexture: {fileID: 0}
