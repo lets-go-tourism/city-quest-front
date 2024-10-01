@@ -33,7 +33,7 @@ public class SettingPropInfo : MonoBehaviour
     // 팝업창
     public void PropInfoSetting()
     {
-        MainView_UI.instance.BackgroundDarkEnable();
+        //MainView_UI.instance.BackgroundDarkEnable();
 
         if (DataManager.instance.GetQuestInfo().status)
         {
@@ -48,10 +48,8 @@ public class SettingPropInfo : MonoBehaviour
     }
 
     #region 튜토리얼
-    public bool tutorial;   // 튜토리얼 끝나고 SettingPropInfo.instance.tutorial = false; 해주기!!
     public void TutorialPopUpSettingNO() // 미탐험
     {
-        tutorial = true;
         StopCoroutine(SettingYES());
         StartCoroutine(SettingNO());
     }
@@ -72,8 +70,9 @@ public class SettingPropInfo : MonoBehaviour
         // 정보값 적용
         yield return StartCoroutine(nameof(NOInfoSetting));
 
-        // UI
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+        PopUpMovement.instance.skeleton = false;
+        PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
+        PopUpMovement.instance.skPlaceUN.anchoredPosition = new Vector2(0, -2600);
     }
 
     IEnumerator NOInfoSetting()
@@ -90,19 +89,19 @@ public class SettingPropInfo : MonoBehaviour
         // 카카오지도 URL
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 장소 사진
-        if (tutorial) // 튜토리얼 
-        {
-            SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
-        }
+        //if (tutorial) // 튜토리얼 
+        //{
+        //    SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
+        //}
 
-        else // 실제
+        //else // 실제
+        //{
+        if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
         {
-            if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
-            {
-                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4, "no");
-                yield return StartCoroutine(nameof(GetTexture), parameters);
-            }
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4, "no");
+            yield return StartCoroutine(nameof(GetTexture), parameters);
         }
+        //}
         // 퀘스트
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
         // 퀘스트 배경이미지
@@ -125,8 +124,10 @@ public class SettingPropInfo : MonoBehaviour
         // 정보값 적용
         yield return StartCoroutine(nameof(YESInfoSetting));
 
-        // UI
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+
+        PopUpMovement.instance.skeleton = false;
+        PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
+        PopUpMovement.instance.skPlaceAD.anchoredPosition = new Vector2(0, -2600);
     }
 
     IEnumerator YESInfoSetting()
@@ -144,29 +145,29 @@ public class SettingPropInfo : MonoBehaviour
         // 카카오지도
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 사진
-        if (tutorial) // 튜토리얼
+        //if (tutorial) // 튜토리얼
+        //{
+        //    // 퀘스트사진
+        //    SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Crop");
+        //    // 장소사진
+        //    SettingPropContent.instance.content[5].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
+        //}
+        //else // 실제
+        //{
+        // 퀘스트 사진
+        if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
         {
-            // 퀘스트사진
-            SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Crop");
-            // 장소사진
-            SettingPropContent.instance.content[5].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4, "yes");
+            yield return StartCoroutine(GetTexture(parameters));
         }
-        else // 실제
-        {
-            // 퀘스트 사진
-            if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
-            {
-                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4, "yes");
-                yield return StartCoroutine(GetTexture(parameters));
-            }
 
-            // 장소 사진
-            if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
-            {
-                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
-                yield return StartCoroutine(GetTexture(parameters));
-            }
+        // 장소 사진
+        if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+        {
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
+            yield return StartCoroutine(GetTexture(parameters));
         }
+        //}
 
         //StartCoroutine(nameof(UpdateDistance));
     }
@@ -220,8 +221,8 @@ public class SettingPropInfo : MonoBehaviour
             //Texture2D myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
             Texture2D myTexture = DownloadHandlerTexture.GetContent(www);
 
-           int originW = myTexture.width;
-           int originH = myTexture.height;
+            int originW = myTexture.width;
+            int originH = myTexture.height;
 
             // 탐험 완
             if (raw.type == "yes")

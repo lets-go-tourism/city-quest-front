@@ -30,12 +30,16 @@ public class CardTourInfo : MonoBehaviour
     public State state;
 
     public ServerTourInfo ServerTourInfo { get; private set; }
-    bool selected;
 
     public void UpateDistance()
     {
-        string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.latitude), double.Parse(ServerTourInfo.longitude))).ToString();
-        info[1].GetComponent<TextMeshProUGUI>().text = meter;
+        int num = 0;
+        while (num == 0)
+        {
+            string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.latitude), double.Parse(ServerTourInfo.longitude))).ToString();
+            info[1].GetComponent<TextMeshProUGUI>().text = meter;
+            yield return new WaitForSeconds(5);
+        }
     }
 
     string ConvertDistance(double distance)
@@ -57,7 +61,7 @@ public class CardTourInfo : MonoBehaviour
         return result;
     }
 
-    // ÀÌ¹ÌÁö ¼¼ÆÃ
+    // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public IEnumerator GetTexture(string url)
     {
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
@@ -76,27 +80,27 @@ public class CardTourInfo : MonoBehaviour
 
     private void CropImage(Texture2D texture)
     {
-        // ¿øº» ÀÌ¹ÌÁö Å©±â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
         float originalWidth = texture.width;
         float originalHeight = texture.height;
 
-        // ¿øº» ÀÌ¹ÌÁö ºñÀ² °è»ê
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         float originalAspect = originalWidth / originalHeight;
 
-        // ¸ñÇ¥ Å©±â °è»ê
+        // ï¿½ï¿½Ç¥ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½
         float targetWidth = 240;
         float targetHeight = 240;
 
-        // °¡·Î ±æÀÌ°¡ ´õ ±ä °æ¿ì
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
         if (originalWidth > originalHeight)
         {
-            // ¼¼·Î ±æÀÌ¸¦ 240À¸·Î ¸ÂÃß°í ºñÀ²¿¡ ¸ÂÃç °¡·Î ±æÀÌ °è»ê
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ 240ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             targetWidth = targetHeight * originalAspect;
             targetHeight = 240;
         }
         else
         {
-            // ¼¼·Î ±æÀÌ°¡ ´õ ±ä °æ¿ì
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
             targetWidth = 240;
             targetHeight = targetWidth / originalAspect;
         }
@@ -109,7 +113,7 @@ public class CardTourInfo : MonoBehaviour
         info[2].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f), 100, 0, SpriteMeshType.FullRect);
     }
 
-    // Å¸ÀÔ ¼¼ÆÃ
+    // Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void SettingTourType(string str)
     {
         int no = 0;
@@ -133,25 +137,25 @@ public class CardTourInfo : MonoBehaviour
 
     public void SendTourInfo()
     {
-        //KJYÃß°¡
+        //KJYï¿½ß°ï¿½
         SettingManager.instance.EffectSound_ButtonTouch();
 
-        // ¹Ì¼±ÅÃ -> ¼±ÅÃ
-        if (!selected)
+        // ï¿½Ì¼ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½
+        if (state == State.UnSelected)
         {
-            Selected(true);
-
             for (int j = 0; j < BottomSheetManager.instance.contentPlace.childCount; j++)
             {
                 BottomSheetManager.instance.contentPlace.GetChild(j).GetChild(0).GetComponent<Image>().sprite = BottomSheetManager.instance.contentPlace.GetChild(j).GetComponent<SpritesHolder>().sprites[0];
+                BottomSheetManager.instance.contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().Selected(false);
             }
 
             for (int i = 0; i < BottomSheetManager.instance.contentTour.childCount; i++)
             {
                 BottomSheetManager.instance.contentTour.GetChild(i).GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+                BottomSheetManager.instance.contentTour.GetChild(i).GetComponent<CardTourInfo>().Selected(false);
             }
             transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
-
+            Selected(true);
 
             TourData targetTour = TourDataController.Instance.TourInfoWordList[ServerTourInfo];
             MapCameraController.Instance.StartCameraMoveToTarget(targetTour.transform.position);
@@ -159,7 +163,7 @@ public class CardTourInfo : MonoBehaviour
             PropsController.Instance.TintTourData = targetTour;
         }
 
-        // ¼±ÅÃ -> ¹Ì¼±ÅÃ
+        // ï¿½ï¿½ï¿½ï¿½ -> ï¿½Ì¼ï¿½ï¿½ï¿½
         else
         {
             Selected(false);
@@ -171,11 +175,11 @@ public class CardTourInfo : MonoBehaviour
     {
         if (isSelected)
         {
-            selected = true;
+            state = State.Selectd;
         }
         else
         {
-            selected = false;
+            state = State.UnSelected;
         }
     }
 }
