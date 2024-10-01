@@ -197,7 +197,6 @@ public class TryHomeConnection : ConnectionStratage
     private void Complete(DownloadHandler result)
     {
         HomeResponse response = new HomeResponse();
-        print(result.text);
         response = JsonUtility.FromJson<HomeResponse>(result.text);
 
         if (response.status == "OK")

@@ -312,6 +312,9 @@ public class tmpTouch : MonoBehaviour
                         // �������� �� propNo �� ������ ����
                         KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
 
+                        // roro
+                        PropsController.Instance.TintProp = prop;
+
                         HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); };
                         //HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
                     }
@@ -331,6 +334,8 @@ public class tmpTouch : MonoBehaviour
                         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), false);
 
                         SettingTourInfo.instance.StartCoroutine(nameof(SettingTourInfo.instance.GetTexture), serverTourInfo);
+
+                        PropsController.Instance.TintTourData = tourData;
                     }
                 }
             }
