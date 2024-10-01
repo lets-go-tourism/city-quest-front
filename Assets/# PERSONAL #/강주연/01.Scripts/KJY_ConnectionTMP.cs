@@ -187,7 +187,6 @@ public class TryHomeConnection : ConnectionStratage
     {
         HttpRequester request = new HttpRequester();
 
-        Debug.Log(this.url);
         request.Setting(RequestType.GET, this.url);
         request.body = jsonData;
         request.complete = Complete;
@@ -643,6 +642,8 @@ public class KJY_ConnectionTMP : MonoBehaviour
             DataManager.instance.SetQuestInfo(questData);
 
             HttpManager.instance.successDelegate.Invoke();
+            HttpManager.instance.successDelegate = null;
+            HttpManager.instance.errorDelegate = null;
         }
         else
         {

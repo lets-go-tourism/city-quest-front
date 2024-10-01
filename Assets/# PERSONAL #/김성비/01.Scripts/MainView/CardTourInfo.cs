@@ -33,13 +33,8 @@ public class CardTourInfo : MonoBehaviour
 
     public void UpateDistance()
     {
-        int num = 0;
-        while (num == 0)
-        {
-            string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.latitude), double.Parse(ServerTourInfo.longitude))).ToString();
-            info[1].GetComponent<TextMeshProUGUI>().text = meter;
-            yield return new WaitForSeconds(5);
-        }
+        string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.latitude), double.Parse(ServerTourInfo.longitude))).ToString();
+        info[1].GetComponent<TextMeshProUGUI>().text = meter;
     }
 
     string ConvertDistance(double distance)

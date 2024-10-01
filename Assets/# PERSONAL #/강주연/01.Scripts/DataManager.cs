@@ -133,7 +133,6 @@ public class DataManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(save, true); // JSON 형식으로 변환
         File.WriteAllText(path, json); // 파일로 저장
-        Debug.Log(json);
     }
 
     //튜토리얼 정보

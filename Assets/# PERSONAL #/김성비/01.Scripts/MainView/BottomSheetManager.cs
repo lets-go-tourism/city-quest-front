@@ -53,15 +53,12 @@ public class BottomSheetManager : MonoBehaviour
 
         // 장소 바텀시트
         yield return StartCoroutine(GenPlace());
-        print("장소 바텀시트");
 
         // 관광정보 바텀시트
         yield return StartCoroutine(GenTour());
-        print("관광정보 바텀시트");
 
         // 검은 화면 끄기   ====================================== 스켈레톤 UI 로 대체하기 ======================================
         MainView_UI.instance.BackgroundDarkDisable();
-        print("검은 화면 끄기");
 
         //KJY추가 
         LoadingTest loading = GameObject.FindFirstObjectByType<LoadingTest>();
