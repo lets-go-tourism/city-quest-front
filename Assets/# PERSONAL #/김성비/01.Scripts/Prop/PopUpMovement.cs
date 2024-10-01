@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
-using Unity.Mathematics;
 
 public class PopUpMovement : MonoBehaviour
 {
@@ -37,6 +35,15 @@ public class PopUpMovement : MonoBehaviour
     }
 
     public bool adventured;
+    public bool cancel;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            StartCoroutine(MoveDOWN(true));
+        }
+    }
 
     public IEnumerator MoveUP(bool place)
     {
