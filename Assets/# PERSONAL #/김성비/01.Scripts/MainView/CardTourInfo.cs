@@ -30,12 +30,11 @@ public class CardTourInfo : MonoBehaviour
     public State state;
 
     public ServerTourInfo ServerTourInfo { get; private set; }
-    bool selected;
 
     public IEnumerator UpateDistance()
     {
         int num = 0;
-        while (num ==0)
+        while (num == 0)
         {
             string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(ServerTourInfo.latitude), double.Parse(ServerTourInfo.longitude))).ToString();
             info[1].GetComponent<TextMeshProUGUI>().text = meter;
@@ -139,21 +138,21 @@ public class CardTourInfo : MonoBehaviour
     public void SendTourInfo()
     {
         // 미선택 -> 선택
-        if (!selected)
+        if (state == State.UnSelected)
         {
-            Selected(true);
-
             for (int j = 0; j < BottomSheetManager.instance.contentPlace.childCount; j++)
             {
                 BottomSheetManager.instance.contentPlace.GetChild(j).GetChild(0).GetComponent<Image>().sprite = BottomSheetManager.instance.contentPlace.GetChild(j).GetComponent<SpritesHolder>().sprites[0];
+                BottomSheetManager.instance.contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().Selected(false);
             }
 
             for (int i = 0; i < BottomSheetManager.instance.contentTour.childCount; i++)
             {
                 BottomSheetManager.instance.contentTour.GetChild(i).GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+                BottomSheetManager.instance.contentTour.GetChild(i).GetComponent<CardTourInfo>().Selected(false);
             }
             transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
-
+            Selected(true);
 
             TourData targetTour = TourDataController.Instance.TourInfoWordList[ServerTourInfo];
             MapCameraController.Instance.StartCameraMoveToTarget(targetTour.transform.position);
@@ -173,11 +172,11 @@ public class CardTourInfo : MonoBehaviour
     {
         if (isSelected)
         {
-            selected = true;
+            state = State.Selectd;
         }
         else
         {
-            selected = false;
+            state = State.UnSelected;
         }
     }
 }

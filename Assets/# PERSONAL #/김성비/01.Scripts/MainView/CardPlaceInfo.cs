@@ -24,7 +24,6 @@ public class CardPlaceInfo : MonoBehaviour
         Selected
     }
     public State state;
-    bool selected;
 
     public ServerAdventurePlace ServerAdventurePlace { get; private set; }
     public ServerProp ServerProp { get; private set; }
@@ -130,20 +129,22 @@ public class CardPlaceInfo : MonoBehaviour
     public void SendPlaceInfo()
     {
         // 미선택 -> 선택
-        if (!selected)
+        if (state == State.UnSelected)
         {
-            Selected(true);
             // 나머지 미선택
             for (int j = 0; j < BottomSheetManager.instance.contentTour.childCount; j++)
             {
                 BottomSheetManager.instance.contentTour.GetChild(j).GetChild(0).GetComponent<Image>().sprite = BottomSheetManager.instance.contentTour.GetChild(j).GetComponent<SpritesHolder>().sprites[0];
+                BottomSheetManager.instance.contentTour.GetChild(j).GetComponent<CardTourInfo>().Selected(false);
             }
             for (int i = 0; i < BottomSheetManager.instance.contentPlace.childCount; i++)
             {
                 BottomSheetManager.instance.contentPlace.GetChild(i).GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[0];
+                BottomSheetManager.instance.contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().Selected(false);
             }
             // 누른 것만 선택
             transform.GetChild(0).GetComponent<Image>().sprite = GetComponent<SpritesHolder>().sprites[1];
+            Selected(true);
 
             // 화면 이동
             Prop targetProp = PropsController.Instance.ServerAdventurePlaceWorldDic[this.ServerAdventurePlace];
@@ -165,11 +166,11 @@ public class CardPlaceInfo : MonoBehaviour
     {
         if (isSelected)
         {
-            selected = true;
+            state = State.Selected;
         }
         else
         {
-            selected = false;
+            state = State.UnSelected;
         }
     }
 

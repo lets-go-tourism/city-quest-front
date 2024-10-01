@@ -82,7 +82,7 @@ public class tmpTouch : MonoBehaviour
             {
                 foreach (RaycastResult r in results)
                 {
-                    if(r.gameObject.CompareTag("BackgroundDark"))
+                    if (r.gameObject.CompareTag("BackgroundDark"))
                     {
                         follow = false;
                         break;
@@ -101,17 +101,17 @@ public class tmpTouch : MonoBehaviour
             {
                 movedPos = touch.position;
                 moved = originPos.y - movedPos.y;
-                
-                if(Mathf.Abs(moved) > 30)
+
+                if (Mathf.Abs(moved) > 30)
                     realMove = true;
 
-                if(realMove)
+                if (realMove)
                     MainView_UI.instance.bottomSheet.anchoredPosition = new Vector2(0, Mathf.Clamp(startBottomSheetHeight - moved, limitBottomSheetLowHeight, defaultBottomSheetHeight));
             }
 
             else if (touch.phase == TouchPhase.Ended && follow)
             {
-                if(Mathf.Abs(startBottomSheetHeight - MainView_UI.instance.bottomSheet.anchoredPosition.y) > 100)
+                if (Mathf.Abs(startBottomSheetHeight - MainView_UI.instance.bottomSheet.anchoredPosition.y) > 100)
                 {
                     if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
                         BottomSheetMovement.instance.MoveDOWN();
@@ -282,6 +282,27 @@ public class tmpTouch : MonoBehaviour
                         Prop prop = hit.collider.GetComponent<Prop>();
 
                         // 튜토리얼 프랍일경우 바로 연다 
+                        if (CameraFeed.Instance.isTutorial)
+                        {
+                            PopUpMovement.instance.adventured = true;
+                            PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+                        }
+
+                        // 아닐 때
+                        else
+                        {
+                            if (prop.PropData.status)
+                            {
+                                PopUpMovement.instance.adventured = true;
+                                PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+                            }
+
+                            else
+                            {
+                                PopUpMovement.instance.adventured = false;
+                                PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+                            }
+                        }
 
                         QuestData questData = new QuestData();
 
@@ -302,16 +323,16 @@ public class tmpTouch : MonoBehaviour
                     {
                         //DataManager.instance.requestSuccess = false;
 
-                        Props_UI.instance.canvasTour.enabled = true;
-
                         // 관광 정보를 받아옴
                         TourData tourData = hit.collider.GetComponent<TourData>();
                         ServerTourInfo serverTourInfo = tourData.ServerTourInfo;
 
+                        //Props_UI.instance.canvasTour.enabled = true;
+                        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), false);
+
                         SettingTourInfo.instance.StartCoroutine(nameof(SettingTourInfo.instance.GetTexture), serverTourInfo);
 
                         // 팝업창에 정보 세팅
-
                     }
                 }
             }
@@ -344,7 +365,7 @@ public class tmpTouch : MonoBehaviour
                     StartCoroutine(nameof(ChangeState), State.Main);
                 }
                 // 팝업창
-                else if(state == State.Pop)
+                else if (state == State.Pop)
                 {
                     // 탐험
                     if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)

@@ -49,9 +49,6 @@ public class SettingTourInfo : MonoBehaviour
             contents[6].GetComponent<TextMeshProUGUI>().enabled = true;                     // 안내문 활성화
         }
 
-        // 팝업창 UI 활성화
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), false);
-
         //StartCoroutine(nameof(UpdateDistance));
     }
 
@@ -71,9 +68,9 @@ public class SettingTourInfo : MonoBehaviour
 
         // 스크롤뷰 크기
         float scrollY = 720f + contentY - 54f;
-        if(scrollY > 1608)
+        if(scrollY > 1500)
         {
-            scrollY = 1608f;
+            scrollY = 1500f;
         }
         PopUpMovement.instance.rtTour.sizeDelta = new Vector2(960, scrollY);
         // top 마스크 크기
@@ -137,7 +134,7 @@ public class SettingTourInfo : MonoBehaviour
     public IEnumerator GetTexture(ServerTourInfo tourInfo)
     {
         // 암전 키고
-        MainView_UI.instance.BackgroundDarkEnable();
+        //MainView_UI.instance.BackgroundDarkEnable();
 
         if (tourInfo.imageUrl != string.Empty)
         {
@@ -148,7 +145,7 @@ public class SettingTourInfo : MonoBehaviour
                 Debug.Log(www.error);
 
                 // 암전 끄고
-                MainView_UI.instance.BackgroundDarkDisable();
+                //MainView_UI.instance.BackgroundDarkDisable();
             }
             else
             {
@@ -158,6 +155,13 @@ public class SettingTourInfo : MonoBehaviour
         }
 
         TourInfoSetting(tourInfo);
+
+        // 팝업창 UI 활성화
+        yield return new WaitForSeconds(0.5f);
+        PopUpMovement.instance.skTour.anchoredPosition = new Vector2(0, -2500);
+        PopUpMovement.instance.skeleton = false;
+        PopUpMovement.instance.rtTour.anchoredPosition = new Vector2(0, 0);
+        //print(PopUpMovement.instance.skTour.anchoredPosition);
     }
 
     private void ProcessImage(Texture2D texture)
@@ -181,7 +185,7 @@ public class SettingTourInfo : MonoBehaviour
 
         SettingSize(targetHeight);
 
-        print(contents[0].transform.parent.GetComponent<RectTransform>().sizeDelta.y);
+        //print(contents[0].transform.parent.GetComponent<RectTransform>().sizeDelta.y);
 
         //// RectTransform의 사이즈 조정
         //contents[7].gameObject.SetActive(false);                                        // 이미지 비활성화

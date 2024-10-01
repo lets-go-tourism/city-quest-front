@@ -113,9 +113,9 @@ public class BottomSheetManager : MonoBehaviour
 
         while (count < tourList.Count)
         {
-            int end = Mathf.Min(count + 25, tourList.Count);
+            int end = Mathf.Min(count + 20, tourList.Count);
 
-            if(end == 125)
+            if(end == 100)
             {
                 end = tourList.Count;
             }

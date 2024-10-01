@@ -33,7 +33,7 @@ public class SettingPropInfo : MonoBehaviour
     // 팝업창
     public void PropInfoSetting()
     {
-        MainView_UI.instance.BackgroundDarkEnable();
+        //MainView_UI.instance.BackgroundDarkEnable();
 
         if (DataManager.instance.GetQuestInfo().status)
         {
@@ -48,10 +48,8 @@ public class SettingPropInfo : MonoBehaviour
     }
 
     #region 튜토리얼
-    public bool tutorial;   // 튜토리얼 끝나고 SettingPropInfo.instance.tutorial = false; 해주기!!
     public void TutorialPopUpSettingNO() // 미탐험
     {
-        tutorial = true;
         StopCoroutine(SettingYES());
         StartCoroutine(SettingNO());
     }
@@ -66,10 +64,6 @@ public class SettingPropInfo : MonoBehaviour
     #region 미탐험 장소 팝업창 세팅
     IEnumerator SettingNO()
     {
-        // UI
-        PopUpMovement.instance.adventured = false;
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
-
         // 프랍 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingNO));
 
@@ -77,7 +71,8 @@ public class SettingPropInfo : MonoBehaviour
         yield return StartCoroutine(nameof(NOInfoSetting));
 
         PopUpMovement.instance.skeleton = false;
-        PopUpMovement.instance.placeUN.anchoredPosition = new Vector2(0, -2600);
+        PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
+        PopUpMovement.instance.skPlaceUN.anchoredPosition = new Vector2(0, -2600);
     }
 
     IEnumerator NOInfoSetting()
@@ -101,11 +96,11 @@ public class SettingPropInfo : MonoBehaviour
 
         //else // 실제
         //{
-            if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
-            {
-                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4, "no");
-                yield return StartCoroutine(nameof(GetTexture), parameters);
-            }
+        if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+        {
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4, "no");
+            yield return StartCoroutine(nameof(GetTexture), parameters);
+        }
         //}
         // 퀘스트
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
@@ -123,18 +118,16 @@ public class SettingPropInfo : MonoBehaviour
     #region 탐험완료 장소 팝업창
     IEnumerator SettingYES()
     {
-        // UI
-        PopUpMovement.instance.adventured = true;
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
-
         // 프랍 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingYES));
 
         // 정보값 적용
         yield return StartCoroutine(nameof(YESInfoSetting));
 
-        PopUpMovement.instance.placeAD.anchoredPosition = new Vector2(0, -2600);
+
         PopUpMovement.instance.skeleton = false;
+        PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
+        PopUpMovement.instance.skPlaceAD.anchoredPosition = new Vector2(0, -2600);
     }
 
     IEnumerator YESInfoSetting()
@@ -161,19 +154,19 @@ public class SettingPropInfo : MonoBehaviour
         //}
         //else // 실제
         //{
-            // 퀘스트 사진
-            if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
-            {
-                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4, "yes");
-                yield return StartCoroutine(GetTexture(parameters));
-            }
+        // 퀘스트 사진
+        if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
+        {
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().questImage, 4, "yes");
+            yield return StartCoroutine(GetTexture(parameters));
+        }
 
-            // 장소 사진
-            if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
-            {
-                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
-                yield return StartCoroutine(GetTexture(parameters));
-            }
+        // 장소 사진
+        if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+        {
+            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
+            yield return StartCoroutine(GetTexture(parameters));
+        }
         //}
 
         //StartCoroutine(nameof(UpdateDistance));
@@ -228,8 +221,8 @@ public class SettingPropInfo : MonoBehaviour
             //Texture2D myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
             Texture2D myTexture = DownloadHandlerTexture.GetContent(www);
 
-           int originW = myTexture.width;
-           int originH = myTexture.height;
+            int originW = myTexture.width;
+            int originH = myTexture.height;
 
             // 탐험 완
             if (raw.type == "yes")
