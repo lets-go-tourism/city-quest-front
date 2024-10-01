@@ -35,12 +35,6 @@ public class TutorialPopUp : MonoBehaviour
 
     private void Start()
     {
-        if (DataManager.instance.clearTutorial)
-        {
-            this.gameObject.SetActive(false);
-            return;
-        }
-
         _dotOne.sprite = _activeDotSprite;
         _endButton.GetComponent<Image>().enabled = false;
         _background.GetComponent<Button>().onClick.AddListener(OnClickPopUp);

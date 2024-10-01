@@ -39,10 +39,8 @@ public class TutorialUI : MonoBehaviour
 
     private void Start()
     {
-        if(DataManager.instance.clearTutorial)
-            _backgroundDark.enabled = false;
-        else
-            _backgroundDark.enabled = true;
+
+        _backgroundDark.enabled = true;
 
         _tutorialSelectMsg.SetActive(false);
         tutorialEndMsg.SetActive(false);
@@ -166,14 +164,15 @@ public class TutorialUI : MonoBehaviour
         _masking1_1.SetActive(false);
         //_roundMasking.SetActive(false);
 
+        HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); StartCoroutine(nameof(Tutorial1_2)); };
+        HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
+
         // 통신
         KJY_ConnectionTMP.instance.OnConnectionQuest(3);
 
         // 뒤에 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
 
-        HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); StartCoroutine(nameof(Tutorial1_2)); };
-        HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
     }
 
     private IEnumerator Tutorial1_2() 
@@ -397,7 +396,6 @@ public class TutorialUI : MonoBehaviour
     {
         OffBackgroundDark();
         tutorialEndMsg.SetActive(false);
-        CameraFeed.Instance.isTutorial = false;
         DataManager.instance.SaveTutorialInfo();
     }
 }

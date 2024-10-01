@@ -43,6 +43,8 @@ public class TutorialCloud : MonoBehaviour
             time = 0;
             enabled = false;
         }
+        if (TargetProp == null)
+            return;
         transform.position = TargetProp.PropObj.transform.TransformPoint(TargetProp.GetBoundsCenter());
     }
 

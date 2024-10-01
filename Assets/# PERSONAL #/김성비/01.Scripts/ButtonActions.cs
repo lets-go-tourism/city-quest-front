@@ -36,7 +36,6 @@ public class ButtonActions : MonoBehaviour
         yield return PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
 
         // 구름 걷히는 연출함수 호출
-
         PropsController.Instance.AdventurePlaceDic[KJY_ConnectionTMP.instance.questNoPicture].status = true;
         PropsController.Instance.PropDic[KJY_ConnectionTMP.instance.questNoPicture].status = true;
 
@@ -68,6 +67,7 @@ public class ButtonActions : MonoBehaviour
         if (CameraFeed.Instance.isTutorial)
         {
             yield return new WaitForSeconds(1.5f);
+            CameraFeed.Instance.isTutorial = false;
             TutorialUI.Instance.StartTutorial2_1();
         }
         else
