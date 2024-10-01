@@ -156,6 +156,7 @@ public class ButtonActions : MonoBehaviour
 
     public void ChangeCancel(bool place)
     {
+        HttpManager.instance.AbortRequest();
         PopUpMovement.instance.skeleton = false;
 
         CancelConnection(place);
