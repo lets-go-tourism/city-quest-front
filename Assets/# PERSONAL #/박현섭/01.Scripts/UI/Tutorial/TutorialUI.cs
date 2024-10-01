@@ -165,7 +165,8 @@ public class TutorialUI : MonoBehaviour
         _masking1_1.SetActive(false);
         //_roundMasking.SetActive(false);
 
-        HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); StartCoroutine(nameof(Tutorial1_2)); };
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+        HttpManager.instance.successDelegate += () => {SettingPropInfo.instance.PropInfoSetting(); StartCoroutine(nameof(Tutorial1_2)); };
         HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
 
         // 통신
@@ -299,6 +300,8 @@ public class TutorialUI : MonoBehaviour
         // 뒤에 암전 키고
         MainView_UI.instance.BackgroundDarkEnable();
 
+        PopUpMovement.instance.adventured = true;
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
         HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); StartCoroutine(nameof(Tutorial2_2)); };
         HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
     }
