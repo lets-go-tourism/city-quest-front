@@ -291,26 +291,16 @@ public class tmpTouch : MonoBehaviour
                         MainView_UI.instance.BackgroundDarkEnable();
 
                         // Ʃ�丮�� �����ϰ�� �ٷ� ���� 
-                        if (CameraFeed.Instance.isTutorial)
+                        if (prop.PropData.status)
                         {
-                            PopUpMovement.instance.adventured = false;
+                            PopUpMovement.instance.adventured = true;
                             PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
                         }
 
-                        // �ƴ� ��
                         else
                         {
-                            if (prop.PropData.status)
-                            {
-                                PopUpMovement.instance.adventured = true;
-                                PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
-                            }
-
-                            else
-                            {
-                                PopUpMovement.instance.adventured = false;
-                                PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
-                            }
+                            PopUpMovement.instance.adventured = false;
+                            PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
                         }
 
                         QuestData questData = new QuestData();

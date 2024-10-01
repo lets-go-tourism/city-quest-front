@@ -47,20 +47,6 @@ public class SettingPropInfo : MonoBehaviour
         }
     }
 
-    #region 튜토리얼
-    public void TutorialPopUpSettingNO() // 미탐험
-    {
-        StopCoroutine(SettingYES());
-        StartCoroutine(SettingNO());
-    }
-
-    public void TutorialPopUpSettingYES() // 탐험
-    {
-        StopCoroutine(SettingNO());
-        StartCoroutine(SettingYES());
-    }
-    #endregion
-
     #region 미탐험 장소 팝업창 세팅
     IEnumerator SettingNO()
     {
@@ -107,6 +93,7 @@ public class SettingPropInfo : MonoBehaviour
         }
         //}
         // 퀘스트
+        SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color(0.184f, 0.114f, 0.024f, 1f);
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
         // 퀘스트 배경이미지
         SettingPropContent.instance.content[6].GetChild(0).GetComponent<Image>().sprite = SettingPropContent.instance.content[6].GetComponent<SpritesHolder>().sprites[0];

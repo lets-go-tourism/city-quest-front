@@ -29,6 +29,7 @@ public class ButtonActions : MonoBehaviour
 
         // 줄 긋기
         content.GetChild(6).transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontStyle = FontStyles.Strikethrough;
+        content.GetChild(6).transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color(0.592f, 0.522f, 0.400f, 1f);
 
         // 퀘스트 스프라이트 바꾸기
         yield return StartCoroutine(nameof(ChangeSprite));
