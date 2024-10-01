@@ -66,14 +66,18 @@ public class SettingPropInfo : MonoBehaviour
     #region 미탐험 장소 팝업창 세팅
     IEnumerator SettingNO()
     {
+        // UI
+        PopUpMovement.instance.adventured = false;
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+
         // 프랍 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingNO));
 
         // 정보값 적용
         yield return StartCoroutine(nameof(NOInfoSetting));
 
-        // UI
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+        PopUpMovement.instance.skeleton = false;
+        PopUpMovement.instance.placeUN.anchoredPosition = new Vector2(0, -2600);
     }
 
     IEnumerator NOInfoSetting()
@@ -90,19 +94,19 @@ public class SettingPropInfo : MonoBehaviour
         // 카카오지도 URL
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 장소 사진
-        if (tutorial) // 튜토리얼 
-        {
-            SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
-        }
+        //if (tutorial) // 튜토리얼 
+        //{
+        //    SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
+        //}
 
-        else // 실제
-        {
+        //else // 실제
+        //{
             if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
             {
                 Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4, "no");
                 yield return StartCoroutine(nameof(GetTexture), parameters);
             }
-        }
+        //}
         // 퀘스트
         SettingPropContent.instance.content[6].GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().questDesc;
         // 퀘스트 배경이미지
@@ -119,14 +123,18 @@ public class SettingPropInfo : MonoBehaviour
     #region 탐험완료 장소 팝업창
     IEnumerator SettingYES()
     {
+        // UI
+        PopUpMovement.instance.adventured = true;
+        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+
         // 프랍 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingYES));
 
         // 정보값 적용
         yield return StartCoroutine(nameof(YESInfoSetting));
 
-        // UI
-        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
+        PopUpMovement.instance.placeAD.anchoredPosition = new Vector2(0, -2600);
+        PopUpMovement.instance.skeleton = false;
     }
 
     IEnumerator YESInfoSetting()
@@ -144,15 +152,15 @@ public class SettingPropInfo : MonoBehaviour
         // 카카오지도
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 사진
-        if (tutorial) // 튜토리얼
-        {
-            // 퀘스트사진
-            SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Crop");
-            // 장소사진
-            SettingPropContent.instance.content[5].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
-        }
-        else // 실제
-        {
+        //if (tutorial) // 튜토리얼
+        //{
+        //    // 퀘스트사진
+        //    SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Crop");
+        //    // 장소사진
+        //    SettingPropContent.instance.content[5].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
+        //}
+        //else // 실제
+        //{
             // 퀘스트 사진
             if (DataManager.instance.GetQuestInfo().questImage != string.Empty)
             {
@@ -166,7 +174,7 @@ public class SettingPropInfo : MonoBehaviour
                 Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
                 yield return StartCoroutine(GetTexture(parameters));
             }
-        }
+        //}
 
         //StartCoroutine(nameof(UpdateDistance));
     }

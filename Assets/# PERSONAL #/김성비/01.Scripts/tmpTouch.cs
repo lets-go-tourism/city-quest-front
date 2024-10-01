@@ -292,10 +292,10 @@ public class tmpTouch : MonoBehaviour
                         // 프랍정보 중 propNo 을 서버에 보냄
                         KJY_ConnectionTMP.instance.OnConnectionQuest((int)prop.PropData.propNo);
 
-                        MainView_UI.instance.BackgroundDarkEnable();
+                        //MainView_UI.instance.BackgroundDarkEnable();
 
                         HttpManager.instance.successDelegate += () => { SettingPropInfo.instance.PropInfoSetting(); };
-                        HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
+                        //HttpManager.instance.errorDelegate += () => { MainView_UI.instance.BackgroundDarkDisable(); };
                     }
 
                     else if (hitLayer == LayerMask.NameToLayer("Tour"))
