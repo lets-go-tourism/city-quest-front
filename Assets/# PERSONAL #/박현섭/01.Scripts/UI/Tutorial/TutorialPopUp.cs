@@ -57,7 +57,7 @@ public class TutorialPopUp : MonoBehaviour
                 _dotOne.sprite = _deActiveDotSprite;
                 _dotTwo.sprite = _activeDotSprite;
 
-                _taillineText.text = "화면에서 내 위치가 보이지 않을 때는 내가 있는 방향이 화살표로 표시돼요. 화살표를 누르면\n지도 상의 내 위치로 이동할 수 있어요.";
+                _taillineText.text = "화면에서 내 위치가 보이지 않을 때는\n내가 있는 방향이 화살표로 표시돼요.\n화살표를 누르면\n지도 상의 내 위치로 이동할 수 있어요.";
 
                 _picture.rectTransform.sizeDelta = new Vector2(720, 420);
 
@@ -71,7 +71,7 @@ public class TutorialPopUp : MonoBehaviour
                 _dotTwo.sprite = _deActiveDotSprite;
                 _dotThree.sprite = _activeDotSprite;
 
-                _taillineText.text = "바텀 시트에는 내 주변의 퀘스트 장소와 관광정보가 가까운 순으로 표시돼요.";
+                _taillineText.text = "바텀 시트에는 내 주변의 퀘스트 장소와\n관광정보가 가까운 순으로 표시돼요.";
 
                 _picture.rectTransform.sizeDelta = new Vector2(720, 558);
 
@@ -86,7 +86,7 @@ public class TutorialPopUp : MonoBehaviour
                 _dotThree.sprite = _deActiveDotSprite;
                 _dotFour.sprite = _activeDotSprite;
 
-                _taillineText.text = "필터 버튼을 누르면 보고 싶은 종류의 항목만 골라 볼 수 있어요.";
+                _taillineText.text = "바텀 시트에서 원하는 항목을 누르면\n지도에서 해당 위치를 볼 수 있어요.";
 
                 _screenshotImage.sprite = bottomSheetSprite;
 
@@ -102,7 +102,7 @@ public class TutorialPopUp : MonoBehaviour
 
                 _endButton.GetComponent<Image>().enabled = true;
 
-                _taillineText.text = "바텀 시트에서 원하는 항목을 누르면 지도에서 해당 위치를 볼 수 있어요.";
+                _taillineText.text = "필터 버튼을 누르면 보고 싶은 종류의\n항목만 골라 볼 수 있어요."; 
 
                 _background.rectTransform.sizeDelta = new Vector2(852, 1266);
 
