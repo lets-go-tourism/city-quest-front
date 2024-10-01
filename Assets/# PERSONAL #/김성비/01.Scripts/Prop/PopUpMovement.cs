@@ -14,7 +14,9 @@ public class PopUpMovement : MonoBehaviour
     public RectTransform skPlaceAD;
     public RectTransform skTour;
 
-    public bool skeleton;
+    public bool cancel;         // 통신 취소 여부
+    public bool skeleton;       // 스켈레톤 가능 여부
+    public bool adventured;     // 탐험완료 여부
 
     public enum PlaceState
     {
@@ -34,19 +36,10 @@ public class PopUpMovement : MonoBehaviour
         instance = this;
     }
 
-    public bool adventured;
-    public bool cancel;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            StartCoroutine(MoveDOWN(true));
-        }
-    }
-
     public IEnumerator MoveUP(bool place)
     {
+        cancel = false;
+
         //KJY 추가
         SettingManager.instance.BackGroundSound_InProp();
 

@@ -27,8 +27,12 @@ public class MainView_UI : MonoBehaviour
     // ¹ÙÅÒ½ÃÆ® ¾È³» UI
     public TextMeshProUGUI BSGuideUI;
 
+    // ¹ÙÅÒ½ÃÆ® ½ºÄÌ·¹Åæ
+    public Transform skeleton;
+    public Image[] skeletons;
+    
     // Á¾·á È®ÀÎ UI
-    public Transform quitUI;
+    //public Transform quitUI;
 
     public static MainView_UI instance;
     private void Awake()
@@ -39,7 +43,7 @@ public class MainView_UI : MonoBehaviour
         //buttons[1].onClick.AddListener(() => BTN_Achieves());
         //buttons[2].onClick.AddListener(() => BTN_Quests());
         m_BackgroundDarkImage.enabled = false;
-        quitUI.gameObject.SetActive(false);
+        //quitUI.gameObject.SetActive(false);
 
         categoryScrollRect.normalizedPosition = Vector2.zero;
     }

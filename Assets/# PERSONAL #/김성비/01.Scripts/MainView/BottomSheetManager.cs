@@ -24,6 +24,9 @@ public class BottomSheetManager : MonoBehaviour
     // 각 카드들의 컴포넌트
     CardPlaceInfo cardPlaceInfo;
     CardTourInfo cardTourInfo;
+
+    private int placeCount = 0;
+    public bool skeleton;
     #endregion
 
     #region Awake&Start
@@ -112,7 +115,7 @@ public class BottomSheetManager : MonoBehaviour
         {
             int end = Mathf.Min(count + 20, tourList.Count);
 
-            if(end == 100)
+            if (end == 100)
             {
                 end = tourList.Count;
             }
@@ -195,14 +198,65 @@ public class BottomSheetManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            SortingPlaceCards();
-            SortingTourCards();
+            skeleton = true;
+            StartCoroutine(BSSkeleton());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            skeleton = false;
         }
     }
 
     #region 바텀시트 재정렬
+    public IEnumerator BSSkeleton()
+    {
+        float t;
+        float d = 0.3f;
 
-    private int placeCount = 0;
+        MainView_UI.instance.skeleton.gameObject.SetActive(true);
+
+        while (skeleton)
+        {
+            t = 0;
+
+            MainView_UI.instance.skeletons[0].fillAmount = 0f;
+            MainView_UI.instance.skeletons[1].fillAmount = 0f;
+            MainView_UI.instance.skeletons[2].fillAmount = 0f;
+
+            MainView_UI.instance.skeletons[0].fillOrigin = 0;
+            MainView_UI.instance.skeletons[1].fillOrigin = 0;
+            MainView_UI.instance.skeletons[2].fillOrigin = 0;
+
+            while (t < d)
+            {
+                t += Time.deltaTime;
+                MainView_UI.instance.skeletons[0].fillAmount = Mathf.Lerp(0, 1, t / d);
+                MainView_UI.instance.skeletons[1].fillAmount = Mathf.Lerp(0, 1, t / d);
+                MainView_UI.instance.skeletons[2].fillAmount = Mathf.Lerp(0, 1, t / d);
+                yield return null;
+            }
+
+            t = 0;
+            MainView_UI.instance.skeletons[0].fillAmount = 1f;
+            MainView_UI.instance.skeletons[1].fillAmount = 1f;
+            MainView_UI.instance.skeletons[2].fillAmount = 1f;
+
+            MainView_UI.instance.skeletons[0].fillOrigin = 1;
+            MainView_UI.instance.skeletons[1].fillOrigin = 1;
+            MainView_UI.instance.skeletons[2].fillOrigin = 1;
+
+            while (t < d)
+            {
+                t += Time.deltaTime;
+                MainView_UI.instance.skeletons[0].fillAmount = Mathf.Lerp(1, 0, t / d);
+                MainView_UI.instance.skeletons[1].fillAmount = Mathf.Lerp(1, 0, t / d);
+                MainView_UI.instance.skeletons[2].fillAmount = Mathf.Lerp(1, 0, t / d);
+                yield return null;
+            }
+        }
+
+        MainView_UI.instance.skeleton.gameObject.SetActive(false);
+    }
 
     public void SortingPlaceCards()
     {
@@ -277,7 +331,7 @@ public class BottomSheetManager : MonoBehaviour
     public void SortingAll(bool place)
     {
         MainView_UI.instance.BSGuideUI.enabled = false;
-        
+
         if (place)
         {
             for (int i = 0; i < contentPlace.childCount; i++)

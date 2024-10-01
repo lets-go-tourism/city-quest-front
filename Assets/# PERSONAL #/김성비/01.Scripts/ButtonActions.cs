@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -72,7 +73,7 @@ public class ButtonActions : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(0.2f);  
+            yield return new WaitForSeconds(0.2f);
             TutorialUI.Instance.OffNonTouch();
         }
     }
@@ -149,6 +150,36 @@ public class ButtonActions : MonoBehaviour
             // 스크롤 초기화
             MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
             MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
+        }
+    }
+
+    public void CancelConnection(bool place)
+    {
+        PopUpMovement.instance.skeleton = false;
+        PopUpMovement.instance.cancel = true;
+
+        if (place)
+        {
+            PopUpMovement.instance.StopCoroutine(nameof(PopUpMovement.instance.MoveUP));
+
+            PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, -2600);
+
+            if (PopUpMovement.instance.adventured)
+            {
+                PopUpMovement.instance.skPlaceAD.DOAnchorPosY(-2600, 0.38f);
+            }
+            else
+            {
+                PopUpMovement.instance.skPlaceUN.DOAnchorPosY(-2600, 0.38f);
+            }
+        }
+        else
+        {
+            PopUpMovement.instance.StopCoroutine(nameof(PopUpMovement.instance.MoveUP));
+
+            PopUpMovement.instance.rtTour.anchoredPosition = new Vector2(0, -2500);
+
+            PopUpMovement.instance.skTour.DOAnchorPosY(-2500, 0.39f);
         }
     }
 }
