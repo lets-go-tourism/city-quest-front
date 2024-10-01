@@ -140,6 +140,11 @@ public class loginTest : MonoBehaviour
                     }
                     else
                     {
+                        if (extractedValues[4] == "INTERNAL_SERVER_ERROR")
+                        {
+                            GpmWebView.Close();
+                            KJY_LoginManager.instance.LoginPopUp();
+                        }
                     }
                 }
                 break;

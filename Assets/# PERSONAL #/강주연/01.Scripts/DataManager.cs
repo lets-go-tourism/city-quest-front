@@ -39,7 +39,7 @@ public class DataManager : MonoBehaviour
     [Header("SaveUserTokenData")]
     private string path;
 
-    private List<string> removeList = new List<string> {"장안문", "진미통닭", "수원선경도서관", "플라잉수원", "화성어차"};
+    private List<string> removeList = new List<string> {"장안문", "진미통닭", "수원선경도서관", "플라잉수원", "화성어차", "탑교육문화원 찾아가는 VR 체험 버스" };
 
     public bool isLogout = false;
 

@@ -684,7 +684,6 @@ public class KJY_ConnectionTMP : MonoBehaviour
 
     public void FailConnectionCanvasOn()
     {
-        SettingManager.instance.EffectSound_ErrorEffect();
         failCanvas.enabled = true;
     }
 

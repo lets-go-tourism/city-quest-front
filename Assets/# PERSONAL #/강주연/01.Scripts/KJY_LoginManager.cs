@@ -28,9 +28,11 @@ public class KJY_LoginManager : MonoBehaviour
     [SerializeField] private Image logoImage;
     [SerializeField] private TextMeshProUGUI explain;
 
+    [Header("loginPopUp")]
+    [SerializeField] private GameObject LoginPopup;
+
     [Header("OnBoard")]
     [SerializeField] private GameObject kakaoBtn;
-
 
     [Header("Term&Confirm")]
     [SerializeField] private GameObject confrimObject;
@@ -335,7 +337,7 @@ public class KJY_LoginManager : MonoBehaviour
     {
         Popup.SetActive(false);
 
-        if (count >= 2)
+        if (count >= 2 || (count >= 1 && state == authState.Camera))
         {
             using (var unityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
             using (AndroidJavaObject currentActivityObject = unityClass.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -451,5 +453,10 @@ public class KJY_LoginManager : MonoBehaviour
     public void TestPopup()
     {
         StartCoroutine(PopupCoroutine());
+    }
+
+    public void LoginPopUp()
+    {
+        LoginPopup.SetActive(true);
     }
 }
