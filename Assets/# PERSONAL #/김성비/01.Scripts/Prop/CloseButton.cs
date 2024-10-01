@@ -15,7 +15,7 @@ public class CloseButton : MonoBehaviour
 
     void ClosePopUp(string name)
     {
-        if (!PopUpMovement.instance.cancel)
+        if (!PopUpMovement.instance.placeADcancel && !PopUpMovement.instance.placeUNCancel && !PopUpMovement.instance.tourCancel)
         {
             if (name == "prop" && PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
             {

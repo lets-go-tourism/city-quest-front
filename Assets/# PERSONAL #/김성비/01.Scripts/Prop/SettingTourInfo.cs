@@ -157,12 +157,15 @@ public class SettingTourInfo : MonoBehaviour
         TourInfoSetting(tourInfo);
 
         // 팝업창 UI 활성화
-        if (!PopUpMovement.instance.cancel)
+        if (!PopUpMovement.instance.tourCancel)
         {
             yield return new WaitForSeconds(0.5f);
             PopUpMovement.instance.skTour.anchoredPosition = new Vector2(0, -2500);
             PopUpMovement.instance.skeleton = false;
             PopUpMovement.instance.rtTour.anchoredPosition = new Vector2(0, 0);
+
+            PopUpMovement.instance.placeUNCancel = false;
+            PopUpMovement.instance.placeADcancel = false;
         }
         //print(PopUpMovement.instance.skTour.anchoredPosition);
     }

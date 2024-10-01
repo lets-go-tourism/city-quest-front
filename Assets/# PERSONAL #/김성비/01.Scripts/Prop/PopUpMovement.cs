@@ -14,7 +14,10 @@ public class PopUpMovement : MonoBehaviour
     public RectTransform skPlaceAD;
     public RectTransform skTour;
 
-    public bool cancel;         // 통신 취소 여부
+    // 통신 취소 여부
+    public bool placeADcancel;
+    public bool placeUNCancel;
+    public bool tourCancel;
     public bool skeleton;       // 스켈레톤 가능 여부
     public bool adventured;     // 탐험완료 여부
 
@@ -38,7 +41,6 @@ public class PopUpMovement : MonoBehaviour
 
     public IEnumerator MoveUP(bool place)
     {
-        cancel = false;
 
         //KJY 추가
         SettingManager.instance.BackGroundSound_InProp();
@@ -47,12 +49,14 @@ public class PopUpMovement : MonoBehaviour
         {
             if (adventured)
             {
+                placeADcancel = false;
                 skPlaceAD.DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
                 skeleton = true;
                 StartCoroutine(nameof(PlaceSkeleton));
             }
             else
             {
+                placeUNCancel = false;
                 skPlaceUN.DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
                 skeleton = true;
                 StartCoroutine(nameof(PlaceSkeleton));
@@ -64,6 +68,7 @@ public class PopUpMovement : MonoBehaviour
         }
         else
         {
+            tourCancel = false;
             skTour.DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
             skeleton = true;
             StartCoroutine(nameof(TourSkeleton));

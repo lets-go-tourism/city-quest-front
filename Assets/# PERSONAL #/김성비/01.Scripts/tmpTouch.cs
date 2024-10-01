@@ -365,16 +365,13 @@ public class tmpTouch : MonoBehaviour
                 // 팝업창
                 else if (state == State.Pop)
                 {
-                    if (PopUpMovement.instance.cancel)
+                    if (PopUpMovement.instance.placeUNCancel || PopUpMovement.instance.placeADcancel)
                     {
-                        if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
-                        {
-                            ButtonActions.Instance.ChangeCancel(true);
-                        }
-                        else
-                        {
-                            ButtonActions.Instance.ChangeCancel(false);
-                        }
+                        ButtonActions.Instance.ChangeCancel(true);
+                    }
+                    else if (PopUpMovement.instance.tourCancel)
+                    {
+                        ButtonActions.Instance.ChangeCancel(false);
                     }
                     else
                     {

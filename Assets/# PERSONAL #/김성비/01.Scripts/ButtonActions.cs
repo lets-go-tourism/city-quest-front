@@ -156,7 +156,6 @@ public class ButtonActions : MonoBehaviour
 
     public void ChangeCancel(bool place)
     {
-        PopUpMovement.instance.cancel = true;
         PopUpMovement.instance.skeleton = false;
 
         CancelConnection(place);
@@ -172,15 +171,18 @@ public class ButtonActions : MonoBehaviour
 
             if (PopUpMovement.instance.adventured)
             {
+                PopUpMovement.instance.placeADcancel = true;
                 PopUpMovement.instance.skPlaceAD.DOAnchorPosY(-2600, 0.38f);
             }
             else
             {
+                PopUpMovement.instance.placeUNCancel = true;
                 PopUpMovement.instance.skPlaceUN.DOAnchorPosY(-2600, 0.38f);
             }
         }
         else
         {
+            PopUpMovement.instance.tourCancel = true;
             PopUpMovement.instance.StopCoroutine(nameof(PopUpMovement.instance.MoveUP));
 
             PopUpMovement.instance.rtTour.anchoredPosition = new Vector2(0, -2500);

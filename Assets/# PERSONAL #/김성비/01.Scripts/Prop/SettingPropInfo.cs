@@ -56,12 +56,15 @@ public class SettingPropInfo : MonoBehaviour
         // 정보값 적용
         yield return StartCoroutine(nameof(NOInfoSetting));
 
-        if (!PopUpMovement.instance.cancel)
+        if (!PopUpMovement.instance.placeUNCancel)
         {
             yield return new WaitForSeconds(0.2f);
             PopUpMovement.instance.skeleton = false;
             PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
             PopUpMovement.instance.skPlaceUN.anchoredPosition = new Vector2(0, -2600);
+
+            PopUpMovement.instance.placeADcancel = false;
+            PopUpMovement.instance.tourCancel = false;
         }
     }
 
@@ -115,12 +118,15 @@ public class SettingPropInfo : MonoBehaviour
         // 정보값 적용
         yield return StartCoroutine(nameof(YESInfoSetting));
 
-        if (!PopUpMovement.instance.cancel)
+        if (!PopUpMovement.instance.placeADcancel)
         {
             yield return new WaitForSeconds(0.2f);
             PopUpMovement.instance.skeleton = false;
             PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
             PopUpMovement.instance.skPlaceAD.anchoredPosition = new Vector2(0, -2600);
+
+            PopUpMovement.instance.placeUNCancel = false;
+            PopUpMovement.instance.tourCancel = false;
         }
     }
 
