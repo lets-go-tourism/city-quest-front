@@ -12,12 +12,12 @@ public class LoadingTest : MonoBehaviour
     [SerializeField] GameObject image_obj;
     [SerializeField] Image image;
     [SerializeField] List<Sprite> loadingImage = new List<Sprite>();
+    [SerializeField] List<string> loadingText = new List<string>() { "지도 그리는 중...", "커피 타는 중...", "거중...기", "츄러스로 당 충전 중...", "백발백 중..."};
     [SerializeField] private Vector3 firstTr;
     [SerializeField] TextMeshProUGUI text;
 
     public bool connectionFinish = false;
     private int count = 0;
-    private int textCount = 1;
 
     private void Start()
     {
@@ -30,13 +30,10 @@ public class LoadingTest : MonoBehaviour
         if (count == loadingImage.Count)
         {
             count = 0;
-            if (textCount % 4 == 0)
-            {
-                TextChange();
-            }
         }
 
         image.sprite = loadingImage[count];
+        text.text = TextChange();
         image_obj.transform.localPosition = firstTr;
         image.DOFade(0, 0);
         image_obj.transform.DOMoveY(295.56f, 1f).SetRelative().SetEase(Ease.OutBack);
@@ -45,7 +42,6 @@ public class LoadingTest : MonoBehaviour
         if (!connectionFinish)
         {
             count++;
-            textCount++;
             StartCoroutine(loadingStart());
         }
         else
@@ -69,15 +65,8 @@ public class LoadingTest : MonoBehaviour
         canvas.enabled = true;
     }
 
-    public void TextChange()
+    public string TextChange()
     {
-        if (text.text.Contains("지"))
-        {
-           text.text = "미니어쳐 놓는 중...";
-        }
-        else
-        {
-            text.text = "지도 펼치는 중...";
-        }
+        return loadingText[count];
     }
 }
