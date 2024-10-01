@@ -12,7 +12,6 @@ public class DataManager : MonoBehaviour
 
     [Header("PropDataList")]
     private List<ServerProp> propsList;
-    private Dictionary<long, ServerProp> propDiction;
 
     [Header("AdventurePlaceList")]
     private List<ServerAdventurePlace> adventurePlacesList;
