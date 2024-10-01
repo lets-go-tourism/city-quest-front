@@ -288,7 +288,7 @@ public class tmpTouch : MonoBehaviour
                         // Ʃ�丮�� �����ϰ�� �ٷ� ���� 
                         if (CameraFeed.Instance.isTutorial)
                         {
-                            PopUpMovement.instance.adventured = true;
+                            PopUpMovement.instance.adventured = false;
                             PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveUP), true);
                         }
 

@@ -120,6 +120,8 @@ public class PopUpMovement : MonoBehaviour
             while (skeleton)
             {
                 t = 0;
+                skPlaceAD.transform.GetChild(1).GetComponent<Image>().fillAmount = 0f;
+                skPlaceAD.transform.GetChild(1).GetComponent<Image>().fillOrigin = 0;
 
                 while (t < d)
                 {
@@ -134,7 +136,7 @@ public class PopUpMovement : MonoBehaviour
 
                 while (t < d)
                 {
-                    skPlaceUN.GetChild(1).transform.GetComponent<Image>().fillAmount = Mathf.Lerp(1, 0, t / d);
+                    skPlaceAD.transform.GetChild(1).GetComponent<Image>().fillAmount = Mathf.Lerp(1, 0, t / d);
                     t += Time.deltaTime;
                     yield return null;
                 }
@@ -145,23 +147,23 @@ public class PopUpMovement : MonoBehaviour
             while (skeleton)
             {
                 t = 0;
-                skPlaceUN.GetChild(1).transform.GetComponent<Image>().fillAmount = 0f;
-                skPlaceUN.GetChild(1).transform.GetComponent<Image>().fillOrigin = 0;
+                skPlaceUN.transform.GetChild(1).GetComponent<Image>().fillAmount = 0f;
+                skPlaceUN.transform.GetChild(1).GetComponent<Image>().fillOrigin = 0;
 
                 while (t < d)
                 {
-                    skPlaceUN.GetChild(1).transform.GetComponent<Image>().fillAmount = Mathf.Lerp(0, 1, t / d);
+                    skPlaceUN.transform.GetChild(1).GetComponent<Image>().fillAmount = Mathf.Lerp(0, 1, t / d);
                     t += Time.deltaTime;
                     yield return null;
                 }
 
-                skPlaceUN.GetChild(1).transform.GetComponent<Image>().fillAmount = 1f;
-                skPlaceUN.GetChild(1).transform.GetComponent<Image>().fillOrigin = 1;
+                skPlaceUN.transform.GetChild(1).GetComponent<Image>().fillAmount = 1f;
+                skPlaceUN.transform.GetChild(1).GetComponent<Image>().fillOrigin = 1;
                 t = 0;
 
                 while (t < d)
                 {
-                    skPlaceUN.GetChild(1).transform.GetComponent<Image>().fillAmount = Mathf.Lerp(1, 0, t / d);
+                    skPlaceUN.transform.GetChild(1).GetComponent<Image>().fillAmount = Mathf.Lerp(1, 0, t / d);
                     t += Time.deltaTime;
                     yield return null;
                 }
