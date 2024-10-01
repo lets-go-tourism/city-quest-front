@@ -46,7 +46,7 @@ public class PropsController : MonoBehaviour
 
     private IEnumerator SetTintTourData()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         MapUIController.Instance.NameTagContainer.CollisionUpdate();
     }
 

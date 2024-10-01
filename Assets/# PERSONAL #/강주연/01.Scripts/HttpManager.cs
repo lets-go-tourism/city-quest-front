@@ -113,14 +113,10 @@ public class HttpManager : MonoBehaviour
                 break;
         }
 
-        print("기다리는 중");
-
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            print("요청 완료");
-            print(request.downloadHandler.text);
             requester.Complete(request.downloadHandler);
 
             if(successDelegate != null)
@@ -132,14 +128,10 @@ public class HttpManager : MonoBehaviour
         {
             if (headerState == RequestHeader.other && KJY_ConnectionTMP.instance.isQuest == true)
             {
-                print("요청 실패");
                 SendRequest(KJY_ConnectionTMP.instance.requestHttp, KJY_ConnectionTMP.instance.requestHeaderHttp);
             }
             else
             {
-                print("요청 실패");
-                print(request.downloadHandler.text);
-                print(request.error);
                 requester.Complete(request.downloadHandler);
                 //StartCoroutine(KJY_ConnectionTMP.instance.successText());
 

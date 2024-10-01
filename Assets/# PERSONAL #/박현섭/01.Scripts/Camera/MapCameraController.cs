@@ -202,9 +202,10 @@ public class MapCameraController : MonoBehaviour
         if (m_Moving)
             m_Moving = false;
 
+        if (tmpTouch.instance.click) return;
+
         if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
-            m_Audio = true;
             time = 0;
             BottomSheetMovement.instance.MoveDOWN();
 
@@ -329,7 +330,7 @@ public class MapCameraController : MonoBehaviour
     /// </summary>
     private void PanningInertia()
     {
-        if (_panVelocity.magnitude < 0.02f)
+        if (_panVelocity.magnitude < 0.1f)
         {
             _panVelocity = Vector2.zero;
         }

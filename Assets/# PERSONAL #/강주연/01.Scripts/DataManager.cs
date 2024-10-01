@@ -257,12 +257,10 @@ public class DataManager : MonoBehaviour
         if (loginData != null)
         {
             this.loginData = loginData;
-            Debug.Log("have_logindata");
         }
 
         if (HttpManager.instance != null)
         {
-            Debug.Log("Have_httpManager");
             HttpManager.instance.loginData = loginData;
         }
     }
@@ -307,7 +305,6 @@ public class DataManager : MonoBehaviour
     public void SortPropAdventureList()
     {
         Vector3 screenCenter = MapCameraController.Instance.GetScreenCenter();
-        print(screenCenter);
 
         Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
 

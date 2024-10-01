@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class tmpTouch : MonoBehaviour
 {
@@ -248,7 +249,8 @@ public class tmpTouch : MonoBehaviour
     //    }
     //}
 
-    private bool began = true;
+    public bool click { get; private set; } = true;
+    private Vector2 startPosition;
 
     // 메인화면 프랍 터치
     private void RayTouch()
@@ -262,21 +264,22 @@ public class tmpTouch : MonoBehaviour
             {
                 if (EventSystem.current.IsPointerOverGameObject(i))
                 {
-                    began = false;
+                    click = false;
                     return;
                 }
             }
 
             if (touch.phase == TouchPhase.Began)
             {
-                began = true;
+                click = true;
+                startPosition = touch.position;
             }
-            else if (began && touch.phase == TouchPhase.Moved)
+            else if (touch.phase == TouchPhase.Moved)
             {
-                if (touch.deltaPosition.magnitude > 5f)
-                    began = false;
+                if ((startPosition - touch.position).sqrMagnitude > 15f)
+                    click = false;
             }
-            else if (touch.phase == TouchPhase.Ended && began)
+            else if (touch.phase == TouchPhase.Ended && click)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;

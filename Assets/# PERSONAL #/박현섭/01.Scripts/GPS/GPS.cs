@@ -20,10 +20,64 @@ public class GPS : MonoBehaviour
     [Header("Chche")]
     private LocationService locationService;
 
-    public double Latitude { get; private set; }
-    public double Longtitude { get; private set; }
+    public double Latitude { get { return latitude; } private set 
+        {
+            latitude = value;
+            if(Mathf.Abs((float)latitude - (float)prevLat) > 0.00001 || Mathf.Abs((float)longtitude - (float)prevLong) > 0.00001)
+            {
+                prevLat = latitude;
+                prevLong = longtitude;
+
+                // 10미터 이동시 실행 하는 함수
+                Transform contentPlace = BottomSheetManager.instance.contentPlace;
+
+                for (int i = 0; i < contentPlace.childCount; i++)
+                {
+                    contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().UpdateDistance();
+                }
+
+                Transform contentTour = BottomSheetManager.instance.contentTour;
+
+                for(int i = 0; i < contentTour.childCount; i++)
+                {
+                    contentTour.GetChild(i).GetComponent<CardTourInfo>().UpateDistance();
+                }
+            }
+        } 
+    }
+    private double latitude;
+
+    public double Longtitude { get { return longtitude; } private set 
+        {
+            longtitude = value;
+            if (Mathf.Abs((float)latitude - (float)prevLat) > 0.00001 || Mathf.Abs((float)longtitude - (float)prevLong) > 0.00001)
+            {
+                prevLat = latitude;
+                prevLong = longtitude;
+
+                // 10미터 이동시 실행 하는 함수
+                Transform contentPlace = BottomSheetManager.instance.contentPlace;
+
+                for (int i = 0; i < contentPlace.childCount; i++)
+                {
+                    contentPlace.GetChild(i).GetComponent<CardPlaceInfo>().UpdateDistance();
+                }
+
+                Transform contentTour = BottomSheetManager.instance.contentTour;
+
+                for (int i = 0; i < contentTour.childCount; i++)
+                {
+                    contentTour.GetChild(i).GetComponent<CardTourInfo>().UpateDistance();
+                }
+            }
+        } 
+    }
+    private double longtitude;
 
     public LocationInfo LocationInfo { get; private set; }
+
+    public double prevLat { get; private set; } = 0;
+    public double prevLong { get; private set; } = 0;
 
     private void Awake()
     {

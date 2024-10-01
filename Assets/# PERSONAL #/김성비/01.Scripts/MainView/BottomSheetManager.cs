@@ -227,8 +227,8 @@ public class BottomSheetManager : MonoBehaviour
                 {
                     contentPlace.GetChild(j).SetAsLastSibling();
 
-                    TextMeshProUGUI ditance = contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().info[1].GetComponent<TextMeshProUGUI>();
-                    ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
+                    //TextMeshProUGUI ditance = contentPlace.GetChild(j).GetComponent<CardPlaceInfo>().info[1].GetComponent<TextMeshProUGUI>();
+                    //ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(propList[i].latitude, propList[i].longitude));
                     placeCount--;
                     break;
                 }
@@ -257,8 +257,8 @@ public class BottomSheetManager : MonoBehaviour
                 else
                 {
                     contentTour.GetChild(j).SetAsLastSibling();
-                    TextMeshProUGUI ditance = contentTour.GetChild(j).GetComponent<CardTourInfo>().info[1].GetComponent<TextMeshProUGUI>();
-                    ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
+                    //TextMeshProUGUI ditance = contentTour.GetChild(j).GetComponent<CardTourInfo>().info[1].GetComponent<TextMeshProUGUI>();
+                    //ditance.text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(double.Parse(tourList[i].latitude), double.Parse(tourList[i].longitude)));
                     tourCount--;
                     break;
                 }

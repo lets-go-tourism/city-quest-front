@@ -26,8 +26,8 @@ public class TourNameTagUI : MonoBehaviour
                 return;
 
             visible = value;
-            myText.DOPause();
-            myImage.DOPause();
+            myText.DOKill();
+            myImage.DOKill();
             if (value)
             {
                 myText.DOFade(1, 0.2f);
@@ -55,7 +55,7 @@ public class TourNameTagUI : MonoBehaviour
         enabled = true;
         this.TargetTour = target;
         Visible = true;
-        CustomeUpdate();
+        CustomUpdate();
         SettingTextWidth(RectTransform, myText, TargetTour.ServerTourInfo.title);
     }
 
@@ -84,7 +84,7 @@ public class TourNameTagUI : MonoBehaviour
         tmpText.overflowMode = TextOverflowModes.Ellipsis;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (Visible)
         {
@@ -97,7 +97,7 @@ public class TourNameTagUI : MonoBehaviour
         RectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(TargetTour.transform.position + new Vector3(0, 0, _offsetY * Camera.main.transform.position.y / 500));
     }
 
-    public void CustomeUpdate()
+    public void CustomUpdate()
     {
         RectTransform.anchoredPosition = Camera.main.WorldToScreenPoint(TargetTour.transform.position + new Vector3(0, 0, _offsetY * Camera.main.transform.position.y / 500));
     }

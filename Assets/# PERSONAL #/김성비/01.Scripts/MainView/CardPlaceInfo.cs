@@ -29,15 +29,10 @@ public class CardPlaceInfo : MonoBehaviour
     public ServerAdventurePlace ServerAdventurePlace { get; private set; }
     public ServerProp ServerProp { get; private set; }
 
-    public IEnumerator Start()
+    public void UpdateDistance()
     {
-        int num = 0;
-        while (num == 0)
-        {
-            string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(ServerProp.latitude, ServerProp.longitude)).ToString();
-            info[1].GetComponent<TextMeshProUGUI>().text = meter;
-            yield return new WaitForSeconds(5);
-        }
+        string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(ServerProp.latitude, ServerProp.longitude)).ToString();
+        info[1].GetComponent<TextMeshProUGUI>().text = meter;
     }
 
 

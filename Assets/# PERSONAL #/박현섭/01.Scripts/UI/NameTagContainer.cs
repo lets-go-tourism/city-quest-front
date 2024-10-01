@@ -126,7 +126,7 @@ public class NameTagContainer : MonoBehaviour
 
         for (int i = 0; i < _tourNameTagCount; i++)
         {
-            if (TourNameTagArr[i].enabled == false)
+            if (TourNameTagArr[i].enabled == false || TourNameTagArr[i].Visible == false)
                 continue;
 
             UpdateCheckNameTagCollision(i);
@@ -151,17 +151,13 @@ public class NameTagContainer : MonoBehaviour
 
         for (int i = 0; i < _tourNameTagCount; i++)
         {
-            if (TourNameTagArr[i].enabled == false || i == index)
-                continue;
+            if (TourNameTagArr[i].enabled == false || i == index || TourNameTagArr[i].Visible == false) continue;
 
-            else if (TourNameTagArr[index].Visible == false || TourNameTagArr[i].Visible == false)
-                continue;
-
-            TourNameTagArr[i].CustomeUpdate();
+            //TourNameTagArr[i].CustomUpdate();
             rect2 = TourNameTagArr[i].RectTransform;
             rect2SizeDelta = rect2.sizeDelta;
             rect2AnchoredPosition = rect2.anchoredPosition;
-            
+
 
             // 두 사각형이 겹치지 않는지 확인 (AABB 충돌 감지)
             if (rect1AnchoredPosition.x + rect1SizeDelta.x / 2 * scale < rect2AnchoredPosition.x - rect2SizeDelta.x / 2 * scale
