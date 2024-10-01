@@ -346,18 +346,18 @@ public class CameraFeed : MonoBehaviour
 
         if (isTutorial)
         {
-             Sprite sprite = tutorialImage_crop;
-             Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
-             Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
-                                                          (int)sprite.textureRect.y,
-                                                          (int)sprite.textureRect.width,
-                                                          (int)sprite.textureRect.height);
-             newText.SetPixels(newColors);
-             newText.Apply();
-            KJY_ConnectionTMP.instance.questNoPicture = 3;
+            // Sprite sprite = tutorialImage_crop;
+            // Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+            // Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
+            //                                              (int)sprite.textureRect.y,
+            //                                              (int)sprite.textureRect.width,
+            //                                              (int)sprite.textureRect.height);
+            // newText.SetPixels(newColors);
+            // newText.Apply();
+            //KJY_ConnectionTMP.instance.OnClickTest(newText);
 
+            KJY_ConnectionTMP.instance.questNoPicture = 3;
             TutorialFinish();
-            KJY_ConnectionTMP.instance.OnClickTest(newText);
             TutorialUI.Instance.OnNonTouch();
         }
         else
@@ -462,6 +462,7 @@ public class CameraFeed : MonoBehaviour
         animator.enabled = false;
         photoUse_Dialog.SetActive(false);
         CameraOff();
+        ButtonActions.Instance.StartCoroutine(nameof(ButtonActions.Instance.QuestDone));
 
         for (int i = 0; i < buttonList.Count; i++)
         {
