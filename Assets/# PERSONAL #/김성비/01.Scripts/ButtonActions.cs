@@ -101,6 +101,9 @@ public class ButtonActions : MonoBehaviour
     {
         if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
         {
+            //KJY추가
+            SettingManager.instance.EffectSound_ButtonTouch();
+
             // 렉트트랜스폼
             RectTransform rtPlace = Props_UI.instance.tags[0].GetComponent<RectTransform>();
             RectTransform rtTour = Props_UI.instance.tags[1].GetComponent<RectTransform>();

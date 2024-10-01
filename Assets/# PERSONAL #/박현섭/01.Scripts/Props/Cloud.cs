@@ -37,10 +37,4 @@ public class Cloud : MonoBehaviour
         TargetProp = null;
         meshRenderer.enabled = false;
     }
-
-    //KJYÃß°¡
-    public void EffectSound()
-    {
-        SettingManager.instance.EffectSound_CloudEffect();
-    }
 }
