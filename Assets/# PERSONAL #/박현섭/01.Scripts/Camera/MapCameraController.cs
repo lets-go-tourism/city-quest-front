@@ -392,6 +392,8 @@ public class MapCameraController : MonoBehaviour
         }
     }
 
+    private float totalSpeed = 0;
+
     public void CameraMoveToTarget()
     {
         if (m_Moving == false)
@@ -401,6 +403,8 @@ public class MapCameraController : MonoBehaviour
 
         Vector3 targetPos = isBottom ? m_TargetPosition - new Vector3(0, 0, (Screen.height / 2 - (Screen.height - bottomHeight) / 2) * onePixelZOffset * cameraHeight / transform.position.y)  : m_TargetPosition;
 
+        totalSpeed = Mathf.Lerp(totalSpeed, m_MoveSpeed * 1.3f, Time.deltaTime * m_MoveSpeed);
+
         transform.position = 
             // 러프 해서
             Vector3.Lerp(transform.position,
@@ -409,7 +413,9 @@ public class MapCameraController : MonoBehaviour
             targetPos,
 
             // 시간을 보간해서
-            Time.deltaTime * m_MoveSpeed);
+            Time.deltaTime * totalSpeed);
+
+
 
         if ((transform.position - targetPos).sqrMagnitude < 0.2f)
         {
@@ -423,6 +429,7 @@ public class MapCameraController : MonoBehaviour
     public void StartCameraMoveToTarget(Vector3 targetPos)
     {
         m_Moving = true;
+        totalSpeed = m_MoveSpeed;
         m_TargetPosition = new Vector3(targetPos.x, _cam.transform.position.y, targetPos.z);
     }
 
