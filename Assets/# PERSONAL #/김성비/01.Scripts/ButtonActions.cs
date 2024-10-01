@@ -184,7 +184,7 @@ public class ButtonActions : MonoBehaviour
         }
         else
         {
-            //SettingTourInfo.instance.StopCoroutine(nameof(SettingTourInfo.instance.GetTexture));
+            SettingTourInfo.instance.StopCoroutine(nameof(SettingTourInfo.instance.GetTexture));
             PopUpMovement.instance.tourCancel = true;
             PopUpMovement.instance.StopCoroutine(nameof(PopUpMovement.instance.MoveUP));
 

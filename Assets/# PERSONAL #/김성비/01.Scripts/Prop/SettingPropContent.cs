@@ -50,8 +50,6 @@ public class SettingPropContent : MonoBehaviour
     {
         if (parent.childCount > 0)
         {
-            print(parent.childCount);
-            print(content.Count);
             content.RemoveRange(0, parent.childCount);
 
             for (int i = 0; i < parent.childCount; i++)
