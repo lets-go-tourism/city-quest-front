@@ -717,17 +717,20 @@ public class KJY_ConnectionTMP : MonoBehaviour
     
     private double Distance_Gara()
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
         List<ServerProp> prop = DataManager.instance.GetHomePropsList();
         LocationInfo info = DataManager.instance.GetGPSInfo();
 
-        double tmp = GPS.Instance.Distance(prop[2].latitude, info.latitude, prop[2].longitude, info.longitude, 'K');
-        //double a = 1000;
-        //if (tmp > a)
-        //{
-        //    tmp = Math.Round(tmp / a, 1);
-        //}
+        double tmp = GPS.Instance.Distance(prop[0].latitude, prop[0].longitude, info.latitude, info.longitude, 'K');
         
         return tmp;
+#elif UNITY_EDITOR
+            List<ServerProp> prop = DataManager.instance.GetHomePropsList();
+
+            double tmp = GPS.Instance.Distance(prop[0].latitude, prop[0].longitude, 0, 0, 'K');
+
+            return tmp;
+#endif
     }
 
 }

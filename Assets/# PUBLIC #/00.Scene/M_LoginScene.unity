@@ -2404,6 +2404,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce334844d97ae9c408c73edcb2179aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tourPlacesList: []
+  clearTutorial: 0
   requestSuccess: 0
   isLogout: 0
 --- !u!1 &963541854
@@ -3809,7 +3811,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -122}
+  m_AnchoredPosition: {x: 0, y: -120}
   m_SizeDelta: {x: 690, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1206911494
@@ -3831,7 +3833,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -3841,10 +3843,11 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 917286c28e275bb4bac9f6d3c4165d34,
+      type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: de7e44168687a6645b479fce93ffc520, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 917286c28e275bb4bac9f6d3c4165d34, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: de7e44168687a6645b479fce93ffc520, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
