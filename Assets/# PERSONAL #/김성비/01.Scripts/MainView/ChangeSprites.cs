@@ -17,8 +17,12 @@ public class ChangeSprites : MonoBehaviour
 
     public void ChangePlaceSprites(int no)
     {
+
         if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
         {
+            //KJY추가
+            SettingManager.instance.EffectSound_ButtonTouch();
+
             // UI
             for (int i = 0; i < place.Length; i++)
             {
@@ -51,6 +55,9 @@ public class ChangeSprites : MonoBehaviour
     {
         if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
         {
+            //KJY추가
+            SettingManager.instance.EffectSound_ButtonTouch();
+
             // UI
             for (int i = 0; i < tour.Length; i++)
             {

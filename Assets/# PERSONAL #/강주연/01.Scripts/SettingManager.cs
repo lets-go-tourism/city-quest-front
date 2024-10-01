@@ -109,12 +109,12 @@ public class SettingManager : MonoBehaviour
 
     public void BackGroundSound_Original()
     {
-        bgSource.volume = 0.8f;
+        bgSource.volume = 0.6f;
     }
 
     public void BackGroundSound_InProp()
     {
-        bgSource.volume = 0.5f;
+        bgSource.volume = 0.4f;
     }
 
     public void BackGroundSound_InSetting()
@@ -134,7 +134,7 @@ public class SettingManager : MonoBehaviour
         else
         {
             effectSoundBtn.GetComponent<Image>().sprite = onBtn;
-            effectSource.volume = 0.5f;
+            effectSource.volume = 1f;
             isEffectSound = true;
         }
     }
@@ -208,7 +208,7 @@ public class SettingManager : MonoBehaviour
         if (!isEffectSound)
             return;
         effectSource.PlayOneShot(PopUpDown);
-        effectSource.volume = 0.5f;
+        effectSource.volume = 0.8f;
     }
 
     public void EffectSound_TourButton()

@@ -54,11 +54,11 @@ public class PropsController : MonoBehaviour
     {
         PropMeshDic.Add(1, (GameObject)Resources.Load("PropMeshData/SM_Crane"));
         //PropMeshDic.Add(3, (GameObject)Resources.Load("PropMeshData/SM_Pasta"));
-        PropMeshDic.Add(4, (GameObject)Resources.Load("PropMeshData/SM_Churros"));
-        PropMeshDic.Add(5, (GameObject)Resources.Load("PropMeshData/SM_coffee"));
+        PropMeshDic.Add(2, (GameObject)Resources.Load("PropMeshData/SM_Churros"));
+        PropMeshDic.Add(3, (GameObject)Resources.Load("PropMeshData/SM_coffee"));
         //PropMeshDic.Add(7, (GameObject)Resources.Load("PropMeshData/SM_PalDGate"));
-        PropMeshDic.Add(8, (GameObject)Resources.Load("PropMeshData/SM_HhongGate"));
-        PropMeshDic.Add(19, (GameObject)Resources.Load("PropMeshData/SM_Kbow"));
+        PropMeshDic.Add(4, (GameObject)Resources.Load("PropMeshData/SM_HhongGate"));
+        PropMeshDic.Add(5, (GameObject)Resources.Load("PropMeshData/SM_Kbow"));
 
         while (DataManager.instance.requestSuccess == false)
         {

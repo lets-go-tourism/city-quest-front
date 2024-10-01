@@ -21,6 +21,7 @@ public class TutorialCloud : MonoBehaviour
     {
         this.TargetProp = target;
         meshRenderer.enabled = true;
+        animator.enabled = true;
         transform.position = TargetProp.PropObj.transform.TransformPoint(TargetProp.GetBoundsCenter());
         enabled = true;
     }

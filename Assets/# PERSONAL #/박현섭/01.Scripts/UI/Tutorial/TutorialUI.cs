@@ -380,6 +380,8 @@ public class TutorialUI : MonoBehaviour
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
         Props_UI.instance.ResetScollView();
         _masking2_4.SetActive(false);
+        _tutorialBtn.enabled = false;
+        _tutorialBtn.GetComponent<Button>().onClick.RemoveAllListeners();
 
         StartCoroutine(nameof(TutorialEnd));
     }
