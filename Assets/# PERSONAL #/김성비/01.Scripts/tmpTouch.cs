@@ -89,9 +89,9 @@ public class tmpTouch : MonoBehaviour
                     }
                 }
                 raycaster2.Raycast(point, results);
-                foreach(RaycastResult r in results)
+                foreach (RaycastResult r in results)
                 {
-                    if(r.gameObject.CompareTag("BackgroundDark"))
+                    if (r.gameObject.CompareTag("BackgroundDark"))
                     {
                         follow = false;
                         break;
@@ -282,11 +282,13 @@ public class tmpTouch : MonoBehaviour
                     {
                         //KJY �߰�
                         SettingManager.instance.EffectSound_PopUpTouch();
-                        
+
                         //DataManager.instance.requestSuccess = false;
 
                         // ���������� �޾ƿ�
                         Prop prop = hit.collider.GetComponent<Prop>();
+
+                        MainView_UI.instance.BackgroundDarkEnable();
 
                         // Ʃ�丮�� �����ϰ�� �ٷ� ���� 
                         if (CameraFeed.Instance.isTutorial)
@@ -329,7 +331,8 @@ public class tmpTouch : MonoBehaviour
                         //KJY�߰�
                         SettingManager.instance.EffectSound_ButtonTouch();
 
-                        Props_UI.instance.canvasTour.enabled = true;
+                        //Props_UI.instance.canvasTour.enabled = true;
+                        MainView_UI.instance.BackgroundDarkEnable();
 
                         TourData tourData = hit.collider.GetComponent<TourData>();
                         ServerTourInfo serverTourInfo = tourData.ServerTourInfo;
@@ -344,43 +347,57 @@ public class tmpTouch : MonoBehaviour
         }
     }
 
-    // �ȵ���̵� �ڷΰ���
+    // 뒤로가기 버튼
     void BackTouch()
     {
         if (Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                // ����ȭ��
+                // 메인화면
                 if (state == State.Main)
                 {
-                    // �� ���� Ȯ�� UI Ȱ��ȭ
-                    ToastMessage.ShowToast("'�ڷ�' ��ư�� �ѹ� �� �����ø� ����˴ϴ�.");
+                    // 종료 토스트
+                    ToastMessage.ShowToast("'뒤로가기'를 한번 더 누르면 종료됩니다.");
                     StartCoroutine(nameof(ChangeState), State.Quit);
                 }
-                // �佺Ʈ�޽���
+                // 종료가능
                 else if (state == State.Quit)
                 {
                     Quit();
                 }
-                // ����â
+                // 설정창
                 else if (state == State.Setting)
                 {
                     settingUI.SettingCanvasOff();
                     StartCoroutine(nameof(ChangeState), State.Main);
                 }
-                // �˾�â
+                // 팝업창
                 else if (state == State.Pop)
                 {
-                    // Ž��
-                    if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
+                    if (PopUpMovement.instance.cancel)
                     {
-                        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
+                        if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
+                        {
+                            ButtonActions.Instance.ChangeCancel(true);
+                        }
+                        else
+                        {
+                            ButtonActions.Instance.ChangeCancel(false);
+                        }
                     }
-                    // ����
-                    else if (PopUpMovement.instance.tourState == PopUpMovement.TourState.UP)
+                    else
                     {
-                        PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
+                        // 장소 팝업
+                        if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
+                        {
+                            PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
+                        }
+                        // 관광정보 팝업
+                        else if (PopUpMovement.instance.tourState == PopUpMovement.TourState.UP)
+                        {
+                            PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), false);
+                        }
                     }
 
                     StartCoroutine(nameof(ChangeState), State.Main);

@@ -134,7 +134,7 @@ public class SettingTourInfo : MonoBehaviour
     public IEnumerator GetTexture(ServerTourInfo tourInfo)
     {
         // 암전 키고
-        //MainView_UI.instance.BackgroundDarkEnable();
+        MainView_UI.instance.BackgroundDarkEnable();
 
         if (tourInfo.imageUrl != string.Empty)
         {
@@ -145,7 +145,7 @@ public class SettingTourInfo : MonoBehaviour
                 Debug.Log(www.error);
 
                 // 암전 끄고
-                //MainView_UI.instance.BackgroundDarkDisable();
+                MainView_UI.instance.BackgroundDarkDisable();
             }
             else
             {

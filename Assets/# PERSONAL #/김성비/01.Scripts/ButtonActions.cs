@@ -153,11 +153,16 @@ public class ButtonActions : MonoBehaviour
         }
     }
 
+    public void ChangeCancel(bool place)
+    {
+        PopUpMovement.instance.cancel = true;
+        PopUpMovement.instance.skeleton = false;
+
+        CancelConnection(place);
+    }
+
     public void CancelConnection(bool place)
     {
-        PopUpMovement.instance.skeleton = false;
-        PopUpMovement.instance.cancel = true;
-
         if (place)
         {
             PopUpMovement.instance.StopCoroutine(nameof(PopUpMovement.instance.MoveUP));
@@ -181,5 +186,7 @@ public class ButtonActions : MonoBehaviour
 
             PopUpMovement.instance.skTour.DOAnchorPosY(-2500, 0.39f);
         }
+
+        MainView_UI.instance.BackgroundDarkDisable();
     }
 }

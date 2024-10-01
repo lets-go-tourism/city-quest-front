@@ -72,6 +72,7 @@ public class SettingPropInfo : MonoBehaviour
 
         if (!PopUpMovement.instance.cancel)
         {
+            yield return new WaitForSeconds(0.2f);
             PopUpMovement.instance.skeleton = false;
             PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
             PopUpMovement.instance.skPlaceUN.anchoredPosition = new Vector2(0, -2600);
@@ -129,6 +130,7 @@ public class SettingPropInfo : MonoBehaviour
 
         if (!PopUpMovement.instance.cancel)
         {
+            yield return new WaitForSeconds(0.2f);
             PopUpMovement.instance.skeleton = false;
             PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, 0);
             PopUpMovement.instance.skPlaceAD.anchoredPosition = new Vector2(0, -2600);
