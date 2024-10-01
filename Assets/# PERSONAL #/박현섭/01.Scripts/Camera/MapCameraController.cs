@@ -412,7 +412,12 @@ public class MapCameraController : MonoBehaviour
 
         _panVelocity = Vector2.zero;
 
-        Vector3 targetPos = isBottom ? m_TargetPosition - new Vector3(0, 0, (Screen.height / 2 - (Screen.height - bottomHeight) / 2) * onePixelZOffset * cameraHeight / transform.position.y)  : m_TargetPosition;
+
+
+        Vector3 targetPos =
+            isBottom ?
+            Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(m_TargetPosition - new Vector3(0, transform.position.y, 0)) - new Vector3(0, Screen.height / 2 - (Screen.height - bottomHeight) / 2, 0)) + new Vector3(0, transform.position.y, 0) : 
+            m_TargetPosition;
 
         totalSpeed = Mathf.Lerp(totalSpeed, m_MoveSpeed * 1.3f, Time.deltaTime * m_MoveSpeed);
 
