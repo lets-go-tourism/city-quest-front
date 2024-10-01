@@ -39,7 +39,6 @@ public class TutorialUI : MonoBehaviour
 
     private void Start()
     {
-
         _backgroundDark.enabled = true;
 
         _tutorialSelectMsg.SetActive(false);
@@ -104,6 +103,8 @@ public class TutorialUI : MonoBehaviour
 
         //KJY 추가
         SettingManager.instance.EffectSound_ButtonTouch();
+
+        CloudContainer.Instance.AddTarget(PropsController.Instance.ServerAdventurePlaceWorldDic[PropsController.Instance.AdventurePlaceDic[3]]);
 
         // 튜토리얼 시작
         StartCoroutine(nameof(Tutorial1_1));
