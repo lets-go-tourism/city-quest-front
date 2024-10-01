@@ -94,6 +94,10 @@ public class MapCameraController : MonoBehaviour
                 BottomSheetManager.instance.SortingPlaceCards();
                 BottomSheetManager.instance.SortingTourCards();
             }
+            else
+            {
+                MapUIController.Instance.NameTagContainer.CollisionUpdate();
+            }
         }
     }
     private bool isMoving = false;
@@ -146,7 +150,6 @@ public class MapCameraController : MonoBehaviour
         {
             Panning();
             Pinching();
-            m_IsMoving = true;
         }
         else
         {
@@ -203,6 +206,8 @@ public class MapCameraController : MonoBehaviour
             m_Moving = false;
 
         if (tmpTouch.instance.click) return;
+
+        m_IsMoving = true;
 
         if (Input.touchCount > 0 && Input.touchCount < 2 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
@@ -368,7 +373,7 @@ public class MapCameraController : MonoBehaviour
         if (coolTime == 0 && (transform.position.x != xCord || transform.position.z != zCord))
         {
             coolTime = 10;
-            ToastMessage.ShowToast("현재 행궁동 바깥 지역은 서비스 하고 있지 않아요");
+            ToastMessage.ShowToast("현재는 행궁동만 서비스하고 있어요. 업데이트를 기다려 주세요!");
         }
 
         transform.position = new Vector3(xCord, transform.position.y, zCord);
