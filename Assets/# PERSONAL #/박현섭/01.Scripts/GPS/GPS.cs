@@ -118,12 +118,21 @@ public class GPS : MonoBehaviour
         }
     }
 
+    private float time = 0;
+
     private void Update()
     {
         if (gpsTestPos)
             return;
 
-        GetLocation();
+
+        time += Time.deltaTime;
+
+        if(time > 1)
+        {
+            time = 0;
+            GetLocation();
+        }
     }
 
     public Vector3 GetUserWorldPosition()

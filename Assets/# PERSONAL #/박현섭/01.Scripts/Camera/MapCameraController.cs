@@ -380,6 +380,18 @@ public class MapCameraController : MonoBehaviour
          return new Vector3(Screen.width / 2, isBottom ? Screen.height / 2 + ((Screen.height / 2 - (Screen.height - bottomHeight) / 2)) :  Screen.height / 2, transform.position.y);
     }
 
+    public Vector3 GetTargetCenter()
+    {
+        if (isBottom)
+        {
+            return m_TargetPosition;
+        }
+        else
+        {
+            return transform.position - new Vector3(0, transform.position.y, 0);
+        }
+    }
+
     public void CameraMoveToTarget()
     {
         if (m_Moving == false)
@@ -400,7 +412,10 @@ public class MapCameraController : MonoBehaviour
             Time.deltaTime * m_MoveSpeed);
 
         if ((transform.position - targetPos).sqrMagnitude < 0.2f)
+        {
             StopCameraMove();
+            transform.position = targetPos;
+        }
 
         LimitCameraMovement();
     }
