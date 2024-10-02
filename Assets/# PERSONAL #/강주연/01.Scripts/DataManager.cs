@@ -39,7 +39,7 @@ public class DataManager : MonoBehaviour
     [Header("SaveUserTokenData")]
     private string path;
 
-    private List<string> removeList = new List<string> {"장안문", "진미통닭", "수원선경도서관", "플라잉수원", "화성어차", "탑교육문화원 찾아가는 VR 체험 버스" };
+    private List<string> removeList = new List<string> {"화성어차", "탑교육문화원 찾아가는 VR 체험 버스 ", "종이꽃밭 : 두할망본풀이 - 수원", "경기필름스쿨페스티벌 2024", "수원음식문화박람회", "경기청년페스티벌", "장안문거북시장 야장 별주부전"};
 
     public bool isLogout = false;
 
@@ -192,8 +192,13 @@ public class DataManager : MonoBehaviour
             {
                 hometourPlaces.Remove(hometourPlaces[i]);
             }
+        }
+
+        for (int i = 0; i < hometourPlaces.Count;i++)
+        {
             hometourPlaces[i].idx = i;
         }
+
         tourPlacesList = hometourPlaces;
 
         for (int i = 0; i < tourPlacesList.Count; i++)
