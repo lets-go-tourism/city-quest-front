@@ -6,10 +6,17 @@ using UnityEngine.UI;
 
 public class TutorialPopUp : MonoBehaviour
 {
+    public static TutorialPopUp instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     [SerializeField] private Image _background;
 
     [SerializeField] private Image _picture;
-    [SerializeField] private Image _screenshotImage;
+    private Image _screenshotImage;
 
     [SerializeField] private Image _dotOne;
     [SerializeField] private Image _dotTwo;
@@ -27,6 +34,7 @@ public class TutorialPopUp : MonoBehaviour
     [SerializeField] private Sprite _activeDotSprite;
     [SerializeField] private Sprite _deActiveDotSprite;
 
+    [SerializeField] private Sprite myPositionSprite;
     [SerializeField] private Sprite indicatorSprite;
     [SerializeField] private Sprite bottomSheetSprite;
     [SerializeField] private Sprite wantPosSprite;
@@ -37,7 +45,7 @@ public class TutorialPopUp : MonoBehaviour
     {
         _dotOne.sprite = _activeDotSprite;
         _endButton.GetComponent<Image>().enabled = false;
-        _background.GetComponent<Button>().onClick.AddListener(OnClickPopUp);
+        //_background.GetComponent<Button>().onClick.AddListener(OnClickPopUp);
 
         _closeButton.onClick.AddListener(OnClickCloseBtn);
         _endButton.onClick.AddListener(OnClickCloseBtn);
@@ -45,31 +53,48 @@ public class TutorialPopUp : MonoBehaviour
         _screenshotImage = _picture.transform.GetChild(0).GetComponent<Image>();
     }
 
-    private void OnClickPopUp()
+    public void OnClickPopUp(int countPlus)
     {
         if (_coolDown)
             return;
 
+        _count += countPlus;
+        if (_count < 0) _count = 0;
+
         switch (_count)
         {
             case 0:
-                _count++;
+                _dotOne.sprite = _activeDotSprite;
+                _dotTwo.sprite = _deActiveDotSprite;
+
+                _taillineText.text = "지도 상의 내 위치는 이렇게 표시돼요.";
+
+                _picture.rectTransform.sizeDelta = new Vector2(720, 639);
+
+                _screenshotImage.sprite = myPositionSprite;
+                _screenshotImage.rectTransform.anchoredPosition = new Vector2(-42, -50);
+
+                _coolDown = true;
+                break;
+            case 1:
                 _dotOne.sprite = _deActiveDotSprite;
                 _dotTwo.sprite = _activeDotSprite;
+                _dotThree.sprite = _deActiveDotSprite;
 
                 _taillineText.text = "화면에서 내 위치가 보이지 않을 때는\n내가 있는 방향이 화살표로 표시돼요.\n화살표를 누르면\n지도 상의 내 위치로 이동할 수 있어요.";
 
                 _picture.rectTransform.sizeDelta = new Vector2(720, 420);
 
                 _screenshotImage.sprite = indicatorSprite;
+                _screenshotImage.rectTransform.localScale = Vector3.one;
                 _screenshotImage.rectTransform.anchoredPosition = new Vector2(-54, -9);
 
                 _coolDown = true;
                 break;
-            case 1:
-                _count++;
+            case 2:
                 _dotTwo.sprite = _deActiveDotSprite;
                 _dotThree.sprite = _activeDotSprite;
+                _dotFour.sprite = _deActiveDotSprite;
 
                 _taillineText.text = "바텀 시트에는 내 주변의 퀘스트 장소와\n관광정보가 가까운 순으로 표시돼요.";
 
@@ -81,12 +106,16 @@ public class TutorialPopUp : MonoBehaviour
 
                 _coolDown = true;
                 break;
-            case 2:
-                _count++;
+            case 3:
                 _dotThree.sprite = _deActiveDotSprite;
                 _dotFour.sprite = _activeDotSprite;
+                _dotFive.sprite = _deActiveDotSprite;
+
+                _endButton.GetComponent<Image>().enabled = false;
 
                 _taillineText.text = "바텀 시트에서 원하는 항목을 누르면\n지도에서 해당 위치를 볼 수 있어요.";
+
+                _background.rectTransform.sizeDelta = new Vector2(852, 1035);
 
                 _screenshotImage.sprite = bottomSheetSprite;
 
@@ -95,8 +124,7 @@ public class TutorialPopUp : MonoBehaviour
 
                 _coolDown = true;
                 break;
-            case 3:
-                _count++;
+            case 4:
                 _dotFour.sprite = _deActiveDotSprite;
                 _dotFive.sprite = _activeDotSprite;
 
