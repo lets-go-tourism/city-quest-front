@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
@@ -49,11 +47,11 @@ public class BottomSheetMovement : MonoBehaviour
             MapCameraController.Instance.isBottom = true;
         }
 
-        for (int i = 0; i < scrollRects.Length; i++)
-        {
-            scrollRects[i].horizontal = true;
-            btns[i].enabled = true;
-        }
+        //for (int i = 0; i < scrollRects.Length; i++)
+        //{
+        //    scrollRects[i].horizontal = true;
+        //    btns[i].enabled = true;
+        //}
     }
 
     void ChangeDOWN()
@@ -65,10 +63,10 @@ public class BottomSheetMovement : MonoBehaviour
             MapCameraController.Instance.isBottom = false;
         }
 
-        for (int i = 0; i < scrollRects.Length; i++)
-        {
-            scrollRects[i].horizontal = false;
-            btns[i].enabled = false;
-        }
+        //for (int i = 0; i < scrollRects.Length; i++)
+        //{
+        //    scrollRects[i].horizontal = false;
+        //    btns[i].enabled = false;
+        //}
     }
 }

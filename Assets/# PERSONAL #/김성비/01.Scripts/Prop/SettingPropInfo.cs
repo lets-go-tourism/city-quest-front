@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine.Rendering.Universal;
+using System.Reflection;
+using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class SettingPropInfo : MonoBehaviour
 {
@@ -21,6 +27,8 @@ public class SettingPropInfo : MonoBehaviour
             this.type = type;
         }
     }
+
+    public PropMovement move;
 
     QuestData questData;
 
@@ -47,9 +55,47 @@ public class SettingPropInfo : MonoBehaviour
         }
     }
 
+    public void SetActiveRendererFeature<T>(bool active) where T : ScriptableRendererFeature
+    {
+        // URP Asset의 Renderer List에서 0번 인덱스 RendererData 참조
+        ScriptableRendererData rendererData = GetRendererData(0);
+        if (rendererData == null) return;
+
+        List<ScriptableRendererFeature> rendererFeatures = rendererData.rendererFeatures;
+        if (rendererFeatures == null || rendererFeatures.Count <= 0) return;
+
+        for (int i = 0; i < rendererFeatures.Count; i++)
+        {
+            ScriptableRendererFeature rendererFeature = rendererFeatures[i];
+            if (!rendererFeature) continue;
+            if (rendererFeature is T) rendererFeature.SetActive(active);
+        }
+#if UNITY_EDITOR
+        rendererData.SetDirty();
+#endif
+    }
+
+    public ScriptableRendererData GetRendererData(int rendererIndex = 0)
+    {
+        // 현재 Quality 옵션에 세팅된 URP Asset 참조
+        UniversalRenderPipelineAsset pipelineAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+        if (!pipelineAsset) return null;
+
+        // URP Renderer List 리플렉션 참조 (Internal 변수라서 그냥 참조 불가능)
+        FieldInfo propertyInfo = pipelineAsset.GetType().GetField("m_RendererDataList", BindingFlags.Instance | BindingFlags.NonPublic);
+        ScriptableRendererData[] rendererDatas = (ScriptableRendererData[])propertyInfo.GetValue(pipelineAsset);
+        if (rendererDatas == null || rendererDatas.Length <= 0) return null;
+        if (rendererIndex < 0 || rendererDatas.Length <= rendererIndex) return null;
+
+        return rendererDatas[rendererIndex];
+    }
+
     #region 미탐험 장소 팝업창 세팅
     IEnumerator SettingNO()
     {
+        // 렌더링 세팅 변경
+        SetActiveRendererFeature<RenderObjects>(true);
+
         // 프랍 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingNO));
 
@@ -65,6 +111,8 @@ public class SettingPropInfo : MonoBehaviour
 
             PopUpMovement.instance.placeADcancel = false;
             PopUpMovement.instance.tourCancel = false;
+
+            move.SettingModeling();
         }
     }
 
@@ -72,7 +120,7 @@ public class SettingPropInfo : MonoBehaviour
     {
         // 3D 모델링, 그림자
         PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
-        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1, true);
+        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         // 거리
@@ -112,6 +160,9 @@ public class SettingPropInfo : MonoBehaviour
     #region 탐험완료 장소 팝업창
     IEnumerator SettingYES()
     {
+        // 렌더링 세팅 변경
+        SetActiveRendererFeature<RenderObjects>(false);
+
         // 프랍 생성
         yield return SettingPropContent.instance.StartCoroutine(nameof(SettingPropContent.instance.SettingYES));
 
@@ -127,6 +178,8 @@ public class SettingPropInfo : MonoBehaviour
 
             PopUpMovement.instance.placeUNCancel = false;
             PopUpMovement.instance.tourCancel = false;
+
+            move.SettingModeling();
         }
     }
 
@@ -134,7 +187,7 @@ public class SettingPropInfo : MonoBehaviour
     {
         // 3D 모델링, 그림자
         PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
-        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1, false);
+        PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
 
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();

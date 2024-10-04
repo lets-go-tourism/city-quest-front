@@ -9,6 +9,8 @@ TagManager:
   - CardTour
   - Quest
   - BackgroundDark
+  - Modeling
+  - TutorialPopUp
   layers:
   - Default
   - TransparentFX

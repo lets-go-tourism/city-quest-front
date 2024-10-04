@@ -77,8 +77,9 @@ public class MapCameraController : MonoBehaviour
             moving = value;
             if(moving == false)
             {
-                BottomSheetManager.instance.SortingPlaceCards();
-                BottomSheetManager.instance.SortingTourCards();
+                //BottomSheetManager.instance.SortingPlaceCards();
+                //BottomSheetManager.instance.SortingTourCards();
+                //
                 MapUIController.Instance.NameTagContainer.CollisionUpdate();
             }
             else

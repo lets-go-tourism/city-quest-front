@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Net.NetworkInformation;
 
 public class tmpTouch : MonoBehaviour
 {
@@ -17,6 +17,7 @@ public class tmpTouch : MonoBehaviour
         layerTour = 1 << LayerMask.NameToLayer("Tour");
 
         point = new PointerEventData(null);
+        point2 = new PointerEventData(null);
         //settingUI = GameObject.Find("M_SettingPrefab").GetComponent<SettingCanvasOnOff>();
 
         follow = false;
@@ -48,6 +49,8 @@ public class tmpTouch : MonoBehaviour
         RayTouch();
 
         BackTouch();
+
+        PopUpRay();
     }
 
     private float defaultBottomSheetHeight = 0;
@@ -60,6 +63,51 @@ public class tmpTouch : MonoBehaviour
     }
 
     private bool realMove = false;
+
+    private Vector2 lastPos;
+    private PointerEventData point2;
+    private bool touched = false;
+
+    private void PopUpRay()
+    {
+        if (Input.touchCount > 0)
+        {
+            touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                point2.position = touch.position;
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster2.Raycast(point2, results);
+
+                touched = false;
+                if (results.Count > 0 && results[0].gameObject.CompareTag("TutorialPopUp"))
+                {
+                    touched = true;    
+                }
+
+            }
+            else if (touched && touch.phase == TouchPhase.Ended)
+            {
+                lastPos = touch.position;
+
+                if (point2.position.x - lastPos.x > Screen.width / 8)
+                {
+                    TutorialPopUp.instance.OnClickPopUp(1);
+                }
+                else if (point2.position.x - lastPos.x < -Screen.width / 8)
+                {
+                    TutorialPopUp.instance.OnClickPopUp(-1);
+                }
+                else
+                {
+                    TutorialPopUp.instance.OnClickPopUp(1);
+                }
+
+                touched = false;
+            }
+        }
+    }
 
     void RayBottomSheet()
     {
@@ -104,6 +152,16 @@ public class tmpTouch : MonoBehaviour
                 movedPos = touch.position;
                 moved = originPos.y - movedPos.y;
 
+                //for (int i = 0; i < BottomSheetMovement.instance.scrollRects.Length; i++)
+                //{
+                //    BottomSheetMovement.instance.scrollRects[i].horizontal = false;
+                //}
+
+                //for (int j = 0; j < BottomSheetMovement.instance.btns.Length; j++)
+                //{
+                //    BottomSheetMovement.instance.btns[j].enabled = false;
+                //}
+
                 if (Mathf.Abs(moved) > 30)
                     realMove = true;
 
@@ -122,15 +180,22 @@ public class tmpTouch : MonoBehaviour
                 }
                 else
                 {
-                    if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
-                        BottomSheetMovement.instance.MoveUP();
-                    else
-                        BottomSheetMovement.instance.MoveDOWN();
+                    BottomSheetMovement.instance.MoveUP();
                 }
 
                 moved = 0;
                 follow = false;
                 realMove = false;
+
+                //for (int i = 0; i < BottomSheetMovement.instance.scrollRects.Length; i++)
+                //{
+                //    BottomSheetMovement.instance.scrollRects[i].horizontal = true;
+                //}
+
+                //for (int j = 0; j < BottomSheetMovement.instance.btns.Length; j++)
+                //{
+                //    BottomSheetMovement.instance.btns[j].enabled = true;
+                //}
             }
         }
     }
@@ -277,7 +342,6 @@ public class tmpTouch : MonoBehaviour
                 if (Physics.Raycast(ray, out hit))
                 {
                     int hitLayer = hit.collider.gameObject.layer;
-
                     if (hitLayer == LayerMask.NameToLayer("Prop"))
                     {
                         //KJY �߰�
