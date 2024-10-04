@@ -64,6 +64,7 @@ public class Prop : MonoBehaviour
         this.PropData = propData;
         this.HomeAdventurePlaceData = homeAdventurePlace;
         this.propGO = Instantiate(propGO, transform);
+        this.propGO.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
     }
 
     public void TintNameTag()
