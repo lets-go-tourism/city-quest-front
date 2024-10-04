@@ -250,6 +250,7 @@ public class QuestData
     public double distance;
     public string date;
     public string questImage;
+    public string description;
 }
 
 public class TryQuestConnection : ConnectionStratage
