@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class tmpTouch : MonoBehaviour
 {
@@ -104,6 +103,16 @@ public class tmpTouch : MonoBehaviour
                 movedPos = touch.position;
                 moved = originPos.y - movedPos.y;
 
+                for (int i = 0; i < BottomSheetMovement.instance.scrollRects.Length; i++)
+                {
+                    BottomSheetMovement.instance.scrollRects[i].horizontal = false;
+                }
+
+                for (int j = 0; j < BottomSheetMovement.instance.btns.Length; j++)
+                {
+                    BottomSheetMovement.instance.btns[j].enabled = false;
+                }
+
                 if (Mathf.Abs(moved) > 30)
                     realMove = true;
 
@@ -122,15 +131,22 @@ public class tmpTouch : MonoBehaviour
                 }
                 else
                 {
-                    if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
-                        BottomSheetMovement.instance.MoveUP();
-                    else
-                        BottomSheetMovement.instance.MoveDOWN();
+                    BottomSheetMovement.instance.MoveUP();
                 }
 
                 moved = 0;
                 follow = false;
                 realMove = false;
+
+                for (int i = 0; i < BottomSheetMovement.instance.scrollRects.Length; i++)
+                {
+                    BottomSheetMovement.instance.scrollRects[i].horizontal = true;
+                }
+
+                for (int j = 0; j < BottomSheetMovement.instance.btns.Length; j++)
+                {
+                    BottomSheetMovement.instance.btns[j].enabled = true;
+                }
             }
         }
     }
@@ -277,7 +293,6 @@ public class tmpTouch : MonoBehaviour
                 if (Physics.Raycast(ray, out hit))
                 {
                     int hitLayer = hit.collider.gameObject.layer;
-
                     if (hitLayer == LayerMask.NameToLayer("Prop"))
                     {
                         //KJY �߰�

@@ -22,6 +22,8 @@ public class SettingPropInfo : MonoBehaviour
         }
     }
 
+    public PropMovement move;
+
     QuestData questData;
 
     public static SettingPropInfo instance;
@@ -65,6 +67,8 @@ public class SettingPropInfo : MonoBehaviour
 
             PopUpMovement.instance.placeADcancel = false;
             PopUpMovement.instance.tourCancel = false;
+
+            move.SettingModeling();
         }
     }
 
@@ -127,6 +131,8 @@ public class SettingPropInfo : MonoBehaviour
 
             PopUpMovement.instance.placeUNCancel = false;
             PopUpMovement.instance.tourCancel = false;
+
+            move.SettingModeling();
         }
     }
 

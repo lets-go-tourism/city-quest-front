@@ -22,6 +22,7 @@ public class ButtonActions : MonoBehaviour
         btn = GetComponent<Button>();
     }
 
+    #region 퀘스트 완료
     public IEnumerator QuestDone()
     {
         // 버튼 터치 불가능하게 만들기
@@ -97,61 +98,65 @@ public class ButtonActions : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
     }
+    #endregion
 
     // 태그 스프라이트 및 내용 바꾸기
     public void ChangeBottomSheet(int num)
     {
-        if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
+        //if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
+        //{
+
+        if (BottomSheetMovement.instance.state == BottomSheetMovement.State.DOWN) BottomSheetMovement.instance.MoveUP();
+        
+        //KJY추가
+        SettingManager.instance.EffectSound_ButtonTouch();
+
+        // 렉트트랜스폼
+        RectTransform rtPlace = Props_UI.instance.tags[0].GetComponent<RectTransform>();
+        RectTransform rtTour = Props_UI.instance.tags[1].GetComponent<RectTransform>();
+
+        // 장소 탭 보기
+        if (num == 0)
         {
-            //KJY추가
-            SettingManager.instance.EffectSound_ButtonTouch();
+            // 위치
+            rtPlace.anchoredPosition = new Vector2(267, 3);
+            rtTour.anchoredPosition = new Vector2(-270, 0);
 
-            // 렉트트랜스폼
-            RectTransform rtPlace = Props_UI.instance.tags[0].GetComponent<RectTransform>();
-            RectTransform rtTour = Props_UI.instance.tags[1].GetComponent<RectTransform>();
+            // 사이즈
+            rtPlace.sizeDelta = new Vector2(549, 126);
+            rtTour.sizeDelta = new Vector2(537, 120);
 
-            // 장소 탭 보기
-            if (num == 0)
-            {
-                // 위치
-                rtPlace.anchoredPosition = new Vector2(267, 3);
-                rtTour.anchoredPosition = new Vector2(-270, 0);
+            // 스프라이트
+            Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
+            Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
 
-                // 사이즈
-                rtPlace.sizeDelta = new Vector2(549, 126);
-                rtTour.sizeDelta = new Vector2(537, 120);
-
-                // 스프라이트
-                Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
-                Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
-
-                // 활성화
-                BS_Place.gameObject.SetActive(true);
-            }
-
-            // 관광정보 탭 보기
-            if (num == 1)
-            {
-                // 위치
-                rtPlace.anchoredPosition = new Vector2(270, 0);
-                rtTour.anchoredPosition = new Vector2(-267, 3);
-
-                // 사이즈
-                rtPlace.sizeDelta = new Vector2(537, 120);
-                rtTour.sizeDelta = new Vector2(549, 126);
-
-                // 스프라이트
-                Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
-                Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
-
-                // 비활성화
-                BS_Place.gameObject.SetActive(false);
-            }
-
-            // 스크롤 초기화
-            MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
-            MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
+            // 활성화
+            BS_Place.gameObject.SetActive(true);
         }
+
+        // 관광정보 탭 보기
+        if (num == 1)
+        {
+            // 위치
+            rtPlace.anchoredPosition = new Vector2(270, 0);
+            rtTour.anchoredPosition = new Vector2(-267, 3);
+
+            // 사이즈
+            rtPlace.sizeDelta = new Vector2(537, 120);
+            rtTour.sizeDelta = new Vector2(549, 126);
+
+            // 스프라이트
+            Props_UI.instance.tags[0].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[1];
+            Props_UI.instance.tags[1].sprite = Props_UI.instance.tags[0].transform.GetComponent<SpritesHolder>().sprites[0];
+
+            // 비활성화
+            BS_Place.gameObject.SetActive(false);
+        }
+
+        // 스크롤 초기화
+        MainView_UI.instance.tourScrollRect.horizontalNormalizedPosition = 0;
+        MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
+        //}
     }
 
     public void ChangeCancel(bool place)
