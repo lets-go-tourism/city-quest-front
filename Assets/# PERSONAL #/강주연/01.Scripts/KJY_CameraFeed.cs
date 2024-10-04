@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.Rendering;
@@ -59,6 +60,7 @@ public class CameraFeed : MonoBehaviour
     [SerializeField] private GameObject shutter_Dialog;
     [SerializeField] private GameObject photoUse_Dialog;
     [SerializeField] private List<Button> buttonList;
+    [SerializeField] private TextMeshProUGUI guideText;
 
 
     private void Start()
@@ -67,7 +69,7 @@ public class CameraFeed : MonoBehaviour
         originalPos = rawImageTransform.localPosition;
         originalCapRect = captureRect.localPosition;
         originalCheckRect = checkRect.localPosition;
-        LoginResponse loginData = DataManager.instance.GetLoginData();
+        guideText.text = null;
     }
 
     public void SetWebCam()
@@ -117,6 +119,11 @@ public class CameraFeed : MonoBehaviour
         }
         else
         {
+            if (guideText.text == null)
+            {
+                QuestData data = DataManager.instance.GetQuestInfo();
+                guideText.text = data.description;
+            }
             CreateWebCamTexture();
         }
     }
@@ -396,6 +403,7 @@ public class CameraFeed : MonoBehaviour
             webCamTexture = null;
         }
 
+        guideText.text = null;
         cameraCanvas.enabled = false;
     }
 
