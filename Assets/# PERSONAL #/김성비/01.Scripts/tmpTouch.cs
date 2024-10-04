@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 public class tmpTouch : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class tmpTouch : MonoBehaviour
         layerTour = 1 << LayerMask.NameToLayer("Tour");
 
         point = new PointerEventData(null);
+        point2 = new PointerEventData(null);
         //settingUI = GameObject.Find("M_SettingPrefab").GetComponent<SettingCanvasOnOff>();
 
         follow = false;
@@ -47,6 +49,8 @@ public class tmpTouch : MonoBehaviour
         RayTouch();
 
         BackTouch();
+
+        PopUpRay();
     }
 
     private float defaultBottomSheetHeight = 0;
@@ -59,6 +63,51 @@ public class tmpTouch : MonoBehaviour
     }
 
     private bool realMove = false;
+
+    private Vector2 lastPos;
+    private PointerEventData point2;
+    private bool touched = false;
+
+    private void PopUpRay()
+    {
+        if (Input.touchCount > 0)
+        {
+            touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                point2.position = touch.position;
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster2.Raycast(point2, results);
+
+                touched = false;
+                if (results[0].gameObject.CompareTag("TutorialPopUp"))
+                {
+                    touched = true;    
+                }
+
+            }
+            else if (touched && touch.phase == TouchPhase.Ended)
+            {
+                lastPos = touch.position;
+
+                if (point2.position.x - lastPos.x > Screen.width / 8)
+                {
+                    TutorialPopUp.instance.OnClickPopUp(1);
+                }
+                else if (point2.position.x - lastPos.x < -Screen.width / 8)
+                {
+                    TutorialPopUp.instance.OnClickPopUp(-1);
+                }
+                else
+                {
+                    TutorialPopUp.instance.OnClickPopUp(1);
+                }
+
+                touched = false;
+            }
+        }
+    }
 
     void RayBottomSheet()
     {
