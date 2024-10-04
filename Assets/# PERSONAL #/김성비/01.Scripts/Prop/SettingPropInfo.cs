@@ -34,7 +34,7 @@ public class SettingPropInfo : MonoBehaviour
     public void PropInfoSetting()
     {
         //MainView_UI.instance.BackgroundDarkEnable();
-
+        //print(DataManager.instance.GetQuestInfo().status);
         if (DataManager.instance.GetQuestInfo().status)
         {
             StopCoroutine(SettingNO());
@@ -161,11 +161,18 @@ public class SettingPropInfo : MonoBehaviour
             yield return StartCoroutine(GetTexture(parameters));
         }
 
-        // 장소 사진
-        if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+        if (DataManager.instance.GetQuestInfo() == null)
         {
-            Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
-            yield return StartCoroutine(GetTexture(parameters));
+            StopCoroutine(GetTexture(null));
+        }
+        else
+        {
+            // 장소 사진
+            if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
+            {
+                Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 5, "yes");
+                yield return StartCoroutine(GetTexture(parameters));
+            }
         }
         //}
 

@@ -48,16 +48,19 @@ public class HttpManager : MonoBehaviour
     // Request
     public void SendRequest(HttpRequester requester, RequestHeader state)
     {
+        if (currentRequest != null)
+        {
+            AbortRequest();  
+        }
+
         headerState = state;
         StartCoroutine(SendProcess(requester));
     }
 
     IEnumerator SendProcess(HttpRequester requester)
     {
-        currentRequest = null; // 이전 요청 초기화
+        currentRequest = null;
         
-        //UnityWebRequest request = null;
-
         switch (requester.requestType)
         {
             case RequestType.GET:
@@ -116,6 +119,7 @@ public class HttpManager : MonoBehaviour
                 break;
         }
 
+
         yield return currentRequest.SendWebRequest();
 
         if (currentRequest.result == UnityWebRequest.Result.Success)
@@ -151,6 +155,9 @@ public class HttpManager : MonoBehaviour
         if (currentRequest != null)
         {
             currentRequest.Abort();
+            currentRequest.Dispose();
+            currentRequest = null;
+            DataManager.instance.SetQuestInfo(null);
         }
     }
 

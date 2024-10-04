@@ -166,8 +166,9 @@ public class ButtonActions : MonoBehaviour
     {
         if (place)
         {
-            PopUpMovement.instance.StopCoroutine(nameof(PopUpMovement.instance.MoveUP));
+            //SettingPropInfo.instance.StopCoroutine(nameof(SettingPropInfo.instance.GetTexture));
 
+            PopUpMovement.instance.StopCoroutine(nameof(PopUpMovement.instance.MoveUP));
             PopUpMovement.instance.rtPlace.anchoredPosition = new Vector2(0, -2600);
 
             if (PopUpMovement.instance.adventured)
@@ -183,6 +184,7 @@ public class ButtonActions : MonoBehaviour
         }
         else
         {
+            SettingTourInfo.instance.StopCoroutine(nameof(SettingTourInfo.instance.GetTexture));
             PopUpMovement.instance.tourCancel = true;
             PopUpMovement.instance.StopCoroutine(nameof(PopUpMovement.instance.MoveUP));
 
