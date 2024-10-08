@@ -38,6 +38,9 @@ public class CameraFeed : MonoBehaviour
     [SerializeField] private GameObject checkObject;
     [SerializeField] private RectTransform checkRect;
     [SerializeField] private Canvas camCanvas;
+    [SerializeField] private GameObject tipObject;
+    [SerializeField] private Image tipImage;
+    [SerializeField] private List<Sprite> tipSprite;
 
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
@@ -69,7 +72,58 @@ public class CameraFeed : MonoBehaviour
         originalPos = rawImageTransform.localPosition;
         originalCapRect = captureRect.localPosition;
         originalCheckRect = checkRect.localPosition;
+        animator.enabled = false;
         guideText.text = null;
+    }
+
+
+    public void OnTip()
+    {
+        QuestData quest = DataManager.instance.GetQuestInfo();
+
+        if (quest.propNo == 1)
+        {
+            tipImage.sprite = tipSprite[0];
+        }
+        else if (quest.propNo == 2)
+        {
+            tipImage.sprite = tipSprite[1];
+        }
+        else if (quest.propNo == 3)
+        {
+            tipImage.sprite = tipSprite[2];
+        }
+        else if (quest.propNo == 4)
+        {
+            tipImage.sprite = tipSprite[3];
+        }
+        else
+        {
+            tipImage.sprite = tipSprite[4];
+        }
+
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            buttonList[i].interactable = false;
+        }
+
+        tipObject.SetActive(true);
+    }
+
+    public void OffTip()
+    {
+        tipObject.SetActive(false);
+        if (isTutorial == true)
+        {
+            animator.enabled = true;
+        }
+        else
+        {
+            for (int i = 0; i < buttonList.Count; i++)
+            {
+                buttonList[i].interactable = true;
+            }
+        }
     }
 
     public void SetWebCam()
@@ -113,6 +167,9 @@ public class CameraFeed : MonoBehaviour
         //}
         #endregion
 
+
+        OnTip();
+
         if (isTutorial)
         {
             TutorialStart();
@@ -130,9 +187,10 @@ public class CameraFeed : MonoBehaviour
 
     public void SwitchCamera()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
         StartCoroutine(DestroyWebCamTextureCoroutine());
         useFrontCamera = !useFrontCamera;
-        SetWebCam();
+        CreateWebCamTexture();
     }
 
     private void CreateWebCamTexture(string permissionName = null)
@@ -438,11 +496,6 @@ public class CameraFeed : MonoBehaviour
         tutorialImage.enabled = true;
 
         tutorialObject.SetActive(true);
-        animator.enabled = true;
-        for (int  i = 0; i < buttonList.Count; i++)
-        {
-            buttonList[i].interactable = false;
-        }
     }
 
     public void TutorialShutter()
