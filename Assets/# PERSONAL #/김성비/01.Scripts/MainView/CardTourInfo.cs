@@ -39,10 +39,11 @@ public class CardTourInfo : MonoBehaviour
 
     string ConvertDistance(double distance)
     {
-        string result = string.Empty;
+        string result;
 
         double tmp = distance;
         double a = 1000;
+       
         if (tmp > a)
         {
             double calcultate = Math.Round(tmp / a, 1);
@@ -50,7 +51,8 @@ public class CardTourInfo : MonoBehaviour
         }
         else
         {
-            result = tmp.ToString() + "m";
+            double floor = Math.Floor(tmp);
+            result = floor.ToString() + "m";
         }
 
         return result;

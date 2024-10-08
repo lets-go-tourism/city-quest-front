@@ -33,11 +33,10 @@ public class CardPlaceInfo : MonoBehaviour
         string meter = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(ServerProp.latitude, ServerProp.longitude)).ToString();
         info[1].GetComponent<TextMeshProUGUI>().text = meter;
     }
-
-
+    
     string ConvertDistance(double distance)
     {
-        string result = string.Empty;
+        string result;
 
         double tmp = distance;
         double a = 1000;
@@ -48,7 +47,8 @@ public class CardPlaceInfo : MonoBehaviour
         }
         else
         {
-            result = tmp.ToString() + "m";
+            double floor = Math.Floor(tmp);
+            result = floor.ToString() + "m";
         }
 
         return result;

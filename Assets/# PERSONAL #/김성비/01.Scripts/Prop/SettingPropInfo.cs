@@ -119,7 +119,7 @@ public class SettingPropInfo : MonoBehaviour
     IEnumerator NOInfoSetting()
     {
         // 3D 모델링, 그림자
-        PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
+        PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 195, 0);
         PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
@@ -130,13 +130,6 @@ public class SettingPropInfo : MonoBehaviour
         // 카카오지도 URL
         SettingPropContent.instance.content[3].GetChild(1).GetComponent<OpenPlaceKakaoMap>().SetURL(DataManager.instance.GetQuestInfo().kakaoMapUrl);
         // 장소 사진
-        //if (tutorial) // 튜토리얼 
-        //{
-        //    SettingPropContent.instance.content[4].GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("TutorialPlace");
-        //}
-
-        //else // 실제
-        //{
         if (DataManager.instance.GetQuestInfo().imageUrl != string.Empty)
         {
             Parameters parameters = new Parameters(DataManager.instance.GetQuestInfo().imageUrl, 4, "no");
@@ -186,9 +179,8 @@ public class SettingPropInfo : MonoBehaviour
     IEnumerator YESInfoSetting()
     {
         // 3D 모델링, 그림자
-        PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 180, 0);
+        PropModeling.instance.models[(int)DataManager.instance.GetQuestInfo().propNo - 1].transform.rotation = Quaternion.Euler(0, 195, 0);
         PropModeling.instance.ModelingActive((int)DataManager.instance.GetQuestInfo().propNo - 1);
-
         // 장소명
         SettingPropContent.instance.content[1].GetChild(0).GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetQuestInfo().locationName.ToString();
         // 방문일자
@@ -233,30 +225,17 @@ public class SettingPropInfo : MonoBehaviour
     }
     #endregion
 
-    //public IEnumerator UpdateDistance()
-    //{
-    //    int t = 0;
-    //    while (t == 0)
-    //    {
-    //        // 실시간 거리
-    //        SettingPropContent.instance.content[2].GetChild(0).GetComponent<TextMeshProUGUI>().text = ;    
-
-    //        yield return new WaitForSeconds(5);
-    //    }
-    //}
-
-
     // 거리 변환
     string ConvertDistance(double distance)
     {
-        string result = string.Empty;
+        string result;
 
         double tmp = distance;
 
         if (tmp < 1)
         {
-            tmp = distance * 100;
-            result = (int)tmp + "m";
+            int inttmp = (int)(tmp * 1000);
+            result = inttmp.ToString() + "m";
         }
         else
         {

@@ -85,7 +85,6 @@ public class tmpTouch : MonoBehaviour
                 {
                     touched = true;    
                 }
-
             }
             else if (touched && touch.phase == TouchPhase.Ended)
             {

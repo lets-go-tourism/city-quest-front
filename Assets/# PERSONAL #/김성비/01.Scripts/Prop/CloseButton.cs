@@ -29,5 +29,7 @@ public class CloseButton : MonoBehaviour
                 Props_UI.instance.ResetScollView();
             }
         }
+
+        tmpTouch.instance.state = tmpTouch.State.Main;
     }
 }

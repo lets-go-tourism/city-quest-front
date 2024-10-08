@@ -32,68 +32,42 @@ public class SettingTourInfo : MonoBehaviour
         contents[3].GetComponent<TextMeshProUGUI>().text = info.addr;
         // 링크
         contents[4].GetComponent<OpenTourKakaoMap>().SetURL(info.addr);
-
-        // 장소사진
-        // url 있을 때
-        if (info.imageUrl != string.Empty)
+        // 장소사진        
+        if (info.imageUrl != string.Empty)                                                  // url 있을 때
         {
-            contents[5].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);            // 이미지 배경 흰색
-            contents[6].GetComponent<TextMeshProUGUI>().enabled = false;                    // 안내문 비활성
+            contents[7].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);            // 이미지 배경 흰색
+            contents[8].GetComponent<TextMeshProUGUI>().enabled = false;                    // 안내문 비활성
         }
-        // url 없을 때
-        else
+
+        else                                                                                // url 없을 때
         {
             SettingSize(540f);                                                              // 사이즈 세팅
-            contents[5].GetComponent<Image>().sprite = null;                                // 이미지 초기화
-            contents[5].GetComponent<Image>().color = new Color(1f, 0.98f, 0.96f, 1f);      // 색 바꾸기
-            contents[6].GetComponent<TextMeshProUGUI>().enabled = true;                     // 안내문 활성화
+            contents[7].GetComponent<Image>().sprite = null;                                // 이미지 초기화
+            contents[7].GetComponent<Image>().color = new Color(1f, 0.882f, 0.624f, 1f);      // 색 바꾸기
+            contents[8].GetComponent<TextMeshProUGUI>().enabled = true;                     // 안내문 활성화
         }
-
-        //StartCoroutine(nameof(UpdateDistance));
     }
 
     void SettingSize(float CT)
     {
         float contentY = CT;
-
         // 이미지 비활성화
-        contents[7].gameObject.SetActive(false);
-        // parent 
-        contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY + 36);
-        // 관광정보 이미지 크기
-        contents[8].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY);
-        contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY);
-        // 이미지 활성화
-        contents[7].gameObject.SetActive(true);
-
-        // 스크롤뷰 크기
+        contents[5].gameObject.SetActive(false);
+        // 이미지
+        contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY + 36);          // 컨텐트 크기
+        contents[6].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY);               // 마스크 크기     
+        contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(840, contentY);               // 이미지 크기
+        // 스크롤뷰
         float scrollY = 720f + contentY - 54f;
-        if (scrollY > 1500)
-        {
-            scrollY = 1500f;
-        }
-        PopUpMovement.instance.rtTour.sizeDelta = new Vector2(960, scrollY);
-        // top 마스크 크기
-        Props_UI.instance.masks[0].GetComponent<RectTransform>().sizeDelta = new Vector2(960, scrollY);
-        // top 마스크 채우기
-        Props_UI.instance.masks[0].fillAmount = 60f / scrollY;
-        // bottom 마스크 크기
-        Props_UI.instance.masks[1].GetComponent<RectTransform>().sizeDelta = new Vector2(960, scrollY);
-        // bottom 마스크 채우기
-        Props_UI.instance.masks[1].fillAmount = 60f / scrollY;
+        if (scrollY > 1500) scrollY = 1500f;
+        PopUpMovement.instance.rtTour.sizeDelta = new Vector2(960, scrollY);                            // 스크롤뷰 크기  
+        Props_UI.instance.masks[0].GetComponent<RectTransform>().sizeDelta = new Vector2(960, scrollY); // top 마스크 크기        
+        Props_UI.instance.masks[0].fillAmount = 60f / scrollY;                                          // top 마스크 채우기        
+        Props_UI.instance.masks[1].GetComponent<RectTransform>().sizeDelta = new Vector2(960, scrollY); // bottom 마스크 크기        
+        Props_UI.instance.masks[1].fillAmount = 60f / scrollY;                                          // bottom 마스크 채우기
+        // 이미지 활성화
+        contents[5].gameObject.SetActive(true);
     }
-
-
-    //public IEnumerator UpdateDistance()
-    //{
-    //    int t = 0;
-    //    while(t == 0)
-    //    {
-    //        contents[2].GetComponent<TextMeshProUGUI>().text = ConvertDistance(GPS.Instance.GetDistToUserInRealWorld(latTour, lonTour));    // 실시간 거리
-
-    //        yield return new WaitForSeconds(5);
-    //    }
-    //}
 
     #region 변환
     // 아이콘 배경색 변환
@@ -120,11 +94,12 @@ public class SettingTourInfo : MonoBehaviour
         if (tmp > 1000)
         {
             double calcultate = tmp / 1000;
-            result = (Math.Round(calcultate, 1)).ToString() + "km";
+            result = Math.Round(calcultate, 1).ToString() + "km";
         }
         else
         {
-            result = tmp.ToString() + "m";
+            double floor = Math.Floor(tmp);
+            result = floor.ToString() + "m";
         }
 
         return result;
@@ -167,7 +142,6 @@ public class SettingTourInfo : MonoBehaviour
             PopUpMovement.instance.placeUNCancel = false;
             PopUpMovement.instance.placeADcancel = false;
         }
-        //print(PopUpMovement.instance.skTour.anchoredPosition);
     }
 
     private void ProcessImage(Texture2D texture)
@@ -184,92 +158,12 @@ public class SettingTourInfo : MonoBehaviour
         float targetHeight = targetWidth / originalAspect;
 
         // UI.Image에 텍스처 적용
-        if (contents[5].GetComponent<Image>() != null)
+        if (contents[7].GetComponent<Image>() != null)
         {
-            contents[5].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f));
+            contents[7].GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, originalWidth, originalHeight), new Vector2(0.5f, 0.5f));
         }
 
         SettingSize(targetHeight);
-
-        //print(contents[0].transform.parent.GetComponent<RectTransform>().sizeDelta.y);
-
-        //// RectTransform의 사이즈 조정
-        //contents[7].gameObject.SetActive(false);                                        // 이미지 비활성화
-
-        //if (contents[7].GetComponent<RectTransform>() != null)
-        //{
-        //    contents[5].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight);
-        //    contents[7].GetComponent<RectTransform>().sizeDelta = new Vector2(targetWidth, targetHeight + 36);
-        //}
-
-        //contents[7].gameObject.SetActive(true);
     }
-    #endregion
-
-    #region 미사용
-    //// 장소명 자르기
-    //string TextBreak(string str)
-    //{
-    //    string result = string.Empty;
-    //    string[] splitStr = { " " };
-    //    string tmp = str;
-    //    string[] nameSplit = tmp.Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries);
-
-    //    char[] chars0 = str.ToCharArray();
-
-    //    // 다섯글자
-    //    if (chars0.Length < 5)
-    //    {
-    //        // 1줄
-    //        if (nameSplit.Length < 2)
-    //        {
-    //            ChangeSizeDelta(132);
-    //            result = nameSplit[0];
-    //        }
-    //        // 2줄
-    //        else
-    //        {
-    //            ChangeSizeDelta(240);
-    //            result = nameSplit[0] + "\n" + nameSplit[1];
-    //        }
-    //    }
-
-    //    // 여섯글자 이상
-    //    else if (chars0.Length >= 5)
-    //    {
-    //        ChangeSizeDelta(240);
-
-    //        // 띄어쓰기 없는 경우
-    //        if (nameSplit.Length < 2)
-    //        {
-    //            result = nameSplit[0];
-    //        }
-
-    //        // 띄어쓰기 있는 경우
-    //        else
-    //        {
-    //            char[] chars1 = nameSplit[1].ToCharArray(); // 두번째 줄 몇글자인지   
-
-    //            // 두번째 줄이 5글자 이하
-    //            if (chars1.Length < 5)
-    //            {
-    //                result = nameSplit[0] + "\n" + nameSplit[1]; // 두번째 줄 다섯글자 이하
-    //            }
-    //            // 두번째 줄이 6글자 이상
-    //            else
-    //            {
-    //                result = nameSplit[0] + "\n" + chars1[0] + chars1[1] + chars1[2] + chars1[3] + "..."; // 두번째 줄 다섯글자 초과
-    //            }
-    //        }
-    //    }
-
-    //    return result;
-    //}
-
-    // 장소명 SizeDelta 크기 조절
-    //void ChangeSizeDelta(int delta)
-    //{
-    //    contents[0].GetComponent<RectTransform>().sizeDelta = new Vector2(840, delta);
-    //}
     #endregion
 }

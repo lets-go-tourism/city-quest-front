@@ -100,7 +100,7 @@ public class ButtonActions : MonoBehaviour
     }
     #endregion
 
-    // 태그 스프라이트 및 내용 바꾸기
+    #region 태그 스프라이트 및 내용 바꾸기
     public void ChangeBottomSheet(int num)
     {
         //if (BottomSheetMovement.instance.state == BottomSheetMovement.State.UP)
@@ -158,7 +158,9 @@ public class ButtonActions : MonoBehaviour
         MainView_UI.instance.placeScrollRect.horizontalNormalizedPosition = 0;
         //}
     }
+    #endregion
 
+    #region 중간 취소
     public void ChangeCancel(bool place)
     {
         HttpManager.instance.AbortRequest();
@@ -199,5 +201,7 @@ public class ButtonActions : MonoBehaviour
         }
 
         MainView_UI.instance.BackgroundDarkDisable();
+        tmpTouch.instance.state = tmpTouch.State.Main;
     }
+    #endregion
 }

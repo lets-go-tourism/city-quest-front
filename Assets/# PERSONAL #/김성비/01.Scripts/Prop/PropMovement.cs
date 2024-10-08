@@ -39,7 +39,6 @@ public class PropMovement : MonoBehaviour
             {
                 if (modelings[i].activeSelf == false) continue;
                 realModeling = modelings[i];
-                print(realModeling.name);
             }
             count++;
         }
@@ -49,7 +48,6 @@ public class PropMovement : MonoBehaviour
     {
         if (PopUpMovement.instance.placeState == PopUpMovement.PlaceState.UP)
         {
-            //point = GameObject.Find()
             if (Input.touchCount > 0)
             {
                 touch = Input.GetTouch(0);
@@ -85,7 +83,6 @@ public class PropMovement : MonoBehaviour
                     spin = false;
                     results = null;
                 }
-
             }
         }
     }
