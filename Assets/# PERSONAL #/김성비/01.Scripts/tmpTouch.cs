@@ -81,7 +81,7 @@ public class tmpTouch : MonoBehaviour
                 raycaster2.Raycast(point2, results);
 
                 touched = false;
-                if (results[0].gameObject.CompareTag("TutorialPopUp"))
+                if (results.Count > 0 && results[0].gameObject.CompareTag("TutorialPopUp"))
                 {
                     touched = true;    
                 }
@@ -151,15 +151,15 @@ public class tmpTouch : MonoBehaviour
                 movedPos = touch.position;
                 moved = originPos.y - movedPos.y;
 
-                for (int i = 0; i < BottomSheetMovement.instance.scrollRects.Length; i++)
-                {
-                    BottomSheetMovement.instance.scrollRects[i].horizontal = false;
-                }
+                //for (int i = 0; i < BottomSheetMovement.instance.scrollRects.Length; i++)
+                //{
+                //    BottomSheetMovement.instance.scrollRects[i].horizontal = false;
+                //}
 
-                for (int j = 0; j < BottomSheetMovement.instance.btns.Length; j++)
-                {
-                    BottomSheetMovement.instance.btns[j].enabled = false;
-                }
+                //for (int j = 0; j < BottomSheetMovement.instance.btns.Length; j++)
+                //{
+                //    BottomSheetMovement.instance.btns[j].enabled = false;
+                //}
 
                 if (Mathf.Abs(moved) > 30)
                     realMove = true;
@@ -186,15 +186,15 @@ public class tmpTouch : MonoBehaviour
                 follow = false;
                 realMove = false;
 
-                for (int i = 0; i < BottomSheetMovement.instance.scrollRects.Length; i++)
-                {
-                    BottomSheetMovement.instance.scrollRects[i].horizontal = true;
-                }
+                //for (int i = 0; i < BottomSheetMovement.instance.scrollRects.Length; i++)
+                //{
+                //    BottomSheetMovement.instance.scrollRects[i].horizontal = true;
+                //}
 
-                for (int j = 0; j < BottomSheetMovement.instance.btns.Length; j++)
-                {
-                    BottomSheetMovement.instance.btns[j].enabled = true;
-                }
+                //for (int j = 0; j < BottomSheetMovement.instance.btns.Length; j++)
+                //{
+                //    BottomSheetMovement.instance.btns[j].enabled = true;
+                //}
             }
         }
     }

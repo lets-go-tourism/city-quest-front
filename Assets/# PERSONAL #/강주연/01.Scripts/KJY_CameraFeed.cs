@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.Rendering;
@@ -37,6 +38,9 @@ public class CameraFeed : MonoBehaviour
     [SerializeField] private GameObject checkObject;
     [SerializeField] private RectTransform checkRect;
     [SerializeField] private Canvas camCanvas;
+    [SerializeField] private GameObject tipObject;
+    [SerializeField] private Image tipImage;
+    [SerializeField] private List<Sprite> tipSprite;
 
     private RectTransform rawImageTransform;
     private Vector3 originalPos;
@@ -67,7 +71,67 @@ public class CameraFeed : MonoBehaviour
         originalPos = rawImageTransform.localPosition;
         originalCapRect = captureRect.localPosition;
         originalCheckRect = checkRect.localPosition;
-        LoginResponse loginData = DataManager.instance.GetLoginData();
+        animator.enabled = false;
+    }
+
+
+    private IEnumerator OnTip()
+    {
+        QuestData quest = DataManager.instance.GetQuestInfo();
+
+        if (quest.propNo == 1)
+        {
+            tipImage.sprite = tipSprite[0];
+        }
+        else if (quest.propNo == 2)
+        {
+            tipImage.sprite = tipSprite[1];
+        }
+        else if (quest.propNo == 3)
+        {
+            tipImage.sprite = tipSprite[2];
+        }
+        else if (quest.propNo == 4)
+        {
+            tipImage.sprite = tipSprite[3];
+        }
+        else
+        {
+            tipImage.sprite = tipSprite[4];
+        }
+
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            buttonList[i].interactable = false;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        tipObject.SetActive(true);
+        tipImage.GetComponent<RectTransform>().DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
+    }
+
+    public void OffTip()
+    {
+        StartCoroutine(OffTipCoroutine());
+    }
+
+    private IEnumerator OffTipCoroutine()
+    {
+        tipImage.GetComponent<RectTransform>().DOAnchorPosY(-2600, 0.38f);
+        SettingManager.instance.EffectSound_PopDown();
+        yield return new WaitForSeconds(0.5f);
+        if (isTutorial == true)
+        {
+            animator.enabled = true;
+        }
+        else
+        {
+            for (int i = 0; i < buttonList.Count; i++)
+            {
+                buttonList[i].interactable = true;
+            }
+        }
+        tipObject.SetActive(false);
     }
 
     public void SetWebCam()
@@ -75,11 +139,13 @@ public class CameraFeed : MonoBehaviour
         SettingManager.instance.EffectSound_ButtonTouch();
         SettingManager.instance.BackGrorundSound_Change(0, 2);
 
-
+        tipImage.GetComponent<RectTransform>().DOAnchorPosY(-2600f, 0);
         if (camCanvas.enabled == false)
         {
             camCanvas.enabled = true;
+            captureObject.SetActive(true);
             checkObject.SetActive(false);
+            StartCoroutine(OnTip());
         }
 
         #region notUse_Now     
@@ -110,7 +176,7 @@ public class CameraFeed : MonoBehaviour
         //    checkRect.localPosition = tmp3;
         //}
         #endregion
-
+        
         if (isTutorial)
         {
             TutorialStart();
@@ -123,9 +189,10 @@ public class CameraFeed : MonoBehaviour
 
     public void SwitchCamera()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
         StartCoroutine(DestroyWebCamTextureCoroutine());
         useFrontCamera = !useFrontCamera;
-        SetWebCam();
+        CreateWebCamTexture();
     }
 
     private void CreateWebCamTexture(string permissionName = null)
@@ -430,11 +497,6 @@ public class CameraFeed : MonoBehaviour
         tutorialImage.enabled = true;
 
         tutorialObject.SetActive(true);
-        animator.enabled = true;
-        for (int  i = 0; i < buttonList.Count; i++)
-        {
-            buttonList[i].interactable = false;
-        }
     }
 
     public void TutorialShutter()

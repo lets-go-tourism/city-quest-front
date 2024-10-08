@@ -12,7 +12,7 @@ public class LoadingTest : MonoBehaviour
     [SerializeField] GameObject image_obj;
     [SerializeField] Image image;
     [SerializeField] List<Sprite> loadingImage = new List<Sprite>();
-    [SerializeField] List<string> loadingText = new List<string>() { "지도 그리는 중...", "커피 타는 중...", "거중...기", "츄러스로 당 충전 중...", "백발백 중..."};
+    [SerializeField] List<string> loadingText = new List<string>() { "지도 그리는 중...", "커피 타는 중...", "성벽 쌓는 중...", "츄러스로 당 충전 중...", "백발백 중..."};
     [SerializeField] private Vector3 firstTr;
     [SerializeField] TextMeshProUGUI text;
 
