@@ -63,7 +63,6 @@ public class CameraFeed : MonoBehaviour
     [SerializeField] private GameObject shutter_Dialog;
     [SerializeField] private GameObject photoUse_Dialog;
     [SerializeField] private List<Button> buttonList;
-    [SerializeField] private TextMeshProUGUI guideText;
 
 
     private void Start()
@@ -73,11 +72,10 @@ public class CameraFeed : MonoBehaviour
         originalCapRect = captureRect.localPosition;
         originalCheckRect = checkRect.localPosition;
         animator.enabled = false;
-        guideText.text = null;
     }
 
 
-    public void OnTip()
+    private IEnumerator OnTip()
     {
         QuestData quest = DataManager.instance.GetQuestInfo();
 
@@ -107,12 +105,21 @@ public class CameraFeed : MonoBehaviour
             buttonList[i].interactable = false;
         }
 
+        yield return new WaitForSeconds(0.5f);
         tipObject.SetActive(true);
+        tipImage.GetComponent<RectTransform>().DOAnchorPosY(0, 0.38f).SetEase(Ease.OutBack);
     }
 
     public void OffTip()
     {
-        tipObject.SetActive(false);
+        StartCoroutine(OffTipCoroutine());
+    }
+
+    private IEnumerator OffTipCoroutine()
+    {
+        tipImage.GetComponent<RectTransform>().DOAnchorPosY(-2600, 0.38f);
+        SettingManager.instance.EffectSound_PopDown();
+        yield return new WaitForSeconds(0.5f);
         if (isTutorial == true)
         {
             animator.enabled = true;
@@ -124,6 +131,7 @@ public class CameraFeed : MonoBehaviour
                 buttonList[i].interactable = true;
             }
         }
+        tipObject.SetActive(false);
     }
 
     public void SetWebCam()
@@ -131,11 +139,13 @@ public class CameraFeed : MonoBehaviour
         SettingManager.instance.EffectSound_ButtonTouch();
         SettingManager.instance.BackGrorundSound_Change(0, 2);
 
-
+        tipImage.GetComponent<RectTransform>().DOAnchorPosY(-2600f, 0);
         if (camCanvas.enabled == false)
         {
             camCanvas.enabled = true;
+            captureObject.SetActive(true);
             checkObject.SetActive(false);
+            StartCoroutine(OnTip());
         }
 
         #region notUse_Now     
@@ -166,21 +176,13 @@ public class CameraFeed : MonoBehaviour
         //    checkRect.localPosition = tmp3;
         //}
         #endregion
-
-
-        OnTip();
-
+        
         if (isTutorial)
         {
             TutorialStart();
         }
         else
         {
-            if (guideText.text == null)
-            {
-                QuestData data = DataManager.instance.GetQuestInfo();
-                guideText.text = data.description;
-            }
             CreateWebCamTexture();
         }
     }
@@ -461,7 +463,6 @@ public class CameraFeed : MonoBehaviour
             webCamTexture = null;
         }
 
-        guideText.text = null;
         cameraCanvas.enabled = false;
     }
 

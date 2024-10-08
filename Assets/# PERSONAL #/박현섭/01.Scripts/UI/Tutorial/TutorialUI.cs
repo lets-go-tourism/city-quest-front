@@ -159,6 +159,7 @@ public class TutorialUI : MonoBehaviour
 
     private void StartTutorial1_2()
     {
+        SettingManager.instance.EffectSound_PopUpTouch();
         _tutorialBtn.GetComponent<Button>().onClick.RemoveAllListeners();
         // 버튼 비활성화하고
         _tutorialBtn.enabled = false;
@@ -288,6 +289,7 @@ public class TutorialUI : MonoBehaviour
 
     private void StartTutorial2_2()
     {
+        SettingManager.instance.EffectSound_PopUpTouch();
         _tutorialBtn.GetComponent<Button>().onClick.RemoveAllListeners();
 
         // 버튼 비활성화하고
@@ -377,6 +379,7 @@ public class TutorialUI : MonoBehaviour
 
     private void EndTutorial2()
     {
+        SettingManager.instance.EffectSound_PopDown();
         // 팝업 창 끄기
         PopUpMovement.instance.StartCoroutine(nameof(PopUpMovement.instance.MoveDOWN), true);
         Props_UI.instance.ResetScollView();
@@ -398,6 +401,7 @@ public class TutorialUI : MonoBehaviour
 
     private void RealEndTutorial()
     {
+        SettingManager.instance.EffectSound_ButtonTouch();
         OffBackgroundDark();
         tutorialEndMsg.SetActive(false);
         DataManager.instance.SaveTutorialInfo();

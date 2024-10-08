@@ -144,6 +144,7 @@ public class TutorialPopUp : MonoBehaviour
     {
         _background.gameObject.SetActive(false);
         StartCoroutine(nameof(OnClickClose));
+        SettingManager.instance.EffectSound_ButtonTouch();
     }
 
     private IEnumerator OnClickClose()
