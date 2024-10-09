@@ -9,6 +9,8 @@ public class NameTagContainer : MonoBehaviour
     public PropNameTagUI[] PropNameTagArr { get; private set; } = new PropNameTagUI[31];
     public TourNameTagUI[] TourNameTagArr { get; private set; } = new TourNameTagUI[300];
 
+    public bool[] TourNameTagBoolArr { get; private set; } = new bool[300];
+
     private int _propNameTagCount = 0;
     private int _tourNameTagCount = 0;
 
@@ -121,15 +123,24 @@ public class NameTagContainer : MonoBehaviour
             if (TourNameTagArr[i].enabled == false)
                 continue;
 
-            TourNameTagArr[i].Visible = true;
+            //TourNameTagArr[i].OneFrameChangeVisible();
+            TourNameTagBoolArr[i] = true;
         }
 
         for (int i = 0; i < _tourNameTagCount; i++)
         {
-            if (TourNameTagArr[i].enabled == false || TourNameTagArr[i].Visible == false)
+            if (TourNameTagArr[i].enabled == false)
                 continue;
 
             UpdateCheckNameTagCollision(i);
+        }
+
+        for(int i = 0; i < _tourNameTagCount; i++)
+        {
+            if (TourNameTagArr[i].enabled == false)
+                continue;
+
+            TourNameTagArr[i].Visible = TourNameTagBoolArr[i];
         }
     }
 
@@ -142,6 +153,8 @@ public class NameTagContainer : MonoBehaviour
     private Vector2 rect2SizeDelta;
     private Vector2 rect2AnchoredPosition;
 
+    private float minus;
+
     public void UpdateCheckNameTagCollision(int index)
     {
         rect1 = TourNameTagArr[index].RectTransform;
@@ -151,40 +164,132 @@ public class NameTagContainer : MonoBehaviour
 
         for (int i = 0; i < _tourNameTagCount; i++)
         {
-            if (TourNameTagArr[i].enabled == false || i == index || TourNameTagArr[i].Visible == false) continue;
+            if (TourNameTagArr[i].enabled == false || i == index) continue;
 
-            //TourNameTagArr[i].CustomUpdate();
             rect2 = TourNameTagArr[i].RectTransform;
             rect2SizeDelta = rect2.sizeDelta;
             rect2AnchoredPosition = rect2.anchoredPosition;
+            minus = rect1AnchoredPosition.y - rect2AnchoredPosition.y;
 
+            if (minus < 0) continue;
 
-            // 두 사각형이 겹치지 않는지 확인 (AABB 충돌 감지)
-            if (rect1AnchoredPosition.x + rect1SizeDelta.x / 2 * scale < rect2AnchoredPosition.x - rect2SizeDelta.x / 2 * scale
-                || rect1AnchoredPosition.x - rect1SizeDelta.x / 2 * scale > rect2AnchoredPosition.x + rect2SizeDelta.x / 2 * scale)
+            // rect1이 rect2 보다 78 + 100이상 (충돌안함) 만큼 떨어져 있을때 123 - 20
+            if (minus > 103) continue;
+            // rect1이 rect2 보다 78과 100 사이 위에는 이름표 아래는 아이콘이 겹칠경우
+            else if (minus > 39)
             {
-                continue; // x축에서 겹치지 않음
-            }
+                if (PropsController.Instance.TintTourData == TourNameTagArr[index].TargetTour) continue;
 
-            if (rect1AnchoredPosition.y + rect1SizeDelta.y / 2 * scale < rect2AnchoredPosition.y - rect2SizeDelta.y / 2 * scale
-                || rect1AnchoredPosition.y - rect1SizeDelta.y / 2 * scale > rect2AnchoredPosition.y + rect2SizeDelta.y / 2 * scale)
-            {
-                continue; // y축에서 겹치지 않음
+                // 두 사각형이 겹치지 않는지 확인 (AABB 충돌 감지)
+                if (rect1AnchoredPosition.x + rect1SizeDelta.x * 0.5f * scale < rect2AnchoredPosition.x - 36 * scale
+                    || rect1AnchoredPosition.x - rect1SizeDelta.x * 0.5f * scale > rect2AnchoredPosition.x + 36 * scale)
+                {
+                    continue; // x축에서 겹치지 않음
+                }
+
+                TourNameTagBoolArr[index] = false;
+
+                //if (minus > 0)
+                //{
+                //    if (PropsController.Instance.TintTourData == TourNameTagArr[index].TargetTour) continue;
+
+                //    // 두 사각형이 겹치지 않는지 확인 (AABB 충돌 감지)
+                //    if (rect1AnchoredPosition.x + rect1SizeDelta.x * 0.5f * scale < rect2AnchoredPosition.x - 36 * scale
+                //        || rect1AnchoredPosition.x - rect1SizeDelta.x * 0.5f * scale > rect2AnchoredPosition.x + 36 * scale)
+                //    {
+                //        continue; // x축에서 겹치지 않음
+                //    }
+
+                //    TourNameTagBoolArr[index] = false;
+                //}
+                //else
+                //{
+                //    if (PropsController.Instance.TintTourData == TourNameTagArr[i].TargetTour) continue;
+
+                //    // 두 사각형이 겹치지 않는지 확인 (AABB 충돌 감지)
+                //    if (rect1AnchoredPosition.x + 36 * scale < rect2AnchoredPosition.x - rect2SizeDelta.x * 0.5f * scale
+                //        || rect1AnchoredPosition.x - 36 * scale > rect2AnchoredPosition.x + rect2SizeDelta.x * 0.5f * scale)
+                //    {
+                //        continue; // x축에서 겹치지 않음
+                //    }
+
+                //    TourNameTagBoolArr[i] = false;
+                //}
             }
+            // rect1이 rect2 보다 0에서 78 사이 이름표끼리 겹칠경우
+            else
+            {
+                if (TourNameTagBoolArr[i] == false && TourNameTagBoolArr[index] == false) continue;
+                else if (TourNameTagBoolArr[i] == false)
+                {
+                    if (rect1AnchoredPosition.x + rect1SizeDelta.x * 0.5f * scale < rect2AnchoredPosition.x - 36 * scale
+                    || rect1AnchoredPosition.x - rect1SizeDelta.x * 0.5f * scale > rect2AnchoredPosition.x + 36 * scale) continue;
+                }
+                else if (TourNameTagBoolArr[index] == false)
+                {
+                    if (rect1AnchoredPosition.x + 36 * scale < rect2AnchoredPosition.x - rect2SizeDelta.x * 0.5f * scale
+                    || rect1AnchoredPosition.x - 36 * scale > rect2AnchoredPosition.x + rect2SizeDelta.x * 0.5f * scale) continue;
+                }
+                else
+                {
+                    if (rect1AnchoredPosition.x + rect1SizeDelta.x * 0.5f * scale < rect2AnchoredPosition.x - rect2SizeDelta.x * 0.5f * scale
+                    || rect1AnchoredPosition.x - rect1SizeDelta.x * 0.5f * scale > rect2AnchoredPosition.x + rect2SizeDelta.x * 0.5f * scale) continue;
+
+
+                    if (PropsController.Instance.TintTourData == TourNameTagArr[index].TargetTour)
+                        TourNameTagBoolArr[i] = false;
+                    else if (PropsController.Instance.TintTourData == TourNameTagArr[i].TargetTour)
+                        TourNameTagBoolArr[index] = false;
+                    else // if(minus > 0)
+                    {
+                        if (rect1AnchoredPosition.x - rect1SizeDelta.x * 0.5f * scale < rect2AnchoredPosition.x || rect1AnchoredPosition.x + rect1SizeDelta.x * 0.5f * scale > rect2AnchoredPosition.x)
+                            TourNameTagBoolArr[index] = false;
+                        else
+                            TourNameTagBoolArr[i] = false;
+                    }
+                    //else
+                    //{
+                    //    if (rect2AnchoredPosition.x - rect2SizeDelta.x * 0.5f * scale < rect1AnchoredPosition.x || rect2AnchoredPosition.x + rect2SizeDelta.x * 0.5f * scale > rect1AnchoredPosition.x)
+                    //        TourNameTagBoolArr[i] = false;
+                    //    else
+                    //        TourNameTagBoolArr[index] = false;
+                    //}
+
+                    continue;
+                }
+
+                if (PropsController.Instance.TintTourData == TourNameTagArr[index].TargetTour)
+                    TourNameTagBoolArr[i] = false;
+                else if (PropsController.Instance.TintTourData == TourNameTagArr[i].TargetTour)
+                    TourNameTagBoolArr[index] = false;
+                else
+                    TourNameTagBoolArr[i] = false;
+                //else if (minus > 0)
+                //    TourNameTagBoolArr[i] = false;
+                //else
+                //    TourNameTagBoolArr[index] = false;
+
+            }
+            //{
+            //    // 두 사각형이 겹치지 않는지 확인 (AABB 충돌 감지)
+            //    if (rect1AnchoredPosition.x + rect1SizeDelta.x / 2 * scale < rect2AnchoredPosition.x - rect2SizeDelta.x / 2 * scale
+            //        || rect1AnchoredPosition.x - rect1SizeDelta.x / 2 * scale > rect2AnchoredPosition.x + rect2SizeDelta.x / 2 * scale)
+            //    {
+            //        continue; // x축에서 겹치지 않음
+            //    }
+            //}
+
+
+            //if (rect1AnchoredPosition.y + rect1SizeDelta.y * 1.5f * scale < rect2AnchoredPosition.y - rect2SizeDelta.y / 2 * scale
+            //    || rect1AnchoredPosition.y - rect1SizeDelta.y / 2 * scale > rect2AnchoredPosition.y + rect2SizeDelta.y * 1.5f * scale)
+            //{
+            //    continue; // y축에서 겹치지 않음
+            //}
+
 
             // 여기까지 오면 겹친거임
 
             //print(TourNameTagArr[i].TargetTour.ServerTourInfo.title + "와 " + TourNameTagArr[index].TargetTour.ServerTourInfo.title + "가 겹친다");
-
-
-            if(PropsController.Instance.TintTourData == TourNameTagArr[index].TargetTour)          
-                TourNameTagArr[i].Visible = false;
-            else if(PropsController.Instance.TintTourData == TourNameTagArr[i].TargetTour)
-                TourNameTagArr[index].Visible = false;
-            else if (rect2SizeDelta.x > rect1SizeDelta.x)
-                TourNameTagArr[index].Visible = false;
-            else
-                TourNameTagArr[i].Visible = false;
         }
     }
 }
