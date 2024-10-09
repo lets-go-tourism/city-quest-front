@@ -2579,11 +2579,11 @@ MonoBehaviour:
   tipObject: {fileID: 1420495113952024039}
   tipImage: {fileID: 6092027197604270002}
   tipSprite:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: a6ea33c2742a7224186ccd1b3f0c96bc, type: 3}
   - {fileID: 21300000, guid: 612a849fd9775a744808519a221dd268, type: 3}
   - {fileID: 21300000, guid: bbb5e3fac5d6d7d4a9c81e38961fb584, type: 3}
   - {fileID: 21300000, guid: 14615e900c050464ea849e560b302c29, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 21cbee2c2b137e743b92cbc3f0d6e739, type: 3}
   questNo: 0
   cameraCanvas: {fileID: 9204959085714788936}
   cam: {fileID: 0}
@@ -2604,7 +2604,6 @@ MonoBehaviour:
   - {fileID: 1591369845343337750}
   - {fileID: 1088948290779609070}
   - {fileID: 4157381800844350858}
-  guideText: {fileID: 3053416033864513486}
 --- !u!1 &7014525733477641592
 GameObject:
   m_ObjectHideFlags: 0
