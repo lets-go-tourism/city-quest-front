@@ -30,6 +30,7 @@ public class Cloud : MonoBehaviour
     private void Update()
     {
         transform.position = TargetProp.PropObj.transform.TransformPoint(TargetProp.GetBoundsCenter());
+        transform.localScale = Vector3.one * 130 * Camera.main.transform.position.y / 800;
     }
 
     private void OnDisable()

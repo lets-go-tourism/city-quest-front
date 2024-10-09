@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 500
-  originColor: {r: 1, g: 0.8392157, b: 0.47843137, a: 0.5019608}
+  originColor: {r: 1, g: 0.8392157, b: 0.47843137, a: 0.6}
   tintColor: {r: 1, g: 0.8, b: 0.3647059, a: 1}
 --- !u!1 &5137132922676058054
 GameObject:

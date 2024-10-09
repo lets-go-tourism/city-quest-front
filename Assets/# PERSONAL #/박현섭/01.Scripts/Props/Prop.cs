@@ -64,7 +64,18 @@ public class Prop : MonoBehaviour
         this.PropData = propData;
         this.HomeAdventurePlaceData = homeAdventurePlace;
         this.propGO = Instantiate(propGO, transform);
+        ChangeLayerRecursively(gameObject, LayerMask.NameToLayer("Prop"));
         //this.propGO.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+    }
+
+    private void ChangeLayerRecursively(GameObject obj, int layer)
+    {
+        obj.layer = layer;
+
+        foreach (Transform child in obj.transform)
+        {
+            ChangeLayerRecursively(child.gameObject, layer);
+        }
     }
 
     public void TintNameTag()
@@ -110,6 +121,7 @@ public class Prop : MonoBehaviour
             return;
 
 
+        transform.localScale = Vector3.one * Camera.main.transform.position.y / 800;
         µÕµÕ();
         //transform.Rotate(new Vector3(0, 10f * Time.deltaTime, 0), Space.Self);
     }
