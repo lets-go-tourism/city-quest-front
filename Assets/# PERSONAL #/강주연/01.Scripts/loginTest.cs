@@ -110,6 +110,13 @@ public class loginTest : MonoBehaviour
                     string cleanedString = data.Replace("\\\\\\", "");
                     extractedValues = ExtractStringsAndBooleans(cleanedString);
 
+                    if (extractedValues[4] == "INTERNAL_SERVER_ERROR")
+                    {
+                        GpmWebView.Close();
+                        KJY_LoginManager.instance.LoginPopUp();
+                        return;
+                    }
+
                     if (extractedValues.Count >= 13)
                     {
                         if (extractedValues[4] == "OK")
@@ -136,14 +143,6 @@ public class loginTest : MonoBehaviour
                             {
                                 KJY_LoginManager.instance.ShownLoginSccuess();
                             }
-                        }
-                    }
-                    else
-                    {
-                        if (extractedValues[4] == "INTERNAL_SERVER_ERROR")
-                        {
-                            GpmWebView.Close();
-                            KJY_LoginManager.instance.LoginPopUp();
                         }
                     }
                 }
