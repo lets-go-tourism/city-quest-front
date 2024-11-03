@@ -1,0 +1,8 @@
+{
+    "timeStamp": "2024-10-29 오전 12:40:01",
+    "status": "OK",
+    "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI1IiwiaWF0IjoxNzI4NjIyNzY1LCJleHAiOjE4MTUwMjI3NjV9.TEWf4vlKzadlUoPcTh1PgJMCIaYnu2wQB1eAutt8Lm4r2uCsRZOjBLW6LaC9waQN",
+    "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3Mjg2MjI3NjUsImV4cCI6MTgxNTAyMjc2NX0.wvtdJri8oeIFxjT7lwfvHUBl9dA0abY7ExjsPI5I-o5HW6V7ferbz9GVJLhas8ha",
+    "agreed": false,
+    "isClearTutorial": true
+}
